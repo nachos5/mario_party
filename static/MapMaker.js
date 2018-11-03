@@ -7,16 +7,19 @@ function MapMaker(ctx) {
     this.tiles = this.selectMap();
     this.tilesRadius  = 17;
     // Space between tiles
-    this.tilesWidth  = this.tilesRadius * 2;
-    this.tilesHeight = this.tilesRadius * 2;
+    this.tilesWidth  = (this.tilesRadius * 2) * 3;
+    this.tilesHeight = (this.tilesRadius * 2) * 3;
+
+    // Filler tile
+    this.fillerTile         = new Sprite(g_images.tiles, 30,  30, 17, 0);   // 99
 
     // Classic MP Spaces
     // Upper line
-    this.blueTile           = new Sprite(g_images.tiles, 60,  68, 17, 0);   // 1
-    this.redTile            = new Sprite(g_images.tiles, 100, 68, 17, 0);   // 2
-    this.questionTile       = new Sprite(g_images.tiles, 140, 68, 17, 0);   // 3
-    this.chanceTile         = new Sprite(g_images.tiles, 180, 68, 17, 0);   // 4
-    this.bagTile            = new Sprite(g_images.tiles, 221, 68, 17, 0);   // 5
+    this.blueTile           = new Sprite(g_images.tiles, 60,  68,  17, 0);  // 1
+    this.redTile            = new Sprite(g_images.tiles, 100, 68,  17, 0);  // 2
+    this.questionTile       = new Sprite(g_images.tiles, 140, 68,  17, 0);  // 3
+    this.chanceTile         = new Sprite(g_images.tiles, 180, 68,  17, 0);  // 4
+    this.bagTile            = new Sprite(g_images.tiles, 221, 68,  17, 0);  // 5
     // Lower Line
     this.dkTile             = new Sprite(g_images.tiles, 60,  107, 17, 0);  // 6
     this.bowserTile         = new Sprite(g_images.tiles, 100, 107, 17, 0);  // 7
@@ -68,6 +71,22 @@ function MapMaker(ctx) {
 
 MapMaker.prototype.selectMap = function() {
     return maps.originalMap;
+
+    // =======
+    // SCALE-X
+    // =======
+
+   /*// Pixels for all spaces
+    var allSpacePx = g_canvas.width/100 * (this.length + 1);
+    // Pixels per space
+    g_spacePx = g_canvas.width/100;
+    // Pixels for all bricks
+    var allBrickPx = g_canvas.width - allSpacePx;
+    // Pixels per brick
+    g_brickPx = allBrickPx / this.length; 
+    // Scale down bricks to fit, all bricks are the same size
+    this.scaleX = g_brickPx / g_sprites.brick01.width;    // scale X*/
+    
 };
 
 MapMaker.prototype.renderGrid = function(ctx) {
@@ -118,11 +137,16 @@ MapMaker.prototype.populateTiles = function(ctx, tiles) {
 MapMaker.prototype.render = function(ctx) {
     
     // Render grid for developement
-    if(true) { this.renderGrid(ctx) };
+    //if(true) { this.renderGrid(ctx) };
 
     // Render all tiles on the map
     for(let i = 0; i < this.tiles.length; i++) {
         for(let j = 0; j < this.tiles[i].length; j++) {
+
+            // Filler tile
+            if(this.tiles[i][j] === 99) { 
+                this.fillerTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+            }
 
             // Classic MP Spaces
             // Upper line
