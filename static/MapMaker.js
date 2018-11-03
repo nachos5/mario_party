@@ -4,10 +4,11 @@
 // ===========
 
 function MapMaker(ctx) {
-    this.tiles = this.setupTiles();
+    this.tiles = this.selectMap();
+    this.tilesRadius  = 17;
     // Space between tiles
-    this.tilesWidth  = 85;
-    this.tilesHeight = 48;
+    this.tilesWidth  = this.tilesRadius * 2;
+    this.tilesHeight = this.tilesRadius * 2;
 
     // Classic MP Spaces
     // Upper line
@@ -15,13 +16,13 @@ function MapMaker(ctx) {
     this.redTile            = new Sprite(g_images.tiles, 100, 68, 17, 0);   // 2
     this.questionTile       = new Sprite(g_images.tiles, 140, 68, 17, 0);   // 3
     this.chanceTile         = new Sprite(g_images.tiles, 180, 68, 17, 0);   // 4
-    this.bagTile            = new Sprite(g_images.tiles, 220, 68, 17, 0);   // 5
+    this.bagTile            = new Sprite(g_images.tiles, 221, 68, 17, 0);   // 5
     // Lower Line
-    this.dkTile             = new Sprite(g_images.tiles, 60,  108, 17, 0);  // 6
-    this.bowserTile         = new Sprite(g_images.tiles, 100, 108, 17, 0);  // 7
-    this.yStarTile          = new Sprite(g_images.tiles, 140, 108, 17, 0);  // 8
-    this.bStarTile          = new Sprite(g_images.tiles, 180, 108, 17, 0);  // 9
-    this.rainbowTile        = new Sprite(g_images.tiles, 220, 108, 17, 0);  // 10
+    this.dkTile             = new Sprite(g_images.tiles, 60,  107, 17, 0);  // 6
+    this.bowserTile         = new Sprite(g_images.tiles, 100, 107, 17, 0);  // 7
+    this.yStarTile          = new Sprite(g_images.tiles, 140, 107, 17, 0);  // 8
+    this.bStarTile          = new Sprite(g_images.tiles, 180, 107, 17, 0);  // 9
+    this.rainbowTile        = new Sprite(g_images.tiles, 221, 107, 17, 0);  // 10
 
     // Mario Party 9 Spaces
     // Upper line
@@ -35,9 +36,9 @@ function MapMaker(ctx) {
     this.blueNoteTile       = new Sprite(g_images.tiles, 40,  238, 17, 0);  // 17
     this.redNoteTile        = new Sprite(g_images.tiles, 80,  238, 17, 0);  // 18
     this.greenSkipTile      = new Sprite(g_images.tiles, 120, 238, 17, 0);  // 19
-    this.redSkipTile        = new Sprite(g_images.tiles, 160, 238, 17, 0);  // 20
-    this.vsTile             = new Sprite(g_images.tiles, 200, 238, 17, 0);  // 21
-    this.brawlTile          = new Sprite(g_images.tiles, 240, 238, 17, 0);  // 22
+    this.redSkipTile        = new Sprite(g_images.tiles, 160, 239, 17, 0);  // 20
+    this.vsTile             = new Sprite(g_images.tiles, 200, 239, 17, 0);  // 21
+    this.brawlTile          = new Sprite(g_images.tiles, 240, 239, 17, 0);  // 22
 
     // Character Spaces
     // 1st line
@@ -62,16 +63,43 @@ function MapMaker(ctx) {
     this.yellowTile         = new Sprite(g_images.tiles, 382, 236, 17, 0);  // 37
     this.bowserJRTile       = new Sprite(g_images.tiles, 421, 236, 17, 0);  // 38
 
-    this.setupGrid(ctx);
     //this.populateTiles(ctx, this.tiles);
 };
 
-MapMaker.prototype.setupTiles = function() {
+MapMaker.prototype.selectMap = function() {
     return maps.originalMap;
 };
 
-MapMaker.prototype.setupGrid = function(ctx) {
+MapMaker.prototype.renderGrid = function(ctx) {
+    ctx.save();
+    // Horizontal
+    let htop  = this.tilesHeight - this.tilesRadius;
+    let hleft = this.tilesWidth - this.tilesRadius;
 
+    // Vertical
+    let vtop  = this.tilesHeight - this.tilesRadius;
+    let vleft = this.tilesWidth - this.tilesRadius;
+
+    for(let i = 0; i < this.tiles.length; i++) {
+        // Horizontal line
+        ctx.beginPath();
+        ctx.moveTo(hleft, htop);
+        ctx.lineTo(g_canvas.width, htop);
+        ctx.stroke();
+        ctx.closePath();
+
+        //hleft += this.tilesWidth + this.tilesRadius;
+        htop += this.tilesHeight - this.tilesRadius;
+    }
+
+    // Vertical line
+    ctx.beginPath();
+    ctx.moveTo(vleft, vtop);
+    ctx.lineTo(vleft, g_canvas.height);
+    ctx.stroke();
+    ctx.closePath();
+
+    ctx.restore();
 };
 
 MapMaker.prototype.populateTiles = function(ctx, tiles) {
@@ -89,6 +117,10 @@ MapMaker.prototype.populateTiles = function(ctx, tiles) {
 
 MapMaker.prototype.render = function(ctx) {
     
+    // Render grid for developement
+    if(true) { this.renderGrid(ctx) };
+
+    // Render all tiles on the map
     for(let i = 0; i < this.tiles.length; i++) {
         for(let j = 0; j < this.tiles[i].length; j++) {
 
