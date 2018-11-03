@@ -63,10 +63,6 @@ Entity.prototype.getSpatialID = function () {
     return this._spatialID;
 };
 
-Entity.prototype.kill = function () {
-    this._isDeadNow = true;
-};
-
 Entity.prototype.findHitEntity = function () {
     var pos = this.getPos();
     return spatialManager.findEntityInRange(
@@ -79,7 +75,6 @@ Entity.prototype.isColliding = function () {
     return this.findHitEntity();
 };
 
-Entity.prototype.wrapPosition = function () {
-    this.cx = util.wrapRange(this.cx, 0, g_canvas.width);
-    this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
+Entity.prototype.kill = function () {
+    this._isDeadNow = true;
 };

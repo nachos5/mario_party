@@ -22,14 +22,6 @@ haven't adopted it here.
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
-let socket = io();
-
-var test = {x:1000};
-
-setInterval(function() {
-  socket.emit('test', test);
-}, 500);
-
 var main = {
 
     // "Frame Time" is a (potentially high-precision) frame-clock for animations

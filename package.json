@@ -2,15 +2,20 @@
   "name": "marioparty",
   "version": "1.0.0",
   "description": "Lokaverkefni í tölvuleikjaforritun",
-  "main": "server.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "gulp"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
     "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1",
+    "nodemon": "^1.18.5"
   }
 }

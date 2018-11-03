@@ -114,16 +114,8 @@ AudioManager.prototype.resume = function() {
 
 // preload all our audiofiles (and store in our buffer array)
 AudioManager.prototype.preloadAll = function(callback) {
-  // star wars cantina theme song
+  // all files:
   this.preLoad("static/sounds/cantina.mp3", "cantina", 0);
-  // bullet
-  this.preLoad("static/sounds/bulletFire.ogg", "bulletFire", 1);
-  this.preLoad("static/sounds/bulletZapped.ogg", "bulletZapped", 2);
-  // rock
-  this.preLoad("static/sounds/rockSplit.ogg", "rockSplit", 3);
-  this.preLoad("static/sounds/rockEvaporate.ogg", "rockEvaporate", 4);
-  // ship
-  this.preLoad("static/sounds/shipWarp.ogg", "shipWarp", 5);
 
   // when we have preloaded all files we go to the callback
   let fileCount = this.fileCount;
