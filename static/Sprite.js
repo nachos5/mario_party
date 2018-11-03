@@ -14,12 +14,19 @@
 
 // Construct a "sprite" from the given `image`,
 //
-function Sprite(image) {
+function Sprite(image, cx=0, cy=0, radius=0, bool=1) {
     this.image = image;
 
-    this.width = image.width;
-    this.height = image.height;
-    this.scale = 1;
+    if(bool) {
+        this.width = image.width;
+        this.height = image.height;
+        this.scale = 1;
+    }
+    else {
+        this.cx = cx;
+        this.cy = cy;
+        this.radius = radius;
+    }
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
@@ -71,3 +78,19 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     this.drawCentredAt(ctx, cx, cy - sh, rotation);
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
 };
+
+Sprite.prototype.drawTile = function (ctx, x, y, rotation) {
+    ctx.save();
+    
+    var r = this.radius *2;
+    ctx.translate(x, y);       // coords on canvas
+    ctx.rotate(rotation);
+
+    ctx.drawImage(this.image, 
+                    x-r/2, y-r/2,   // clip x, y coords 
+                    r, r,           // width, height of clipped img
+                    -r/2, -r/2,     // center coords
+                    r, r);          // width, height of image, strech
+
+    ctx.restore();
+}
