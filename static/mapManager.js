@@ -17,7 +17,7 @@ init: function() {
 },
 
 loadMap: function(map) {
-    this.currentMap = new OriginalMap(g_ctx);
+    this.currentMap = new MapMaker(g_ctx);
 },
 
 getPosition : function() {
