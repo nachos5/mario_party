@@ -2,7 +2,7 @@ var mapManager = {
 
 // "PRIVATE" DATA
 
-currentMap = null,
+currentMap: null,
 
 // "PRIVATE" METHODS
 //
