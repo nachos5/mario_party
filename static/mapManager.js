@@ -2,7 +2,7 @@ var mapManager = {
 
 // "PRIVATE" DATA
 
-currentMap = null,
+currentMap : null,
 
 // "PRIVATE" METHODS
 //
@@ -13,11 +13,11 @@ currentMap = null,
 
 init: function() {
     // Load map
-    //this.loadMap(0);
+    this.loadMap(0);
 },
 
 loadMap: function(map) {
-    currentMap = new OriginalMap(g_ctx);
+    this.currentMap = new OriginalMap(g_ctx);
 },
 
 getPosition : function() {
@@ -32,15 +32,7 @@ unregisterPosition: function(entity) {
 },
 
 render: function(ctx) {
-    /*var oldStyle = ctx.strokeStyle;
-    ctx.strokeStyle = "red";
-    //console.log(this._entities);
-
-    for (var ID in this._entities) {
-        var e = this._entities[ID];
-        util.strokeCircle(ctx, e.posX, e.posY, e.radius);
-    }
-    ctx.strokeStyle = oldStyle;*/
+    this.currentMap.render(ctx);
 }
 
 }

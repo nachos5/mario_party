@@ -4,34 +4,37 @@
 // ===========
 
 function OriginalMap(ctx) {
-    this.width = 16;
-    this.height = 16;
-
     this.tiles = this.setupTiles();
+
+    this.blueTile       = new Sprite(g_images.tiles, 60, 68, 17, 0);    // 1
+    this.redTile        = new Sprite(g_images.tiles, 100, 68, 17, 0);   // 2
+    this.questionTile   = new Sprite(g_images.tiles, 140, 68, 17, 0);   // 3
+    this.chanceTile     = new Sprite(g_images.tiles, 180, 68, 17, 0);   // 4
+    this.bagTile        = new Sprite(g_images.tiles, 220, 68, 17, 0);   // 5
 
     this.setupGrid(ctx);
     //this.populateTiles(ctx, this.tiles);
 };
 
 OriginalMap.prototype.setupTiles = function() {
-    return [                                                    // Row:
-        [1,  1,  1,  2,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 0
-        [1,  1,  1,  2,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 1
-        [1,  1,  1,  2,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 2
-        [1,  1,  1,  2,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 3
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 4
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 5
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 6
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 7
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 8
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 9
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 10
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 11
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 12
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 13
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 14
-        [1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1],  // 15
-    ] // 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15
+    return [
+        [2,  0,  0,  2,  2,  0,  0,  3,  0,  0,  0,  0,  0,  0,  0,  0],  // 0
+        [2,  0,  0,  2,  2,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0],  // 0
+        [0,  2,  0,  2,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0],  // 2
+        [0,  2,  0,  2,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0],  // 3
+        [0,  0,  0,  0,  0,  0,  0,  2,  4,  2,  5,  0,  0,  0,  0,  0],  // 4
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 5
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 6
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 7
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 8
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 9
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 00
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 00
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 02
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 03
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 04
+        [0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0],  // 05
+    ] // 0,  0,  2,  3,  4,  5,  6,  7,  8,  9,  00, 00, 02, 03, 04, 05
 };
 
 OriginalMap.prototype.setupGrid = function(ctx) {
@@ -43,11 +46,37 @@ OriginalMap.prototype.setupGrid = function(ctx) {
 };
 
 OriginalMap.prototype.populateTiles = function(ctx, tiles) {
-    let blueTile = new Sprite(g_images.tiles, 60, 68, 17);
 
     for(let i = 0; i < tiles.length; i++) {
         for(let j = 0; j < tiles[i].length; j++) {
-            if(tiles[i][j] === 2) { blueTile.drawTile(ctx, i*85, j*48, 0); };
+            if(tiles[i][j] === 2) { 
+                console.log("bluetile");
+                console.log("i+0 = " + (i+1) + " j+0 = " + (j+1));
+                this.blueTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
+        }
+    }
+};
+
+OriginalMap.prototype.render = function(ctx) {
+    
+    for(let i = 0; i < this.tiles.length; i++) {
+        for(let j = 0; j < this.tiles[i].length; j++) {
+            if(this.tiles[i][j] === 1) { 
+                this.blueTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
+            if(this.tiles[i][j] === 2) { 
+                this.redTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
+            if(this.tiles[i][j] === 3) { 
+                this.questionTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
+            if(this.tiles[i][j] === 4) { 
+                this.chanceTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
+            if(this.tiles[i][j] === 5) { 
+                this.bagTile.drawTile(ctx, (j+1)*85, (i+1)*48, 0); 
+            }
         }
     }
 };

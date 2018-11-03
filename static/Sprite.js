@@ -87,7 +87,7 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation) {
     ctx.rotate(rotation);
 
     ctx.drawImage(this.image, 
-                    x-r/2, y-r/2,   // clip x, y coords 
+                    this.cx-r/2, this.cy-r/2,   // clip x, y coords 
                     r, r,           // width, height of clipped img
                     -r/2, -r/2,     // center coords
                     r, r);          // width, height of image, strech
