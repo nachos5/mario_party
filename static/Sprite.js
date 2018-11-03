@@ -79,12 +79,13 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
 };
 
-Sprite.prototype.drawTile = function (ctx, x, y, rotation) {
+Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
     ctx.save();
     
     var r = this.radius *2;
     ctx.translate(x, y);       // coords on canvas
     ctx.rotate(rotation);
+    ctx.scale(scale, scale);
 
     ctx.drawImage(this.image, 
                     this.cx-r/2, this.cy-r/2,   // clip x, y coords 

@@ -3,15 +3,50 @@
 // CONSTRUCTOR
 // ===========
 
-function MapMaker(ctx) {
+function MapMaker() {
     this.tiles = this.selectMap();
-    this.tilesRadius  = 17;
+    
+    // Designed around 16 * 16 maps
+    this.mapWidth  = 16;
+    this.mapHeight = 16;
+    
+    this.tilesRadius  = 17;     // Constant do not change
+    
+    let tileLength = this.tilesRadius * 2;
+    
+    // =====
+    // SCALE
+    // =====
+
+    // Pixels for all tiles
+    let mapLength = tileLength * this.mapWidth;
+    // Padding
+    let padding = 0;
+    let paddingPercent = 0;
+    // Scale according to the smaller pixel size
+    if(g_canvas.width > g_canvas.height) {
+        padding = g_canvas.height * paddingPercent
+        this.scale = (g_canvas.height - padding) / mapLength;
+    }
+    else { 
+        padding = g_canvas.width * paddingPercent
+        this.scale = (g_canvas.width - padding) / mapLength;
+    }
+
     // Space between tiles
-    this.tilesWidth  = (this.tilesRadius * 2) * 3;
-    this.tilesHeight = (this.tilesRadius * 2) * 3;
+    this.tilesWidth  = tileLength * this.scale;
+    this.tilesHeight = tileLength * this.scale;
+
+    // Map origin is the center
+    this.mapTop  = g_canvas.height/2 - this.tilesWidth  * (0.5 + this.mapWidth/2);
+    this.mapLeft = g_canvas.width/2  - this.tilesHeight * (0.5 + this.mapHeight/2);
+
+    // ============
+    // TILE SPRITES
+    // ============
 
     // Filler tile
-    this.fillerTile         = new Sprite(g_images.tiles, 30,  30, 17, 0);   // 99
+    this.fillerTile         = new Sprite(g_images.tiles, 35,  35, 17, 0);   // 0
 
     // Classic MP Spaces
     // Upper line
@@ -65,28 +100,10 @@ function MapMaker(ctx) {
     this.pinkArrowTile      = new Sprite(g_images.tiles, 343, 237, 17, 0);  // 36
     this.yellowTile         = new Sprite(g_images.tiles, 382, 236, 17, 0);  // 37
     this.bowserJRTile       = new Sprite(g_images.tiles, 421, 236, 17, 0);  // 38
-
-    //this.populateTiles(ctx, this.tiles);
 };
 
 MapMaker.prototype.selectMap = function() {
     return maps.originalMap;
-
-    // =======
-    // SCALE-X
-    // =======
-
-   /*// Pixels for all spaces
-    var allSpacePx = g_canvas.width/100 * (this.length + 1);
-    // Pixels per space
-    g_spacePx = g_canvas.width/100;
-    // Pixels for all bricks
-    var allBrickPx = g_canvas.width - allSpacePx;
-    // Pixels per brick
-    g_brickPx = allBrickPx / this.length; 
-    // Scale down bricks to fit, all bricks are the same size
-    this.scaleX = g_brickPx / g_sprites.brick01.width;    // scale X*/
-    
 };
 
 MapMaker.prototype.renderGrid = function(ctx) {
@@ -121,19 +138,6 @@ MapMaker.prototype.renderGrid = function(ctx) {
     ctx.restore();
 };
 
-MapMaker.prototype.populateTiles = function(ctx, tiles) {
-
-    for(let i = 0; i < tiles.length; i++) {
-        for(let j = 0; j < tiles[i].length; j++) {
-            if(tiles[i][j] === 2) { 
-                console.log("bluetile");
-                console.log("i+0 = " + (i+1) + " j+0 = " + (j+1));
-                this.blueTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
-            }
-        }
-    }
-};
-
 MapMaker.prototype.render = function(ctx) {
     
     // Render grid for developement
@@ -144,137 +148,137 @@ MapMaker.prototype.render = function(ctx) {
         for(let j = 0; j < this.tiles[i].length; j++) {
 
             // Filler tile
-            if(this.tiles[i][j] === 99) { 
-                this.fillerTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+            if(this.tiles[i][j] === 0) { 
+                this.fillerTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
 
             // Classic MP Spaces
             // Upper line
             if(this.tiles[i][j] === 1) { 
-                this.blueTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.blueTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 2) { 
-                this.redTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.redTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 3) { 
-                this.questionTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.questionTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 4) { 
-                this.chanceTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.chanceTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 5) { 
-                this.bagTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bagTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             // Lower line
             if(this.tiles[i][j] === 6) { 
-                this.dkTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.dkTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 7) { 
-                this.bowserTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bowserTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 8) { 
-                this.yStarTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.yStarTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 9) { 
-                this.bStarTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bStarTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 10) { 
-                this.rainbowTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.rainbowTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
 
             // Mario Party 9 Spaces
             // Upper line
             if(this.tiles[i][j] === 11) { 
-                this.greenTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.greenTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 12) { 
-                this.exclamationTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.exclamationTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 13) { 
-                this.swapTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.swapTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 14) { 
-                this.forwardTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.forwardTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 15) { 
-                this.backwardTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.backwardTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 16) { 
-                this.oneVSthreeTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.oneVSthreeTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             // Lower line
             if(this.tiles[i][j] === 17) { 
-                this.blueNoteTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.blueNoteTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 18) { 
-                this.redNoteTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.redNoteTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 19) { 
-                this.greenSkipTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.greenSkipTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 20) { 
-                this.redSkipTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.redSkipTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 21) { 
-                this.vsTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.vsTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 22) { 
-                this.brawlTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.brawlTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
 
             // Character Spaces
             // 1st line
             if(this.tiles[i][j] === 23) { 
-                this.marioTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.marioTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 24) { 
-                this.luigiTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.luigiTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 25) { 
-                this.peachTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.peachTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 26) { 
-                this.flowerTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.flowerTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             // 2nd line
             if(this.tiles[i][j] === 27) { 
-                this.yoshiTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.yoshiTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 28) { 
-                this.bowtieTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bowtieTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 29) { 
-                this.warioTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.warioTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 30) { 
-                this.waluigiTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.waluigiTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             // 3rd line
             if(this.tiles[i][j] === 31) { 
-                this.redToadTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.redToadTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 32) { 
-                this.pinkToadTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.pinkToadTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 33) { 
-                this.booTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.booTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 34) { 
-                this.bulletBillTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bulletBillTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale);
             }
 
             // Extra Spaces
             if(this.tiles[i][j] === 35) { 
-                this.coOpTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.coOpTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale);
             }
             if(this.tiles[i][j] === 36) { 
-                this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 37) { 
-                this.yellowTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.yellowTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
             if(this.tiles[i][j] === 38) { 
-                this.bowserJRTile.drawTile(ctx, (j+1)*this.tilesWidth, (i+1)*this.tilesHeight, 0); 
+                this.bowserJRTile.drawTile(ctx, (j+1)*this.tilesWidth + this.mapLeft, (i+1)*this.tilesHeight + this.mapTop, 0, this.scale); 
             }
         }
     }
