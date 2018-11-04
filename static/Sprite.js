@@ -97,6 +97,20 @@ Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scal
     ctx.restore();
 };
 
+Sprite.prototype.drawBackground = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, width, height) {
+    ctx.save();
+    // Center of the sprite
+    ctx.translate(cx, cy);
+    // Rotate in radians
+    ctx.rotate(rotation);
+    // Scale image
+    ctx.scale(scaleX,scaleY);
+    // Draw sprite at it's center point
+    ctx.drawImage(this.image, 0, 0, width, height);
+
+    ctx.restore();
+};
+
 Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
     ctx.save(); 
     let r = this.radius * 2;
@@ -112,4 +126,4 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
                     r, r);          // width, height of image, strech
 
     ctx.restore();
-}
+};

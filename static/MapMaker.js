@@ -173,7 +173,9 @@ MapMaker.prototype.renderGrid = function(ctx) {
 MapMaker.prototype.render = function(ctx) {
 
     // Background
-    g_sprites.background1.drawTopLeft(ctx, this.mapLeft, this.mapTop, 0, this.backgroundScale);
+    let backW = this.mapRight - this.mapLeft;
+    let backH = this.mapBot - this.mapTop;
+    g_sprites.background1.drawBackground(ctx, this.mapLeft, this.mapTop, 0, 1, 1, backW, backH);
 
     // Render all tiles on the map
     for(let i = 0; i < this.tiles.length; i++) {
