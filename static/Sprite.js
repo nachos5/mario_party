@@ -34,7 +34,7 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
                   x, y);
 };
 
-Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, scale=this.scale) {
     if (rotation === undefined) rotation = 0;
 
     var w = this.width,
@@ -43,7 +43,7 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(rotation);
-    ctx.scale(this.scale, this.scale);
+    ctx.scale(scale, scale);
 
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
@@ -79,10 +79,28 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
 };
 
-Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
+// =============
+// DRAW TOP LEFT
+// =============
+
+// Draw object at the top left corner
+Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1) {
     ctx.save();
-    
-    var r = this.radius *2;
+    // Center of the sprite
+    ctx.translate(cx, cy);
+    // Rotate in radians
+    ctx.rotate(rotation);
+    // Scale image
+    ctx.scale(scaleX,scaleY);
+    // Draw sprite at it's center point
+    ctx.drawImage(this.image, 0, 0);
+    ctx.restore();
+};
+
+Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
+    ctx.save(); 
+    let r = this.radius * 2;
+
     ctx.translate(x, y);       // coords on canvas
     ctx.rotate(rotation);
     ctx.scale(scale, scale);
