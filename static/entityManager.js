@@ -30,6 +30,7 @@ var entityManager = {
 _players: [],
 _ttplayers: [], // tabletop players
 _dice: [],
+_event: [],
 
 // "PRIVATE" METHODS
 
@@ -80,6 +81,10 @@ generatePlayer: function(descr) {
 
 generateDie: function(descr) {
   this._dice.push(new Die(descr));
+},
+
+generateDie: function(descr) {
+    this._event.push(new Event(descr));
 },
 
 resetPlayers: function() {
