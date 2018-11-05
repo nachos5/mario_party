@@ -9,11 +9,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
-    "socket.io": "^2.1.1",
     "browser-sync": "^2.26.3",
+    "express": "^4.16.4",
     "gulp": "^3.9.1",
     "gulp-nodemon": "^2.2.1",
-    "nodemon": "^1.18.5"
+    "nodemon": "^1.18.5",
+    "server.js": "^1.0.0",
+    "socket.io": "^2.1.1"
   }
 }
