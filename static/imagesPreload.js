@@ -124,6 +124,8 @@ function imagesPreload(requiredImages,
             currentImage = new Image();
             currentImage.name = currentName;
             currentImage.crossOrigin = "Anonymous";
+            //currentImage.crossOrigin = "use-credentials";
+            //currentImage.crossOrigin = "";
 
             currentImage.asyncLoad(requiredImages[currentName], preloadHandler);
         }
