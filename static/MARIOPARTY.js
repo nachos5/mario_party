@@ -49,6 +49,8 @@ var g_allowMixedActions = true;
 var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
+// New Boolean
+let g_useGrid = false;
 
 var KEY_MIXED   = keyCode('M');;
 var KEY_GRAVITY = keyCode('G');
@@ -65,6 +67,9 @@ var KEY_2 = keyCode('2');
 
 var KEY_K = keyCode('K');
 
+// New Keys
+let KEY_GRID = keyCode('F');
+
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
@@ -75,6 +80,9 @@ function processDiagnostics() {
     if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
+
+    // Grid
+    if (eatKey(KEY_GRID)) g_useGrid = !g_useGrid;
 }
 
 
@@ -110,8 +118,28 @@ var g_images = {};
 function requestPreloads_images() {
 
     var requiredImages = {
-        ship: "https://notendur.hi.is/~pk/308G/images/ship.png",
-        tiles : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/spaces3.png",
+        ship            : "https://notendur.hi.is/~pk/308G/images/ship.png",
+
+        // Background
+        background1     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/Mario-Background.jpg",
+        backGreenPipe   : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Green_Pipe.png",
+        backBluePipe    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Blue_Pipe.png",
+        backRedPipe     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Red_Pipe.png",
+        backYellowPipe  : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Yellow_Pipe.png",
+
+        // Map
+        tiles           : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/spaces3.png",
+        greenPipe       : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/WarpPipeGreen.png",
+        redPipe         : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/RedWarpPipeRed.png",
+
+        // Players
+        blackPlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Black)/pieceBlack_border02.png",
+        bluePlayer      : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Blue)/pieceBlue_border03.png",
+        greenPlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Green)/pieceGreen_border02.png",
+        purplePlayer    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Purple)/piecePurple_border02.png",
+        redPlayer       : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Red)/pieceRed_border02.png",
+        whitePlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(White)/pieceWhite_border02.png",
+        yellowPlayer    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Yellow)/pieceYellow_border01.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -125,8 +153,30 @@ var g_sprites = {};
 
 function preloadDone() {
 
-    g_sprites.ship = new Sprite(g_images.ship);
-    g_sprites.tiles = new Sprite(g_images.tiles);
+    g_sprites.ship              = new Sprite(g_images.ship);
+
+    // Background
+    g_sprites.background1       = new Sprite(g_images.background1);
+
+    g_sprites.backGreenPipe     = new Sprite(g_images.backGreenPipe);
+    g_sprites.backBluePipe      = new Sprite(g_images.backBluePipe);
+    g_sprites.backRedPipe       = new Sprite(g_images.backRedPipe);
+    g_sprites.backYellowPipe    = new Sprite(g_images.backYellowPipe);
+
+    // Map
+    g_sprites.tiles             = new Sprite(g_images.tiles);
+    g_sprites.greenPipe         = new Sprite(g_images.greenPipe);
+    g_sprites.redPipe           = new Sprite(g_images.redPipe);
+
+
+    // Players
+    g_sprites.blackPlayer       = new Sprite(g_images.blackPlayer);
+    g_sprites.bluePlayer        = new Sprite(g_images.bluePlayer);
+    g_sprites.greenPlayer       = new Sprite(g_images.greenPlayer);
+    g_sprites.purplePlayer      = new Sprite(g_images.purplePlayer);
+    g_sprites.redPlayer         = new Sprite(g_images.redPlayer);
+    g_sprites.whitePlayer       = new Sprite(g_images.whitePlayer);
+    g_sprites.yellowPlayer      = new Sprite(g_images.yellowPlayer);
 
     entityManager.init();
     mapManager.init();
