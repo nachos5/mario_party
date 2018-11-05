@@ -14,13 +14,19 @@
 
 // Construct a "sprite" from the given `image`,
 //
-function Sprite(image, cx=0, cy=0, radius=0, bool=1) {
+function Sprite(image, cx=0, cy=0, radius=0, bool=1, cWidth, cHeight) {
     this.image = image;
 
-    if(bool) {
+    if(bool === 1) {
         this.width = image.width;
         this.height = image.height;
         this.scale = 1;
+    }
+    else if(bool === 2) {
+        this.cx = cx;
+        this.cy = cy;
+        this.clipWidth = cWidth;
+        this.clipHeight = cHeight;
     }
     else {
         this.cx = cx;
@@ -126,6 +132,42 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
                     r, r,           // width, height of clipped img
                     -r/2, -r/2,     // center coords
                     r, r);          // width, height of image, strech
+
+    ctx.restore();
+};
+
+Sprite.prototype.drawClipped = function (ctx, x, y, rotation, scaleX=1, scaleY=1) {
+    ctx.save();
+    let cW = this.clipWidth * 2;
+    let cH = this.clipHeight * 2;
+
+    ctx.translate(x, y);       // coords on canvas
+    ctx.rotate(rotation);
+    ctx.scale(scaleX, scaleY);
+
+    ctx.drawImage(this.image,
+                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
+                    cW, cH,           // width, height of clipped img
+                    -cW/2, -cH/2,     // center coords                    
+                    cW, cH);          // width, height of image, strech
+
+    ctx.restore();
+};
+
+Sprite.prototype.drawClipTopLeftFixed = function (ctx, x, y, rotation, width, height, scaleX=1, scaleY=1) {
+    ctx.save();
+    let cW = this.clipWidth * 2;
+    let cH = this.clipHeight * 2;
+
+    ctx.translate(x, y);       // coords on canvas
+    ctx.rotate(rotation);
+    ctx.scale(scaleX, scaleY);
+
+    ctx.drawImage(this.image,
+                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
+                    cW, cH,           // width, height of clipped img
+                    0, 0,     // Top left coords
+                    width, height);          // width, height of image, strech
 
     ctx.restore();
 };

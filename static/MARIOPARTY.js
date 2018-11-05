@@ -153,6 +153,7 @@ function requestPreloads_images() {
 
         coin             : "static/assets/marioCoin.png",
         star             : "static/assets/marioStar.png",
+        numbers          : "static/assets/marioNumbers.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -201,6 +202,21 @@ function preloadDone() {
 
     g_sprites.coin              = new Sprite(g_images.coin);
     g_sprites.star              = new Sprite(g_images.star);
+
+    // Numbers
+    g_sprites.number0           = new Sprite(g_images.numbers, 50,  195, 0, 2, 50, 55);  // 0
+    g_sprites.number1           = new Sprite(g_images.numbers, 140, 195, 0, 2, 38, 55);  // 1
+
+    g_sprites.number2           = new Sprite(g_images.numbers, 225, 195, 0, 2, 45, 55);  // 2
+    g_sprites.number3           = new Sprite(g_images.numbers, 315, 195, 0, 2, 45, 55);  // 3
+    g_sprites.number4           = new Sprite(g_images.numbers, 405, 195, 0, 2, 45, 55);  // 4
+    g_sprites.number5           = new Sprite(g_images.numbers, 500, 195, 0, 2, 50, 55);  // 5
+    g_sprites.number6           = new Sprite(g_images.numbers, 595, 195, 0, 2, 45, 55);  // 6
+    g_sprites.number7           = new Sprite(g_images.numbers, 685, 195, 0, 2, 45, 55);  // 7
+    g_sprites.number8           = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 55);  // 8
+    g_sprites.number9           = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 55);  // 9
+
+    console.log(g_sprites.number1);
 
     mapManager.init();
     entityManager.init();

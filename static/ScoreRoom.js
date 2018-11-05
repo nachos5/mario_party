@@ -1,8 +1,8 @@
 // ===========
 // CONSTRUCTOR
 // ===========
-
-function GameRoom() {
+// TODO ÞAÐ SAMA OG GAME ROOM
+function ScoreRoom() {
     
     // Sprites
     this.brick   = g_sprites.brickBlock;
@@ -49,7 +49,7 @@ function GameRoom() {
     this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength-2)/2)  / this.altPipe.height;
 };
 
-GameRoom.prototype.render = function(ctx) {
+ScoreRoom.prototype.render = function(ctx) {
     // Bricks
     // Rows
     let y = this.cy;
