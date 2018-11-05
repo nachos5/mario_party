@@ -1,8 +1,7 @@
 let express = require('express'),
   http = require('http'),
   path = require('path'),
-  socketIO = require('socket.io'),
-  cors = require('cors');
+  socketIO = require('socket.io');
 
 let app = express(),
   server = http.Server(app),

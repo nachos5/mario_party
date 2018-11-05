@@ -118,28 +118,28 @@ var g_images = {};
 function requestPreloads_images() {
 
     var requiredImages = {
-        ship            : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        ship            : "static/assets/boardgamePack_v2/PNG/Pieces (Purple)/piecePurple_border15.png",
 
         // Background
-        background1     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        backGreenPipe   : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        backBluePipe    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        backRedPipe     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        backYellowPipe  : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        background1     : "static/assets/Mario-Background.jpg",
+        backGreenPipe   : "static/assets/NSMBU-Green_Pipe.png",
+        backBluePipe    : "static/assets/NSMBU-Blue_Pipe.png",
+        backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
+        backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
 
         // Map
-        tiles           : "https://s3.eu-west-2.amazonaws.com/ambokaforlag/media/frettamynd_Spjall_vi%C3%B0_Sverri.jpeg",
-        greenPipe       : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        redPipe         : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        tiles           : "static/assets/spaces3.png",
+        greenPipe       : "static/assets/WarpPipeGreen.png",
+        redPipe         : "static/assets/RedWarpPipeRed.png",
 
         // Players
-        blackPlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        bluePlayer      : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        greenPlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        purplePlayer    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        redPlayer       : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        whitePlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
-        yellowPlayer    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        blackPlayer     : "static/assets/boardgamePack_v2/PNG/Pieces (Black)/pieceBlack_border02.png",
+        bluePlayer      : "static/assets/boardgamePack_v2/PNG/Pieces (Blue)/pieceBlue_border03.png",
+        greenPlayer     : "static/assets/boardgamePack_v2/PNG/Pieces (Green)/pieceGreen_border02.png",
+        purplePlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Purple)/piecePurple_border02.png",
+        redPlayer       : "static/assets/boardgamePack_v2/PNG/Pieces (Red)/pieceRed_border02.png",
+        whitePlayer     : "static/assets/boardgamePack_v2/PNG/Pieces (White)/pieceWhite_border02.png",
+        yellowPlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Yellow)/pieceYellow_border01.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
