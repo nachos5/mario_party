@@ -1,7 +1,8 @@
 let express = require('express'),
   http = require('http'),
   path = require('path'),
-  socketIO = require('socket.io');
+  socketIO = require('socket.io'),
+  cors = require('cors');
 
 let app = express(),
   server = http.Server(app),
@@ -9,6 +10,12 @@ let app = express(),
 
 app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Routing
 app.get('/', function(request, response) {

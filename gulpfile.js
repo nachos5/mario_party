@@ -5,17 +5,6 @@ var browserSync = require('browser-sync');
 var nodemon = require('gulp-nodemon');
 
 
-gulp.task('default', ['browser-sync'], function () {
-});
-
-gulp.task('browser-sync', ['nodemon'], function() {
-	browserSync.init(null, {
-        proxy: {target: "http://localhost:5000", ws: true},
-        files: ["static/**/*.*"],
-        browser: "chrome",
-        port: 7000,
-	});
-});
 gulp.task('nodemon', function (cb) {
 
 	var started = false;
@@ -29,5 +18,17 @@ gulp.task('nodemon', function (cb) {
 			cb();
 			started = true;
 		}
+	});
+});
+
+gulp.task('default', ['browser-sync'], function () {
+});
+
+gulp.task('browser-sync', ['nodemon'], function() {
+	browserSync.init(null, {
+        proxy: {target: "http://localhost:5000", ws: true},
+        files: ["static/**/*.*"],
+        browser: "chrome",
+        port: 7000,
 	});
 });
