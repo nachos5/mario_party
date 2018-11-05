@@ -103,6 +103,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
     mapManager.render(ctx);
+    stateManager.render(ctx);
     entityManager.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
@@ -122,6 +123,7 @@ function requestPreloads_images() {
 
         // Background
         background1     : "static/assets/Mario-Background.jpg",
+        brickBlock      : "static/assets/Brick_Block.png",
         backGreenPipe   : "static/assets/NSMBU-Green_Pipe.png",
         backBluePipe    : "static/assets/NSMBU-Blue_Pipe.png",
         backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
@@ -141,8 +143,16 @@ function requestPreloads_images() {
         whitePlayer     : "static/assets/boardgamePack_v2/PNG/Pieces (White)/pieceWhite_border02.png",
         yellowPlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Yellow)/pieceYellow_border01.png",
 
-        // Die
-        die1             : "static/assets/boardgamePack_v2/PNG/Dice/dieWhite1.png",
+        // Objects
+        die1             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die2             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die3             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die4             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die5             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die6             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+
+        coin             : "static/assets/marioCoin.png",
+        star             : "static/assets/marioStar.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -159,6 +169,7 @@ function preloadDone() {
 
     // Background
     g_sprites.background1       = new Sprite(g_images.background1);
+    g_sprites.brickBlock        = new Sprite(g_images.brickBlock);
 
     g_sprites.backGreenPipe     = new Sprite(g_images.backGreenPipe);
     g_sprites.backBluePipe      = new Sprite(g_images.backBluePipe);
@@ -180,8 +191,16 @@ function preloadDone() {
     g_sprites.whitePlayer       = new Sprite(g_images.whitePlayer);
     g_sprites.yellowPlayer      = new Sprite(g_images.yellowPlayer);
 
-    // Dice
+    // Objects
     g_sprites.die1              = new Sprite(g_images.die1);
+    g_sprites.die2              = new Sprite(g_images.die2);
+    g_sprites.die3              = new Sprite(g_images.die3);
+    g_sprites.die4              = new Sprite(g_images.die4);
+    g_sprites.die5              = new Sprite(g_images.die5);
+    g_sprites.die6              = new Sprite(g_images.die6);
+
+    g_sprites.coin              = new Sprite(g_images.coin);
+    g_sprites.star              = new Sprite(g_images.star);
 
     mapManager.init();
     entityManager.init();

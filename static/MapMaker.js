@@ -24,7 +24,7 @@ function MapMaker(map) {
     let mapLength = tileLength * this.mapWidth;
     // Padding
     let padding = 0;
-    let paddingPercent = 0.1;
+    let paddingPercent = 0;
     // Scale according to the smaller pixel size of the width or height of the canvas
     if(g_canvas.width > g_canvas.height) {
         padding = g_canvas.height * paddingPercent

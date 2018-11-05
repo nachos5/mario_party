@@ -84,14 +84,16 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
 // =============
 
 // Draw object at the top left corner
-Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1) {
+Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, flip=0) {
     ctx.save();
     // Center of the sprite
     ctx.translate(cx, cy);
     // Rotate in radians
     ctx.rotate(rotation);
     // Scale image
-    ctx.scale(scaleX,scaleY);
+    if(flip === 0) {  ctx.scale(scaleX,scaleY)  }
+    else if(flip === 1) {  ctx.scale(-scaleX,scaleY)  }
+    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  };
     // Draw sprite at it's center point
     ctx.drawImage(this.image, 0, 0);
     ctx.restore();
