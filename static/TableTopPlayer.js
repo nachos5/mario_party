@@ -56,7 +56,7 @@ function TableTopPlayer(id) {
     if(this.sprite.width > this.sprite.height) { this.scale = this.map.tilesWidth / this.sprite.width }
     else { this.scale = this.map.tilesHeight / this.sprite.height }
 
-    this.scale *= 0.9;  // 90% of tile size
+    this.scale *= 0.8;  // 90% of tile size
 };
 
 TableTopPlayer.prototype.rememberResets = function () {

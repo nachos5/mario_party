@@ -133,9 +133,9 @@ function MapMaker(map) {
 
     // Extra Spaces
     this.coOpTile           = new Sprite(g_images.tiles, 305, 237, this.tilesRadius, 0);  // 35
-    this.pinkArrowTile      = new Sprite(g_images.tiles, 343, 237, this.tilesRadius, 0);  // 36
-    this.yellowTile         = new Sprite(g_images.tiles, 382, 236, this.tilesRadius, 0);  // 37
-    this.bowserJRTile       = new Sprite(g_images.tiles, 421, 236, this.tilesRadius, 0);  // 38
+    this.pinkArrowTile      = new Sprite(g_images.tiles, 343, 237, this.tilesRadius, 0);  // 36-UP  37-Right  38-Down  39-Left
+    this.yellowTile         = new Sprite(g_images.tiles, 382, 236, this.tilesRadius, 0);  // 40
+    this.bowserJRTile       = new Sprite(g_images.tiles, 421, 236, this.tilesRadius, 0);  // 41
 };
 
 MapMaker.prototype.selectMap = function(map) {
@@ -330,13 +330,26 @@ MapMaker.prototype.render = function(ctx) {
             if(this.tiles[i][j] === 35) { 
                 this.coOpTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale);
             }
+            // Arrow Up
             if(this.tiles[i][j] === 36) { 
                 this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale); 
             }
+            // Arrow Right
             if(this.tiles[i][j] === 37) { 
+                this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, Math.PI/2, this.scale); 
+            }
+            // Arrow Down
+            if(this.tiles[i][j] === 38) { 
+                this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, Math.PI, this.scale); 
+            }
+            // Arrow Left
+            if(this.tiles[i][j] === 39) { 
+                this.pinkArrowTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, Math.PI * 1.5, this.scale); 
+            }  
+            if(this.tiles[i][j] === 40) { 
                 this.yellowTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale); 
             }
-            if(this.tiles[i][j] === 38) { 
+            if(this.tiles[i][j] === 41) { 
                 this.bowserJRTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale); 
             }
         }

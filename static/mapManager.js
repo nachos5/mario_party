@@ -66,6 +66,6 @@ render: function(ctx) {
     this.test4Player.render(ctx);
     this.test5Player.render(ctx);
     this.test6Player.render(ctx);
-}
+},
 
 }
