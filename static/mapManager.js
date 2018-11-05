@@ -6,9 +6,6 @@ currentMap : null,
 startTile : { row : 0, column : 0 },
 scale : null,
 mapSprite : null,
-i : 0,
-
-test0Player : null,
 
 // ============
 // LIST OF MAPS
@@ -23,6 +20,7 @@ loadMap : function(map) {
     this.currentMap = new MapMaker(map);
     this.scale = this.currentMap.scale;
 
+    // Render all tiles once
     this.currentMap.render(ctx);
 
     // Map variables
@@ -31,11 +29,8 @@ loadMap : function(map) {
     let mapW = this.currentMap.mapRight - left;     // Width
     let mapH = this.currentMap.mapBot - top;        // Height
 
+    // Get map image data to save memory
     this.mapSprite = g_ctx.getImageData(left, top, mapW, mapH);
-
-    console.log(this.mapSprite)
-
-    this.test0Player = new TableTopPlayer(0);
 },
 
 getMap : function() {
@@ -60,6 +55,9 @@ unregisterPosition: function(entity) {
 
 render: function(ctx) {
     ctx.putImageData(this.mapSprite, this.currentMap.mapLeft, this.currentMap.mapTop);
+
+    // Render grid for developement
+    if(g_useGrid) { this.currentMap.renderGrid(ctx) };
 },
 
 }

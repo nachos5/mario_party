@@ -354,6 +354,4 @@ MapMaker.prototype.render = function(ctx) {
             }
         }
     }
-    // Render grid for developement
-    if(g_useGrid) { this.renderGrid(ctx) };
 };
