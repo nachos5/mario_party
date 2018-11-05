@@ -88,4 +88,3 @@ Entity.prototype.isColliding = function () {
 Entity.prototype.kill = function () {
     this._isDeadNow = true;
 };
-};
