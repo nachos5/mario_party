@@ -140,6 +140,9 @@ function requestPreloads_images() {
         redPlayer       : "static/assets/boardgamePack_v2/PNG/Pieces (Red)/pieceRed_border02.png",
         whitePlayer     : "static/assets/boardgamePack_v2/PNG/Pieces (White)/pieceWhite_border02.png",
         yellowPlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Yellow)/pieceYellow_border01.png",
+
+        // Die
+        die1             : "static/assets/boardgamePack_v2/PNG/Dice/dieWhite1.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -177,8 +180,13 @@ function preloadDone() {
     g_sprites.whitePlayer       = new Sprite(g_images.whitePlayer);
     g_sprites.yellowPlayer      = new Sprite(g_images.yellowPlayer);
 
-    entityManager.init();
+    // Dice
+    g_sprites.die1              = new Sprite(g_images.die1);
+
     mapManager.init();
+    entityManager.init();
+    stateManager.init();
+
 
     // play background music
     //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);

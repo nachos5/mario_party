@@ -17,12 +17,12 @@ let networkManager = new NetworkManager();
 
 // when we get a message from the server that a new player has joined the game
 networkManager.socket.on("new_player", function(id) {
-  entityManager.generatePlayer({
+    entityManager.generatePlayer({
       cx: 200,
       cy: 200,
       id: id,
       my_player: false
-  });
+    });
 });
 
 // player disconnects

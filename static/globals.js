@@ -22,5 +22,4 @@ var NOMINAL_UPDATE_INTERVAL = 16.666;
 // Multiply by this to convert seconds into "nominals"
 var SECS_TO_NOMINALS = 1000 / NOMINAL_UPDATE_INTERVAL;
 
-// we use this to differentiate between updating our player and other players
-let my_player = true;
+let player_no = 0;

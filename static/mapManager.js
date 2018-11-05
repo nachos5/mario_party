@@ -12,7 +12,7 @@ mapSprite : null,
 // ============
 // 0 = originalMap
 
-init : function() {    
+init : function() {
     this.loadMap(0);    // Load map
 },
 
@@ -45,7 +45,7 @@ getPosition : function(player) {
 
 },
 
-setPostion: function(player) {
+setPosition: function(player) {
 
 },
 

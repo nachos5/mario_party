@@ -34,7 +34,7 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
                   x, y);
 };
 
-Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, scale=this.scale) {
+Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation=0, scale=this.scale) {
     if (rotation === undefined) rotation = 0;
 
     var w = this.width,
@@ -53,7 +53,7 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation, scale=this.sca
     ctx.restore();
 };
 
-Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation=0) {
 
     // Get "screen width"
     var sw = g_canvas.width;
@@ -112,15 +112,15 @@ Sprite.prototype.drawBackground = function (ctx, cx, cy, rotation=0, scaleX=1, s
 };
 
 Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
-    ctx.save(); 
+    ctx.save();
     let r = this.radius * 2;
 
     ctx.translate(x, y);       // coords on canvas
     ctx.rotate(rotation);
     ctx.scale(scale, scale);
 
-    ctx.drawImage(this.image, 
-                    this.cx-r/2, this.cy-r/2,   // clip x, y coords 
+    ctx.drawImage(this.image,
+                    this.cx-r/2, this.cy-r/2,   // clip x, y coords
                     r, r,           // width, height of clipped img
                     -r/2, -r/2,     // center coords
                     r, r);          // width, height of image, strech

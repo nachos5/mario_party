@@ -25,6 +25,9 @@ function Player(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = 1;
 
+    // new tabletop player
+    this.ttplayer = new TableTopPlayer(player_no);
+    player_no++;
 };
 
 Player.prototype = new Entity();
@@ -40,6 +43,10 @@ Player.prototype.KEY_UP = 'W'.charCodeAt(0);
 Player.prototype.KEY_DOWN  = 'S'.charCodeAt(0);
 Player.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Player.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
+
+// MARIO PARTY STUFF
+Player.prototype.stars = 0;
+Player.prototype.myTurn = false;
 
 // Initial, inheritable, default values
 Player.prototype.rotation = 0;
@@ -126,4 +133,7 @@ Player.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
        ctx, this.cx, this.cy, this.rotation);
     this.sprite.scale = origScale;
+
+    // render tabletop player
+    this.ttplayer.render(ctx);
 };
