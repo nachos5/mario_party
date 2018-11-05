@@ -24,6 +24,10 @@ function Player(descr) {
 
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+
+    // new tabletop player
+    this.ttplayer = new TableTopPlayer(1);
+    player_no++;
 };
 
 Player.prototype = new Entity();
@@ -125,4 +129,7 @@ Player.prototype.render = function (ctx) {
     this.sprite.drawWrappedCentredAt(
        ctx, this.cx, this.cy, this.rotation);
     this.sprite.scale = origScale;
+
+    // render tabletop player
+    this.ttplayer.render(ctx);
 };

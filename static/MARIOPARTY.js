@@ -183,8 +183,9 @@ function preloadDone() {
     g_sprites.whitePlayer       = new Sprite(g_images.whitePlayer);
     g_sprites.yellowPlayer      = new Sprite(g_images.yellowPlayer);
 
-    entityManager.init();
     mapManager.init();
+    entityManager.init();
+
 
     // play background music
     //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
