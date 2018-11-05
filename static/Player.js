@@ -1,6 +1,6 @@
-// ==========
-// SHIP STUFF
-// ==========
+// ======
+// PLAYER
+// ======
 
 "use strict";
 
@@ -24,6 +24,8 @@ function Player(descr) {
 
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+
+    this.setSprite(g_sprites.blackPlayer)
 };
 
 Player.prototype = new Entity();
@@ -49,6 +51,8 @@ Player.prototype.velY = 1;
 Player.prototype.numSubSteps = 1;
 
 Player.prototype.update = function (du) {
+    // remember previous position
+    this.setPrevPos(this.cx, this.cy);
 
     // unregister the entity
     spatialManager.unregister(this);
@@ -112,6 +116,10 @@ Player.prototype.halt = function () {
     this.velX = 0;
     this.velY = 0;
 };
+
+Player.prototype.setSprite = function(sprite) {
+  this.sprite = sprite;
+}
 
 var NOMINAL_ROTATE_RATE = 0.1;
 
