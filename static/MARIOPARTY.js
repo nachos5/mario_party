@@ -128,7 +128,7 @@ function requestPreloads_images() {
         backYellowPipe  : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
 
         // Map
-        tiles           : "https://s3.eu-west-2.amazonaws.com/ambokaforlag/media/frettamynd_Spjall_vi%C3%B0_Sverri.jpeg",
+        tiles           : "static/assets/boardgamePack_v2/PNG/Pieces (Black)/pieceBlack_border00.png",
         greenPipe       : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
         redPipe         : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
 

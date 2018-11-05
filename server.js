@@ -1,12 +1,11 @@
 let express = require('express'),
-  http = require('http'),
-  path = require('path'),
-  socketIO = require('socket.io'),
-  cors = require('cors');
+    http = require('http'),
+    path = require('path'),
+    socketIO = require('socket.io');
 
 let app = express(),
-  server = http.Server(app),
-  io = socketIO(server);
+    server = http.Server(app),
+    io = socketIO(server);
 
 app.set('port', 5000);
 app.use('/static', express.static(__dirname + '/static'));
