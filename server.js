@@ -46,6 +46,8 @@ io.on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     console.log("player " + socket.id + " has disconnected");
+    // remove from players array
+    delete players[socket.id];
     // let other clients know
     socket.broadcast.emit('disconnect_from_server', socket.id)
   });

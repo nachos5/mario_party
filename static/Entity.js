@@ -55,6 +55,16 @@ Entity.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};
 };
 
+// previous position
+Entity.prototype.setPrevPos = function(cx, cy) {
+  this.cxPrev = cx;
+  this.cyPrev = cy;
+}
+
+Entity.prototype.getPrevPos = function() {
+  return{posX: this.cxPrev, posY: this.cyPrev};
+}
+
 Entity.prototype.getRadius = function () {
     return 0;
 };
@@ -77,4 +87,5 @@ Entity.prototype.isColliding = function () {
 
 Entity.prototype.kill = function () {
     this._isDeadNow = true;
+};
 };

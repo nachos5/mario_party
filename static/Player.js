@@ -49,6 +49,8 @@ Player.prototype.velY = 1;
 Player.prototype.numSubSteps = 1;
 
 Player.prototype.update = function (du) {
+    // remember previous position
+    this.setPrevPos(this.cx, this.cy);
 
     // unregister the entity
     spatialManager.unregister(this);
