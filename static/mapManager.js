@@ -50,7 +50,7 @@ getPosition : function(player) {
 
 },
 
-setPostion: function(player) {
+setPosition: function(player) {
 
 },
 
@@ -60,8 +60,6 @@ unregisterPosition: function(entity) {
 
 render: function(ctx) {
     ctx.putImageData(this.mapSprite, this.currentMap.mapLeft, this.currentMap.mapTop);
-
-    this.test0Player.render(ctx);
 },
 
 }

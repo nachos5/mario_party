@@ -28,6 +28,7 @@ var entityManager = {
 // "PRIVATE" DATA
 
 _players   : [],
+_dice: [],
 
 // "PRIVATE" METHODS
 
@@ -48,7 +49,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players];
+    this._categories = [this._players, this._dice];
 },
 
 init: function() {
@@ -63,12 +64,21 @@ init: function() {
     my_player: true
   })
 
+  this.generateDie({
+    cx: cx,
+    cy: cy
+  })
+
   // let the server know that a new player has joined the game
   networkManager.emit('new player');
 },
 
 generatePlayer : function(descr) {
     this._players.push(new Player(descr));
+},
+
+generateDie: function(descr) {
+  this._dice.push(new Die(descr));
 },
 
 resetPlayers: function() {
@@ -87,8 +97,11 @@ update: function(du) {
         var i = 0;
 
         while (i < aCategory.length) {
-
-            var status = aCategory[i].update(du);
+            let status = 0;
+            // try catch for stuff not using an update function (die for example)-
+            try {
+              status = aCategory[i].update(du);
+            } catch(e){}
 
             if (status === this.KILL_ME_NOW) {
                 // remove the dead guy, and shuffle the others down to
