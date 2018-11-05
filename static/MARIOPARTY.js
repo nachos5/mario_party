@@ -152,7 +152,6 @@ function requestPreloads_audio() {
 var g_sprites = {};
 
 function preloadDone() {
-
     g_sprites.ship              = new Sprite(g_images.ship);
 
     // Background
@@ -187,5 +186,4 @@ function preloadDone() {
     main.init();
 }
 
-// Kick it off
 requestPreloads_images();
