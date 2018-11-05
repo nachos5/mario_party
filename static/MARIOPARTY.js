@@ -118,28 +118,28 @@ var g_images = {};
 function requestPreloads_images() {
 
     var requiredImages = {
-        ship            : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship            : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
 
         // Background
-        background1     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/Mario-Background.jpg",
-        backGreenPipe   : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Green_Pipe.png",
-        backBluePipe    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Blue_Pipe.png",
-        backRedPipe     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Red_Pipe.png",
-        backYellowPipe  : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/NSMBU-Yellow_Pipe.png",
+        background1     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        backGreenPipe   : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        backBluePipe    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        backRedPipe     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        backYellowPipe  : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
 
         // Map
-        tiles           : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/spaces3.png",
-        greenPipe       : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/WarpPipeGreen.png",
-        redPipe         : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/RedWarpPipeRed.png",
+        tiles           : "https://s3.eu-west-2.amazonaws.com/ambokaforlag/media/frettamynd_Spjall_vi%C3%B0_Sverri.jpeg",
+        greenPipe       : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        redPipe         : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
 
         // Players
-        blackPlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Black)/pieceBlack_border02.png",
-        bluePlayer      : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Blue)/pieceBlue_border03.png",
-        greenPlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Green)/pieceGreen_border02.png",
-        purplePlayer    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Purple)/piecePurple_border02.png",
-        redPlayer       : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Red)/pieceRed_border02.png",
-        whitePlayer     : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(White)/pieceWhite_border02.png",
-        yellowPlayer    : "https://notendur.hi.is/~hgg29/tolvuleikir/marioparty/assets/boardgamePack_v2/PNG/Pieces%20(Yellow)/pieceYellow_border01.png",
+        blackPlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        bluePlayer      : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        greenPlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        purplePlayer    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        redPlayer       : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        whitePlayer     : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
+        yellowPlayer    : "https://article.images.consumerreports.org/prod/content/dam/CRO%20Images%202017/Magazine-Articles/April/CR-Inline-top-picks-Toyota-Yaris-02-17",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -185,7 +185,7 @@ function preloadDone() {
 
     entityManager.init();
     mapManager.init();
-    
+
     // play background music
     //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
 
