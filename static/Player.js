@@ -26,8 +26,10 @@ function Player(descr) {
     this._scale = 1;
 
     // new tabletop player
-    this.ttplayer = new TableTopPlayer(player_no);
+    this.tt_player = new TableTopPlayer(player_no);
     player_no++;
+    entityManager._ttplayers.push(this.tt_player); // store in entity manager
+    //mapManager.setPosition(this.tt_player);
 };
 
 Player.prototype = new Entity();
@@ -135,5 +137,5 @@ Player.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
 
     // render tabletop player
-    this.ttplayer.render(ctx);
+    this.tt_player.render(ctx);
 };

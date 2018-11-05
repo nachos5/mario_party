@@ -18,6 +18,8 @@ Die.prototype.side = 1;
 Die.prototype.roll = function() {
   const rand = parseInt(Math.random() * 6) + 1; // 1-6
   this.side = rand;
+  const curr_player = stateManager.curr_player.tt_player;
+  mapManager.setPosition(curr_player, rand, rand);
 }
 
 Die.prototype.render = function (ctx) {

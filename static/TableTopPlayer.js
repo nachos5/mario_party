@@ -12,12 +12,12 @@ function TableTopPlayer(id) {
 
     this.map = mapManager.getMap();
 
-    let centerX = this.map.mapLeft + this.map.tilesWidth/2;
-    let centerY = this.map.mapTop + this.map.tilesHeight/2;
-
-    this.cx = (this.position.row    + this.id) * this.map.tilesWidth  + centerX;
-    this.cy = (this.position.column + this.id) * this.map.tilesHeight + centerY;
+    this.centerX = this.map.mapLeft + this.map.tilesWidth / 2;
+    this.centerY = this.map.mapTop + this.map.tilesHeight / 2;
     this.rotation = 0;
+
+    // param: player, column, row
+    mapManager.setPosition(this, id, id);
 
     //this.rememberResets();
 
@@ -59,6 +59,8 @@ function TableTopPlayer(id) {
     this.scale *= 0.8;  // 90% of tile size
 };
 
+TableTopPlayer.prototype = new Entity();
+
 TableTopPlayer.prototype.rememberResets = function () {
 
 };
@@ -68,7 +70,8 @@ TableTopPlayer.prototype.rememberResets = function () {
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
-
+  this.cx = this.position.row * this.map.tilesWidth  + this.centerX;
+  this.cy = this.position.column * this.map.tilesHeight + this.centerY;
 };
 
 // =====

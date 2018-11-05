@@ -27,7 +27,8 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_players   : [],
+_players: [],
+_ttplayers: [], // tabletop players
 _dice: [],
 
 // "PRIVATE" METHODS
@@ -49,7 +50,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players, this._dice];
+    this._categories = [this._players, this._ttplayers, this._dice];
 },
 
 init: function() {
@@ -73,7 +74,7 @@ init: function() {
   networkManager.emit('new player');
 },
 
-generatePlayer : function(descr) {
+generatePlayer: function(descr) {
     this._players.push(new Player(descr));
 },
 

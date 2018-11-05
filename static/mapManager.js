@@ -42,11 +42,10 @@ getStartPosition : function() {
 },
 
 getPosition : function(player) {
-
 },
 
-setPosition: function(player) {
-
+setPosition: function(player, column, row) {
+  player.position = {column: column, row: row};
 },
 
 unregisterPosition: function(entity) {

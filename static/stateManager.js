@@ -1,24 +1,29 @@
 let stateManager = {
 
   no_players: 0,
-  curr_player: 0,
+  curr_player: null, // enable access to current player
+  curr_player_index: 0, // we iterate through the players
   rounds_remaining: 10,
 
   // first player starts his turn
   init: function() {
     const players = entityManager._players;
-    no_players = players.length;
-    players[0].myTurn = true;
+    this.no_players = players.length;
+    this.curr_player = players[0];
+    this.curr_player.tt_player.myTurn = true;
   },
 
   nextTurn: function() {
-    players[curr_player].myTurn = false;
+    this.curr_player = players[this.curr_player_index];
+    this.curr_player.tt_player.myTurn = false;
     // next player
-    curr_player++;
-    if (curr_player > no_players) {
-      curr_player = 0;
+    this.curr_player_index++;
+    if (this.curr_player_index > this.no_players) {
+      this.curr_player_index = 0;
     }
-    players[curr_player].myTurn = true;
+
+    this.curr_player = this.players[curr_player_index];
+    this.curr_player.tt_player.myTurn = true;
   },
 
 }
