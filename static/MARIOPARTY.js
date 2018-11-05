@@ -152,6 +152,12 @@ function requestPreloads_audio() {
 var g_sprites = {};
 
 function preloadDone() {
+
+    for(let img in g_images) {
+        //g_images[img].crossOrigin = "Anonymous"
+        console.log(g_images[img]);
+    }
+
     g_sprites.ship              = new Sprite(g_images.ship);
 
     // Background
