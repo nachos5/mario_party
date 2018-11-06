@@ -64,12 +64,12 @@ init: function() {
     cy: cy,
     id: 'myplayer',
     my_player: true
-  })
+  });
 
   this.generateDie({
     cx: cx,
     cy: cy
-  })
+  });
 
   // let the server know that a new player has joined the game
   networkManager.emit('new player');
@@ -83,7 +83,7 @@ generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },
 
-generateDie: function(descr) {
+generateEvent: function(descr) {
     this._event.push(new Event(descr));
 },
 

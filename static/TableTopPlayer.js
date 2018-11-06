@@ -8,6 +8,7 @@
 
 function TableTopPlayer(id) {
     this.position = mapManager.getStartPosition();
+    this.prevPosition = {column: -1, row: -1};
     this.id = id;   // Id of the player
 
     this.map = mapManager.getMap();
@@ -15,9 +16,6 @@ function TableTopPlayer(id) {
     this.centerX = this.map.mapLeft + this.map.tilesWidth / 2;
     this.centerY = this.map.mapTop + this.map.tilesHeight / 2;
     this.rotation = 0;
-
-    // param: player, column, row
-    mapManager.setPosition(this, id, id);
 
     //this.rememberResets();
 
@@ -70,8 +68,8 @@ TableTopPlayer.prototype.rememberResets = function () {
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
-  this.cx = this.position.row * this.map.tilesWidth  + this.centerX;
-  this.cy = this.position.column * this.map.tilesHeight + this.centerY;
+  this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
+  this.cy = this.position.row * this.map.tilesHeight + this.centerY;
 };
 
 // =====

@@ -23,7 +23,8 @@ function handleMouse(evt) {
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
 
-    entityManager._dice[0].roll();
+    if (!mapManager.someoneIsMoving && !entityManager._dice[0].isRolling)
+      entityManager._dice[0].roll();
 }
 
 // Handle "down" and "move" events the same way.

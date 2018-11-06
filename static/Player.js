@@ -87,7 +87,8 @@ Player.prototype.update = function (du) {
       networkManager.emit("position", {
         cx: this.cx,
         cy: this.cy,
-        rotation: this.rotation
+        tt_pos: this.tt_player.position,
+        rotation: this.rotation,
       })
     }
 };

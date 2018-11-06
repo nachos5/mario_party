@@ -145,11 +145,11 @@ function requestPreloads_images() {
 
         // Objects
         die1             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die2             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die3             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die4             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die5             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die6             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
+        die2             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed2.png",
+        die3             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed3.png",
+        die4             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed4.png",
+        die5             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed5.png",
+        die6             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed6.png",
 
         coin             : "static/assets/marioCoin.png",
         star             : "static/assets/marioStar.png",

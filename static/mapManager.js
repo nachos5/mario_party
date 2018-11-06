@@ -16,6 +16,7 @@ mapLeft : null,
 mapWidth : null,
 mapHeight : null,
 
+someoneIsMoving: false,
 // ============
 // LIST OF MAPS
 // ============
@@ -53,14 +54,81 @@ getStartPosition : function() {
 },
 
 getPosition : function(player) {
+  return player.position;
 },
 
-setPosition: function(player, column, row) {
-  player.position = {column: column, row: row};
+setPosition: function(player, pos) {
+  player.position = {row: pos.row, column: pos.column};
+},
+
+getPrevPosition : function(player) {
+  return player.prevPosition;
+},
+
+setPrevPosition: function(player, pos) {
+  player.prevPosition = {row: pos.row, column: pos.column};
 },
 
 unregisterPosition: function(entity) {
 
+},
+
+// diceThrow amount of steps on the map
+steps: function(player, diceThrow) {
+  this.someoneIsMoving = true;
+  let i = diceThrow;
+  const time = 1000;
+  const self = this;
+  const interval = setInterval(function() {
+    const pos = self.getPosition(player);
+    const validTile = self.checkForNextValidTiles(player, pos);
+    const prevPos = self.getPosition(player);
+    self.setPrevPosition(player, {column: prevPos.column, row: prevPos.row});
+    self.setPosition(player, {column: validTile.column, row: validTile.row});
+    i--;
+    if (i <= 0) {
+      self.someoneIsMoving = false;
+      clearInterval(interval);
+    }
+  }, time);
+},
+
+// checks for a valid tile to move to, and returns the position
+checkForNextValidTiles: function(player, pos) {
+  const row = pos.row,
+        col = pos.column;
+  const validTiles = [];
+  const tiles = this.currentMap.tiles;
+  const tile = tiles[pos.row][pos.column];
+
+  // find valid tiles
+  if (row < tiles.length && tiles[row + 1][col] != 0)
+    validTiles.push({row: row + 1, column: col});
+  if (row > 0 && tiles[row - 1][col] != 0)
+    validTiles.push({row: row - 1, column: col});
+  if (col < tiles.length && tiles[row][col + 1] != 0)
+    validTiles.push({row: row, column: col + 1});
+  if (col > 0 && tiles[row][col - 1] != 0)
+    validTiles.push({row: row, column: col - 1});
+
+  // keep track of the length
+    let len = validTiles.length;
+
+  /* we don't want to back backwards if there are multiple options so we check
+     if prev position is in validTiles */
+  if (len > 1) {
+    const prevPos = player.prevPosition;
+    let obj = validTiles.find(obj => obj.row == prevPos.row && obj.column == prevPos.column);
+    if (obj != undefined)  {
+      const i = validTiles.indexOf(obj);
+      validTiles.splice(i, 1);
+      len--;
+    }
+  }
+
+  // get 1 random tile from the valid tiles
+  const rand = parseInt(Math.random() * len);
+  return validTiles[rand];
 },
 
 render: function(ctx) {
