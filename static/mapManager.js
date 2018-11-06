@@ -36,8 +36,9 @@ loadMap : function(map) {
     // Map variables
     this.mapTop     = this.currentMap.mapTop;                    // Top
     this.mapRight   = this.currentMap.mapRight;                  // Right
-    this.mapDown    = this.currentMap.mapDown;                   // Down
-    this.mapleft    = this.currentMap.mapLeft;                   // Left
+    this.mapBot     = this.currentMap.mapBot;                    // Bot
+    this.mapLeft    = this.currentMap.mapLeft;                   // Left
+
     this.mapWidth   = this.currentMap.mapRight - this.mapLeft;   // Width
     this.mapHeight  = this.currentMap.mapBot - this.mapTop;      // Height
 

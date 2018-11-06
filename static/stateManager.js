@@ -4,7 +4,8 @@ let stateManager = {
   curr_player: null, // enable access to current player
   curr_player_index: 0, // we iterate through the players
   rounds_remaining: 10,
-  dice_room: 0,
+  game_room: 0,
+  score_room: 0,
 
   // first player starts his turn
   init: function() {
@@ -13,7 +14,8 @@ let stateManager = {
     this.curr_player = players[0];
     this.curr_player.tt_player.myTurn = true;
 
-    this.dice_room = new GameRoom();
+    this.game_room = new GameRoom();
+    this.score_room = new ScoreRoom();
   },
 
   nextTurn: function() {
@@ -30,7 +32,8 @@ let stateManager = {
   },
 
   render: function(ctx) {
-      this.dice_room.render(ctx);
+    this.game_room.render(ctx);
+    this.score_room.render(ctx);
   },
 
 }
