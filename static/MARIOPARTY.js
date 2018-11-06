@@ -40,6 +40,7 @@ function gatherInputs() {
 
 function updateSimulation(du) {
     processDiagnostics();
+    stateManager.update(du);
     entityManager.update(du);
 }
 
@@ -107,7 +108,7 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
 
     // Tester
-    //g_sprites.coinAni1.drawClipped(ctx, 500, 500)
+    //g_sprites.place1.drawClipped(ctx, 500, 500)
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -156,8 +157,9 @@ function requestPreloads_images() {
 
         coin             : "static/assets/marioCoin.png",
         coinAni          : "static/assets/marioCoinAnimation.png",
-        star             : "static/assets/marioRetroStar.png",
+        star             : "static/assets/marioStarHiRes.png",
         numbers          : "static/assets/marioNumbers.png",
+        place            : "static/assets/marioNumbers2.png",
         alph             : "static/assets/FontPixels.png",
     };
 
@@ -207,9 +209,9 @@ function preloadDone() {
 
     g_sprites.coinAni1          = new Sprite(g_images.coinAni, 55,   100, 0, 2, 50, 50);  // Frame 1
     g_sprites.coinAni2          = new Sprite(g_images.coinAni, 175,  100, 0, 2, 50, 50);  // Frame 2
-    g_sprites.coinAni3          = new Sprite(g_images.coinAni, 285,  100, 0, 2, 50, 50);  // Frame 3
-    g_sprites.coinAni4          = new Sprite(g_images.coinAni, 405,  100, 0, 2, 50, 50);  // Frame 4
-    g_sprites.coinAni5          = new Sprite(g_images.coinAni, 530,  100, 0, 2, 50, 50);  // Frame 5
+    g_sprites.coinAni3          = new Sprite(g_images.coinAni, 295,  100, 0, 2, 50, 50);  // Frame 3
+    g_sprites.coinAni4          = new Sprite(g_images.coinAni, 415,  100, 0, 2, 50, 50);  // Frame 4
+    g_sprites.coinAni5          = new Sprite(g_images.coinAni, 535,  100, 0, 2, 50, 50);  // Frame 5
     g_sprites.coinAni6          = new Sprite(g_images.coinAni, 655,  100, 0, 2, 50, 50);  // Frame 6
 
     g_sprites.coin              = new Sprite(g_images.coin);
@@ -265,7 +267,7 @@ function preloadDone() {
     entityManager.init();
     stateManager.init();
 
-
+    entityManager.sharedObjects();
     // play background music
     //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
 

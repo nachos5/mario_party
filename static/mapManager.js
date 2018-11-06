@@ -6,6 +6,7 @@ currentMap : null,
 startTile : { row : 0, column : 0 },
 scale : null,
 mapSprite : null,
+background: null,
 
 // Map dimensions
 mapTop : null,
@@ -30,6 +31,9 @@ loadMap : function(map) {
     this.currentMap = new MapMaker(map);
     this.scale = this.currentMap.scale;
 
+    // Create background
+    this.background = new Background();
+    this.background.render(ctx);
     // Render all tiles once
     this.currentMap.render(ctx);
 

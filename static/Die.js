@@ -81,5 +81,5 @@ Die.prototype.update = function() {
 }
 
 Die.prototype.render = function (ctx) {
-    this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0, this.scale);
+    this.sprite.drawTopLeftFixed(ctx, this.cx, this.cy, 0, 1, 1, this.width, this.height);
 };

@@ -11,9 +11,13 @@
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
+// ===========
+// CONSTRUCTOR
+//      BOOL = 1 - IS NORMAL
+//      BOOL = 2 - IS CLIPPED SQUARE
+//      BOOL = 1 - IS CLIPPED CIRCLE
+// ===========
 
-// Construct a "sprite" from the given `image`,
-//
 function Sprite(image, cx=0, cy=0, radius=0, bool=1, cWidth, cHeight) {
     this.image = image;
 
@@ -105,7 +109,11 @@ Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scal
     ctx.restore();
 };
 
-Sprite.prototype.drawBackground = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, width, height) {
+// ============================================
+// DRAW TOP LEFT FIXED - FIXED WIDTH AND HEIGHT
+// ============================================
+
+Sprite.prototype.drawTopLeftFixed = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, width, height) {
     ctx.save();
     // Center of the sprite
     ctx.translate(cx, cy);
@@ -118,6 +126,10 @@ Sprite.prototype.drawBackground = function (ctx, cx, cy, rotation=0, scaleX=1, s
 
     ctx.restore();
 };
+
+// ==================================
+// DRAW TILE - SQUARE, CLIPPED OBJECT
+// ==================================
 
 Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
     ctx.save();
@@ -136,6 +148,10 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
     ctx.restore();
 };
 
+// ============
+// DRAW CLIPPED 
+// ============
+
 Sprite.prototype.drawClipped = function (ctx, x, y, rotation=0, scaleX=1, scaleY=1) {
     ctx.save();
     let cW = this.clipWidth * 2;
@@ -153,6 +169,10 @@ Sprite.prototype.drawClipped = function (ctx, x, y, rotation=0, scaleX=1, scaleY
 
     ctx.restore();
 };
+
+// ========================================================
+// DRAW CLIP TOP LEFT FIXED - WITH A FIXED WIDTH AND HEIGHT
+// ========================================================
 
 Sprite.prototype.drawClipTopLeftFixed = function (ctx, x, y, rotation, width, height, scaleX=1, scaleY=1) {
     ctx.save();

@@ -32,6 +32,12 @@ _ttplayers: [], // tabletop players
 _dice: [],
 _event: [],
 
+// Shared data from stateManager
+_gameRoomcx: null,
+_gameRoomcy: null,
+_gameRoomBrickWidth: null,
+_gameRoomBrickHeight: null,
+
 // "PRIVATE" METHODS
 
 _forEachOf: function(aCategory, fn) {
@@ -63,20 +69,99 @@ init: function() {
     cx: cx,
     cy: cy,
     id: 'myplayer',
-    my_player: true
+    my_player: true,
+
+    // Added
+    stars: 0,
+    coins: 0,
+    playerId: 1
   });
 
-  this.generateDie({
-    cx: cx,
-    cy: cy
+    // generate my player
+    this.generatePlayer({
+        cx: cx,
+        cy: cy,
+        id: 'testp2',
+        my_player: true,
+
+        // Added
+        stars: 3,
+        coins: 9,
+        playerId: 2
   });
+
+    // generate my player
+    this.generatePlayer({
+        cx: cx,
+        cy: cy,
+        id: 'testp3',
+        my_player: true,
+
+        // Added
+        stars: 3,
+        coins: 57,
+        playerId: 3
+    });
+
+    // generate my player
+    this.generatePlayer({
+        cx: cx,
+        cy: cy,
+        id: 'testp4',
+        my_player: true,
+
+        // Added
+        stars: 9,
+        coins: 99,
+        playerId: 4
+    });
+
+    // generate my player
+    this.generatePlayer({
+        cx: cx,
+        cy: cy,
+        id: 'testp5',
+        my_player: true,
+
+        // Added
+        stars: 4,
+        coins: 0,
+        playerId: 5
+    });
 
   // let the server know that a new player has joined the game
   networkManager.emit('new player');
 },
 
+// Initialize shared objects
+sharedObjects: function() {
+    this.getData();
+
+    this.generateDie({
+        cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 4),
+        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 4),
+        width: this._gameRoomBrickWidth,
+        height: this._gameRoomBrickHeight
+      });
+},
+
+// ========
+// GET DATA
+// ========
+
+// Get data from other managers
+getData: function() {
+
+    // stateMangager -> GameRoom
+    this._gameRoomcx = stateManager.game_room.cx;
+    this._gameRoomcy = stateManager.game_room.cy;
+    this._gameRoomBrickWidth  = stateManager.game_room.brick.width * stateManager.game_room.brickScaleX;
+    this._gameRoomBrickHeight = stateManager.game_room.brick.height * stateManager.game_room.brickScaleY;
+},
+
 generatePlayer: function(descr) {
     this._players.push(new Player(descr));
+    stateManager.newPlayer(this._players[this._players.length - 1]);
 },
 
 generateDie: function(descr) {
