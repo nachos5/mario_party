@@ -23,16 +23,16 @@ function MapMaker(map) {
     // Pixels for all tiles
     let mapLength = tileLength * this.mapWidth;
     // Padding
-    let padding = 0;
-    let paddingPercent = 0;
+    this.padding = 0;
+    let paddingPercent = 0.1;
     // Scale according to the smaller pixel size of the width or height of the canvas
     if(g_canvas.width > g_canvas.height) {
-        padding = g_canvas.height * paddingPercent
-        this.scale = (g_canvas.height - padding) / mapLength;
+        this.padding = g_canvas.height * paddingPercent
+        this.scale = (g_canvas.height - this.padding) / mapLength;
     }
     else { 
-        padding = g_canvas.width * paddingPercent
-        this.scale = (g_canvas.width - padding) / mapLength;
+        this.padding = g_canvas.width * paddingPercent
+        this.scale = (g_canvas.width - this.padding) / mapLength;
     }
 
     // Space between tiles
@@ -59,11 +59,6 @@ function MapMaker(map) {
     this.offsetH = 0.5 * this.tilesHeight;  // + 0.5 * this.tilesWidth for correct mapLeft
 
     this.itemScale       = 0.75;  // Scale items on vanilla tile (e.g. pipes)
-    // Background
-    this.centerX = (this.mapRight - this.mapLeft)/2 + this.mapLeft;
-    this.centerY = (this.mapBot - this.mapTop)/2 + this.mapTop;
-    if(g_sprites.background1.width > g_sprites.background1.height) { this.backgroundScale = mapLength / g_sprites.background1.height }
-    else {this.backgroundScale = mapLength / g_sprites.background1.width }
 
     // ============
     // TILE SPRITES
@@ -171,12 +166,6 @@ MapMaker.prototype.renderGrid = function(ctx) {
 };
 
 MapMaker.prototype.render = function(ctx) {
-
-    // Background
-    let backW = this.mapRight - this.mapLeft;
-    let backH = this.mapBot - this.mapTop;
-    g_sprites.background1.drawBackground(ctx, this.mapLeft, this.mapTop, 0, 1, 1, backW, backH);
-
     // Render all tiles on the map
     for(let i = 0; i < this.tiles.length; i++) {
         for(let j = 0; j < this.tiles[i].length; j++) {
