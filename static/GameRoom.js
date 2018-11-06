@@ -8,6 +8,7 @@ function GameRoom() {
     this.brick   = g_sprites.brickBlock;
     this.pipe    = g_sprites.backBluePipe;
     this.altPipe = g_sprites.backYellowPipe;
+    // Numbers
     this.number1 = g_sprites.number1;
     this.number2 = g_sprites.number2;
     this.number3 = g_sprites.number3;
@@ -17,7 +18,7 @@ function GameRoom() {
     this.number7 = g_sprites.number7;
     this.number8 = g_sprites.number8;
     this.number9 = g_sprites.number9;
-
+    // Alphabet
     this.alphA = g_sprites.alphA;
     this.alphB = g_sprites.alphB;
     this.alphC = g_sprites.alphC;
@@ -51,7 +52,7 @@ function GameRoom() {
 
     // Position
     this.cx = mapManager.mapRight;
-    this.cy = mapManager.mapTop;
+    this.cy = 0;
     // Wall size
     this.brickLength    = 9;
     this.brickHeight    = 16;

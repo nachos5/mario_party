@@ -106,6 +106,9 @@ function renderSimulation(ctx) {
     stateManager.render(ctx);
     entityManager.render(ctx);
 
+    // Tester
+    //g_sprites.coinAni1.drawClipped(ctx, 500, 500)
+
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
@@ -152,7 +155,8 @@ function requestPreloads_images() {
         die6             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
 
         coin             : "static/assets/marioCoin.png",
-        star             : "static/assets/marioStar.png",
+        coinAni          : "static/assets/marioCoinAnimation.png",
+        star             : "static/assets/marioRetroStar.png",
         numbers          : "static/assets/marioNumbers.png",
         alph             : "static/assets/FontPixels.png",
     };
@@ -200,6 +204,13 @@ function preloadDone() {
     g_sprites.die4              = new Sprite(g_images.die4);
     g_sprites.die5              = new Sprite(g_images.die5);
     g_sprites.die6              = new Sprite(g_images.die6);
+
+    g_sprites.coinAni1          = new Sprite(g_images.coinAni, 55,   100, 0, 2, 50, 50);  // Frame 1
+    g_sprites.coinAni2          = new Sprite(g_images.coinAni, 175,  100, 0, 2, 50, 50);  // Frame 2
+    g_sprites.coinAni3          = new Sprite(g_images.coinAni, 285,  100, 0, 2, 50, 50);  // Frame 3
+    g_sprites.coinAni4          = new Sprite(g_images.coinAni, 405,  100, 0, 2, 50, 50);  // Frame 4
+    g_sprites.coinAni5          = new Sprite(g_images.coinAni, 530,  100, 0, 2, 50, 50);  // Frame 5
+    g_sprites.coinAni6          = new Sprite(g_images.coinAni, 655,  100, 0, 2, 50, 50);  // Frame 6
 
     g_sprites.coin              = new Sprite(g_images.coin);
     g_sprites.star              = new Sprite(g_images.star);

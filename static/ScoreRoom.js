@@ -8,6 +8,16 @@ function ScoreRoom() {
     this.brick   = g_sprites.brickBlock;
     this.pipe    = g_sprites.backGreenPipe;
     this.altPipe = g_sprites.backRedPipe;
+    // Star
+    this.star  = g_sprites.star;
+    // Coin
+    this.coin1 = g_sprites.coinAni1;
+    this.coin2 = g_sprites.coinAni2;
+    this.coin3 = g_sprites.coinAni3;
+    this.coin4 = g_sprites.coinAni4;
+    this.coin5 = g_sprites.coinAni5;
+    this.coin6 = g_sprites.coinAni6;
+    // Numbers
     this.number1 = g_sprites.number1;
     this.number2 = g_sprites.number2;
     this.number3 = g_sprites.number3;
@@ -17,7 +27,7 @@ function ScoreRoom() {
     this.number7 = g_sprites.number7;
     this.number8 = g_sprites.number8;
     this.number9 = g_sprites.number9;
-
+    // Alphabet
     this.alphA = g_sprites.alphA;
     this.alphB = g_sprites.alphB;
     this.alphC = g_sprites.alphC;
@@ -127,4 +137,11 @@ ScoreRoom.prototype.render = function(ctx) {
         this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+1) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
         
     }
+
+    // Coin animation
+    for(let i = 1; i <= 6; i++) {
+        this['coin'+[i]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * i * this.brickScaleX), this.cy + (this.brick.height * 3 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    }
+
+    //this.star.drawBackground(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 4 * this.brickScaleY), 0, 1, 1,        (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY));
 };
