@@ -154,6 +154,7 @@ function requestPreloads_images() {
         coin             : "static/assets/marioCoin.png",
         star             : "static/assets/marioStar.png",
         numbers          : "static/assets/marioNumbers.png",
+        alph             : "static/assets/FontPixels.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -206,7 +207,6 @@ function preloadDone() {
     // Numbers
     g_sprites.number0           = new Sprite(g_images.numbers, 50,  195, 0, 2, 50, 55);  // 0
     g_sprites.number1           = new Sprite(g_images.numbers, 140, 195, 0, 2, 38, 55);  // 1
-
     g_sprites.number2           = new Sprite(g_images.numbers, 225, 195, 0, 2, 45, 55);  // 2
     g_sprites.number3           = new Sprite(g_images.numbers, 315, 195, 0, 2, 45, 55);  // 3
     g_sprites.number4           = new Sprite(g_images.numbers, 405, 195, 0, 2, 45, 55);  // 4
@@ -216,7 +216,39 @@ function preloadDone() {
     g_sprites.number8           = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 55);  // 8
     g_sprites.number9           = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 55);  // 9
 
-    console.log(g_sprites.number1);
+    // Alphabet
+    g_sprites.alphA           = new Sprite(g_images.alph, 35,   37, 0, 2, 25, 40);  // A
+    g_sprites.alphB           = new Sprite(g_images.alph, 85,   37, 0, 2, 25, 40);  // B
+    g_sprites.alphC           = new Sprite(g_images.alph, 135,  37, 0, 2, 25, 40);  // C
+    g_sprites.alphD           = new Sprite(g_images.alph, 185,  37, 0, 2, 25, 40);  // D
+    g_sprites.alphE           = new Sprite(g_images.alph, 235,  37, 0, 2, 25, 40);  // E
+    g_sprites.alphF           = new Sprite(g_images.alph, 286,  37, 0, 2, 25, 40);  // F
+    g_sprites.alphG           = new Sprite(g_images.alph, 337,  37, 0, 2, 25, 40);  // G
+    g_sprites.alphH           = new Sprite(g_images.alph, 388,  37, 0, 2, 25, 40);  // H
+    g_sprites.alphI           = new Sprite(g_images.alph, 440,  37, 0, 2, 25, 40);  // I
+
+    g_sprites.alphJ           = new Sprite(g_images.alph, 35,  125, 0, 2, 25, 40);  // J
+    g_sprites.alphK           = new Sprite(g_images.alph, 85,  125, 0, 2, 25, 40);  // K
+    g_sprites.alphL           = new Sprite(g_images.alph, 135, 125, 0, 2, 25, 40);  // L
+    g_sprites.alphM           = new Sprite(g_images.alph, 185, 125, 0, 2, 25, 40);  // M
+    g_sprites.alphN           = new Sprite(g_images.alph, 235, 125, 0, 2, 25, 40);  // N
+    g_sprites.alphO           = new Sprite(g_images.alph, 286, 125, 0, 2, 25, 40);  // O
+    g_sprites.alphP           = new Sprite(g_images.alph, 337, 125, 0, 2, 25, 40);  // P
+    g_sprites.alphQ           = new Sprite(g_images.alph, 388, 125, 0, 2, 25, 40);  // Q
+    g_sprites.alphR           = new Sprite(g_images.alph, 440, 125, 0, 2, 25, 40);  // R
+    g_sprites.alphQmark       = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 40);  // ?
+
+    g_sprites.alphS           = new Sprite(g_images.alph, 35,  211, 0, 2, 25, 40);  // S
+    g_sprites.alphT           = new Sprite(g_images.alph, 85,  211, 0, 2, 25, 40);  // T
+    g_sprites.alphU           = new Sprite(g_images.alph, 135, 211, 0, 2, 25, 40);  // U
+    g_sprites.alphV           = new Sprite(g_images.alph, 185, 211, 0, 2, 25, 40);  // V
+    g_sprites.alphW           = new Sprite(g_images.alph, 237, 211, 0, 2, 25, 40);  // W
+    g_sprites.alphX           = new Sprite(g_images.alph, 287, 211, 0, 2, 25, 40);  // X
+    g_sprites.alphY           = new Sprite(g_images.alph, 339, 211, 0, 2, 25, 40);  // Y
+    g_sprites.alphZ           = new Sprite(g_images.alph, 389, 211, 0, 2, 25, 40);  // Z
+    g_sprites.alphDot         = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 40);  // .
+
+
 
     mapManager.init();
     entityManager.init();

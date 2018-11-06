@@ -18,15 +18,49 @@ function GameRoom() {
     this.number8 = g_sprites.number8;
     this.number9 = g_sprites.number9;
 
+    this.alphA = g_sprites.alphA;
+    this.alphB = g_sprites.alphB;
+    this.alphC = g_sprites.alphC;
+    this.alphD = g_sprites.alphD;
+    this.alphE = g_sprites.alphE;
+    this.alphF = g_sprites.alphF;
+    this.alphG = g_sprites.alphG;
+    this.alphH = g_sprites.alphH;
+    this.alphI = g_sprites.alphI;
+
+    this.alphJ     = g_sprites.alphJ;
+    this.alphK     = g_sprites.alphK;
+    this.alphL     = g_sprites.alphL;
+    this.alphM     = g_sprites.alphM;
+    this.alphN     = g_sprites.alphN;
+    this.alphO     = g_sprites.alphO;
+    this.alphP     = g_sprites.alphP;
+    this.alphQ     = g_sprites.alphQ;
+    this.alphR     = g_sprites.alphR;
+    this.alph1     = g_sprites.alphQmark;
+
+    this.alphS     = g_sprites.alphS;
+    this.alphT     = g_sprites.alphT;
+    this.alphU     = g_sprites.alphU;
+    this.alphV     = g_sprites.alphV;
+    this.alphW     = g_sprites.alphW;
+    this.alphX     = g_sprites.alphX;
+    this.alphY     = g_sprites.alphY;
+    this.alphZ     = g_sprites.alphZ;
+    this.alph2     = g_sprites.alphDot;
+
     // Position
     this.cx = mapManager.mapRight;
     this.cy = mapManager.mapTop;
     // Wall size
-    this.brickLength    = 6;
+    this.brickLength    = 9;
     this.brickHeight    = 16;
 
-    // Select number to display
+    // Select number and letter to display
     this.num = 6;
+    this.letter = 'P'
+    this.word = 'TURN';
+    this.wordLength = 4;
 
     // Calculation variables
     let mapScale     = mapManager.scale;
@@ -86,6 +120,12 @@ GameRoom.prototype.render = function(ctx) {
     /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (1  + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
-    // Text
-    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (this.brickLength - 2) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0, (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
+    // Word #
+    this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 1 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    for(let i = 0; i < this.wordLength; i++) {
+        let alph = this.word[i];
+        this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+4) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        
+    }
 };

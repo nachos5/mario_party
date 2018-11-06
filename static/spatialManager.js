@@ -66,7 +66,7 @@ findEntityInRange: function(posX, posY, radius) {
 
       // collision
       if (dist < threshold) {
-        console.log("COLLISION!");
+        //console.log("COLLISION!");
         return e.entity;
       }
     }

@@ -136,7 +136,7 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
     ctx.restore();
 };
 
-Sprite.prototype.drawClipped = function (ctx, x, y, rotation, scaleX=1, scaleY=1) {
+Sprite.prototype.drawClipped = function (ctx, x, y, rotation=0, scaleX=1, scaleY=1) {
     ctx.save();
     let cW = this.clipWidth * 2;
     let cH = this.clipHeight * 2;
