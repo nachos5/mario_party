@@ -57,6 +57,6 @@ networkManager.socket.on("position_server", function(player) {
     // set position
     obj.setPos(player.cx, player.cy);
     // set tabletop position
-    mapManager.setPosition(obj.tt_player, player.tt_pos.column, player.tt_pos.row);
+    mapManager.setPosition(obj.tt_player, {row: player.tt_pos.row, column: player.tt_pos.column});
   } catch(e) {}
 });
