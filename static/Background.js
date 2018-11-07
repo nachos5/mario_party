@@ -7,7 +7,7 @@ function Background() {
     this.cy = mapManager.currentMap.mapTop;
 
     this.width = mapManager.currentMap.mapRight - mapManager.currentMap.mapLeft;
-    this.height = g_canvas;//mapManager.currentMap.mapBot - mapManager.currentMap.mapTop;
+    this.height = g_canvas.height;//mapManager.currentMap.mapBot - mapManager.currentMap.mapTop;
 
     this.sprite = g_sprites.background1;
     this.brick   = g_sprites.brickBlock;
@@ -18,9 +18,9 @@ function Background() {
     // Calculation variables
     this.wallWidth   = this.brick.width * this.brickLength;
     this.wallHeight  = this.brick.height * this.brickHeight;
-        
+
     this.padding     = this.width * 0;
-    
+
     // Scales
     this.brickScaleX  = this.width  / this.wallWidth;
     this.brickScaleY  = this.height / this.wallHeight;

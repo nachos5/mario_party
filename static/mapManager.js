@@ -93,6 +93,10 @@ steps: function(player, diceThrow) {
     i--;
     if (i <= 0) {
       self.someoneIsMoving = false;
+      // we are ready to handle events
+      stateManager.handleEvents();
+      // let the server know so he can let all other players know
+      networkManager.socket.emit('next_turn');
       clearInterval(interval);
     }
   }, time);

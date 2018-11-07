@@ -64,70 +64,17 @@ init: function() {
   const cx = 200,
         cy = 200;
 
-  // generate my player
-  this.generatePlayer({
+  entityManager.generatePlayer({
     cx: cx,
     cy: cy,
-    id: 'myplayer',
+    socket_id: networkManager.player_info.socket_id,
     my_player: true,
 
     // Added
     stars: 0,
     coins: 0,
-    playerId: 1
+    player_id: networkManager.player_info.player_id
   });
-
-    // generate my player
-    this.generatePlayer({
-        cx: cx,
-        cy: cy,
-        id: 'testp2',
-        my_player: true,
-
-        // Added
-        stars: 3,
-        coins: 9,
-        playerId: 2
-  });
-
-    // generate my player
-    this.generatePlayer({
-        cx: cx,
-        cy: cy,
-        id: 'testp3',
-        my_player: true,
-
-        // Added
-        stars: 3,
-        coins: 57,
-        playerId: 3
-    });
-
-    // generate my player
-    this.generatePlayer({
-        cx: cx,
-        cy: cy,
-        id: 'testp4',
-        my_player: true,
-
-        // Added
-        stars: 9,
-        coins: 99,
-        playerId: 4
-    });
-
-    // generate my player
-    this.generatePlayer({
-        cx: cx,
-        cy: cy,
-        id: 'testp5',
-        my_player: true,
-
-        // Added
-        stars: 4,
-        coins: 0,
-        playerId: 5
-    });
 
   // let the server know that a new player has joined the game
   networkManager.emit('new player');
@@ -161,7 +108,6 @@ getData: function() {
 
 generatePlayer: function(descr) {
     this._players.push(new Player(descr));
-    stateManager.newPlayer(this._players[this._players.length - 1]);
 },
 
 generateDie: function(descr) {

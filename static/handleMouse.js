@@ -23,8 +23,12 @@ function handleMouse(evt) {
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
 
-    if (!mapManager.someoneIsMoving && !entityManager._dice[0].isRolling)
-      entityManager._dice[0].roll();
+    // can only roll if our player is the current player & nobody is moving & die is not rolling
+    if (!mapManager.someoneIsMoving && !entityManager._dice[0].isRolling &&
+        stateManager.curr_player.my_player) {
+          entityManager._dice[0].roll();
+        }
+
 }
 
 // Handle "down" and "move" events the same way.

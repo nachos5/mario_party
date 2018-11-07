@@ -167,7 +167,15 @@ function requestPreloads_images() {
 }
 
 function requestPreloads_audio() {
-  audioManager.preloadAll(preloadDone);
+  audioManager.preloadAll(waitForServerResponse);
+}
+
+function waitForServerResponse() {
+  // we wait until the server sends us required information about our player
+  while (networkManager.player_info.socket_id == -1 &&
+         networkManager.player_info.player_id == -1) {};
+
+  preloadDone();
 }
 
 var g_sprites = {};
@@ -261,17 +269,26 @@ function preloadDone() {
     g_sprites.alphZ           = new Sprite(g_images.alph, 389, 211, 0, 2, 25, 40);  // Z
     g_sprites.alphDot         = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 40);  // .
 
-
-
     mapManager.init();
     entityManager.init();
-    stateManager.init();
 
-    entityManager.sharedObjects();
-    // play background music
-    //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
+    /* if we have no existing players we go straight to this function, else we
+       go to it when we have loaded in the existing players (from the network manager) */
+    if (!networkManager.player_info.existing_players) {
+      preloadDoneNext();
+    }
+    else {
+      networkManager.next = preloadDoneNext;
+    }
 
-    main.init();
+}
+
+function preloadDoneNext() {
+  stateManager.init();
+  entityManager.sharedObjects();
+  // play background music
+  //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
+  main.init();
 }
 
 requestPreloads_images();

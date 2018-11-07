@@ -27,27 +27,43 @@ server.listen(port, function() {
   console.log('Starting server');
 });
 
+// store our players in an object
 let players = {};
+// keep track of the id of each player (not socket id, used in game logic stuff)
+let player_id = 1;
 
 // Add the WebSocket handlers
 io.on('connection', function(socket) {
+  // we check for existing players
+  const e_players = Object.keys(players).length > 0;
+
+  // add to our players array
+  players[socket.id] = {socket_id: socket.id, player_id: player_id, existing_players: e_players};
+  // let our socket know that we are ready to spawn
+  socket.emit('my player', players[socket.id]);
+  player_id++;
+
   // a new player has joined the game
   socket.on('new player', function() {
     console.log('a new player has joined the server' + ' ' + socket.id);
     // if existing players we emit to the sender (to create the player objects)
-    if (Object.keys(players).length > 0) {
-      socket.emit('existingPlayers', players);
+    if (e_players) {
+      socket.emit('existingPlayers', {players: players, my_socket_id: socket.id});
     }
-    // add to our players array
-    players[socket.id] = socket.id;
+
     // send to all clients except sender
-    socket.broadcast.emit('new_player', socket.id);
+    socket.broadcast.emit('new_player', players[socket.id]);
   });
 
   // send to all clients except sender
   socket.on('position', function(data) {
-    data.id = socket.id;
+    data.socket_id = socket.id;
     socket.broadcast.emit('position_server', data);
+  });
+
+  // send to all clients except sender that we are ready for the next turn
+  socket.on('next_turn', function() {
+    socket.broadcast.emit('next_turn_server');
   });
 
   socket.on('disconnect', function() {

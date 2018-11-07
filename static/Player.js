@@ -26,8 +26,7 @@ function Player(descr) {
     this._scale = 1;
 
     // new tabletop player
-    this.tt_player = new TableTopPlayer(player_no);
-    player_no++;
+    this.tt_player = new TableTopPlayer(this.player_id);
     entityManager._ttplayers.push(this.tt_player); // store in entity manager
     //mapManager.setPosition(this.tt_player);
 };
