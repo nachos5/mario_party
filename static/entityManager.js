@@ -94,8 +94,8 @@ sharedObjects: function() {
     this.generateEventBlocks({
       brickWidth: this._gameRoomBrickWidth,
       brickHeight: this._gameRoomBrickHeight,
-      x: this._gameRoomcx, //+ (this._gameRoomBrickWidth  * 2.5),
-      y: this._gameRoomcy, //+ (this._gameRoomBrickHeight * 18),
+      x: this._gameRoomcx,
+      y: this._gameRoomcy,
       width: this._gameRoomBrickWidth * 2,
       height: this._gameRoomBrickHeight* 2
     });

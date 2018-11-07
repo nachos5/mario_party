@@ -44,7 +44,7 @@ Die.prototype.side_sprite = function(value) {
   }
 }
 
-// random number from 1-6
+// random number from 1-10
 Die.prototype.rand = function() {
   return parseInt(Math.random() * 10) + 1;
 }
