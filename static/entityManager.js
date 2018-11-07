@@ -128,8 +128,8 @@ getDie: function() {
   return this._dice[0];
 },
 
-generateEventBlock: function(descr) {
-    this._eventBlock.push(new EventBlock(descr));
+generateEventBlocks: function(descr) {
+    this._eventBlocks.push(new EventBlocks(descr));
 },
 
 resetPlayers: function() {
