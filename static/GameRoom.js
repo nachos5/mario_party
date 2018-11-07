@@ -50,8 +50,7 @@ function GameRoom() {
     this.alphZ = g_sprites.alphZ;
     this.alph2 = g_sprites.alphDot;
 
-    // Animation toggle
-    this.animation = false;
+    // Animation
     this.pipeIter = 0;
     this.pipePos = 10;
     // Position
@@ -91,7 +90,7 @@ function GameRoom() {
 };
 
 GameRoom.prototype.update = function(du) {
-  if (this.animation) {
+  if (g_useAnimation) {
       // Coin animation
       // Swap frames every 10th frame
       if (this.pipeIter % 6 == 0) {
