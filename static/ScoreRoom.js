@@ -71,7 +71,7 @@ function ScoreRoom() {
     this.cy = 0;
     // Wall size
     this.brickLength    = 13;
-    this.brickHeight    = 16;
+    this.brickHeight    = 20;
 
     // Select number and letter to display
     this.num = 6;

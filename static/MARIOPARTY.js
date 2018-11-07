@@ -148,13 +148,18 @@ function requestPreloads_images() {
         yellowPlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Yellow)/pieceYellow_border01.png",
 
         // Objects
-        die1             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed1.png",
-        die2             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed2.png",
-        die3             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed3.png",
-        die4             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed4.png",
-        die5             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed5.png",
-        die6             : "static/assets/boardgamePack_v2/PNG/Dice/dieRed6.png",
+        die1             : "static/assets/diceBlock1.png",
+        die2             : "static/assets/diceBlock2.png",
+        die3             : "static/assets/diceBlock3.png",
+        die4             : "static/assets/diceBlock4.png",
+        die5             : "static/assets/diceBlock5.png",
+        die6             : "static/assets/diceBlock6.png",
+        die7             : "static/assets/diceBlock7.png",
+        die8             : "static/assets/diceBlock8.png",
+        die9             : "static/assets/diceBlock9.png",
+        die10            : "static/assets/diceBlock10.png",
 
+        eventBlock       : "static/assets/marioBlock.png",
         coin             : "static/assets/marioCoin.png",
         coinAni          : "static/assets/marioCoinAnimation.png",
         star             : "static/assets/marioStarHiRes.png",
@@ -208,13 +213,19 @@ function preloadDone() {
     g_sprites.yellowPlayer      = new Sprite(g_images.yellowPlayer);
 
     // Objects
+    // Dice
     g_sprites.die1              = new Sprite(g_images.die1);
     g_sprites.die2              = new Sprite(g_images.die2);
     g_sprites.die3              = new Sprite(g_images.die3);
     g_sprites.die4              = new Sprite(g_images.die4);
     g_sprites.die5              = new Sprite(g_images.die5);
     g_sprites.die6              = new Sprite(g_images.die6);
+    g_sprites.die7              = new Sprite(g_images.die7);
+    g_sprites.die8              = new Sprite(g_images.die8);
+    g_sprites.die9              = new Sprite(g_images.die9);
+    g_sprites.die10             = new Sprite(g_images.die10);
 
+    // Coin Animated
     g_sprites.coinAni1          = new Sprite(g_images.coinAni, 55,   100, 0, 2, 50, 50);  // Frame 1
     g_sprites.coinAni2          = new Sprite(g_images.coinAni, 175,  100, 0, 2, 50, 50);  // Frame 2
     g_sprites.coinAni3          = new Sprite(g_images.coinAni, 295,  100, 0, 2, 50, 50);  // Frame 3
@@ -224,6 +235,7 @@ function preloadDone() {
 
     g_sprites.coin              = new Sprite(g_images.coin);
     g_sprites.star              = new Sprite(g_images.star);
+    g_sprites.eventBlock        = new Sprite(g_images.eventBlock);
 
     // Numbers
     g_sprites.number0           = new Sprite(g_images.numbers, 50,  195, 0, 2, 50, 55);  // 0

@@ -33,12 +33,20 @@ Die.prototype.side_sprite = function(value) {
       this.sprite = g_sprites.die5; break;
     case 6:
       this.sprite = g_sprites.die6; break;
+    case 7:
+      this.sprite = g_sprites.die7; break;
+    case 8:
+      this.sprite = g_sprites.die8; break;
+    case 9:
+      this.sprite = g_sprites.die9; break;
+    case 10:
+      this.sprite = g_sprites.die10; break;
   }
 }
 
 // random number from 1-6
 Die.prototype.rand = function() {
-  return parseInt(Math.random() * 6) + 1;
+  return parseInt(Math.random() * 10) + 1;
 }
 
 Die.prototype.currRand = 0;

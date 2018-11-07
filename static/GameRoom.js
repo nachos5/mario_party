@@ -5,9 +5,9 @@
 function GameRoom() {
 
     // Sprites
-    this.brick   = g_sprites.brickBlock;
-    this.pipe    = g_sprites.backBluePipe;
-    this.altPipe = g_sprites.backYellowPipe;
+    this.brick      = g_sprites.brickBlock;
+    this.pipe       = g_sprites.backBluePipe;
+    this.altPipe    = g_sprites.backYellowPipe;
     // Numbers
     this.number1 = g_sprites.number1;
     this.number2 = g_sprites.number2;
@@ -29,33 +29,33 @@ function GameRoom() {
     this.alphH = g_sprites.alphH;
     this.alphI = g_sprites.alphI;
 
-    this.alphJ     = g_sprites.alphJ;
-    this.alphK     = g_sprites.alphK;
-    this.alphL     = g_sprites.alphL;
-    this.alphM     = g_sprites.alphM;
-    this.alphN     = g_sprites.alphN;
-    this.alphO     = g_sprites.alphO;
-    this.alphP     = g_sprites.alphP;
-    this.alphQ     = g_sprites.alphQ;
-    this.alphR     = g_sprites.alphR;
-    this.alph1     = g_sprites.alphQmark;
+    this.alphJ = g_sprites.alphJ;
+    this.alphK = g_sprites.alphK;
+    this.alphL = g_sprites.alphL;
+    this.alphM = g_sprites.alphM;
+    this.alphN = g_sprites.alphN;
+    this.alphO = g_sprites.alphO;
+    this.alphP = g_sprites.alphP;
+    this.alphQ = g_sprites.alphQ;
+    this.alphR = g_sprites.alphR;
+    this.alph1 = g_sprites.alphQmark;
 
-    this.alphS     = g_sprites.alphS;
-    this.alphT     = g_sprites.alphT;
-    this.alphU     = g_sprites.alphU;
-    this.alphV     = g_sprites.alphV;
-    this.alphW     = g_sprites.alphW;
-    this.alphX     = g_sprites.alphX;
-    this.alphY     = g_sprites.alphY;
-    this.alphZ     = g_sprites.alphZ;
-    this.alph2     = g_sprites.alphDot;
+    this.alphS = g_sprites.alphS;
+    this.alphT = g_sprites.alphT;
+    this.alphU = g_sprites.alphU;
+    this.alphV = g_sprites.alphV;
+    this.alphW = g_sprites.alphW;
+    this.alphX = g_sprites.alphX;
+    this.alphY = g_sprites.alphY;
+    this.alphZ = g_sprites.alphZ;
+    this.alph2 = g_sprites.alphDot;
 
     // Position
     this.cx = mapManager.mapRight;
     this.cy = 0;
     // Wall size
-    this.brickLength    = 9;
-    this.brickHeight    = 16;
+    this.brickLength    = 12;
+    this.brickHeight    = 24;
 
     // Select number and letter to display
     this.num = 6;
@@ -123,11 +123,11 @@ GameRoom.prototype.render = function(ctx) {
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // Word #
-    this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 1 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 3 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {
         let alph = this.word[i];
-        this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+4) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+6) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
 
     }
 };
