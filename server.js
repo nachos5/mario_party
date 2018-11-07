@@ -66,6 +66,11 @@ io.on('connection', function(socket) {
     socket.broadcast.emit('next_turn_server');
   });
 
+  // send to all clients except sender the state of the die
+  socket.on('die_sprite', function(rand) {
+    socket.broadcast.emit('die_sprite_server', rand);
+  })
+
   socket.on('disconnect', function() {
     console.log("player " + socket.id + " has disconnected");
     // remove from players array

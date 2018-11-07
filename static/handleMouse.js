@@ -24,9 +24,9 @@ function handleMouse(evt) {
     if (!button) return;
 
     // can only roll if our player is the current player & nobody is moving & die is not rolling
-    if (!mapManager.someoneIsMoving && !entityManager._dice[0].isRolling &&
+    if (!mapManager.someoneIsMoving && !entityManager.getDie().isRolling &&
         stateManager.curr_player.my_player) {
-          entityManager._dice[0].roll();
+          entityManager.getDie().roll();
         }
 
 }

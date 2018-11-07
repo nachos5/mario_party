@@ -64,6 +64,8 @@ Die.prototype.roll = function() {
   const timeout = setTimeout(function() {
     self.isRolling = false;
     self.side_sprite(diceThrow); // we display the correct side
+    // emit to the server
+    networkManager.socket.emit("die_sprite", diceThrow);
     self.rollIter = 0;
     mapManager.steps(curr_player, diceThrow);
     clearTimeout(timeout);
@@ -85,6 +87,9 @@ Die.prototype.update = function() {
     }
 
     this.rollIter++;
+
+    // emit to the server
+    networkManager.socket.emit("die_sprite", this.currRand);
   }
 }
 

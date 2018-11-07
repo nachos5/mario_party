@@ -91,3 +91,8 @@ networkManager.socket.on("next_turn_server", function() {
   // we handle events first
   stateManager.handleEvents();
 });
+
+// change the sprite of the die
+networkManager.socket.on("die_sprite_server", function(rand) {
+  entityManager.getDie().side_sprite(rand);
+});

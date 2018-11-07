@@ -135,6 +135,11 @@ generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },
 
+// returns the first die
+getDie: function() {
+  return this._dice[0];
+},
+
 generateEventBlock: function(descr) {
     this._eventBlock.push(new EventBlock(descr));
 },

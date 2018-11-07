@@ -1,4 +1,4 @@
-// GENERIC UPDATE LOGIC
+ // GENERIC UPDATE LOGIC
 
 // The "nominal interval" is the one that all of our time-based units are
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"
@@ -19,9 +19,6 @@ var g_isUpdateOdd = false;
 
 
 function update(dt) {
-    console.log(stateManager.curr_player.player_id);
-    //console.log(stateManager.no_players);
-    //console.log(entityManager._players)
     // Get out if skipping (e.g. due to pause-mode)
     //
     if (shouldSkipUpdate()) {
