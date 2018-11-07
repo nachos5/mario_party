@@ -27,34 +27,32 @@ function TableTopPlayer(id) {
 
     switch(this.id) {
         case 0:
-            player = g_sprites.blackPlayer;
+            player = g_sprites.mario;
             break;
         case 1:
-            player = g_sprites.bluePlayer;
+            player = g_sprites.luigi;
             break;
         case 2:
-            player = g_sprites.greenPlayer;
+            player = g_sprites.pinkPeach;
             break;
         case 3:
-            player = g_sprites.purplePlayer;
+            player = g_sprites.yoshi;
             break;
         case 4:
-            player = g_sprites.redPlayer;
+            player = g_sprites.wario;
             break;
         case 5:
-            player = g_sprites.whitePlayer;
+            player = g_sprites.yellowPeach;
             break;
         case 6:
-            player = g_sprites.yellowPlayer;
+            player = g_sprites.waluigi;
             break;
     }
     this.sprite = player;
 
-    // Scale down sprite to tile size
-    if(this.sprite.width > this.sprite.height) { this.scale = this.map.tilesWidth / this.sprite.width }
-    else { this.scale = this.map.tilesHeight / this.sprite.height }
-
-    this.scale *= 0.8;  // 90% of tile size
+    let scale = 0.8;
+    this.width  = this.map.tilesWidth * scale;
+    this.height = this.map.tilesHeight * scale;
 };
 
 TableTopPlayer.prototype = new Entity();
@@ -85,5 +83,5 @@ TableTopPlayer.prototype.reset = function () {
 // ======
 
 TableTopPlayer.prototype.render = function (ctx) {
-    this.sprite.drawCentredAt(ctx, this.cx, this.cy, this.rotation, this.scale);
+    this.sprite.drawClipCentredAtFixed(ctx, this.cx, this.cy, this.rotation, this.width, this.height);
 };

@@ -30,7 +30,7 @@ var entityManager = {
 _players: [],
 _ttplayers: [], // tabletop players
 _dice: [],
-_eventBlock: [],
+_eventBlocks: [],
 
 // Shared data from stateManager
 _gameRoomcx: null,
@@ -57,7 +57,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlock];
+    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlocks];
 },
 
 init: function() {
@@ -86,28 +86,16 @@ sharedObjects: function() {
 
     this.generateDie({
         cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
-        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 4),
-        width: this._gameRoomBrickWidth * 2,
-        height: this._gameRoomBrickHeight* 2
+        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 5),
+        width: this._gameRoomBrickWidth * 3,
+        height: this._gameRoomBrickHeight* 3
       });
 
-    this.generateEventBlock({
-      cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 2),
-      cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
-      width: this._gameRoomBrickWidth * 2,
-      height: this._gameRoomBrickHeight* 2
-    });
-
-    this.generateEventBlock({
-        cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
-        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
-        width: this._gameRoomBrickWidth * 2,
-        height: this._gameRoomBrickHeight* 2
-    });
-
-    this.generateEventBlock({
-      cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 8),
-      cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
+    this.generateEventBlocks({
+      brickWidth: this._gameRoomBrickWidth,
+      brickHeight: this._gameRoomBrickHeight,
+      x: this._gameRoomcx, //+ (this._gameRoomBrickWidth  * 2.5),
+      y: this._gameRoomcy, //+ (this._gameRoomBrickHeight * 18),
       width: this._gameRoomBrickWidth * 2,
       height: this._gameRoomBrickHeight* 2
     });
