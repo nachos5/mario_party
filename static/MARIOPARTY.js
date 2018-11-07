@@ -52,6 +52,7 @@ var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 // New Boolean
 let g_useGrid = false;
+let g_useAnimation = false;
 
 var KEY_MIXED   = keyCode('M');;
 var KEY_GRAVITY = keyCode('G');
@@ -70,6 +71,7 @@ var KEY_K = keyCode('K');
 
 // New Keys
 let KEY_GRID = keyCode('F');
+let KEY_ANIMATION = keyCode('I');
 
 function processDiagnostics() {
 
@@ -84,6 +86,8 @@ function processDiagnostics() {
 
     // Grid
     if (eatKey(KEY_GRID)) g_useGrid = !g_useGrid;
+
+    if (eatKey(KEY_ANIMATION)) g_useAnimation = !g_useAnimation;
 }
 
 

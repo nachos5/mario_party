@@ -62,8 +62,7 @@ function ScoreRoom() {
     this.alphZ     = g_sprites.alphZ;
     this.alph2     = g_sprites.alphDot;
 
-    // Animation toggle
-    this.animation = true;
+    // Animation
     this.coinIter = 0;
     this.coinNum = 1;
     // Position
@@ -102,7 +101,7 @@ function ScoreRoom() {
 };
 
 ScoreRoom.prototype.update = function(du) {
-    if (this.animation) {
+    if (g_useAnimation) {
         // Coin animation
         // Swap frames every 10th frame
         if (this.coinIter % 6 == 0) {
