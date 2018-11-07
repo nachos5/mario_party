@@ -7,7 +7,7 @@ function Background() {
     this.cy = mapManager.currentMap.mapTop;
 
     this.width = mapManager.currentMap.mapRight - mapManager.currentMap.mapLeft;
-    this.height = g_canvas;//mapManager.currentMap.mapBot - mapManager.currentMap.mapTop;
+    this.height = g_canvas.height;//mapManager.currentMap.mapBot - mapManager.currentMap.mapTop;
 
     this.sprite = g_sprites.background1;
     this.brick   = g_sprites.brickBlock;

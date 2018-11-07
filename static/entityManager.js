@@ -30,7 +30,7 @@ var entityManager = {
 _players: [],
 _ttplayers: [], // tabletop players
 _dice: [],
-_event: [],
+_eventBlock: [],
 
 // Shared data from stateManager
 _gameRoomcx: null,
@@ -57,7 +57,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players, this._ttplayers, this._dice];
+    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlock];
 },
 
 init: function() {
@@ -124,8 +124,8 @@ init: function() {
         my_player: true,
 
         // Added
-        stars: 4,
-        coins: 0,
+        stars: 1,
+        coins: 44,
         playerId: 5
     });
 
@@ -138,11 +138,32 @@ sharedObjects: function() {
     this.getData();
 
     this.generateDie({
-        cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 4),
+        cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
         cy: this._gameRoomcy + (this._gameRoomBrickHeight * 4),
-        width: this._gameRoomBrickWidth,
-        height: this._gameRoomBrickHeight
+        width: this._gameRoomBrickWidth * 2,
+        height: this._gameRoomBrickHeight* 2
       });
+
+    this.generateEventBlock({
+      cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 2),
+      cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
+      width: this._gameRoomBrickWidth * 2,
+      height: this._gameRoomBrickHeight* 2
+    });
+
+    this.generateEventBlock({
+        cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
+        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
+        width: this._gameRoomBrickWidth * 2,
+        height: this._gameRoomBrickHeight* 2
+    });
+
+    this.generateEventBlock({
+      cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 8),
+      cy: this._gameRoomcy + (this._gameRoomBrickHeight * 8),
+      width: this._gameRoomBrickWidth * 2,
+      height: this._gameRoomBrickHeight* 2
+    });
 },
 
 // ========
@@ -168,8 +189,8 @@ generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },
 
-generateEvent: function(descr) {
-    this._event.push(new Event(descr));
+generateEventBlock: function(descr) {
+    this._eventBlock.push(new EventBlock(descr));
 },
 
 resetPlayers: function() {
