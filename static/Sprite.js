@@ -45,8 +45,6 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
 };
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation=0, scale=this.scale) {
-    if (rotation === undefined) rotation = 0;
-
     var w = this.width,
         h = this.height;
 
@@ -87,6 +85,24 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     // Top and Bottom wraps
     this.drawCentredAt(ctx, cx, cy - sh, rotation);
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
+};
+
+// ============================================
+// DRAW TOP LEFT FIXED - FIXED WIDTH AND HEIGHT
+// ============================================
+
+Sprite.prototype.drawCentredAtFixed = function (ctx, cx, cy, rotation=0, width, height, scaleX=1, scaleY=1) {
+    ctx.save();
+    // Center of the sprite
+    ctx.translate(cx, cy);
+    // Rotate in radians
+    ctx.rotate(rotation);
+    // Scale image
+    ctx.scale(scaleX,scaleY);
+    // Draw sprite at it's center point
+    ctx.drawImage(this.image, -width/2, -height/2, width, height);
+
+    ctx.restore();
 };
 
 // =============
@@ -187,6 +203,28 @@ Sprite.prototype.drawClipTopLeftFixed = function (ctx, x, y, rotation, width, he
                     this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
                     cW, cH,           // width, height of clipped img
                     0, 0,     // Top left coords
+                    width, height);          // width, height of image, strech
+
+    ctx.restore();
+};
+
+// =======================================================
+// DRAW CLIP CENTRED FIXED - WITH A FIXED WIDTH AND HEIGHT
+// =======================================================
+
+Sprite.prototype.drawClipCentredAtFixed = function (ctx, x, y, rotation, width, height, scaleX=1, scaleY=1) {
+    ctx.save();
+    let cW = this.clipWidth * 2;
+    let cH = this.clipHeight * 2;
+
+    ctx.translate(x, y);       // coords on canvas
+    ctx.rotate(rotation);
+    ctx.scale(scaleX, scaleY);
+
+    ctx.drawImage(this.image,
+                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
+                    cW, cH,           // width, height of clipped img
+                    -width/2, -height/2,     // Top left coords
                     width, height);          // width, height of image, strech
 
     ctx.restore();

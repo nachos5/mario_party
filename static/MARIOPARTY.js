@@ -108,7 +108,7 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
 
     // Tester
-    //g_sprites.place1.drawClipped(ctx, 500, 500)
+    //g_sprites.mario.drawClipped(ctx, 500, 500)
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -134,6 +134,7 @@ function requestPreloads_images() {
         backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
 
         // Map
+        tiles2          : "static/assets/marioPartyTiles.png",
         tiles           : "static/assets/spaces3.png",
         greenPipe       : "static/assets/WarpPipeGreen.png",
         redPipe         : "static/assets/RedWarpPipeRed.png",
@@ -193,6 +194,21 @@ function preloadDone() {
     g_sprites.tiles             = new Sprite(g_images.tiles);
     g_sprites.greenPipe         = new Sprite(g_images.greenPipe);
     g_sprites.redPipe           = new Sprite(g_images.redPipe);
+
+    // Tiles2
+    // Column 1
+    g_sprites.mario             = new Sprite(g_images.tiles2, 655, 55, 0, 2, 30, 30);
+    g_sprites.luigi             = new Sprite(g_images.tiles2, 655, 120, 0, 2, 30, 30);
+    g_sprites.pinkPeach         = new Sprite(g_images.tiles2, 655, 185, 0, 2, 30, 30);
+    g_sprites.yoshi             = new Sprite(g_images.tiles2, 655, 255, 0, 2, 30, 30);
+    g_sprites.wario             = new Sprite(g_images.tiles2, 655, 320, 0, 2, 30, 30);
+    g_sprites.yellowPeach       = new Sprite(g_images.tiles2, 655, 385, 0, 2, 30, 30);
+    // Column 2
+    g_sprites.waluigi           = new Sprite(g_images.tiles2, 720, 55, 0, 2, 30, 30);
+    g_sprites.paleToad          = new Sprite(g_images.tiles2, 720, 120, 0, 2, 30, 30);
+    g_sprites.boo               = new Sprite(g_images.tiles2, 720, 185, 0, 2, 30, 30);
+    g_sprites.bowserjr          = new Sprite(g_images.tiles2, 723, 250, 0, 2, 30, 30);
+    g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);
 
 
     // Players

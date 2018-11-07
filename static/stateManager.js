@@ -47,6 +47,7 @@ let stateManager = {
   
   update: function(du) {
     this.score_room.update(du);
+    this.game_room.update(du);
 
     // TEMP UMCOMMENT IN NEXTURN, ÞEGAR NEXTURN VIRKAR
     this.players.sort(function(x, y){

@@ -50,18 +50,22 @@ function GameRoom() {
     this.alphZ = g_sprites.alphZ;
     this.alph2 = g_sprites.alphDot;
 
+    // Animation toggle
+    this.animation = false;
+    this.pipeIter = 0;
+    this.pipePos = 10;
     // Position
     this.cx = mapManager.mapRight;
     this.cy = 0;
     // Wall size
-    this.brickLength    = 12;
-    this.brickHeight    = 24;
+    this.brickLength    = 13;
+    this.brickHeight    = 26;
 
     // Select number and letter to display
     this.num = 6;
     this.letter = 'P'
-    this.word = 'TURN';
-    this.wordLength = 4;
+    this.word = '2 TURN';
+    this.wordLength = 6;
 
 
   // Calculation variables
@@ -82,7 +86,24 @@ function GameRoom() {
   this.pipeScaleY = (this.brick.height * this.brickScaleY * this.brickHeight / 2) / this.pipe.height;
   // Alt pipe
   this.altPipeScaleX = (this.brick.height * this.brickScaleY) / this.altPipe.width;
-  this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength - 2) / 2) / this.altPipe.height;
+  // - 1.5 instead of 2 to let the ovelap to cover up holes
+  this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength - 1.5) / 2) / this.altPipe.height;
+};
+
+GameRoom.prototype.update = function(du) {
+  if (this.animation) {
+      // Coin animation
+      // Swap frames every 10th frame
+      if (this.pipeIter % 6 == 0) {
+          this.pipePos += 1;
+      }
+      this.pipeIter++;
+      // Restart
+      if(this.pipeIter === 66) { 
+          this.pipePos = 1;
+          this.pipeIter = 0;
+      };
+  }
 };
 
 GameRoom.prototype.render = function(ctx) {
@@ -112,14 +133,20 @@ GameRoom.prototype.render = function(ctx) {
     // Left
     /*1*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * 1 * this.brickScaleY)                                    , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
     /*2*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * 3 * this.brickScaleY)                                    , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-    /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (-1 + Math.floor(this.brickHeight/2)) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (1  + Math.floor(this.brickHeight/2)) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
+    /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (0 + Math.floor(this.brickHeight/2)) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
+    
+    // Animated Pipe
+    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (this.brickHeight - this.pipePos) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
+    
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
     // Right
     /*1*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY)                                    , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
     /*2*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * 3 * this.brickScaleY)                                    , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
-    /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (-1 + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
-    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (1  + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
+    /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (0 + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
+
+    // Animated Pipe
+    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
+    
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // Word #
@@ -127,7 +154,8 @@ GameRoom.prototype.render = function(ctx) {
     this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 3 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {
         let alph = this.word[i];
-        this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+6) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-
+        if(this.word[i] !== ' ') {
+          this['alph'+[alph]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (i+5) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        }
     }
 };

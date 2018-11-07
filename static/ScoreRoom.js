@@ -71,7 +71,7 @@ function ScoreRoom() {
     this.cy = 0;
     // Wall size
     this.brickLength    = 13;
-    this.brickHeight    = 20;
+    this.brickHeight    = 26;
 
     // Select number and letter to display
     this.num = 6;
@@ -96,8 +96,9 @@ function ScoreRoom() {
     this.pipeScaleX  = (this.brick.width * this.brickScaleX) / this.pipe.width;
     this.pipeScaleY  = (this.brick.height * this.brickScaleY  * this.brickHeight/2)  / this.pipe.height;
     // Alt pipe
-    this.altPipeScaleX = (this.brick.height * this.brickScaleY) / this.altPipe.width;
-    this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength-2)/2)  / this.altPipe.height;
+    this.altPipeScaleX = (this.brick.height * this.brickScaleY) / this.altPipe.width;7
+    // - 1.5 instead of 2 to let the ovelap to cover up holes
+    this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength - 1.5)/2)  / this.altPipe.height;
 };
 
 ScoreRoom.prototype.update = function(du) {
@@ -108,6 +109,7 @@ ScoreRoom.prototype.update = function(du) {
             this.coinNum += 1;
         }
         this.coinIter++;
+        // Restart
         if(this.coinIter === 24) { 
             this.coinNum = 0;
             this.coinIter = 0;
