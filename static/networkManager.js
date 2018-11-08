@@ -139,6 +139,11 @@ networkManager.socket.on("die_sprite_server", function(rand) {
   entityManager.getDie().side_sprite(rand);
 });
 
+// game state from server
+networkManager.socket.on("game_state_server", function(state) {
+  stateManager.gamestate = state;
+});
+
 
 
 // lets emit our identity

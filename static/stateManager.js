@@ -10,12 +10,19 @@ let stateManager = {
   // Added
   players: [],
   no_players: 0,
+  gamestate: {}, // emitted from the server
 
   // first player starts his turn
   init: function() {
     // we wait until all existing players have been loaded into the game
 
     this.updateInfo();
+
+    // we check first if we have received the game state from the server
+    if (Object.keys(this.gamestate) > 0) {
+      this.curr_player_id = gamestate.curr_player_id;
+    }
+
     this.curr_player = this.findPlayer(this.curr_player_id);
     this.curr_player.tt_player.myTurn = true;
 
@@ -72,8 +79,21 @@ let stateManager = {
     });*/
   },
 
-  // HAFA ÞETTA Í NEXT TURN!?
+  // emit game state information
+  stateIter: 0,
+  emitGameState: function(du) {
+    if (Math.floor(this.stateIter) == 200) {
+      networkManager.socket.emit("gamestate", {
+        curr_player_id: this.curr_player_id,
+      });
+      this.stateIter = -1;
+    }
+    this.stateIter++;
+  },
+
   update: function(du) {
+    this.emitGameState(du);
+
     this.score_room.update(du);
     this.game_room.update(du);
 
