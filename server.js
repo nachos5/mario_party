@@ -122,9 +122,9 @@ server.startServer = function() {
       if (!isAnyoneConnected()) {
         const t = setTimeout(function() {
           if (!isAnyoneConnected()) {
-            io.close();
-            startServer();
-            clearTimeout(t);
+            players = {};
+            player_id = 1;
+            gamestate = {};
           }
         }, 20000);
       }
