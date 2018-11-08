@@ -9,6 +9,7 @@ function GameRoom() {
     this.pipe       = g_sprites.backBluePipe;
     this.altPipe    = g_sprites.backYellowPipe;
     // Numbers
+    this.number0 = g_sprites.number0;
     this.number1 = g_sprites.number1;
     this.number2 = g_sprites.number2;
     this.number3 = g_sprites.number3;
@@ -51,8 +52,9 @@ function GameRoom() {
     this.alph2 = g_sprites.alphDot;
 
     // Animation
+    this.isAnimating = 0;   // 0 = Off, 1 = opening, 2 = done, 3 = closing
     this.pipeIter = 0;
-    this.pipePos = 10;
+    this.pipePos = 0;
     // Position
     this.cx = mapManager.mapRight;
     this.cy = 0;
@@ -61,14 +63,13 @@ function GameRoom() {
     this.brickHeight    = 26;
 
     // Select number and letter to display
-    this.num = 6;
+    this.num = null;
     this.letter = 'P'
     this.word = '2 TURN';
     this.wordLength = 6;
 
 
   // Calculation variables
-  let mapScale = mapManager.scale;
   let roomW = g_canvas.width - mapManager.mapRight;
   let roomH = g_canvas.height;
   this.wallWidth = this.brick.width * this.brickLength;
@@ -90,18 +91,39 @@ function GameRoom() {
 };
 
 GameRoom.prototype.update = function(du) {
-  if (g_useAnimation) {
-      // Coin animation
-      // Swap frames every 10th frame
-      if (this.pipeIter % 6 == 0) {
-          this.pipePos += 1;
+  if(g_useAnimation) {
+    
+    // Pipe animation
+    if((this.pipeIter < 144 && eventManager.isBlocksEvent) || this.isAnimating === 3) {
+      if(this.pipeIter % 6 === 0) {  // Swap frames every 10th frame
+        // Open
+        if(this.isAnimating === 1) {
+          if(this.pipeIter < 96) { this.pipePos += 0.125 }
+          else { this.pipePos += 0.25 };
+        }
+        // Close
+        if(this.isAnimating === 3) {
+          if(this.pipeIter > -96) { this.pipePos -= 0.125 }
+          else { this.pipePos -= 0.25 };
+        }
       }
-      this.pipeIter++;
+      if(this.isAnimating === 1)this.pipeIter++;  // Open
+      if(this.isAnimating === 3)this.pipeIter--;  // Close
       // Restart
-      if(this.pipeIter === 66) { 
-          this.pipePos = 1;
+      if(this.pipeIter >= 144 || this.pipeIter <= -144) {
+        this.isAnimating = 2;
+        console.log("if blocks")
+        eventManager.blocksEvent();
+        if(!eventManager.isBlocksEvent) {
+          //this.pipePos = 0;
           this.pipeIter = 0;
+          console.log("restart")
+          if(this.isAnimating === 2) { this.isAnimating = 3; };
+          if(this.isAnimating === 3) { this.isAnimating = 0; };
+        }
       };
+    }
+
   }
 };
 
@@ -129,26 +151,25 @@ GameRoom.prototype.render = function(ctx) {
   this.pipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY), Math.PI, this.pipeScaleX, this.pipeScaleY, 1);
 
     // Alt Pipes
-    // Left
+    // LEFT
     /*1*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * 1 * this.brickScaleY)                                    , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
     /*2*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * 3 * this.brickScaleY)                                    , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
     /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (0 + Math.floor(this.brickHeight/2)) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
     
-    // Animated Pipe
-    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (this.brickHeight - this.pipePos) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-    
-    /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-    // Right
+    // Animated Pipes
+    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (this.brickHeight - 7 - this.pipePos) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
+    /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * this.brickScaleX),                          this.cy + (this.brick.height * (this.brickHeight - 6 + this.pipePos) * this.brickScaleY), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
+
+    // RIGHT
     /*1*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY)                                    , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
     /*2*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * 3 * this.brickScaleY)                                    , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
     /*3*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (0 + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
-    // Animated Pipe
-    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
-    
-    /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
+    // Animated Pipes
+    /*4*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - 7 - this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
+    /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - 6 + this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
-    // Word #
+    // P# Word
     this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 3 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {

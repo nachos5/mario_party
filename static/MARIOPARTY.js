@@ -53,7 +53,7 @@ var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 // New Boolean
 let g_useGrid = false;
-let g_useAnimation = false;
+let g_useAnimation = true;
 
 var KEY_MIXED   = keyCode('M');;
 var KEY_GRAVITY = keyCode('G');
@@ -169,8 +169,9 @@ function requestPreloads_images() {
         coin             : "static/assets/marioCoin.png",
         coinAni          : "static/assets/marioCoinAnimation.png",
         star             : "static/assets/marioStarHiRes.png",
+        arrow            : "static/assets/marioArrow.png",
+
         numbers          : "static/assets/marioNumbers.png",
-        place            : "static/assets/marioNumbers2.png",
         alph             : "static/assets/FontPixels.png",
     };
 
@@ -254,6 +255,8 @@ function preloadDone() {
     g_sprites.coinAni5          = new Sprite(g_images.coinAni, 535,  100, 0, 2, 50, 50);  // Frame 5
     g_sprites.coinAni6          = new Sprite(g_images.coinAni, 655,  100, 0, 2, 50, 50);  // Frame 6
 
+    // Misc
+    g_sprites.arrow             = new Sprite(g_images.arrow);
     g_sprites.coin              = new Sprite(g_images.coin);
     g_sprites.star              = new Sprite(g_images.star);
     g_sprites.eventBlock        = new Sprite(g_images.eventBlock);

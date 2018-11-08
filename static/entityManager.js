@@ -86,19 +86,10 @@ sharedObjects: function() {
 
     this.generateDie({
         cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
-        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 5),
+        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 6),
         width: this._gameRoomBrickWidth * 3,
         height: this._gameRoomBrickHeight* 3
       });
-
-    this.generateEventBlocks({
-      brickWidth: this._gameRoomBrickWidth,
-      brickHeight: this._gameRoomBrickHeight,
-      x: this._gameRoomcx, //+ (this._gameRoomBrickWidth  * 2.5),
-      y: this._gameRoomcy, //+ (this._gameRoomBrickHeight * 18),
-      width: this._gameRoomBrickWidth * 2,
-      height: this._gameRoomBrickHeight* 2
-    });
 },
 
 // ========
@@ -132,7 +123,15 @@ getDie: function() {
   return this._dice[0];
 },
 
-generateEventBlocks: function(descr) {
+generateEventBlocks: function() {
+    let descr = {
+        brickWidth: this._gameRoomBrickWidth,
+        brickHeight: this._gameRoomBrickHeight,
+        x: this._gameRoomcx,
+        y: this._gameRoomcy,
+        width: this._gameRoomBrickWidth * 2,
+        height: this._gameRoomBrickHeight* 2
+    }
     this._eventBlocks.push(new EventBlocks(descr));
 },
 
