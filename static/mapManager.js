@@ -17,7 +17,13 @@ mapLeft : null,
 mapWidth : null,
 mapHeight : null,
 
+eventIsRunning: false,
 someoneIsMoving: false,
+diceThrow: 0,
+stepIter: 0,
+currTile: null,
+currTilePos: null,
+
 // ============
 // LIST OF MAPS
 // ============
@@ -78,28 +84,55 @@ unregisterPosition: function(entity) {
 
 },
 
-// diceThrow amount of steps on the map
-steps: function(player, diceThrow) {
+/* after our dice roll we run this to enable player movement and also to
+   keep track of the value we got */
+readyToMove: function(diceThrow) {
+  this.diceThrow = diceThrow;
   this.someoneIsMoving = true;
-  let i = diceThrow;
-  const time = 1000;
-  const self = this;
-  const interval = setInterval(function() {
-    const pos = self.getPosition(player);
-    const validTile = self.checkForNextValidTiles(player, pos);
-    const prevPos = self.getPosition(player);
-    self.setPrevPosition(player, {column: prevPos.column, row: prevPos.row});
-    self.setPosition(player, {column: validTile.column, row: validTile.row});
-    i--;
-    if (i <= 0) {
-      self.someoneIsMoving = false;
-      // we are ready to handle events
-      stateManager.handleEvents();
-      // let the server know so he can let all other players know
-      networkManager.socket.emit('next_turn');
-      clearInterval(interval);
+},
+
+// each step on the map
+step: function() {
+  const player = stateManager.curr_player.tt_player; // current player
+  const pos = this.getPosition(player); // position of that player on the board
+  const validTile = this.checkForNextValidTiles(player, pos); // get some valid adjacent tile
+  const prevPos = this.getPosition(player);
+  this.setPrevPosition(player, {row: prevPos.row, column: prevPos.column});
+  const validPos = {row: validTile.row, column: validTile.column};
+  this.setPosition(player, validPos);
+  this.diceThrow--;
+
+  if (this.diceThrow > 0) {
+    // we check for an event on the current tile
+    this.currTile = this.getTile(validPos);
+    this.currTilePos = validPos;
+    if (this.currTile in eventManager && eventManager.eventIsMidMovement(this.currTile)) {
+      // if we are here, the current tile is a mid movement event
+      // lets check if the event is instant or requires time
+      if (eventManager.eventIsInstant(this.currTile)) {
+        // if the event is instant we can just run it right now
+        eventManager[this.currTile]();
+      } else {
+        // if the event takes time
+        this.eventIsRunning = true; // used in the update loop
+      }
     }
-  }, time);
+  }
+
+  // we keep on going if we have reached the end of the dice roll
+  if (this.diceThrow <= 0) {
+    this.someoneIsMoving = false; // we stop running this from the update loop
+    this.stepIter = 0; // reset
+    // lets get our final tile type (for events)
+    const tile = this.getTile(validPos);
+    // we are ready to finalize our turn
+    stateManager.finalizeTurn(tile);
+  }
+},
+
+getTile: function(pos) {
+  const tile = this.currentMap.tiles[pos.row][pos.column];
+  return tile;
 },
 
 // checks for a valid tile to move to, and returns the position
@@ -140,11 +173,32 @@ checkForNextValidTiles: function(player, pos) {
   return validTiles[rand];
 },
 
+update: function(du) {
+  /* moving animation for tabletop players
+     readyToMove sets this value to true */
+  if (this.someoneIsMoving) {
+    // we only move while no event is running
+    if (!this.eventIsRunning) {
+      // we run this every 40th frame
+      if (Math.floor(this.stepIter) % 40 == 0) {
+        this.step();
+      }
+      this.stepIter++;
+      // this.stepIter += du; test more
+    } else {
+      // if an event is running
+      eventManager[this.currTile]();
+    }
+  }
+},
+
 render: function(ctx) {
     ctx.putImageData(this.mapSprite, this.mapLeft, this.mapTop);
 
     // Render grid for developement
-    if(g_useGrid) { this.currentMap.renderGrid(ctx) };
+    if(g_useGrid) {
+      this.currentMap.renderGrid(ctx)
+    };
 },
 
 }
