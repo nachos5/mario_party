@@ -29,8 +29,8 @@ var entityManager = {
 
 _players: [],
 _ttplayers: [], // tabletop players
-_dice: [],
-_eventBlocks: [],
+_dice: [],  // Dice Room
+_eventBlocks: [],   // Event Room
 
 // Shared data from stateManager
 _gameRoomcx: null,
@@ -61,8 +61,8 @@ deferredSetup : function () {
 },
 
 init: function() {
-  const cx = 200,
-        cy = 200;
+  const cx = 300,//this._gameRoomcx + this.brickWidth * 5.5,
+        cy = 300;//this._gameRoomcy + this.brickHeight * 18;
 
   entityManager.generatePlayer({
     cx: cx,
