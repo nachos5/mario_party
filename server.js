@@ -31,10 +31,15 @@ server.listen(port, function() {
 let players = {};
 // keep track of the id of each player (not socket id, used in game logic stuff)
 let player_id = 1;
+// keep track of the game state
+let gamestate = {};
 
 // Add the WebSocket handlers
 io.on('connection', function(socket) {
   console.log("player " + socket.id + " has connected");
+
+  // emit game state
+  socket.emit('game_state_server', gamestate);
 
   let e_players = Object.keys(players).length > 0;
   let reconnect = false;
@@ -85,6 +90,11 @@ io.on('connection', function(socket) {
   socket.on('die_sprite', function(rand) {
     socket.broadcast.emit('die_sprite_server', rand);
   })
+
+  // we get information about the game state
+  socket.on('gamestate', function(state) {
+    gamestate = state;
+  });
 
   socket.on('disconnect', function() {
     console.log("player " + socket.id + " has disconnected");
