@@ -4,7 +4,7 @@
 
 // constructor
 function NetworkManager() {
-    var WebSocketServer = {
+    /*var WebSocketServer = {
       socket: null,
       connect: function() {
         var self = this;
@@ -32,7 +32,8 @@ function NetworkManager() {
       }
     }
 
-    this.socket = WebSocketServer.connect();
+    this.socket = WebSocketServer.connect();*/
+    this.socket = io();
 }
 
 // emit data to the server
