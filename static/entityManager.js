@@ -76,7 +76,7 @@ init: function() {
     player_id: networkManager.player_info.player_id
   });
 
-  console.log(entityManager._players[0]);
+  //console.log(entityManager._players[0]);
 
   // let the server know that a new player has joined the game
   networkManager.emit('new player', entityManager._players[0]);

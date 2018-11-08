@@ -4,35 +4,6 @@
 
 // constructor
 function NetworkManager() {
-    /*var WebSocketServer = {
-      socket: null,
-      connect: function() {
-        var self = this;
-        if (self.socket) {
-          self.socket.destroy();
-          delete self.socket;
-          self.socket = null;
-        }
-        this.socket = io.connect('http://localhost:5000', {
-          reconnection: true,
-          reconnectionDelay: 1000,
-          reconnectionDelayMax: 5000,
-          reconnectionAttempts: Infinity
-        });
-        this.socket.on('connect', function() {
-          if (!localStorage.getItem('uuid')) {
-            localStorage.setItem('uuid', Math.random().toString(12));
-          }
-        });
-        this.socket.on('disconnect', function() {
-          console.log('disconnected from server');
-          window.setTimeout('app.connect()', 5000);
-        });
-        return this.socket;
-      }
-    }
-
-    this.socket = WebSocketServer.connect();*/
     this.socket = io();
 }
 
@@ -44,11 +15,22 @@ NetworkManager.prototype.emit = function(message, data) {
 // initialize the manager
 let networkManager = new NetworkManager();
 
+networkManager.error = false;
+
 // we initialise with non-valid information
 networkManager.player_info = {uuid: -1, player_id: -1};
 
 // gather info about my player
 networkManager.socket.on("my player", function(player) {
+  // if a player with the same uuid is already playing the game
+  if (player.connected) {
+    networkManager.error = true;
+    g_canvas.style.display = "none";
+    document.getElementById("errorMessage").style.display = "block";
+    throw 'You are already playing the game!';
+  };
+
+  // if not
   networkManager.player_info = {uuid: player.uuid,
                                 player_id: player.player_id,
                                 existing_players: player.existing_players};
