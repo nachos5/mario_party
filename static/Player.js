@@ -19,9 +19,6 @@ function Player(descr) {
 
     this.rememberResets();
 
-    // Default sprite, if not otherwise specified
-    this.sprite = g_sprites.ship;
-
     // Set normal drawing scale, and warp state off
     this._scale = 1;
 
@@ -29,6 +26,11 @@ function Player(descr) {
     this.tt_player = new TableTopPlayer(this.player_id);
     entityManager._ttplayers.push(this.tt_player); // store in entity manager
     //mapManager.setPosition(this.tt_player);
+
+    this.sprite = this.tt_player.sprite;
+
+    // New event player
+    this.eventPlayer = new EventPlayer(this.player_id);
 };
 
 Player.prototype = new Entity();
@@ -127,8 +129,10 @@ Player.prototype.render = function (ctx) {
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
     const sprite = this.sprite;
-    this.sprite.drawWrappedCentredAt(
-       ctx, this.cx, this.cy, this.rotation);
+
+    this.sprite.drawClipped(ctx, this.cx, this.cy);
+
+    //this.sprite.drawWrappedCentredAt(ctx, this.cx, this.cy, this.rotation);
     this.sprite.scale = origScale;
 
     // render tabletop player

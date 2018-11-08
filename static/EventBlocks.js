@@ -77,11 +77,9 @@ EventBlocks.prototype = new Entity();
 EventBlocks.prototype.update = function(du) {
     if (g_useAnimation) {
         
+        // Arrow animation
         if(this.results !== undefined) {
-
-            // Arrow animation
-            // Increment arrow every 10th frame
-            if (this.arrowIter % 6 == 0) {
+            if (this.arrowIter % 6 == 0) {  // Increment arrow every 10th frame
             this.arrowPos += 0.15;
             }
             this.arrowIter++;
@@ -92,7 +90,8 @@ EventBlocks.prototype.update = function(du) {
             };
         }
     }
-    if(false) { return  -1};
+    // Kill entity when blocksEvent is done
+    if(!eventManager.isBlocksEvent) {return  -1}
 };
 
 // ======

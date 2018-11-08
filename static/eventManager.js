@@ -38,13 +38,15 @@ let eventManager = {
   // BLOCKS EVENT
   blocksEvent: function() {
       this.isBlocksEvent = true;
+      // Change state of pipes, off -> opening
       if(stateManager.game_room.isAnimating === 0) {
         stateManager.game_room.isAnimating = 1;
       }
+      // When pipes are opened, opening -> done
       if(stateManager.game_room.isAnimating === 2) {
         entityManager.generateEventBlocks();
+        // Event is done, start closing
         this.isBlocksEvent = false;
-        //stateManager.game_room.isAnimating = 3;
       }
   },
 
