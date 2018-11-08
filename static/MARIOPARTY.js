@@ -183,7 +183,7 @@ function requestPreloads_audio() {
 
 function waitForServerResponse() {
   // we wait until the server sends us required information about our player
-  while (networkManager.player_info.socket_id == -1 &&
+  while (networkManager.player_info.uuid == -1 &&
          networkManager.player_info.player_id == -1) {};
 
   preloadDone();

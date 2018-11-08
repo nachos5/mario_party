@@ -83,12 +83,7 @@ Player.prototype.update = function (du) {
     // we only emit our player to the server!
     if (this.my_player) {
       // emit players position to the server
-      networkManager.emit("position", {
-        cx: this.cx,
-        cy: this.cy,
-        tt_pos: this.tt_player.position,
-        rotation: this.rotation,
-      })
+      networkManager.emit("update_player", this);
     }
 };
 

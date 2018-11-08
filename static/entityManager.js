@@ -67,7 +67,7 @@ init: function() {
   entityManager.generatePlayer({
     cx: cx,
     cy: cy,
-    socket_id: networkManager.player_info.socket_id,
+    uuid: localStorage.getItem('uuid'),
     my_player: true,
 
     // Added
@@ -77,7 +77,7 @@ init: function() {
   });
 
   // let the server know that a new player has joined the game
-  networkManager.emit('new player');
+  networkManager.emit('new player', entityManager._players[0]);
 },
 
 // Initialize shared objects
@@ -117,6 +117,10 @@ getData: function() {
 
 generatePlayer: function(descr) {
     this._players.push(new Player(descr));
+},
+
+pushPlayer: function(player) {
+  this._players.push(player);
 },
 
 generateDie: function(descr) {

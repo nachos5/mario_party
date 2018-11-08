@@ -54,7 +54,7 @@ Die.prototype.prevRand = 0;
 
 Die.prototype.timeIter = 0;
 
-Die.prototype.roll = function() {
+Die.prototype.roll = function(du=1) {
   this.isRolling = true;
   // animation! Every 4th frame
   if (Math.floor(this.rollIter) % 4 == 0 && this.timeIter < 100) {
@@ -93,7 +93,7 @@ Die.prototype.roll = function() {
 Die.prototype.update = function(du) {
   // WE DO SOME ANIMATION WHILE ROLLING
   if (this.isRolling) {
-    this.roll();
+    this.roll(du);
   }
 }
 

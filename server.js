@@ -34,31 +34,46 @@ let player_id = 1;
 
 // Add the WebSocket handlers
 io.on('connection', function(socket) {
-  // we check for existing players
-  const e_players = Object.keys(players).length > 0;
+  console.log("player " + socket.id + " has connected");
 
-  // add to our players array
-  players[socket.id] = {socket_id: socket.id, player_id: player_id, existing_players: e_players};
-  // let our socket know that we are ready to spawn
-  socket.emit('my player', players[socket.id]);
-  player_id++;
+  let e_players = Object.keys(players).length > 0;
+  let reconnect = false;
+  socket.on('init', function(uuid) {
+    if (uuid in players) {
+      // player is reconnecting
+      players[uuid].existing_players = e_players;
+      reconnect = true;
+    } else {
+    // our player
+      players[uuid] = {uuid: uuid, player_id: player_id, existing_players: e_players};
+      player_id++;
+    }
+    // let our socket know that we are ready to spawn
+    socket.emit('my player', players[uuid]);
+  });
 
   // a new player has joined the game
-  socket.on('new player', function() {
-    console.log('a new player has joined the server' + ' ' + socket.id);
-    // if existing players we emit to the sender (to create the player objects)
+  socket.on('new player', function(player) {
+    if (!reconnect) {
+      players[player.uuid] = player;
+    }
+    // spawn existing players
     if (e_players) {
-      socket.emit('existingPlayers', {players: players, my_socket_id: socket.id});
+      socket.emit('existingPlayers', {players: players, my_uuid: player.uuid});
     }
 
-    // send to all clients except sender
-    socket.broadcast.emit('new_player', players[socket.id]);
+    if (!reconnect) {
+      // send to all clients except sender
+      socket.broadcast.emit('new_player', players[player.uuid]);
+    } else {
+      socket.emit('reconnecting', players[player.uuid]);
+    }
   });
 
   // send to all clients except sender
-  socket.on('position', function(data) {
-    data.socket_id = socket.id;
-    socket.broadcast.emit('position_server', data);
+  socket.on('update_player', function(player) {
+    players[player.uuid] = player;
+    socket.broadcast.emit('update_player_server', player);
   });
 
   // send to all clients except sender that we are ready for the next turn
@@ -73,9 +88,5 @@ io.on('connection', function(socket) {
 
   socket.on('disconnect', function() {
     console.log("player " + socket.id + " has disconnected");
-    // remove from players array
-    delete players[socket.id];
-    // let other clients know
-    socket.broadcast.emit('disconnect_from_server', socket.id)
   });
 });
