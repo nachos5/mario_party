@@ -89,7 +89,7 @@ networkManager.socket.on("position_server", function(player) {
 // we are ready for the next turn
 networkManager.socket.on("next_turn_server", function() {
   // we handle events first
-  stateManager.handleEvents();
+  stateManager.nextTurn();
 });
 
 // change the sprite of the die

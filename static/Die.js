@@ -52,44 +52,48 @@ Die.prototype.rand = function() {
 Die.prototype.currRand = 0;
 Die.prototype.prevRand = 0;
 
+Die.prototype.timeIter = 0;
+
 Die.prototype.roll = function() {
   this.isRolling = true;
-  // random number from 1-6
-  const diceThrow = this.rand();
-  // set position of current player after timeout
-  const curr_player = stateManager.curr_player.tt_player;
-  const time_ms = 2000;
+  // animation! Every 4th frame
+  if (Math.floor(this.rollIter) % 4 == 0 && this.timeIter < 100) {
+    // never the same number twice in a row
+    while (this.currRand == this.prevRand) {
+      this.currRand = this.rand();
+    }
+    this.prevRand = this.currRand;
+    this.side_sprite(this.currRand);
+  }
+  this.rollIter++;
+  // emit to the server
+  networkManager.socket.emit("die_sprite", this.currRand);
 
-  const self = this; // because of scoping inside timeout
-  const timeout = setTimeout(function() {
-    self.isRolling = false;
-    self.side_sprite(diceThrow); // we display the correct side
-    // emit to the server
-    networkManager.socket.emit("die_sprite", diceThrow);
-    self.rollIter = 0;
-    mapManager.steps(curr_player, diceThrow);
-    clearTimeout(timeout);
-  }, time_ms)
+  // we let the die roll for some time
+  this.timeIter++;
+
+  if (this.timeIter < 100) return;
+
+  // when the timeIter reaches 100 we perform the actual dice throw
+  const diceThrow = this.rand();
+  // we stop this from running (from the update loop)
+  this.isRolling = false;
+  // we display the correct side
+  this.side_sprite(diceThrow);
+  // emit the correct side to the server
+  networkManager.socket.emit("die_sprite", diceThrow);
+  // reset stuff
+  this.rollIter = 0;
+  this.timeIter = 0;
+  // we are ready to move the player!
+  mapManager.readyToMove(diceThrow);
+
 }
 
-Die.prototype.update = function() {
-  // WE DO SOME ANIMATION WHILE ROLLING (from the roll function)
+Die.prototype.update = function(du) {
+  // WE DO SOME ANIMATION WHILE ROLLING
   if (this.isRolling) {
-    // we don't want to run this every frame
-    if (this.rollIter % 4 == 0) {
-      // never the same number twice in a row
-      while (this.currRand == this.prevRand) {
-        this.currRand = this.rand();
-      }
-      this.prevRand = this.currRand;
-
-      this.side_sprite(this.currRand);
-    }
-
-    this.rollIter++;
-
-    // emit to the server
-    networkManager.socket.emit("die_sprite", this.currRand);
+    this.roll();
   }
 }
 

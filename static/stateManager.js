@@ -40,9 +40,13 @@ let stateManager = {
     return player;
   },
 
-  // we handle events before starting the next turn
-  handleEvents: function() {
+  // we finalize our turn by handling final events and prepare the next turn
+  finalizeTurn: function(tile) {
+
+    // we are ready for the next turn
     this.nextTurn();
+    // let the server know so he can let all other players know
+    networkManager.socket.emit('next_turn');
   },
 
   // map manager calls this

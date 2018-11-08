@@ -42,6 +42,7 @@ function updateSimulation(du) {
     processDiagnostics();
     stateManager.update(du);
     entityManager.update(du);
+    mapManager.update(du);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
