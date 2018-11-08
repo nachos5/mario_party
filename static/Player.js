@@ -31,6 +31,7 @@ function Player(descr) {
 
     // New event player
     this.eventPlayer = new EventPlayer(this.player_id);
+    this.eventPlayer.sprite = this.tt_player.sprite;
 };
 
 Player.prototype = new Entity();
