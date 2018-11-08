@@ -53,7 +53,7 @@ var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 // New Boolean
 let g_useGrid = false;
-let g_useAnimation = false;
+let g_useAnimation = true;
 
 var KEY_MIXED   = keyCode('M');;
 var KEY_GRAVITY = keyCode('G');

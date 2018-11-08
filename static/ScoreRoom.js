@@ -4,7 +4,7 @@
 // TODO ÞAÐ SAMA OG GAME ROOM
 function ScoreRoom() {
     // Players on the scoreboard
-    this.players    = stateManager.players;
+    this.players    = null;
 
     // =======
     // SPRITES
@@ -76,7 +76,8 @@ function ScoreRoom() {
     this.brickHeight    = 26;
 
     // Select number and letter to display
-    this.num = 6;
+    this.num1 = null;
+    this.num2 = null;
     this.letter = '';
     this.word = ' ROUND 2';
     this.wordLength = 8;
@@ -155,8 +156,9 @@ ScoreRoom.prototype.render = function(ctx) {
     /*4*///this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (1  + Math.floor(this.brickHeight/2)) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * this.brickHeight * this.brickScaleY)                     , Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
-    // word #
-    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (this.brickLength - 3) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    // Word ##
+    this['number'+[this.num1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (this.brickLength - 4) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    this['number'+[this.num2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * (this.brickLength - 3) * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {
         let alph = this.word[i];
         if(this.word[i] !== ' ') {

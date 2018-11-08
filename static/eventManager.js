@@ -18,12 +18,34 @@ let eventManager = {
   // we use this to check if our event happens after the movement
   after_movement_events: [],
 
+  // Added
+  isBlocksEvent: false,
+
   eventIsInstant: function(id) {
     return this.instant_events.includes(id);
   },
 
   eventIsMidMovement: function(id) {
     return this.mid_movement_events.includes(id);
+  },
+
+  // ========= GAMEROOM EVENTS ========== //
+  // ROLL EVENT
+  rollEvent: function() {
+      
+  },
+  
+  // BLOCKS EVENT
+  blocksEvent: function() {
+      this.isBlocksEvent = true;
+      if(stateManager.game_room.isAnimating === 0) {
+        stateManager.game_room.isAnimating = 1;
+      }
+      if(stateManager.game_room.isAnimating === 2) {
+        entityManager.generateEventBlocks();
+        this.isBlocksEvent = false;
+        //stateManager.game_room.isAnimating = 3;
+      }
   },
 
 

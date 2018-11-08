@@ -92,6 +92,7 @@ EventBlocks.prototype.update = function(du) {
             };
         }
     }
+    if(false) { return  -1};
 };
 
 // ======
