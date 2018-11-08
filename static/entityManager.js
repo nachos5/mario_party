@@ -86,7 +86,7 @@ sharedObjects: function() {
 
     this.generateDie({
         cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5),
-        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 5),
+        cy: this._gameRoomcy + (this._gameRoomBrickHeight * 6),
         width: this._gameRoomBrickWidth * 3,
         height: this._gameRoomBrickHeight* 3
       });

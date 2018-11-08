@@ -75,19 +75,22 @@ EventBlocks.prototype = new Entity();
 // ======
 
 EventBlocks.prototype.update = function(du) {
-    if (g_useAnimation && this.results !== undefined) {
-        // Coin animation
-        // Increment arrow every 10th frame
-        if (this.arrowIter % 6 == 0) {
+    if (g_useAnimation) {
+        
+        if(this.results !== undefined) {
+
+            // Arrow animation
+            // Increment arrow every 10th frame
+            if (this.arrowIter % 6 == 0) {
             this.arrowPos += 0.15;
+            }
+            this.arrowIter++;
+            // Restart
+            if(this.arrowIter === 66) {
+                this.arrowPos = 0;
+                this.arrowIter = 0;
+            };
         }
-        this.arrowIter++;
-        // Restart
-        if(this.arrowIter === 66) {
-            console.log(this.arrowPos);
-            this.arrowPos = 0;
-            this.arrowIter = 0;
-        };
     }
 };
 

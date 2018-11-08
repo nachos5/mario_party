@@ -6,7 +6,9 @@ function ScoreRoom() {
     // Players on the scoreboard
     this.players    = stateManager.players;
 
-    // Sprites
+    // =======
+    // SPRITES
+    // =======
     this.brick   = g_sprites.brickBlock;
     this.pipe    = g_sprites.backGreenPipe;
     this.altPipe = g_sprites.backRedPipe;
@@ -65,6 +67,7 @@ function ScoreRoom() {
     // Animation
     this.coinIter = 0;
     this.coinNum = 1;
+
     // Position
     this.cx = 0;
     this.cy = 0;
@@ -79,7 +82,6 @@ function ScoreRoom() {
     this.wordLength = 8;
 
     // Calculation variables
-    let mapScale     = mapManager.scale;
     let roomW        = mapManager.mapLeft;
     let roomH        = g_canvas.height;
     this.wallWidth   = this.brick.width * this.brickLength;
@@ -166,24 +168,24 @@ ScoreRoom.prototype.render = function(ctx) {
     // Players
     for(let i = 0; i < this.players.length; i++) {
         // Position
-        this['number'+[i+1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 1 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['number'+[i+1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 1 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Position letters
         let letter1 = (i < 3) ? ( (i < 2) ? ( (i < 1) ? 'S' : 'N') : 'R') : 'T';
         let letter2 = (i < 3) ? ( (i < 2) ? ( (i < 1) ? 'T' : 'D') : 'D') : 'H';
-        this['alph'+[letter1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2,      1, 1);
-        this['alph'+[letter2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2.5 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2,      1, 1);
+        this['alph'+[letter1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
+        this['alph'+[letter2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2.5 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
         // Player
         this.alphP.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-        this['number'+[this.players[i].player_id]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 5 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['number'+[this.players[i].player_id]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 5 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Star
         this.star.drawTopLeftFixed(ctx, this.cx + (this.brick.width * 7 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0, 1, 1,        (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY));
-        this['number'+[this.players[i].stars]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 8 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['number'+[this.players[i].stars]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 8 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Coin
-        this['coin'+[this.coinNum]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 9 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['coin'+[this.coinNum]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 9 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Calculate 1st and 2nd digit of number
         let digit1 = Math.floor(this.players[i].coins / 10);
         let digit2 = this.players[i].coins % 10;
-        this['number'+[digit1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 10 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-        this['number'+[digit2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 11 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        this['number'+[digit1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 10 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
+        this['number'+[digit2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 11 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
     }
 };
