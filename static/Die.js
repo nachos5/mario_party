@@ -95,26 +95,6 @@ Die.prototype.roll = function(du=1) {
 
   // we let the die roll for some time
   this.timeIter++;
-
-  //if (this.timeIter < 100) return;
-  /*if(this.isCollision === false) return;
-
-  console.log("dice done")
-  this.isCollision = false;
-  // when the timeIter reaches 100 we perform the actual dice throw
-  //const diceThrow = this.rand();
-  this.diceThrow = 3;
-  // we stop this from running (from the update loop)
-  this.isRolling = false;
-  // we display the correct side
-  this.side_sprite(this.diceThrow);
-  // emit the correct side to the server
-  networkManager.socket.emit("die_sprite", this.diceThrow);
-  // reset stuff
-  this.rollIter = 0;
-  this.timeIter = 0;
-  // we are ready to move the player!
-  mapManager.readyToMove(this.diceThrow);*/
 }
 
 Die.prototype.stopRoll = function () {
