@@ -31,6 +31,7 @@ function Player(descr) {
 
     // New event player
     this.eventPlayer = new EventPlayer(this.player_id);
+    this.eventPlayer.sprite = this.tt_player.sprite;
 };
 
 Player.prototype = new Entity();
@@ -42,8 +43,8 @@ Player.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
-Player.prototype.KEY_UP = 'W'.charCodeAt(0);
-Player.prototype.KEY_DOWN  = 'S'.charCodeAt(0);
+Player.prototype.KEY_UP     = 'W'.charCodeAt(0);
+Player.prototype.KEY_DOWN   = 'S'.charCodeAt(0);
 Player.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Player.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
@@ -86,6 +87,8 @@ Player.prototype.update = function (du) {
     if (this.my_player) {
       // emit players position to the server
       networkManager.emit("update_player", this);
+
+      this.eventPlayer.update(du);
     }
 };
 
@@ -137,4 +140,6 @@ Player.prototype.render = function (ctx) {
 
     // render tabletop player
     this.tt_player.render(ctx);
+
+    this.eventPlayer.render(ctx);
 };
