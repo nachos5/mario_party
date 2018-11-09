@@ -28,6 +28,7 @@ function Player(descr) {
     //mapManager.setPosition(this.tt_player);
 
     this.sprite = this.tt_player.sprite;
+    //this.sprite = g_sprites.ship;
 
     // New event player
     this.eventPlayer = new EventPlayer(this.player_id);
@@ -109,7 +110,8 @@ Player.prototype.computeSubStep = function (du) {
 };
 
 Player.prototype.getRadius = function () {
-    return (this.sprite.width / 2) * 0.9;
+    return this.sprite.clipWidth * 0.9;
+    //return (this.sprite.width / 2) * 0.9;
 };
 
 Player.prototype.reset = function () {
@@ -130,12 +132,12 @@ var NOMINAL_ROTATE_RATE = 0.1;
 Player.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
-    this.sprite.scale = this._scale;
+    //this.sprite.scale = this._scale;
     const sprite = this.sprite;
 
     this.sprite.drawClipped(ctx, this.cx, this.cy);
-
     //this.sprite.drawWrappedCentredAt(ctx, this.cx, this.cy, this.rotation);
+    
     this.sprite.scale = origScale;
 
     // render tabletop player

@@ -35,6 +35,9 @@ EventPlayer.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 // ======
 
 EventPlayer.prototype.update = function (du) {
+
+    spatialManager.unregister(this);
+
     if (keys[this.KEY_UP]) {
         this.cy -= 5;
     }
@@ -47,6 +50,20 @@ EventPlayer.prototype.update = function (du) {
     if (keys[this.KEY_RIGHT]) {
         this.cx += 5;
     }
+
+    // Check collision
+    if (this.isColliding()) {
+        let hitEntity = this.findHitEntity();
+        if (hitEntity) {
+            let canTakeHit = hitEntity.resolveCollision;
+            if (canTakeHit) canTakeHit.call(hitEntity);
+        }    
+    }
+    else {spatialManager.register(this)}
+};
+
+EventPlayer.prototype.getRadius = function () {
+    return this.sprite.clipWidth * 0.75;
 };
 
 EventPlayer.prototype.rememberResets = function () {
