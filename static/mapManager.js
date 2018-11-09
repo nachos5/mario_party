@@ -100,9 +100,9 @@ step: function() {
   this.setPrevPosition(player, {row: prevPos.row, column: prevPos.column});
   const validPos = {row: validTile.row, column: validTile.column};
   this.setPosition(player, validPos);
-  this.diceThrow--;
 
   if (this.diceThrow > 0) {
+    this.diceThrow--;
     // we check for an event on the current tile
     this.currTile = this.getTile(validPos);
     this.currTilePos = validPos;

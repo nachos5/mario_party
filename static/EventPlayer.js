@@ -55,7 +55,7 @@ EventPlayer.prototype.accel = function (du) {
     let accelX = this.calcAccel();
     let accelY = 0;
 
-    // Initial velocity = current velocity 
+    // Initial velocity = current velocity
     let initialVelX = this.velX;
     let initialVelY = this.velY;
 
@@ -69,7 +69,7 @@ EventPlayer.prototype.accel = function (du) {
 
     // New velocity = aVel
     this.velX = aveVelX;
-    this.velX = aveVelY;
+    this.velY = aveVelY;
 
     console.log("velX = " + this.velX);
     console.log("velY = " + this.velY);
@@ -81,7 +81,7 @@ EventPlayer.prototype.accel = function (du) {
 EventPlayer.prototype.calcAccel = function () {
     let speed = 0;
     let maxSpeed = 5;
-    
+
     //if (keys[this.KEY_JUMP])  { this.cy -= 5 }
     if (keys[this.KEY_LEFT])  { speed -= 0.5 }
     if (keys[this.KEY_RIGHT]) { speed += 0.5 }
@@ -95,7 +95,7 @@ EventPlayer.prototype.calcAccel = function () {
 // ======
 
 EventPlayer.prototype.update = function (du) {
-    
+
     spatialManager.unregister(this);
 
     this.accel(du);
@@ -106,7 +106,7 @@ EventPlayer.prototype.update = function (du) {
         if (hitEntity) {
             let canTakeHit = hitEntity.resolveCollision;
             if (canTakeHit) canTakeHit.call(hitEntity);
-        }    
+        }
     }
     else {spatialManager.register(this)}
 };
