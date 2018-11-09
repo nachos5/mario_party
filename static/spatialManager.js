@@ -38,12 +38,12 @@ getNewSpatialID : function() {
 
 register: function(entity) {
     const pos = entity.getPos(),
-          radius = entity.getRadius(),
-          spatialID = entity.getSpatialID();
-
-    // register the entity
+        spatialID = entity.getSpatialID(),
+        radius = entity.getRadius();
+    
+    // Register the entity
     this._entities[spatialID] = {entity : entity, posX : pos.posX, posY : pos.posY,
-                                 radius : radius};
+            radius : radius};
 },
 
 unregister: function(entity) {
@@ -58,18 +58,17 @@ findEntityInRange: function(posX, posY, radius) {
     // TODO: YOUR STUFF HERE!
     for (let i in this._entities) {
       const e = this._entities[i]; // current entity attributes
-      // euclidean distance between passed and current entites attributes
-      const dist = util.EUdist(posX, posY, e.posX, e.posY),
-      // collision threshold (distance between the center coords)
-            threshold = radius + e.radius;
-
-      // collision
-      if (dist < threshold) {
-        //console.log("COLLISION!");
-        return e.entity;
-      }
-    }
-
+          // euclidean distance between passed and current entites attributes
+          const dist = util.EUdist(posX, posY, e.posX, e.posY),
+          // collision threshold (distance between the center coords)
+          threshold = radius + e.radius;
+          
+          // collision
+          if (dist < threshold) {
+              //console.log("COLLISION!");
+              return e.entity;
+            }
+        }
 },
 
 render: function(ctx) {

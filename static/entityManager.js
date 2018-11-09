@@ -32,6 +32,8 @@ _ttplayers: [], // tabletop players
 _dice: [],  // Dice Room
 _eventBlocks: [],   // Event Room
 
+_gravity: 0.12,     // Constant
+
 // Shared data from stateManager
 _gameRoomcx: null,
 _gameRoomcy: null,
