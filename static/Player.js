@@ -64,10 +64,10 @@ Player.prototype.numSubSteps = 1;
 Player.prototype.update = function (du) {
     // remember previous position
     this.setPrevPos(this.cx, this.cy);
-
+/*
     // unregister the entity
     spatialManager.unregister(this);
-
+*/
     // Perform movement substeps
     var steps = this.numSubSteps;
     var dStep = du / steps;
@@ -78,11 +78,11 @@ Player.prototype.update = function (du) {
           this.computeSubStep(dStep);
       }
     }
-
+/*
     if (this.isColliding()) {
     } else {
       spatialManager.register(this);
-    }
+    }*/
 
     // we only emit our player to the server!
     if (this.my_player) {
@@ -135,7 +135,7 @@ Player.prototype.render = function (ctx) {
     //this.sprite.scale = this._scale;
     const sprite = this.sprite;
 
-    this.sprite.drawClipped(ctx, this.cx, this.cy);
+    //this.sprite.drawClipped(ctx, this.cx, this.cy);
     //this.sprite.drawWrappedCentredAt(ctx, this.cx, this.cy, this.rotation);
     
     this.sprite.scale = origScale;

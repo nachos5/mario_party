@@ -4,70 +4,69 @@
 
 function GameRoom() {
 
-    // Sprites
-    this.brick      = g_sprites.brickBlock;
-    this.pipe       = g_sprites.backBluePipe;
-    this.altPipe    = g_sprites.backYellowPipe;
-    // Numbers
-    this.number0 = g_sprites.number0;
-    this.number1 = g_sprites.number1;
-    this.number2 = g_sprites.number2;
-    this.number3 = g_sprites.number3;
-    this.number4 = g_sprites.number4;
-    this.number5 = g_sprites.number5;
-    this.number6 = g_sprites.number6;
-    this.number7 = g_sprites.number7;
-    this.number8 = g_sprites.number8;
-    this.number9 = g_sprites.number9;
-    // Alphabet
-    this.alphA = g_sprites.alphA;
-    this.alphB = g_sprites.alphB;
-    this.alphC = g_sprites.alphC;
-    this.alphD = g_sprites.alphD;
-    this.alphE = g_sprites.alphE;
-    this.alphF = g_sprites.alphF;
-    this.alphG = g_sprites.alphG;
-    this.alphH = g_sprites.alphH;
-    this.alphI = g_sprites.alphI;
+  // Sprites
+  this.brick      = g_sprites.brickBlock;
+  this.pipe       = g_sprites.backBluePipe;
+  this.altPipe    = g_sprites.backYellowPipe;
+  // Numbers
+  this.number0 = g_sprites.number0;
+  this.number1 = g_sprites.number1;
+  this.number2 = g_sprites.number2;
+  this.number3 = g_sprites.number3;
+  this.number4 = g_sprites.number4;
+  this.number5 = g_sprites.number5;
+  this.number6 = g_sprites.number6;
+  this.number7 = g_sprites.number7;
+  this.number8 = g_sprites.number8;
+  this.number9 = g_sprites.number9;
+  // Alphabet
+  this.alphA = g_sprites.alphA;
+  this.alphB = g_sprites.alphB;
+  this.alphC = g_sprites.alphC;
+  this.alphD = g_sprites.alphD;
+  this.alphE = g_sprites.alphE;
+  this.alphF = g_sprites.alphF;
+  this.alphG = g_sprites.alphG;
+  this.alphH = g_sprites.alphH;
+  this.alphI = g_sprites.alphI;
 
-    this.alphJ = g_sprites.alphJ;
-    this.alphK = g_sprites.alphK;
-    this.alphL = g_sprites.alphL;
-    this.alphM = g_sprites.alphM;
-    this.alphN = g_sprites.alphN;
-    this.alphO = g_sprites.alphO;
-    this.alphP = g_sprites.alphP;
-    this.alphQ = g_sprites.alphQ;
-    this.alphR = g_sprites.alphR;
-    this.alph1 = g_sprites.alphQmark;
+  this.alphJ = g_sprites.alphJ;
+  this.alphK = g_sprites.alphK;
+  this.alphL = g_sprites.alphL;
+  this.alphM = g_sprites.alphM;
+  this.alphN = g_sprites.alphN;
+  this.alphO = g_sprites.alphO;
+  this.alphP = g_sprites.alphP;
+  this.alphQ = g_sprites.alphQ;
+  this.alphR = g_sprites.alphR;
+  this.alph1 = g_sprites.alphQmark;
 
-    this.alphS = g_sprites.alphS;
-    this.alphT = g_sprites.alphT;
-    this.alphU = g_sprites.alphU;
-    this.alphV = g_sprites.alphV;
-    this.alphW = g_sprites.alphW;
-    this.alphX = g_sprites.alphX;
-    this.alphY = g_sprites.alphY;
-    this.alphZ = g_sprites.alphZ;
-    this.alph2 = g_sprites.alphDot;
+  this.alphS = g_sprites.alphS;
+  this.alphT = g_sprites.alphT;
+  this.alphU = g_sprites.alphU;
+  this.alphV = g_sprites.alphV;
+  this.alphW = g_sprites.alphW;
+  this.alphX = g_sprites.alphX;
+  this.alphY = g_sprites.alphY;
+  this.alphZ = g_sprites.alphZ;
+  this.alph2 = g_sprites.alphDot;
+  
+  // Animation
+  this.isAnimating = 0;   // 0 = Off, 1 = opening, 2 = done, 3 = closing
+  this.pipeIter = 0;
+  this.pipePos = 0;
+  // Position
+  this.cx = mapManager.mapRight;
+  this.cy = 0;
+  // Wall size
+  this.brickLength    = 13;
+  this.brickHeight    = 26;
 
-    // Animation
-    this.isAnimating = 0;   // 0 = Off, 1 = opening, 2 = done, 3 = closing
-    this.pipeIter = 0;
-    this.pipePos = 0;
-    // Position
-    this.cx = mapManager.mapRight;
-    this.cy = 0;
-    // Wall size
-    this.brickLength    = 13;
-    this.brickHeight    = 26;
-
-    // Select number and letter to display
-    this.num = null;
-    this.letter = 'P'
-    this.word = '2 TURN';
-    this.wordLength = 6;
-
+  // Select number and letter to display
+  this.num = null;
+  this.letter = 'P'
+  this.word = '2 TURN';
+  this.wordLength = 6;
 
   // Calculation variables
   let roomW = g_canvas.width - mapManager.mapRight;
@@ -88,6 +87,15 @@ function GameRoom() {
   this.altPipeScaleX = (this.brick.height * this.brickScaleY) / this.altPipe.width;
   // - 1.5 instead of 2 to let the ovelap to cover up holes
   this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength - 1.5) / 2) / this.altPipe.height;
+
+  // ========================
+  // GAME COLLISION VARIABLES
+  // ========================
+
+  this.diceRoomTop    = 0              + (this.brick.height * this.brickScaleY) * 3;
+  this.diceRoomRight  = g_canvas.width - (this.brick.width  * this.brickScaleX) * 1;
+  this.diceRoomBot    = 0              + (this.brick.height * this.brickScaleY) * 12;
+  this.diceRoomLeft   = g_canvas.width - (this.brick.width * this.brickScaleX) * 12;
 };
 
 GameRoom.prototype.update = function(du) {
