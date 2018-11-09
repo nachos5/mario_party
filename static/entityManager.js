@@ -64,6 +64,10 @@ init: function() {
   const cx = 300,//this._gameRoomcx + this.brickWidth * 5.5,
         cy = 300;//this._gameRoomcy + this.brickHeight * 18;
 
+  if (!localStorage.getItem('uuid')) {
+    localStorage.setItem('uuid', Math.random().toString(12));
+  };      
+
   entityManager.generatePlayer({
     cx: cx,
     cy: cy,
