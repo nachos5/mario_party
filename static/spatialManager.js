@@ -54,6 +54,37 @@ unregister: function(entity) {
 
 },
 
+// Special Register for EventBlocks
+registerMulti: function(entity) {
+    let pos = entity.getPos(),
+        spatialID = entity.getSpatialID(),
+        radius = entity.getRadius();
+    
+    // Item 1
+    let posX1 = pos.posX + entity.widthOffset1;
+    pos.posY += entity.heightOffset2;
+
+    // Register the entity
+    this._entities[spatialID] = {entity : entity, posX : posX1, posY : pos.posY,
+            radius : radius};
+
+    // Item 2
+    spatialID = this.getNewSpatialID();
+    let posX2 = pos.posX + entity.widthOffset2;
+
+    // Register the entity
+    this._entities[spatialID] = {entity : entity, posX : posX2, posY : pos.posY,
+            radius : radius};
+
+    // Item3
+    spatialID = this.getNewSpatialID();
+    let posX3 = pos.posX + entity.widthOffset3;
+        
+    // Register the entity
+    this._entities[spatialID] = {entity : entity, posX : posX3, posY : pos.posY,
+            radius : radius};
+},
+
 findEntityInRange: function(posX, posY, radius) {
     // TODO: YOUR STUFF HERE!
     for (let i in this._entities) {
@@ -74,7 +105,6 @@ findEntityInRange: function(posX, posY, radius) {
 render: function(ctx) {
     var oldStyle = ctx.strokeStyle;
     ctx.strokeStyle = "red";
-    //console.log(this._entities);
 
     for (var ID in this._entities) {
         var e = this._entities[ID];
