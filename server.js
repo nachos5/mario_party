@@ -1,7 +1,7 @@
 function Server() {};
 let server = new Server();
 
-server.startServer = function() {
+server.startServer = function(startServer) {
 
   let express = require('express'),
       http = require('http'),
@@ -38,8 +38,6 @@ server.startServer = function() {
   let player_id = 1;
   // keep track of the game state
   let gamestate = {};
-
-  let startServer = this.startServer;
 
   // Add the WebSocket handlers
   io.on('connection', function(socket) {
@@ -122,9 +120,11 @@ server.startServer = function() {
       if (!isAnyoneConnected()) {
         const t = setTimeout(function() {
           if (!isAnyoneConnected()) {
-            players = {};
-            player_id = 1;
-            gamestate = {};
+            //players = {};
+            //player_id = 1;
+            //gamestate = {};
+            io.close();
+            startServer(startServer);
           }
         }, 20000);
       }
@@ -143,4 +143,4 @@ server.startServer = function() {
   };
 };
 
-server.startServer();
+server.startServer(server.startServer);
