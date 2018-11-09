@@ -46,8 +46,22 @@ let eventManager = {
       if(stateManager.game_room.isAnimating === 2) {
         entityManager.generateEventBlocks();
         // Event is done, start closing
-        this.isBlocksEvent = false;
+        //this.isBlocksEvent = false;
+        stateManager.curr_player.eventPlayer.changeRoom(1);
       }
+  },
+
+  36: function() {
+    this.blocksEvent();
+  },
+  36: function() {
+    this.blocksEvent();
+  },
+  36: function() {
+    this.blocksEvent();
+  },
+  36: function() {
+    this.blocksEvent();
   },
 
 
@@ -55,7 +69,7 @@ let eventManager = {
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
-  36: function() {
+  /*36: function() {
     const player = stateManager.curr_player.tt_player; // current player
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row + 1,
@@ -81,6 +95,6 @@ let eventManager = {
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row,
                                         column: currTilePos.column + 1});
-  },
+  },*/
 
 };

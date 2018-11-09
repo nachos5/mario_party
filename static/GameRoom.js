@@ -92,10 +92,17 @@ function GameRoom() {
   // GAME COLLISION VARIABLES
   // ========================
 
+  // Dice Room
   this.diceRoomTop    = 0              + (this.brick.height * this.brickScaleY) * 3;
   this.diceRoomRight  = g_canvas.width - (this.brick.width  * this.brickScaleX) * 1;
   this.diceRoomBot    = 0              + (this.brick.height * this.brickScaleY) * 12;
-  this.diceRoomLeft   = g_canvas.width - (this.brick.width * this.brickScaleX) * 12;
+  this.diceRoomLeft   = g_canvas.width - (this.brick.width  * this.brickScaleX) * 12;
+
+  // Event Room
+  this.eventRoomTop    = 0              + (this.brick.height * this.brickScaleY) * 14;
+  this.eventRoomRight  = g_canvas.width - (this.brick.width  * this.brickScaleX) * 1;
+  this.eventRoomBot    = 0              + (this.brick.height * this.brickScaleY) * 23;
+  this.eventRoomLeft   = g_canvas.width - (this.brick.width  * this.brickScaleX) * 12;
 };
 
 GameRoom.prototype.update = function(du) {

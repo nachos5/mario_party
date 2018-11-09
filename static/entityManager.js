@@ -98,11 +98,16 @@ sharedObjects: function() {
 
     // Initalize variables in eventPlayer
     for(let i = 0; i < this._players.length; i++) {
+        // Start in Dice Room
         this._players[i].eventPlayer.cx = this._gameRoomcx + this._gameRoomBrickWidth * 6.5;
         this._players[i].eventPlayer.cy = this._gameRoomcy + this._gameRoomBrickHeight * 11;
+        
+        this._players[i].eventPlayer.room = 0;
+        this._players[i].eventPlayer.bot = stateManager.game_room.diceRoomBot;
 
         this._players[i].eventPlayer.width = this._gameRoomBrickWidth * 1.5;
         this._players[i].eventPlayer.height = this._gameRoomBrickHeight * 1.5;
+
         this._players[i].eventPlayer.rememberResets();
     }
 },

@@ -5,7 +5,7 @@
 function EventBlocks(descr) {
     // Setup Entity object
     this.setup(descr);
-    
+
     // =======
     // Sprites
     // =======
@@ -62,6 +62,9 @@ function EventBlocks(descr) {
     this.heightOffset1 = this.brickHeight * 16.5;
     this.heightOffset2 = this.brickHeight * 18;
     this.heightOffset3 = this.brickHeight * 19.5;
+
+    //spatialManager.register(this);
+    //console.log(this)
 };
 
 // ==========

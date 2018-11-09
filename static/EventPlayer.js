@@ -19,7 +19,7 @@ function EventPlayer(id) {
     this.height = null;
 
     // 0 = diceRoom, 1 = eventRoom, 2 = minigame
-    this.room = 0;
+    this.room = null;
 };
 
 // ==========
@@ -48,6 +48,25 @@ EventPlayer.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
+EventPlayer.prototype.changeRoom = function (room) {
+    this.room = room;
+
+    // Dice Room
+    if (this.room === 0) { 
+        this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
+        this.cy = entityManager._gameRoomcy + entityManager._gameRoomBrickHeight * 11;
+        this.bot = stateManager.game_room.diceRoomBot;
+    }
+    // Event Room
+    else if (this.room === 1) {
+        this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
+        this.cy = entityManager._gameRoomcy + entityManager._gameRoomBrickHeight * 22;
+        this.bot = stateManager.game_room.eventRoomBot;
+    }
+
+
+};
+
 // =====
 // RESET
 // =====
@@ -63,6 +82,14 @@ EventPlayer.prototype.isRoomCollision = function () {
             stateManager.game_room.diceRoomRight  < this.cx + this.getRadius() ||
             stateManager.game_room.diceRoomBot    < this.cy + this.getRadius() ||
             stateManager.game_room.diceRoomLeft   > this.cx - this.getRadius()
+        ) { return true }
+        return false;
+    }
+    if(this.room === 1) {
+        if( stateManager.game_room.eventRoomTop    > this.cy - this.getRadius() ||
+            stateManager.game_room.eventRoomRight  < this.cx + this.getRadius() ||
+            stateManager.game_room.eventRoomBot    < this.cy + this.getRadius() ||
+            stateManager.game_room.eventRoomLeft   > this.cx - this.getRadius()
         ) { return true }
         return false;
     }
@@ -141,19 +168,18 @@ EventPlayer.prototype.calcAccelX = function () {
 
 EventPlayer.prototype.calcAccelY = function () {
     let gravity = entityManager._gravity;
-    let bot = stateManager.game_room.diceRoomBot;
 
     let accelY = 0;
     let maxAccelY = -2.5;
 
-    if (this.velY === 0 && !(this.cy + this.getRadius() < bot - this.getRadius())) {
+    if (this.velY === 0 && !(this.cy + this.getRadius() < this.bot - this.getRadius())) {
         if (eatKey(this.KEY_JUMP))  {
             this.velY = maxAccelY;
         }
     }
 
     // 1/4 sprite height from the ground enables gravity
-    if (this.cy + this.getRadius() <= bot - this.getRadius()/4) {
+    if (this.cy + this.getRadius() <= this.bot - this.getRadius()/4) {
         accelY += gravity;
     }
 
