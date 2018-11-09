@@ -11,15 +11,19 @@
 // our event manager object
 let eventManager = {
   eventIter: 0,
-  // events that require no animation
+  // events that require no animation (arrows)
   instant_events: [36, 37, 38, 39],
   // we use this to check if our event happens mid movement
-  mid_movement_events: [36, 37, 38, 39],
+  mid_movement_events: [36, 37, 38, 39, 60, 61],
   // we use this to check if our event happens after the movement
   after_movement_events: [],
 
   // Added
   isBlocksEvent: false,
+
+  getCurrPlayer: function() {
+    return stateManager.curr_player.tt_player;
+  },
 
   eventIsInstant: function(id) {
     return this.instant_events.includes(id);
@@ -32,9 +36,9 @@ let eventManager = {
   // ========= GAMEROOM EVENTS ========== //
   // ROLL EVENT
   rollEvent: function() {
-      
+
   },
-  
+
   // BLOCKS EVENT
   blocksEvent: function() {
       this.isBlocksEvent = true;
@@ -56,31 +60,54 @@ let eventManager = {
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
   36: function() {
-    const player = stateManager.curr_player.tt_player; // current player
+    const player = this.getCurrPlayer();
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row + 1,
                                         column: currTilePos.column});
   },
   // arrow right
   37: function() {
-    const player = stateManager.curr_player.tt_player; // current player
+    const player = this.getCurrPlayer();
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row,
                                         column: currTilePos.column - 1});
   },
   // arrow down
   38: function() {
-    const player = stateManager.curr_player.tt_player; // current player
+    const player = this.getCurrPlayer();
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row - 1,
                                         column: currTilePos.column});
   },
   // arrow left
   39: function() {
-    const player = stateManager.curr_player.tt_player; // current player
+    const player = this.getCurrPlayer();
     const currTilePos = mapManager.currTilePos;
     mapManager.setPrevPosition(player, {row: currTilePos.row,
                                         column: currTilePos.column + 1});
+  },
+
+
+
+  // ========= PIPE EVENTS ========== //
+
+  // green pipe
+  60: function(parameters) {
+    if (parameters) {
+      this.eventIter = 200;
+    }
+    this.eventIter--;
+    if (this.eventIter > 0) return; // STILL HAVE TO IMPLEMENT ANIMATIONS
+
+    const player = this.getCurrPlayer();
+    const myPos = mapManager.getPosition(player);
+    const tilePos = mapManager.getTilePositions(60);
+    const notMyTile = tilePos.find(obj => obj.row != myPos.row && obj.column != myPos.column);
+
+    mapManager.setPosition(player, notMyTile);
+    mapManager.setPrevPosition(player, notMyTile);
+    mapManager.diceThrow++; // free movement
+    mapManager.eventIsRunning = false; // event is done
   },
 
 };

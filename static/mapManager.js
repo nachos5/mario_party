@@ -114,6 +114,7 @@ step: function() {
         eventManager[this.currTile]();
       } else {
         // if the event takes time
+        eventManager[this.currTile](true); // initial run where we can set parameters
         this.eventIsRunning = true; // used in the update loop
       }
     }
@@ -130,9 +131,25 @@ step: function() {
   }
 },
 
+// get tile id
 getTile: function(pos) {
   const tile = this.currentMap.tiles[pos.row][pos.column];
   return tile;
+},
+
+// get tile positions by id
+getTilePositions: function(id) {
+  let tilesPos = [];
+  const tiles = this.currentMap.tiles;
+  // we find all tiles with the given id
+  for (let i in tiles) {
+    for (let j in tiles[i]) {
+      if (tiles[i][j] == id) {
+        tilesPos.push({row: parseInt(i), column: parseInt(j)});
+      }
+    }
+  }
+  return tilesPos;
 },
 
 // checks for a valid tile to move to, and returns the position
@@ -141,7 +158,7 @@ checkForNextValidTiles: function(player, pos) {
         col = pos.column;
   const validTiles = [];
   const tiles = this.currentMap.tiles;
-  const tile = tiles[pos.row][pos.column];
+  const tile = tiles[row][col];
 
   // find valid tiles
   if (row < tiles.length && tiles[row + 1][col] != 0)
@@ -187,7 +204,7 @@ update: function(du) {
       // this.stepIter += du; test more
     } else {
       // if an event is running
-      eventManager[this.currTile]();
+      eventManager[this.currTile](false);
     }
   }
 },
