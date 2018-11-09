@@ -44,7 +44,6 @@ register: function(entity) {
     // register the entity
     this._entities[spatialID] = {entity : entity, posX : pos.posX, posY : pos.posY,
                                  radius : radius};
-
 },
 
 unregister: function(entity) {
