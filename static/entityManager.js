@@ -61,8 +61,8 @@ deferredSetup : function () {
 },
 
 init: function() {
-  const cx = 300,//this._gameRoomcx + this.brickWidth * 5.5,
-        cy = 300;//this._gameRoomcy + this.brickHeight * 18;
+  const cx = 300,
+        cy = 300;
 
   entityManager.generatePlayer({
     cx: cx,
@@ -76,7 +76,7 @@ init: function() {
     player_id: networkManager.player_info.player_id
   });
 
-  //console.log(entityManager._players[0]);
+  console.log(entityManager._players[0]);
 
   // let the server know that a new player has joined the game
   networkManager.emit('new player', entityManager._players[0]);
@@ -92,6 +92,16 @@ sharedObjects: function() {
         width: this._gameRoomBrickWidth * 3,
         height: this._gameRoomBrickHeight* 3
       });
+
+    // Initalize variables in eventPlayer
+    for(let i = 0; i < this._players.length; i++) {
+        this._players[i].eventPlayer.cx = this._gameRoomcx + this._gameRoomBrickWidth * 6.5;
+        this._players[i].eventPlayer.cy = this._gameRoomcy + this._gameRoomBrickHeight * 11;
+
+        this._players[i].eventPlayer.width = this._gameRoomBrickWidth * 1.5;
+        this._players[i].eventPlayer.height = this._gameRoomBrickHeight * 1.5;
+        this._players[i].eventPlayer.rememberResets();
+    }
 },
 
 // ========
