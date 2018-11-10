@@ -107,7 +107,7 @@ function GameRoom() {
 
 GameRoom.prototype.update = function(du) {
   if(g_useAnimation) {
-    
+
     // Pipe animation
     if((this.pipeIter < 144 && this.isAnimating === 1) || (this.pipeIter > -144 && this.isAnimating === 3)) {
       if(this.pipeIter % 6 === 0) {  // Swap frames every 10th frame
@@ -124,16 +124,22 @@ GameRoom.prototype.update = function(du) {
       }
       if(this.isAnimating === 1) this.pipeIter++;  // Open
       if(this.isAnimating === 3) this.pipeIter--;  // Close
-      if(this.pipeIter >= 144 || this.pipeIter <= -144) {
+
+      // Stop opening
+      if(this.pipeIter >= 144) {
         if(this.isAnimating === 1) {this.isAnimating = 2};  // opening -> done
         eventManager.blocksEvent();
-        // Restart
-        if(!eventManager.isBlocksEvent) {
-          this.pipeIter = 0;
-          if(this.isAnimating === 2) {this.isAnimating = 3}   // done -> closing
-          else if(this.isAnimating === 3) {this.isAnimating = 0}; // closing -> off
-        }
       }
+    }
+    // Start closing
+    if(!eventManager.isBlocksEvent && this.isAnimating === 2) {
+      this.pipeIter = 0;
+      if(this.isAnimating === 2) {this.isAnimating = 3}   // done -> closing
+    }
+    // Restart
+    if(this.pipeIter <= -144 && this.isAnimating === 3) { 
+      this.pipeIter = 0;
+      this.isAnimating = 0; // closing -> off
     }
 
   }

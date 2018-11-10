@@ -49,14 +49,20 @@ let eventManager = {
       }
       // When pipes are opened, opening -> done
       if(stateManager.game_room.isAnimating === 2) {
-        entityManager.generateEventBlocks();
-        // Event is done, start closing
-        //this.isBlocksEvent = false;
+        if (entityManager._eventBlocks.length === 0) {
+          entityManager.generateEventBlocks();
+        }
         stateManager.curr_player.eventPlayer.changeRoom(1);
       }
   },
 
-  /*36: function() {
+  closeBlocksEvent: function() {
+    // Event is done, start closing
+    this.isBlocksEvent = false;
+    stateManager.curr_player.eventPlayer.changeRoom(0);
+  },
+
+  36: function() {
     this.blocksEvent();
   },
   37: function() {
@@ -67,11 +73,17 @@ let eventManager = {
   },
   39: function() {
     this.blocksEvent();
-  },*/
+  },
+  01: function() {
+    this.blocksEvent();
+  },
+  02: function() {
+    this.blocksEvent();
+  },
 
 
   // ==== COLLECTABLES ==== //
-
+/*
   // blue tile, gain 3 coins
   01: function() {
     const player = this.getCurrPlayer();
@@ -85,7 +97,7 @@ let eventManager = {
     if (player.coins < 0) {
       player.coins = 0;
     }
-  },
+  },*/
 
   /*// star tile
   08: function(parameters) {
@@ -101,7 +113,7 @@ let eventManager = {
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
-  36: function() {
+  /*36: function() {
     mapManager.arrows["up"] = true;
   },
   // arrow right
@@ -115,7 +127,7 @@ let eventManager = {
   // arrow left
   39: function() {
     mapManager.arrows["left"] = true;
-  },
+  },*/
 
 
 
