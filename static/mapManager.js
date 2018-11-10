@@ -19,10 +19,12 @@ mapHeight : null,
 
 eventIsRunning: false,
 someoneIsMoving: false,
+finalStepBool: false,
 diceThrow: 0,
 stepIter: 0,
 currTile: null,
 currTilePos: null,
+arrows: {up: false, right: false, down: false, left: false},
 
 // ============
 // LIST OF MAPS
@@ -30,7 +32,7 @@ currTilePos: null,
 // 0 = originalMap
 
 init : function() {
-    this.loadMap(0);    // Load map
+    this.loadMap(1);    // Load map
 },
 
 loadMap : function(map) {
@@ -88,6 +90,7 @@ unregisterPosition: function(entity) {
    keep track of the value we got */
 readyToMove: function(diceThrow) {
   this.diceThrow = diceThrow;
+  //this.diceThrow = 1;
   this.someoneIsMoving = true;
 },
 
@@ -95,39 +98,54 @@ readyToMove: function(diceThrow) {
 step: function() {
   const player = stateManager.curr_player.tt_player; // current player
   const pos = this.getPosition(player); // position of that player on the board
-  const validTile = this.checkForNextValidTiles(player, pos); // get some valid adjacent tile
-  const prevPos = this.getPosition(player);
-  this.setPrevPosition(player, {row: prevPos.row, column: prevPos.column});
-  const validPos = {row: validTile.row, column: validTile.column};
-  this.setPosition(player, validPos);
 
   if (this.diceThrow > 0) {
     this.diceThrow--;
+    const validTile = this.checkForNextValidTiles(player, pos); // get some valid adjacent tile
+    // set prev position
+    const prevPos = this.getPosition(player);
+    this.setPrevPosition(player, {row: prevPos.row, column: prevPos.column});
+    // set new position
+    const validPos = {row: validTile.row, column: validTile.column};
+    this.setPosition(player, validPos);
+
+
     // we check for an event on the current tile
     this.currTile = this.getTile(validPos);
     this.currTilePos = validPos;
-    if (this.currTile in eventManager && eventManager.eventIsMidMovement(this.currTile)) {
-      // if we are here, the current tile is a mid movement event
-      // lets check if the event is instant or requires time
-      if (eventManager.eventIsInstant(this.currTile)) {
-        // if the event is instant we can just run it right now
-        eventManager[this.currTile]();
-      } else {
-        // if the event takes time
-        eventManager[this.currTile](true); // initial run where we can set parameters
-        this.eventIsRunning = true; // used in the update loop
-      }
-    }
+    this.initEvent(this.currTile);
   }
 
   // we keep on going if we have reached the end of the dice roll
-  if (this.diceThrow <= 0) {
+  else if (this.diceThrow == 0) {
+    this.diceThrow--;
+    const currTile = this.getTile(pos);
+    // we handle our final event (if there is one)
+    this.initEvent(currTile);
+  }
+
+  // here our turn is over and we have handled the final event so we end our turn
+  else {
     this.someoneIsMoving = false; // we stop running this from the update loop
     this.stepIter = 0; // reset
-    // lets get our final tile type (for events)
-    const tile = this.getTile(validPos);
     // we are ready to finalize our turn
-    stateManager.finalizeTurn(tile);
+    stateManager.finalizeTurn();
+  }
+},
+
+// initalize an event (from the step function)
+initEvent: function(currTile) {
+  if (currTile in eventManager && eventManager.eventIsMidMovement(currTile)) {
+    // if we are here, the current tile is a mid movement event
+    // lets check if the event is instant or requires time
+    if (eventManager.eventIsInstant(currTile)) {
+      // if the event is instant we can just run it right now
+      eventManager[currTile]();
+    } else {
+      // if the event takes time
+      eventManager[currTile](true); // initial run where we can set parameters
+      this.eventIsRunning = true; // used in the update loop
+    }
   }
 },
 
@@ -160,34 +178,62 @@ checkForNextValidTiles: function(player, pos) {
   const tiles = this.currentMap.tiles;
   const tile = tiles[row][col];
 
-  // find valid tiles
-  if (row < tiles.length && tiles[row + 1][col] != 0)
-    validTiles.push({row: row + 1, column: col});
-  if (row > 0 && tiles[row - 1][col] != 0)
-    validTiles.push({row: row - 1, column: col});
-  if (col < tiles.length && tiles[row][col + 1] != 0)
-    validTiles.push({row: row, column: col + 1});
-  if (col > 0 && tiles[row][col - 1] != 0)
-    validTiles.push({row: row, column: col - 1});
+  // if we are on an arrow tile, we get the direction
+  const arrow = this.checkIfOnArrow();
 
-  // keep track of the length
+  // find valid tiles
+  // up
+  if (row > 0 && tiles[row - 1][col] != 0) {
+    if (arrow == "no_arrow" || arrow == "up")
+      validTiles.push({row: row - 1, column: col});
+  }
+  // right
+  if (col < tiles.length - 1 && tiles[row][col + 1] != 0) {
+    if (arrow == "no_arrow" || arrow == "right")
+      validTiles.push({row: row, column: col + 1});
+  }
+  // down
+  if (row < tiles.length - 1 && tiles[row + 1][col] != 0) {
+    if (arrow == "no_arrow" || arrow == "down")
+      validTiles.push({row: row + 1, column: col});
+  }
+  // left
+  if (col > 0 && tiles[row][col - 1] != 0) {
+    if (arrow == "no_arrow" || arrow == "left")
+      validTiles.push({row: row, column: col - 1});
+  }
+  // keep track of the length (it's always 1 if on an arrow tile)
     let len = validTiles.length;
 
-  /* we don't want to back backwards if there are multiple options so we check
-     if prev position is in validTiles */
-  if (len > 1) {
-    const prevPos = player.prevPosition;
-    let obj = validTiles.find(obj => obj.row == prevPos.row && obj.column == prevPos.column);
-    if (obj != undefined)  {
-      const i = validTiles.indexOf(obj);
-      validTiles.splice(i, 1);
-      len--;
+    /* we don't want to back backwards if there are multiple options so we check
+       if prev position is in validTiles, if so we remove it */
+    if (len > 1) {
+      const prevPos = player.prevPosition;
+      let obj = validTiles.find(obj => obj.row == prevPos.row && obj.column == prevPos.column);
+      if (obj != undefined)  {
+        const i = validTiles.indexOf(obj);
+        validTiles.splice(i, 1);
+        len--;
+      }
     }
-  }
 
+  this.resetArrows();
   // get 1 random tile from the valid tiles
   const rand = parseInt(Math.random() * len);
   return validTiles[rand];
+},
+
+resetArrows: function() {
+  this.arrows = {up: false, right: false, down: false, left: false};
+},
+
+// checks if we are on a arrow and returns the direction of the arrow
+checkIfOnArrow: function() {
+  for (let key in this.arrows) {
+    if (this.arrows[key])
+      return key;
+  }
+  return "no_arrow";
 },
 
 update: function(du) {
@@ -206,7 +252,7 @@ update: function(du) {
       // if an event is running
       eventManager[this.currTile](false);
     }
-  }
+  };
 },
 
 render: function(ctx) {

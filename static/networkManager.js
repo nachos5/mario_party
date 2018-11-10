@@ -49,16 +49,25 @@ networkManager.socket.on("new_player", function(player) {
     coins: 0,
     player_id: player.player_id
   });
+  
+  const client_players = entityManager._players;
+  const client_player = client_players[client_players.length - 1];
+  entityManager.initEventPlayer(client_player);
 });
 
 // player reconnects
 networkManager.socket.on("reconnecting", function(player) {
   const clientPlayer = entityManager._players[0];
-  clientPlayer.tt_player.position = player.tt_player.position;
+  // ==== MAIN PLAYER ==== //
   clientPlayer.cx = player.cx;
   clientPlayer.cy = player.cy;
   clientPlayer.stars = player.stars;
   clientPlayer.coins = player.coins;
+  // ==== TT PLAYER ==== //
+  clientPlayer.tt_player.position = player.tt_player.position;
+  // ==== EVENT PLAYER ==== //
+  clientPlayer.eventPlayer.cx = player.eventPlayer.cx;
+  clientPlayer.eventPlayer.cy = player.eventPlayer.cy;
 });
 
 // player disconnects
@@ -77,8 +86,8 @@ networkManager.socket.on("existingPlayers", function(data) {
         // player from server
         const player = data.players[p];
         entityManager.generatePlayer({
-          cx: default_coords.cx,
-          cy: default_coords.cy,
+          cx: player.cx,
+          cy: player.cy,
           uuid: player.uuid,
           my_player: false,
 
@@ -94,19 +103,32 @@ networkManager.socket.on("existingPlayers", function(data) {
 });
 
 
-// PLAYER POSITION
+// UPDATING PLAYER STUFF
 networkManager.socket.on("update_player_server", function(player) {
   // lets find the player with the same id
   let obj = entityManager._players.find(obj => obj.uuid == player.uuid);
+
   try {
-    // set position
+    // ==== MAIN PLAYER ==== //
+    // position
     obj.setPos(player.cx, player.cy);
-    // set tabletop position
+    // scoreboard stuff
+    obj.coins = player.coins;
+    obj.stars = player.stars;
+
+
+    // ==== TABLETOP PLAYER ==== //
+    // position
     mapManager.setPosition(obj.tt_player, {row: player.tt_player.position.row,
                                            column: player.tt_player.position.column});
-    // other stuff
-    obj.coint = player.coins;
-    obj.stars = player.stars;
+    // alpha (pipe stuff)
+    obj.tt_player.alpha = player.tt_player.alpha;
+
+
+    // ==== EVENT PLAYER ==== //
+    obj.eventPlayer.cx = player.eventPlayer.cx;
+    obj.eventPlayer.cy = player.eventPlayer.cy;
+
   } catch(e) {}
 });
 

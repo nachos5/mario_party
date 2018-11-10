@@ -98,16 +98,17 @@ Die.prototype.roll = function(du=1) {
 }
 
 Die.prototype.stopRoll = function () {
-  this.isCollision = false;
-  // we stop this from running (from the update loop)
-  this.isRolling = false;
-  // emit the correct side to the server
-  networkManager.socket.emit("die_sprite", this.currRand);
-  // reset stuff
-  this.rollIter = 0;
-  this.timeIter = 0;
-  // we are ready to move the player!
-  mapManager.readyToMove(this.currRand);
+  if (this.isRolling) {
+    this.isRolling = false;
+    this.isCollision = false;
+    // emit the correct side to the server
+    networkManager.socket.emit("die_sprite", this.currRand);
+    // reset stuff
+    this.rollIter = 0;
+    this.timeIter = 0;
+    // we are ready to move the player!
+    mapManager.readyToMove(this.currRand);
+  }
 };
 
 Die.prototype.getRadius = function () {

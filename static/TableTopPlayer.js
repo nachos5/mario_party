@@ -16,6 +16,7 @@ function TableTopPlayer(id) {
     this.centerX = this.map.mapLeft + this.map.tilesWidth / 2;
     this.centerY = this.map.mapTop + this.map.tilesHeight / 2;
     this.rotation = 0;
+    this.alpha = 1;
 
     //this.rememberResets();
 
@@ -83,5 +84,8 @@ TableTopPlayer.prototype.reset = function () {
 // ======
 
 TableTopPlayer.prototype.render = function (ctx) {
-    this.sprite.drawClipCentredAtFixed(ctx, this.cx, this.cy, this.rotation, this.width, this.height);
+  // alpha for pipe effect
+  ctx.globalAlpha = this.alpha;
+  this.sprite.drawClipCentredAtFixed(ctx, this.cx, this.cy, this.rotation, this.width, this.height);
+  ctx.globalAlpha = 1;
 };

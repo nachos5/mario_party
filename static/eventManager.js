@@ -50,9 +50,23 @@ let eventManager = {
       if(stateManager.game_room.isAnimating === 2) {
         entityManager.generateEventBlocks();
         // Event is done, start closing
-        this.isBlocksEvent = false;
+        //this.isBlocksEvent = false;
+        stateManager.curr_player.eventPlayer.changeRoom(1);
       }
   },
+
+  /*36: function() {
+    this.blocksEvent();
+  },
+  37: function() {
+    this.blocksEvent();
+  },
+  38: function() {
+    this.blocksEvent();
+  },
+  39: function() {
+    this.blocksEvent();
+  },*/
 
 
   // ========= ARROW EVENTS ========== //
@@ -60,54 +74,74 @@ let eventManager = {
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
   36: function() {
-    const player = this.getCurrPlayer();
-    const currTilePos = mapManager.currTilePos;
-    mapManager.setPrevPosition(player, {row: currTilePos.row + 1,
-                                        column: currTilePos.column});
+    mapManager.arrows["up"] = true;
   },
   // arrow right
   37: function() {
-    const player = this.getCurrPlayer();
-    const currTilePos = mapManager.currTilePos;
-    mapManager.setPrevPosition(player, {row: currTilePos.row,
-                                        column: currTilePos.column - 1});
+    mapManager.arrows["right"] = true;
   },
   // arrow down
   38: function() {
-    const player = this.getCurrPlayer();
-    const currTilePos = mapManager.currTilePos;
-    mapManager.setPrevPosition(player, {row: currTilePos.row - 1,
-                                        column: currTilePos.column});
+    mapManager.arrows["down"] = true;
   },
   // arrow left
   39: function() {
-    const player = this.getCurrPlayer();
-    const currTilePos = mapManager.currTilePos;
-    mapManager.setPrevPosition(player, {row: currTilePos.row,
-                                        column: currTilePos.column + 1});
+    mapManager.arrows["left"] = true;
   },
 
 
 
   // ========= PIPE EVENTS ========== //
+  //     pipes give free movement!
+  // destination pipe is chosen at random!
 
-  // green pipe
-  60: function(parameters) {
-    if (parameters) {
-      this.eventIter = 200;
-    }
-    this.eventIter--;
-    if (this.eventIter > 0) return; // STILL HAVE TO IMPLEMENT ANIMATIONS
-
+  // green pipe, we use the eventIter to control the flow
+  60: function(parameters, tileNo=60) {
     const player = this.getCurrPlayer();
     const myPos = mapManager.getPosition(player);
-    const tilePos = mapManager.getTilePositions(60);
-    const notMyTile = tilePos.find(obj => obj.row != myPos.row && obj.column != myPos.column);
+    if (parameters) {
+      this.eventIter = 100;
+    }
+    // fade out
+    if (this.eventIter > 0) {
+      player.alpha -= 0.01;
+      if (player.alpha < 0) player.alpha = 0;
+      this.eventIter--;
+      return;
+    }
+    // set position to the other pipe (runs only once)
+    if (this.eventIter == 0) {
+      const tilePos = mapManager.getTilePositions(tileNo); // get all pipes
+      // filter out the pipe we are on currently
+      const notMyTiles = tilePos.filter(obj => obj.row != myPos.row && obj.column != myPos.column);
+      // get 1 random pipe
+      const rand = parseInt(Math.random() * notMyTiles.length);
+      const notMyTile = notMyTiles[rand];
+      // set the player position to the chosen pipe
+      mapManager.setPosition(player, notMyTile);
+      mapManager.setPrevPosition(player, notMyTile);
+      // set eventiter as negative so we only run the last part (fade in)
+      this.eventIter = -200;
+      return;
+    }
+    // fade in
+    if (this.eventIter < 0) {
+      player.alpha += 0.01;
+      if (player.alpha > 1) player.alpha = 1;
+      this.eventIter++;
+    }
+    // the event is done
+    if (this.eventIter == -100) {
+      // pipes give free movement so we go to the next tile
+      const tilePos = mapManager.checkForNextValidTiles(player, myPos);
+      mapManager.setPosition(player, tilePos); // we go for free to this tile
+      mapManager.eventIsRunning = false; // event is done
+    }
+  },
 
-    mapManager.setPosition(player, notMyTile);
-    mapManager.setPrevPosition(player, notMyTile);
-    mapManager.diceThrow++; // free movement
-    mapManager.eventIsRunning = false; // event is done
+  // red pipe, same code for both pipes so we just "redirect"
+  61: function(parameters) {
+    this[60](parameters, 61);
   },
 
 };

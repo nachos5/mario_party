@@ -59,7 +59,7 @@ let stateManager = {
   },
 
   // we finalize our turn by handling final events and prepare the next turn
-  finalizeTurn: function(tile) {
+  finalizeTurn: function() {
 
     // we are ready for the next turn
     this.nextTurn();
@@ -105,7 +105,7 @@ let stateManager = {
     this.game_room.num = this.curr_player_id;
 
     // Temp
-    eventManager.blocksEvent();
+    //eventManager.blocksEvent();
 
   },
 
@@ -127,13 +127,6 @@ let stateManager = {
     this.score_room.update(du);
     this.game_room.update(du);
 
-    // TEMP UMCOMMENT IN NEXTURN, ÞEGAR NEXTURN VIRKAR
-    this.players.sort(function(x, y){
-      if(y.stars === x.stars) {
-        return y.coins - x.coins
-      };
-      return y.stars - x.stars;
-    });
   },
 
   render: function(ctx) {

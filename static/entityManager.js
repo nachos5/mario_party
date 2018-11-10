@@ -68,7 +68,7 @@ init: function() {
 
   if (!localStorage.getItem('uuid')) {
     localStorage.setItem('uuid', Math.random().toString(12));
-  };      
+  };
 
   entityManager.generatePlayer({
     cx: cx,
@@ -102,13 +102,23 @@ sharedObjects: function() {
 
     // Initalize variables in eventPlayer
     for(let i = 0; i < this._players.length; i++) {
-        this._players[i].eventPlayer.cx = this._gameRoomcx + this._gameRoomBrickWidth * 6.5;
-        this._players[i].eventPlayer.cy = this._gameRoomcy + this._gameRoomBrickHeight * 11;
-
-        this._players[i].eventPlayer.width = this._gameRoomBrickWidth * 1.5;
-        this._players[i].eventPlayer.height = this._gameRoomBrickHeight * 1.5;
-        this._players[i].eventPlayer.rememberResets();
+        this.initEventPlayer(this._players[i]);
     }
+},
+
+// betra fyrir mig að hafa þetta svona útaf networking
+initEventPlayer: function(player) {
+  // Start in Dice Room
+  player.eventPlayer.cx = this._gameRoomcx + this._gameRoomBrickWidth * 6.5;
+  player.eventPlayer.cy = this._gameRoomcy + this._gameRoomBrickHeight * 11;
+
+  player.eventPlayer.room = 0;
+  player.eventPlayer.bot = stateManager.game_room.diceRoomBot;
+
+  player.eventPlayer.width = this._gameRoomBrickWidth * 1.5;
+  player.eventPlayer.height = this._gameRoomBrickHeight * 1.5;
+
+  player.eventPlayer.rememberResets();
 },
 
 // ========

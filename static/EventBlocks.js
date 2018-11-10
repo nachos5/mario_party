@@ -5,7 +5,7 @@
 function EventBlocks(descr) {
     // Setup Entity object
     this.setup(descr);
-    
+
     // =======
     // Sprites
     // =======
@@ -62,6 +62,8 @@ function EventBlocks(descr) {
     this.heightOffset1 = this.brickHeight * 16.5;
     this.heightOffset2 = this.brickHeight * 18;
     this.heightOffset3 = this.brickHeight * 19.5;
+
+    spatialManager.registerMulti(this);
 };
 
 // ==========
@@ -69,6 +71,17 @@ function EventBlocks(descr) {
 // ==========
 
 EventBlocks.prototype = new Entity();
+
+EventBlocks.prototype.getRadius = function () {
+    return this.width * 0.75;
+};
+
+EventBlocks.prototype.resolveCollision = function () {
+    //this.isCollision = true;
+    //this.isColliding();
+    //console.log(this)
+    //spatialManager.findEntityInRange();
+};
 
 // ======
 // UPDATE
