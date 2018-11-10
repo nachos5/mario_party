@@ -11,18 +11,19 @@
 // our event manager object
 let eventManager = {
   eventIter: 0,
-  // events that require no animation (arrows)
-  instant_events: [36, 37, 38, 39],
+  // events that require no animation
+  instant_events: [01, 02, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
   mid_movement_events: [36, 37, 38, 39, 60, 61],
   // we use this to check if our event happens after the movement
-  after_movement_events: [],
+  after_movement_events: [01, 02],
 
   // Added
   isBlocksEvent: false,
+  starCost: 10,
 
   getCurrPlayer: function() {
-    return stateManager.curr_player.tt_player;
+    return stateManager.curr_player;
   },
 
   eventIsInstant: function(id) {
@@ -69,6 +70,33 @@ let eventManager = {
   },*/
 
 
+  // ==== COLLECTABLES ==== //
+
+  // blue tile, gain 3 coins
+  01: function() {
+    const player = this.getCurrPlayer();
+    player.coins += 3;
+  },
+
+  // red tile lose 3 coins
+  02: function() {
+    const player = this.getCurrPlayer();
+    player.coins -= 3;
+    if (player.coins < 0) {
+      player.coins = 0;
+    }
+  },
+
+  /*// star tile
+  08: function(parameters) {
+    if (parameters) {
+      this.eventiter = 200;
+    }
+    this.eventIter--;
+
+  }*/
+
+
   // ========= ARROW EVENTS ========== //
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
@@ -97,7 +125,7 @@ let eventManager = {
 
   // green pipe, we use the eventIter to control the flow
   60: function(parameters, tileNo=60) {
-    const player = this.getCurrPlayer();
+    const player = this.getCurrPlayer().tt_player;
     const myPos = mapManager.getPosition(player);
     if (parameters) {
       this.eventIter = 100;

@@ -113,15 +113,16 @@ step: function() {
     // we check for an event on the current tile
     this.currTile = this.getTile(validPos);
     this.currTilePos = validPos;
-    this.initEvent(this.currTile);
+    // event only runs if it is an mid movement event
+    this.initEvent(this.currTile, eventManager.eventIsMidMovement(this.currTile));
   }
 
   // we keep on going if we have reached the end of the dice roll
   else if (this.diceThrow == 0) {
     this.diceThrow--;
-    const currTile = this.getTile(pos);
+    this.currTile = this.getTile(pos);
     // we handle our final event (if there is one)
-    this.initEvent(currTile);
+    this.initEvent(this.currTile, true);
   }
 
   // here our turn is over and we have handled the final event so we end our turn
@@ -134,8 +135,8 @@ step: function() {
 },
 
 // initalize an event (from the step function)
-initEvent: function(currTile) {
-  if (currTile in eventManager && eventManager.eventIsMidMovement(currTile)) {
+initEvent: function(currTile, condition) {
+  if (currTile in eventManager && condition) {
     // if we are here, the current tile is a mid movement event
     // lets check if the event is instant or requires time
     if (eventManager.eventIsInstant(currTile)) {
