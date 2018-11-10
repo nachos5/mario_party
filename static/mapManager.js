@@ -90,7 +90,6 @@ unregisterPosition: function(entity) {
    keep track of the value we got */
 readyToMove: function(diceThrow) {
   this.diceThrow = diceThrow;
-  //this.diceThrow = 1;
   this.someoneIsMoving = true;
 },
 
@@ -101,14 +100,16 @@ step: function() {
 
   if (this.diceThrow > 0) {
     this.diceThrow--;
-    const validTile = this.checkForNextValidTiles(player, pos); // get some valid adjacent tile
+    // change die side
+    entityManager.getDie().side_sprite(this.diceThrow);
+    // get some valid adjacent tile
+    const validTile = this.checkForNextValidTiles(player, pos);
     // set prev position
     const prevPos = this.getPosition(player);
     this.setPrevPosition(player, {row: prevPos.row, column: prevPos.column});
     // set new position
     const validPos = {row: validTile.row, column: validTile.column};
     this.setPosition(player, validPos);
-
 
     // we check for an event on the current tile
     this.currTile = this.getTile(validPos);
@@ -127,10 +128,12 @@ step: function() {
 
   // here our turn is over and we have handled the final event so we end our turn
   else {
-    this.someoneIsMoving = false; // we stop running this from the update loop
-    this.stepIter = 0; // reset
-    // we are ready to finalize our turn
-    stateManager.finalizeTurn();
+    if (!this.eventIsRunning) {
+      this.someoneIsMoving = false; // we stop running this from the update loop
+      this.stepIter = 0; // reset
+      // we are ready to finalize our turn
+      stateManager.finalizeTurn();
+    };
   }
 },
 
@@ -142,6 +145,7 @@ initEvent: function(currTile, condition) {
     if (eventManager.eventIsInstant(currTile)) {
       // if the event is instant we can just run it right now
       eventManager[currTile]();
+      this.eventIsRunning = false;
     } else {
       // if the event takes time
       eventManager[currTile](true); // initial run where we can set parameters
@@ -154,6 +158,10 @@ initEvent: function(currTile, condition) {
 getTile: function(pos) {
   const tile = this.currentMap.tiles[pos.row][pos.column];
   return tile;
+},
+
+setCurrTile: function(pos) {
+  this.currTile = this.getTile(pos);
 },
 
 // get tile positions by id
@@ -185,22 +193,26 @@ checkForNextValidTiles: function(player, pos) {
   // find valid tiles
   // up
   if (row > 0 && tiles[row - 1][col] != 0) {
-    if (arrow == "no_arrow" || arrow == "up")
+    const checkArrow = this.arrowOnTile({row: row - 1, column: col});
+    if ((arrow == "no_arrow" && checkArrow != "down") || arrow == "up")
       validTiles.push({row: row - 1, column: col});
   }
   // right
   if (col < tiles.length - 1 && tiles[row][col + 1] != 0) {
-    if (arrow == "no_arrow" || arrow == "right")
+    const checkArrow = this.arrowOnTile({row: row, column: col + 1});
+    if ((arrow == "no_arrow" && checkArrow != "left") || arrow == "right")
       validTiles.push({row: row, column: col + 1});
   }
   // down
   if (row < tiles.length - 1 && tiles[row + 1][col] != 0) {
-    if (arrow == "no_arrow" || arrow == "down")
+    const checkArrow = this.arrowOnTile({row: row + 1, column: col});
+    if ((arrow == "no_arrow" && checkArrow != "up") || arrow == "down")
       validTiles.push({row: row + 1, column: col});
   }
   // left
   if (col > 0 && tiles[row][col - 1] != 0) {
-    if (arrow == "no_arrow" || arrow == "left")
+    const checkArrow = this.arrowOnTile({row: row, column: col - 1});
+    if ((arrow == "no_arrow" && checkArrow != "right") || arrow == "left")
       validTiles.push({row: row, column: col - 1});
   }
   // keep track of the length (it's always 1 if on an arrow tile)
@@ -237,6 +249,16 @@ checkIfOnArrow: function() {
   return "no_arrow";
 },
 
+// return the arrow position if there is an arrow on the tile
+arrowOnTile: function(pos) {
+  const tileId = this.currentMap.tiles[pos.row][pos.column];
+  if (tileId == 36) return "up";
+  else if (tileId == 37) return "right";
+  else if (tileId == 38) return "down";
+  else if (tileId == 39) return "left";
+  else return "no_arrow";
+},
+
 update: function(du) {
   /* moving animation for tabletop players
      readyToMove sets this value to true */
@@ -251,7 +273,7 @@ update: function(du) {
       // this.stepIter += du; test more
     } else {
       // if an event is running
-      eventManager[this.currTile](false);
+      eventManager[this.currTile]();
     }
   };
 },

@@ -60,7 +60,6 @@ let stateManager = {
 
   // we finalize our turn by handling final events and prepare the next turn
   finalizeTurn: function() {
-
     // we are ready for the next turn
     this.nextTurn();
     // let the server know so he can let all other players know

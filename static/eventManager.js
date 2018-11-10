@@ -14,7 +14,7 @@ let eventManager = {
   // events that require no animation
   instant_events: [01, 02, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
-  mid_movement_events: [36, 37, 38, 39, 60, 61],
+  mid_movement_events: [08, 36, 37, 38, 39, 60, 61],
   // we use this to check if our event happens after the movement
   after_movement_events: [01, 02],
 
@@ -87,14 +87,15 @@ let eventManager = {
     }
   },
 
-  /*// star tile
+  // star tile
   08: function(parameters) {
     if (parameters) {
       this.eventiter = 200;
     }
     this.eventIter--;
 
-  }*/
+    mapManager.eventIsRunning = false; // event is done
+  },
 
 
   // ========= ARROW EVENTS ========== //
@@ -103,18 +104,22 @@ let eventManager = {
   // arrow up
   36: function() {
     mapManager.arrows["up"] = true;
+    mapManager.diceThrow++; // free movement
   },
   // arrow right
   37: function() {
     mapManager.arrows["right"] = true;
+    mapManager.diceThrow++; // free movement
   },
   // arrow down
   38: function() {
     mapManager.arrows["down"] = true;
+    mapManager.diceThrow++; // free movement
   },
   // arrow left
   39: function() {
     mapManager.arrows["left"] = true;
+    mapManager.diceThrow++; // free movement
   },
 
 
@@ -124,7 +129,7 @@ let eventManager = {
   // destination pipe is chosen at random!
 
   // green pipe, we use the eventIter to control the flow
-  60: function(parameters, tileNo=60) {
+  60: function(parameters=false, tileNo=60) {
     const player = this.getCurrPlayer().tt_player;
     const myPos = mapManager.getPosition(player);
     if (parameters) {
@@ -161,14 +166,13 @@ let eventManager = {
     // the event is done
     if (this.eventIter == -100) {
       // pipes give free movement so we go to the next tile
-      const tilePos = mapManager.checkForNextValidTiles(player, myPos);
-      mapManager.setPosition(player, tilePos); // we go for free to this tile
+      mapManager.diceThrow++;
       mapManager.eventIsRunning = false; // event is done
     }
   },
 
   // red pipe, same code for both pipes so we just "redirect"
-  61: function(parameters) {
+  61: function(parameters=false) {
     this[60](parameters, 61);
   },
 
