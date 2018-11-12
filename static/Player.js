@@ -28,7 +28,7 @@ function Player(descr) {
     //mapManager.setPosition(this.tt_player);
 
     this.sprite = this.tt_player.sprite;
-    //this.sprite = g_sprites.ship;
+    this.spriteID = this.player_id;
 
     // New event player
     this.eventPlayer = new EventPlayer(this.player_id);

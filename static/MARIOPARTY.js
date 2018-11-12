@@ -191,7 +191,8 @@ function waitForServerResponse() {
   preloadDone();
 }
 
-var g_sprites = {};
+let g_sprites = {};
+let g_players = [];
 
 function preloadDone() {
     g_sprites.ship              = new Sprite(g_images.ship);
@@ -225,6 +226,19 @@ function preloadDone() {
     g_sprites.bowserjr          = new Sprite(g_images.tiles2, 723, 250, 0, 2, 30, 30);
     g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);
 
+    // Players
+    let mario          = g_sprites.mario;
+    let luigi          = g_sprites.luigi;
+    let pinkPeach      = g_sprites.pinkPeach;
+    let yoshi          = g_sprites.yoshi;
+    let wario          = g_sprites.wario;
+    let yellowPeach    = g_sprites.yellowPeach;
+    g_players.push(mario);
+    g_players.push(luigi);
+    g_players.push(pinkPeach);
+    g_players.push(yoshi);
+    g_players.push(wario);
+    g_players.push(yellowPeach);
 
     // Players
     g_sprites.blackPlayer       = new Sprite(g_images.blackPlayer);
