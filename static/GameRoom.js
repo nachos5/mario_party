@@ -50,7 +50,7 @@ function GameRoom() {
   this.alphY = g_sprites.alphY;
   this.alphZ = g_sprites.alphZ;
   this.alph2 = g_sprites.alphDot;
-  
+
   // Animation
   this.isAnimating = 0;   // 0 = Off, 1 = opening, 2 = done, 3 = closing
   this.pipeIter = 0;
@@ -104,6 +104,12 @@ function GameRoom() {
   this.eventRoomBot    = 0              + (this.brick.height * this.brickScaleY) * 23;
   this.eventRoomLeft   = g_canvas.width - (this.brick.width  * this.brickScaleX) * 12;
 };
+
+// ==========
+// PROPERTIES
+// ==========
+
+GameRoom.prototype.spriteID = 5;
 
 GameRoom.prototype.update = function(du) {
   if(g_useAnimation) {
@@ -188,8 +194,9 @@ GameRoom.prototype.render = function(ctx) {
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - 6 + this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // P# Word
-    this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-    this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 3 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    g_players[this.spriteID].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    //this['alph'+[this.letter]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    //this['number'+[this.num]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 3 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {
         let alph = this.word[i];
         if(this.word[i] !== ' ') {

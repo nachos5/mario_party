@@ -21,6 +21,7 @@ let eventManager = {
   // Added
   isBlocksEvent: false,
   starCost: 10,
+  isEvent: false,
 
   getCurrPlayer: function() {
     return stateManager.curr_player;
@@ -42,6 +43,7 @@ let eventManager = {
 /*
   // BLOCKS EVENT
   blocksEvent: function() {
+      this.isEvent = true;
       this.isBlocksEvent = true;
       // Change state of pipes, off -> opening
       if(stateManager.game_room.isAnimating === 0) {
@@ -58,8 +60,10 @@ let eventManager = {
 
   closeBlocksEvent: function() {
     // Event is done, start closing
+    this.isEvent = false;
     this.isBlocksEvent = false;
     stateManager.curr_player.eventPlayer.changeRoom(0);
+    stateManager.callNextTurn();
   },
 
   36: function() {

@@ -7,6 +7,8 @@
 // ===========
 
 function EventPlayer(id) {
+    this.setup();
+
     this.id = id;
     this.sprite = null;
 
@@ -48,6 +50,10 @@ EventPlayer.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
+// ===========
+// CHANGE ROOM
+// ===========
+
 EventPlayer.prototype.changeRoom = function (room) {
     this.room = room;
 
@@ -76,6 +82,10 @@ EventPlayer.prototype.reset = function () {
     this.rotation = this.reset_rotation;
 };
 
+// =================
+// IS ROOM COLLISION
+// =================
+
 EventPlayer.prototype.isRoomCollision = function () {
     if(this.room === 0) {
         if( stateManager.game_room.diceRoomTop    > this.cy - this.getRadius() ||
@@ -95,6 +105,10 @@ EventPlayer.prototype.isRoomCollision = function () {
     }
     return false;
 };
+
+// =====
+// ACCEL
+// =====
 
 EventPlayer.prototype.accel = function (du) {
     let accelX = this.calcAccelX();
@@ -137,6 +151,10 @@ EventPlayer.prototype.accel = function (du) {
     }
 };
 
+// ============
+// CALC ACCEL X
+// ============
+
 EventPlayer.prototype.calcAccelX = function () {
     let accelX = 0;
     let maxAccelX = 0.35;    // Right
@@ -165,6 +183,10 @@ EventPlayer.prototype.calcAccelX = function () {
     if (accelX < minAccelX) { return minAccelX }
     else { return accelX }
 };
+
+// ============
+// CALC ACCEL Y
+// ============
 
 EventPlayer.prototype.calcAccelY = function () {
     let gravity = entityManager._gravity;
@@ -211,6 +233,8 @@ EventPlayer.prototype.update = function (du) {
         this.cy = this.prevCy;
     }
     else {spatialManager.register(this)}
+
+    if (this._isDeadNow) { return -1 }
 };
 
 // ======

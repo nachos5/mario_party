@@ -103,6 +103,12 @@ function ScoreRoom() {
     this.altPipeScaleY = (this.brick.width * this.brickScaleX * (this.brickLength - 1.5)/2)  / this.altPipe.height;
 };
 
+// ==========
+// PROPERTIES
+// ==========
+
+ScoreRoom.prototype.spriteID = 5;
+
 ScoreRoom.prototype.update = function(du) {
     if (g_useAnimation) {
         // Coin animation
@@ -177,8 +183,9 @@ ScoreRoom.prototype.render = function(ctx) {
         this['alph'+[letter1]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
         this['alph'+[letter2]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2.5 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
         // Player
-        this.alphP.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
-        this['number'+[this.players[i].player_id]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 5 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
+        g_players[this.players[i].spriteID].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        //this.alphP.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        //this['number'+[this.players[i].player_id]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 5 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Star
         this.star.drawTopLeftFixed(ctx, this.cx + (this.brick.width * 7 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0, 1, 1,        (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY));
         this['number'+[this.players[i].stars]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 8 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
