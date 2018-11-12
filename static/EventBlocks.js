@@ -3,28 +3,15 @@
 // ===========
 
 function EventBlocks(descr) {
+
     // Apply Properties from caller
     for (var property in descr) {
         this[property] = descr[property];
     }
 
-    // =======
     // Sprites
-    // =======
-
-    // Misc
     this.eventBlock     = g_sprites.eventBlock;
     this.arrow          = g_sprites.arrow;
-    // Items
-    let coin           = g_sprites.coinAni1;
-    let star           = g_sprites.star;
-    // Players
-    let mario          = g_sprites.mario;
-    let luigi          = g_sprites.luigi;
-    let pinkPeach      = g_sprites.pinkPeach;
-    let yoshi          = g_sprites.yoshi;
-    let wario          = g_sprites.wario;
-    let yellowPeach    = g_sprites.yellowPeach;
 
     // ==============
     // SIZE VARIABLES
@@ -40,12 +27,8 @@ function EventBlocks(descr) {
     // BLOCK VARIABLES
     // ===============
 
-    this.players = [mario, luigi, pinkPeach, yoshi, wario, yellowPeach];
-    this.randPlayer = function() { return parseInt(Math.random() * this.players.length) };
-    
-    // Id 0 = normal sprite, Id 1 = clipped Sprite
-    this.items = [{sp : coin, id : 1}, {sp : star, id : 0}];
-    this.randItem   = function() { return parseInt(Math.random() * this.items.length) };
+    this.randPlayer = function() { return parseInt(Math.random() * g_playerSprites.length) };
+    this.randItem   = function() { return parseInt(Math.random() * g_itemSprites.length) };
 
     // =============
     // OFFSET VALUES
@@ -101,7 +84,6 @@ EventBlocks.prototype.getPreset = function(preset) {
             itemHeight : this.itemHeight,
 
             block : this.eventBlock,
-            players : this.players,
         });
     }
     // Create preset 2
@@ -125,7 +107,6 @@ EventBlocks.prototype.getPreset = function(preset) {
             itemHeight : this.itemHeight,
 
             block : this.eventBlock,
-            items : this.items,
         });
     }
     // Create preset 3
@@ -144,7 +125,6 @@ EventBlocks.prototype.getPreset = function(preset) {
             itemHeight : this.itemHeight,
 
             block : this.eventBlock,
-            players : this.players,
         });
     }
 };
@@ -167,7 +147,7 @@ EventBlocks.prototype.update = function(du) {
             spatialManager.unregister(this.block2);
             spatialManager.unregister(this.block3);
             // Initialize closing event
-            eventManager.closeBlocksEvent();
+            eventManager.closeBlocksEvent(2);
             return -1;
         }
     }

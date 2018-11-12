@@ -23,11 +23,11 @@ function handleMouse(evt) {
     var button = evt.buttons === undefined ? evt.which : evt.buttons;
     if (!button) return;
 
-    // can only roll if our player is the current player & nobody is moving & die is not rolling
+    /*// can only roll if our player is the current player & nobody is moving & die is not rolling
     if (!mapManager.someoneIsMoving && !entityManager.getDie().isRolling &&
         stateManager.curr_player.my_player) {
           entityManager.getDie().roll();
-        }
+        }*/
 
 }
 

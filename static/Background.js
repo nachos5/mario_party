@@ -26,6 +26,10 @@ function Background() {
     this.brickScaleY  = this.height / this.wallHeight;
 };
 
+// ======
+// RENDER
+// ======
+
 Background.prototype.render = function(ctx) {;
     this.sprite.drawTopLeftFixed(ctx, this.cx, this.cy, 0, 1, 1, this.width, this.height);
 }

@@ -71,8 +71,6 @@ init: function() {
   };
 
   entityManager.generatePlayer({
-    cx: cx,
-    cy: cy,
     uuid: localStorage.getItem('uuid'),
     my_player: true,
 
@@ -99,6 +97,9 @@ sharedObjects: function() {
         cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5) + this._gameRoomBrickWidth * 1.5,
         cy: this._gameRoomcy + (this._gameRoomBrickHeight * 6) + this._gameRoomBrickHeight * 1.5
       });
+
+    // Start rolling the die
+    this.getDie().roll();
 
     // Initalize variables in eventPlayer
     for(let i = 0; i < this._players.length; i++) {

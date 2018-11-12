@@ -58,12 +58,14 @@ let eventManager = {
       }
   },
 
-  closeBlocksEvent: function() {
+  closeBlocksEvent: function(state) {
     // Event is done, start closing
-    this.isEvent = false;
-    this.isBlocksEvent = false;
-    stateManager.curr_player.eventPlayer.changeRoom(0);
-    stateManager.callNextTurn();
+    if (state === 0) { stateManager.callNextTurn() }
+    else {
+      this.isEvent = false;
+      this.isBlocksEvent = false;
+      stateManager.curr_player.eventPlayer.changeRoom(0);
+    }
   },
 
   36: function() {
