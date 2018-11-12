@@ -1,7 +1,3 @@
-// ============
-// EVENT PLAYER
-// ============
-
 // ===========
 // CONSTRUCTOR
 // ===========
@@ -40,9 +36,17 @@ EventPlayer.prototype.velY = 0;
 EventPlayer.prototype.prevVelX = 0;
 EventPlayer.prototype.prevVelY = 0;
 
+// ==========
+// GET RADIUS
+// ==========
+
 EventPlayer.prototype.getRadius = function () {
     return this.sprite.clipWidth * 0.75;
 };
+
+// ===============
+// REMEMBER RESETS
+// ===============
 
 EventPlayer.prototype.rememberResets = function () {
     this.reset_cx = this.cx;

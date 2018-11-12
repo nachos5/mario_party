@@ -1,36 +1,12 @@
-// ======
-// ENTITY
-// ======
-/*
+// ==========
+// CONSTRUCTOR
+// ===========
 
-Provides a set of common functions which can be "inherited" by all other
-game Entities.
+function Entity() {};
 
-JavaScript's prototype-based inheritance system is unusual, and requires
-some care in use. In particular, this "base" should only provide shared
-functions... shared data properties are potentially quite confusing.
-
-*/
-
-"use strict";
-
-/* jshint browser: true, devel: true, globalstrict: true */
-
-/*
-0        1         2         3         4         5         6         7         8
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-*/
-
-
-function Entity() {
-
-/*
-    // Diagnostics to check inheritance stuff
-    this._entityProperty = true;
-    console.dir(this);
-*/
-
-};
+// =====
+// SETUP
+// =====
 
 Entity.prototype.setup = function (descr) {
 
@@ -46,32 +22,59 @@ Entity.prototype.setup = function (descr) {
     this._isDeadNow = false;
 };
 
+// ============
+// SET POSITION
+// ============
+
 Entity.prototype.setPos = function (cx, cy) {
     this.cx = cx;
     this.cy = cy;
 };
 
+// ============
+// GET POSITION
+// ============
+
 Entity.prototype.getPos = function () {
     return {posX : this.cx, posY : this.cy};
 };
 
-// previous position
+// =====================
+// SET PREVIOUS POSITION
+// =====================
+
 Entity.prototype.setPrevPos = function(cx, cy) {
   this.cxPrev = cx;
   this.cyPrev = cy;
 }
 
+// =====================
+// GET PREVIOUS POSITION
+// =====================
+
 Entity.prototype.getPrevPos = function() {
   return{posX: this.cxPrev, posY: this.cyPrev};
 }
+
+// ==========
+// GET RADIUS
+// ==========
 
 Entity.prototype.getRadius = function () {
     return 0;
 };
 
+// ==============
+// GET SPATIAL ID
+// ==============
+
 Entity.prototype.getSpatialID = function () {
     return this._spatialID;
 };
+
+// ===============
+// FIND HIT ENTITY
+// ===============
 
 Entity.prototype.findHitEntity = function () {
     var pos = this.getPos();
@@ -80,10 +83,17 @@ Entity.prototype.findHitEntity = function () {
     );
 };
 
-// This is just little "convenience wrapper"
+// ============
+// IS COLLIDING
+// ============
+
 Entity.prototype.isColliding = function () {
     return this.findHitEntity();
 };
+
+// ====
+// KILL
+// ====
 
 Entity.prototype.kill = function () {
     this._isDeadNow = true;

@@ -1,11 +1,14 @@
-// ================= //
-// communicator between server and client
-// ================ //
+// ===============
+// NETWORK MANAGER
+// ===============
 
-// constructor
 function NetworkManager() {
     this.socket = io();
 }
+
+// ====
+// EMIT
+// ====
 
 // emit data to the server
 NetworkManager.prototype.emit = function(message, data) {

@@ -100,6 +100,10 @@ Die.prototype.roll = function(du=1) {
   this.timeIter++;
 }
 
+// =========
+// STOP ROLL
+// =========
+
 Die.prototype.stopRoll = function () {
   if (this.isRolling) {
     this.isRolling = false;
@@ -114,9 +118,17 @@ Die.prototype.stopRoll = function () {
   }
 };
 
+// ==========
+// GET RADIUS
+// ==========
+
 Die.prototype.getRadius = function () {
   return this.width * 0.75;
 };
+
+// =================
+// RESOLVE COLLISION
+// =================
 
 Die.prototype.resolveCollision = function () {
   this.isCollision = true;

@@ -1,3 +1,7 @@
+// =============
+// STATE MANAGER
+// =============
+
 let stateManager = {
 
   no_players: 0,
@@ -11,6 +15,10 @@ let stateManager = {
   players: [],
   gamestate: {}, // emitted from the server
   turn: 1,
+
+  // =========
+  // INITALIZE
+  // =========
 
   // first player starts his turn
   init: function() {
@@ -32,6 +40,10 @@ let stateManager = {
     this.initObjects();
   },
 
+  // =================
+  // INITALIZE OBJECTS
+  // =================
+
   initObjects: function() {
       // Initialize values in ScoreRoom
       this.score_room.players = this.players;
@@ -42,15 +54,27 @@ let stateManager = {
       this.game_room.spriteID = this.players[0].spriteID;
   },
 
+  // ===========
+  // UPDATE INFO
+  // ===========
+
   updateInfo: function() {
     this.players = entityManager._players;
     this.no_players = this.players.length;
   },
 
+  // ==========
+  // NEW PLAYER
+  // ==========
+
   // New player joined
   newPlayer: function(player) {
     this.players.push(player);
   },
+
+  // ===========
+  // FIND PLAYER
+  // ===========
 
   // finds player by id
   findPlayer: function(id) {
@@ -59,7 +83,11 @@ let stateManager = {
     return player;
   },
 
-  // we finalize our turn (map manager calls this)
+  // =============
+  // FINALIZE TURN
+  // =============
+
+  // we finalize our turn by handling final events and prepare the next turn
   finalizeTurn: function() {
     let bool = eventManager.isEvent;
 
@@ -67,6 +95,10 @@ let stateManager = {
       this.callNextTurn();
     }
   },
+
+  // ==============
+  // CALL NEXT TURN
+  // ==============
 
   // eventManager can call this
   callNextTurn: function() {
@@ -76,13 +108,18 @@ let stateManager = {
     networkManager.socket.emit('next_turn');
   },
 
+  // =========
+  // NEXT TURN
+  // =========
+
+  // map manager calls this
   nextTurn: function() {
     // Update Scoreboard positions
     this.players.sort(function(x, y){
       if(y.stars === x.stars) { return y.coins - x.coins };
       return y.stars - x.stars;
     });
-    
+
     // prevPlayer ends his turn
     const prevPlayer = this.findPlayer(this.curr_player_id);
     prevPlayer.tt_player.myTurn = false;
@@ -104,10 +141,17 @@ let stateManager = {
     }
     this.turn++;
 
+    // Roll the die for the next player
+    entityManager.getDie().roll();
+
     // Update Player Turn
     //this.game_room.num = this.curr_player_id;
     this.game_room.spriteID = this.curr_player_id;
   },
+
+  // ==========
+  // NEXT ROUND
+  // ==========
 
   nextRound: function() {
     // Decrement Round
@@ -117,6 +161,10 @@ let stateManager = {
     this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
     this.score_room.num2 = this.rounds_remaining % 10;
   },
+
+  // ===============
+  // EMIT GAME STATE
+  // ===============
 
   // emit game state information
   stateIter: 0,
@@ -130,6 +178,10 @@ let stateManager = {
     this.stateIter++;
   },
 
+  // ======
+  // UPDATE
+  // ======
+
   update: function(du) {
     this.emitGameState(du);
 
@@ -137,6 +189,10 @@ let stateManager = {
     this.game_room.update(du);
 
   },
+
+  // ======
+  // RENDER
+  // ======
 
   render: function(ctx) {
     this.game_room.render(ctx);

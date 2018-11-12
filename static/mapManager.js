@@ -1,14 +1,10 @@
+// ===========
+// MAP MANAGER
+// ===========
+
 var mapManager = {
 
-// "PRIVATE" DATA
-
-currentMap : null,
-startTile : { row : 0, column : 0 },
-scale : null,
-mapSprite : null,
-background: null,
-
-// Map dimensions
+// Map variables
 mapTop : null,
 mapRight : null,
 mapDown : null,
@@ -17,6 +13,15 @@ mapLeft : null,
 mapWidth : null,
 mapHeight : null,
 
+scale : null,
+mapSprite : null,   // Image date of the map
+
+// Private
+currentMap : null,
+background: null,                     // Background behind map
+startTile : { row : 0, column : 0 },  // Player starting tile
+
+// Misc
 eventIsRunning: false,
 someoneIsMoving: false,
 finalStepBool: false,
@@ -26,14 +31,20 @@ currTile: null,
 currTilePos: null,
 arrows: {up: false, right: false, down: false, left: false},
 
-// ============
-// LIST OF MAPS
-// ============
+// List of Maps
 // 0 = originalMap
 
+// =========
+// INITALIZE
+// =========
+
 init : function() {
-    this.loadMap(1);    // Load map
+    this.loadMap(1);
 },
+
+// ========
+// LOAD MAP
+// ========
 
 loadMap : function(map) {
     this.currentMap = new MapMaker(map);
@@ -82,9 +93,9 @@ setPrevPosition: function(player, pos) {
   player.prevPosition = {row: pos.row, column: pos.column};
 },
 
-unregisterPosition: function(entity) {
-
-},
+// =============
+// READY TO MOVE
+// =============
 
 /* after our dice roll we run this to enable player movement and also to
    keep track of the value we got */
@@ -92,6 +103,10 @@ readyToMove: function(diceThrow) {
   this.diceThrow = diceThrow;
   this.someoneIsMoving = true;
 },
+
+// ====
+// STEP
+// ====
 
 // each step on the map
 step: function() {
@@ -152,6 +167,9 @@ tileSound: function(tileId) {
     default: audioManager.playAndEmit("movement", 0, false, 0.5); break;
   };
 },
+// ===============
+// INITALIZE EVENT
+// ===============
 
 // initalize an event (from the step function)
 initEvent: function(currTile, condition) {
@@ -170,6 +188,10 @@ initEvent: function(currTile, condition) {
   }
 },
 
+// ========
+// GET TILE
+// ========
+
 // get tile id
 getTile: function(pos) {
   const tile = this.currentMap.tiles[pos.row][pos.column];
@@ -179,6 +201,9 @@ getTile: function(pos) {
 setCurrTile: function(pos) {
   this.currTile = this.getTile(pos);
 },
+// =================
+// GET TILE POSITION
+// =================
 
 // get tile positions by id
 getTilePositions: function(id) {
@@ -194,6 +219,10 @@ getTilePositions: function(id) {
   }
   return tilesPos;
 },
+
+// ==========================
+// CHECK FOR NEXT VALID TILES
+// ==========================
 
 // checks for a valid tile to move to, and returns the position
 checkForNextValidTiles: function(player, pos) {
@@ -261,10 +290,17 @@ swapTiles: function(tilePos1, tilePos2) {
   this.currentMap.tiles[tilePos2.row][tilePos2.column] = tile1;
   // swap sprites
 },
+// ============
+// RESET ARROWS
+// ============
 
 resetArrows: function() {
   this.arrows = {up: false, right: false, down: false, left: false};
 },
+
+// =================
+// CHECK IF ON ARROW
+// =================
 
 // checks if we are on a arrow and returns the direction of the arrow
 checkIfOnArrow: function() {
@@ -284,6 +320,9 @@ arrowOnTile: function(pos) {
   else if (tileId == 39) return "left";
   else return "no_arrow";
 },
+// ======
+// UPDATE
+// ======
 
 update: function(du) {
 
@@ -304,6 +343,10 @@ update: function(du) {
     }
   };
 },
+
+// ======
+// RENDER
+// ======
 
 render: function(ctx) {
     ctx.putImageData(this.mapSprite, this.mapLeft, this.mapTop);

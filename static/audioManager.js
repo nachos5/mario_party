@@ -1,6 +1,6 @@
-// =====
-// AUDIO MANAGER USING WEB AUDIO API
-// =====
+// ===================================
+// AUDIO MANAGER - USING WEB AUDIO API
+// ===================================
 
 // constructor that creates an web audio object
 function AudioManager() {
@@ -11,9 +11,9 @@ function AudioManager() {
   }
 }
 
-// =====
-// MANAGER PROPERTIES
-// =====
+// ==========
+// PROPERTIES
+// ==========
 
 // array to store our buffers
 AudioManager.prototype.bufferArr = []
@@ -21,6 +21,12 @@ AudioManager.prototype.bufferArr = []
 AudioManager.prototype.preloaded = []
 // keeps track of number of audiofiles
 AudioManager.prototype.fileCount = 0;
+
+AudioManager.prototype.paused = false;
+
+// ========
+// PRE LOAD
+// ========
 
 /* a preload function that takes an soundfile url as argument and an index string
    to store in our buffer array. Stores the buffer in our buffer array */
@@ -46,9 +52,17 @@ AudioManager.prototype.preLoad = function(url, indexString, i) {
   request.send();
 }
 
+// ========
+// ON ERROR
+// ========
+
 AudioManager.prototype.onError = function() {
   console.log("Could not decode the audio data");
 }
+
+// ==========
+// PLAY AUDIO
+// ==========
 
 // a function that takes a buffer as argument and plays the audio source
 AudioManager.prototype.playAudio = function(bufferString, delayTime, loop, gainConst=1) {
@@ -88,6 +102,10 @@ AudioManager.prototype.playAndEmit = function(bufferString, delayTime, loop, gai
   networkManager.emit("audio", {bufferString: bufferString, delayTime: delayTime, loop: loop, gainConst: gainConst});
 }
 
+// ===============
+// PING PONG DELAY
+// ===============
+
 AudioManager.prototype.pingpongDelay = function(ctx, delayTime) {
   let leftDelay = ctx.createDelay();
   let rightDelay = ctx.createDelay();
@@ -115,17 +133,27 @@ AudioManager.prototype.pingpongDelay = function(ctx, delayTime) {
   return {feedback, output};
 }
 
-AudioManager.prototype.paused = false;
+// =====
+// PAUSE
+// =====
 
 AudioManager.prototype.pause = function() {
   this.audioCtx.suspend();
   this.paused = true;
 }
 
+// ======
+// RESUME
+// ======
+
 AudioManager.prototype.resume = function() {
   this.audioCtx.resume();
   this.paused = false;
 }
+
+// ===========
+// PRELOAD ALL
+// ===========
 
 // preload all our audiofiles (and store in our buffer array)
 AudioManager.prototype.preloadAll = function(callback) {
@@ -136,7 +164,7 @@ AudioManager.prototype.preloadAll = function(callback) {
   this.preLoad("static/sounds/movement.wav", "movement", 3);
   this.preLoad("static/sounds/pipe.wav", "pipe", 4);
   this.preLoad("static/sounds/star.wav", "star", 5);
-  this.preLoad("static/sounds/arrow.wav", "arrow", 6);  
+  this.preLoad("static/sounds/arrow.wav", "arrow", 6);
 
   // when we have preloaded all files we go to the callback
   let fileCount = this.fileCount;

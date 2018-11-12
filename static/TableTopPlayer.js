@@ -1,7 +1,3 @@
-// ===============
-// TABLETOP Player
-// ===============
-
 // ===========
 // CONSTRUCTOR
 // ===========
@@ -17,8 +13,6 @@ function TableTopPlayer(id) {
     this.centerY = this.map.mapTop + this.map.tilesHeight / 2;
     this.rotation = 0;
     this.alpha = 1;
-
-    //this.rememberResets();
 
     // ====================
     // SELECT PLAYER SPRITE
@@ -56,11 +50,11 @@ function TableTopPlayer(id) {
     this.height = this.map.tilesHeight * scale;
 };
 
+// ==========
+// PROPERTIES
+// ==========
+
 TableTopPlayer.prototype = new Entity();
-
-TableTopPlayer.prototype.rememberResets = function () {
-
-};
 
 // ======
 // UPDATE
@@ -69,14 +63,6 @@ TableTopPlayer.prototype.rememberResets = function () {
 TableTopPlayer.prototype.update = function (du) {
   this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
   this.cy = this.position.row * this.map.tilesHeight + this.centerY;
-};
-
-// =====
-// RESET
-// =====
-
-TableTopPlayer.prototype.reset = function () {
-
 };
 
 // ======

@@ -5,9 +5,9 @@
 function Block(descr) {
     // Setup Entity object
     this.setup(descr);
-    
+    // Random Icon
     this.icon = this.random();
-
+    // Register for collision
     spatialManager.register(this);
 }
 
@@ -18,13 +18,19 @@ function Block(descr) {
 Block.prototype = new Entity();
 
 Block.prototype.results  = null;
-Block.prototype.players  = null;
-Block.prototype.items    = null;
 Block.prototype.iconIter = 0;
+
+// ==========
+// GET RADIUS
+// ==========
 
 Block.prototype.getRadius = function () {
     return this.width * 0.75;
 };
+
+// =================
+// RESOLVE COLLISION
+// =================
 
 Block.prototype.resolveCollision = function () {
     if (this.id === 2 && this.results === null) {
@@ -95,19 +101,19 @@ Block.prototype.render = function(ctx) {
 
     // Player Block 1
     if (this.id === 1){
-        this.players[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSprites[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
     // Item Block 
     if (this.id === 2) {
-        if(this.items[this.icon].id === 1) {
-            this.items[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        if(g_itemSprites[this.icon].id === 1) {
+            g_itemSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
         }
         else {
-            this.items[this.icon].sp.drawCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+            g_itemSprites[this.icon].sp.drawCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
         }
     }
     // Player Block 2
     if (this.id === 3){
-        this.players[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSprites[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
 };
