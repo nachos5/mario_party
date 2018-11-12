@@ -154,6 +154,7 @@ function requestPreloads_images() {
         yellowPlayer    : "static/assets/boardgamePack_v2/PNG/Pieces (Yellow)/pieceYellow_border01.png",
 
         // Objects
+        die0             : "static/assets/diceBlock0.png",
         die1             : "static/assets/diceBlock1.png",
         die2             : "static/assets/diceBlock2.png",
         die3             : "static/assets/diceBlock3.png",
@@ -237,6 +238,7 @@ function preloadDone() {
 
     // Objects
     // Dice
+    g_sprites.die0              = new Sprite(g_images.die0);
     g_sprites.die1              = new Sprite(g_images.die1);
     g_sprites.die2              = new Sprite(g_images.die2);
     g_sprites.die3              = new Sprite(g_images.die3);

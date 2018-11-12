@@ -127,7 +127,7 @@ initEventPlayer: function(player) {
 
 // Get data from other managers
 getData: function() {
-
+    console.log("GOT DATA")
     // stateMangager -> GameRoom
     this._gameRoomcx = stateManager.game_room.cx;
     this._gameRoomcy = stateManager.game_room.cy;
@@ -153,6 +153,7 @@ getDie: function() {
 },
 
 generateEventBlocks: function() {
+    console.log(this._gameRoomcx);
     let descr = {
         brickWidth: this._gameRoomBrickWidth,
         brickHeight: this._gameRoomBrickHeight,

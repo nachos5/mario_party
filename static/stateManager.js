@@ -58,7 +58,7 @@ let stateManager = {
     return player;
   },
 
-  // we finalize our turn by handling final events and prepare the next turn
+  // we finalize our turn (map manager calls this)
   finalizeTurn: function() {
     // we are ready for the next turn
     this.nextTurn();
@@ -66,7 +66,6 @@ let stateManager = {
     networkManager.socket.emit('next_turn');
   },
 
-  // map manager calls this
   nextTurn: function() {
     // prevPlayer ends his turn
     const prevPlayer = this.findPlayer(this.curr_player_id);

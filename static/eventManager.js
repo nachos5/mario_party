@@ -39,7 +39,7 @@ let eventManager = {
   rollEvent: function() {
 
   },
-
+/*
   // BLOCKS EVENT
   blocksEvent: function() {
       this.isBlocksEvent = true;
@@ -49,14 +49,20 @@ let eventManager = {
       }
       // When pipes are opened, opening -> done
       if(stateManager.game_room.isAnimating === 2) {
-        entityManager.generateEventBlocks();
-        // Event is done, start closing
-        //this.isBlocksEvent = false;
+        if (entityManager._eventBlocks.length === 0) {
+          entityManager.generateEventBlocks();
+        }
         stateManager.curr_player.eventPlayer.changeRoom(1);
       }
   },
 
-  /*36: function() {
+  closeBlocksEvent: function() {
+    // Event is done, start closing
+    this.isBlocksEvent = false;
+    stateManager.curr_player.eventPlayer.changeRoom(0);
+  },
+
+  36: function() {
     this.blocksEvent();
   },
   37: function() {
@@ -67,7 +73,14 @@ let eventManager = {
   },
   39: function() {
     this.blocksEvent();
-  },*/
+  },
+  01: function() {
+    this.blocksEvent();
+  },
+  02: function() {
+    this.blocksEvent();
+  },
+  */
 
 
   // ==== COLLECTABLES ==== //

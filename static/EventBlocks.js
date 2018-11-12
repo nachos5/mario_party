@@ -3,24 +3,28 @@
 // ===========
 
 function EventBlocks(descr) {
-    // Setup Entity object
-    this.setup(descr);
+    // Apply Properties from caller
+    for (var property in descr) {
+        this[property] = descr[property];
+    }
 
     // =======
     // Sprites
     // =======
 
+    // Misc
     this.eventBlock     = g_sprites.eventBlock;
-    this.coin           = g_sprites.coinAni1;
-    this.star           = g_sprites.star;
     this.arrow          = g_sprites.arrow;
+    // Items
+    let coin           = g_sprites.coinAni1;
+    let star           = g_sprites.star;
     // Players
-    this.mario          = g_sprites.mario;
-    this.luigi          = g_sprites.luigi;
-    this.pinkPeach      = g_sprites.pinkPeach;
-    this.yoshi          = g_sprites.yoshi;
-    this.wario          = g_sprites.wario;
-    this.yellowPeach    = g_sprites.yellowPeach;
+    let mario          = g_sprites.mario;
+    let luigi          = g_sprites.luigi;
+    let pinkPeach      = g_sprites.pinkPeach;
+    let yoshi          = g_sprites.yoshi;
+    let wario          = g_sprites.wario;
+    let yellowPeach    = g_sprites.yellowPeach;
 
     // ==============
     // SIZE VARIABLES
@@ -36,23 +40,16 @@ function EventBlocks(descr) {
     // BLOCK VARIABLES
     // ===============
 
-    let players = ['mario', 'luigi', 'pinkPeach', 'yoshi', 'wario', 'yellowPeach'];
-    let randomPlayer = function() { return parseInt(Math.random() * players.length) };
+    this.players = [mario, luigi, pinkPeach, yoshi, wario, yellowPeach];
+    this.randPlayer = function() { return parseInt(Math.random() * this.players.length) };
+    
+    // Id 0 = normal sprite, Id 1 = clipped Sprite
+    this.items = [{sp : coin, id : 1}, {sp : star, id : 0}];
+    this.randItem   = function() { return parseInt(Math.random() * this.items.length) };
 
     // =============
-    // CONTROL PANEL
+    // OFFSET VALUES
     // =============
-
-    this.playerIcon1   = players[randomPlayer()];               // Block 1
-    this.itemIcon      = { item : 'coin', clipped : true };     // Block 2
-    this.playerIcon2   = players[randomPlayer()];               // Block 3
-    // Loser -> Block 1 or 3
-    // Tie -> 2
-    this.results        = 2;
-
-    // Animation
-    this.arrowIter = 0;
-    this.arrowPos = 0;
     
     // X position offset
     this.widthOffset1 = this.brickWidth * 2.5;
@@ -63,24 +60,93 @@ function EventBlocks(descr) {
     this.heightOffset2 = this.brickHeight * 18;
     this.heightOffset3 = this.brickHeight * 19.5;
 
-    spatialManager.registerMulti(this);
+    // Initialize blocks
+    this.getPreset(1);
+    this.getPreset(2);
+    this.getPreset(3);
 };
 
 // ==========
 // PROPERTIES
 // ==========
 
-EventBlocks.prototype = new Entity();
+EventBlocks.prototype.block1 = null;
+EventBlocks.prototype.block2 = null;
+EventBlocks.prototype.block3 = null;
 
-EventBlocks.prototype.getRadius = function () {
-    return this.width * 0.75;
-};
+EventBlocks.prototype.results1 = null;
+EventBlocks.prototype.results2 = null;
+EventBlocks.prototype.results3 = null;
 
-EventBlocks.prototype.resolveCollision = function () {
-    //this.isCollision = true;
-    //this.isColliding();
-    //console.log(this)
-    //spatialManager.findEntityInRange();
+EventBlocks.prototype.waitTime = 0;
+
+// ==========
+// GET PRESET
+// ==========
+
+EventBlocks.prototype.getPreset = function(preset) {
+    // Create preset 1
+    if (preset === 1) {
+        this.block1 = new Block({
+            id : 1,
+            random : this.randPlayer,
+
+            cx : this.cx + this.widthOffset1,
+            cy : this.cy + this.heightOffset2,
+
+            width : this.width,
+            height : this.height,
+
+            itemWidth : this.itemWidth,
+            itemHeight : this.itemHeight,
+
+            block : this.eventBlock,
+            players : this.players,
+        });
+    }
+    // Create preset 2
+    if (preset === 2) {
+        this.block2 = new Block({
+            id : 2,
+            random : this.randItem,
+
+            brickHeight : this.brickHeight,
+            arrow : this.arrow,
+            arrowIter : 0,
+            arrowPos : 0,
+
+            cx : this.cx + this.widthOffset2,
+            cy : this.cy + this.heightOffset2,
+
+            width : this.width,
+            height : this.height,
+
+            itemWidth : this.itemWidth,
+            itemHeight : this.itemHeight,
+
+            block : this.eventBlock,
+            items : this.items,
+        });
+    }
+    // Create preset 3
+    if (preset === 3) {
+        this.block3 = new Block({
+            id : 3,
+            random : this.randPlayer,
+
+            cx : this.cx + this.widthOffset3,
+            cy : this.cy + this.heightOffset2,
+
+            width : this.width,
+            height : this.height,
+
+            itemWidth : this.itemWidth,
+            itemHeight : this.itemHeight,
+
+            block : this.eventBlock,
+            players : this.players,
+        });
+    }
 };
 
 // ======
@@ -88,23 +154,23 @@ EventBlocks.prototype.resolveCollision = function () {
 // ======
 
 EventBlocks.prototype.update = function(du) {
-    if (g_useAnimation) {
-        
-        // Arrow animation
-        if(this.results !== undefined) {
-            if (this.arrowIter % 6 == 0) {  // Increment arrow every 10th frame
-            this.arrowPos += 0.15;
-            }
-            this.arrowIter++;
-            // Restart
-            if(this.arrowIter === 66) {
-                this.arrowPos = 0;
-                this.arrowIter = 0;
-            };
+    let status1 = this.block1.update(du);
+    let status2 = this.block2.update(du);
+    let status3 = this.block3.update(du);
+
+    // If all 3 blocks are dead, kill EventBlocks
+    if (status1 === -1 && status2 === -1 && status3 === -1) {
+        this.waitTime++;
+        if (this.waitTime === 75) {
+            // Unregister all the blocks
+            spatialManager.unregister(this.block1);
+            spatialManager.unregister(this.block2);
+            spatialManager.unregister(this.block3);
+            // Initialize closing event
+            eventManager.closeBlocksEvent();
+            return -1;
         }
     }
-    // Kill entity when blocksEvent is done
-    if(!eventManager.isBlocksEvent) {return  -1}
 };
 
 // ======
@@ -112,32 +178,7 @@ EventBlocks.prototype.update = function(du) {
 // ======
 
 EventBlocks.prototype.render = function(ctx) {
-    // Arrows
-    if(this.results === 1 || this.results ===2) {
-        this.arrow.drawCentredAtFixed(ctx, this.cx + this.widthOffset2, this.cy + this.heightOffset2 - (this.brickHeight * this.arrowPos), 0, this.itemWidth, this.itemHeight);
-    }
-    if(this.results === 3 || this.results ===2) {
-        this.arrow.drawCentredAtFixed(ctx, this.cx + this.widthOffset2, this.cy + this.heightOffset2 + (this.brickHeight * this.arrowPos), Math.PI, this.itemWidth, this.itemHeight);
-    }
-
-    // Blocks
-    this.eventBlock.drawTopLeftFixed(ctx, this.x + this.widthOffset1, this.y + this.heightOffset2, 0, 1, 1, this.width, this.height);    // Block 1
-    this.eventBlock.drawTopLeftFixed(ctx, this.x + this.widthOffset2, this.y + this.heightOffset2, 0, 1, 1, this.width, this.height);    // Block 2
-    this.eventBlock.drawTopLeftFixed(ctx, this.x + this.widthOffset3, this.y + this.heightOffset2, 0, 1, 1, this.width, this.height);    // Block 3
-    
-    // Block Items
-    // Block 1
-    this[this.playerIcon1].drawClipCentredAtFixed(ctx, this.cx + this.widthOffset1, this.cy + this.heightOffset2, 0, this.itemWidth, this.itemHeight);
-    
-    // Block 2
-    if(this.itemIcon.clipped === true) {
-        this[this.itemIcon.item].drawClipCentredAtFixed(ctx, this.cx + this.widthOffset2, this.cy + this.heightOffset2, 0, this.itemWidth, this.itemHeight);
-    }
-    else {
-        this[this.itemIcon.item].drawCentredAtFixed(ctx, this.cx + this.widthOffset2, this.cy + this.heightOffset2, 0, this.itemWidth, this.itemHeight);
-    }
-
-    // Block 3
-    this[this.playerIcon2].drawClipCentredAtFixed(ctx, this.cx + this.widthOffset3, this.cy + this.heightOffset2, 0, this.itemWidth, this.itemHeight);
-    
+    this.block1.render(ctx);
+    this.block2.render(ctx);
+    this.block3.render(ctx);
 };

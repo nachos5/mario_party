@@ -42,6 +42,8 @@ Die.prototype.timeIter = 0;
 // set sprite to specific side
 Die.prototype.side_sprite = function(value) {
   switch(value) {
+    case 0:
+      this.sprite = g_sprites.die0; break;
     case 1:
       this.sprite = g_sprites.die1; break;
     case 2:
@@ -62,6 +64,7 @@ Die.prototype.side_sprite = function(value) {
       this.sprite = g_sprites.die9; break;
     case 10:
       this.sprite = g_sprites.die10; break;
+    default: break;  
   }
 }
 

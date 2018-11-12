@@ -200,9 +200,15 @@ EventPlayer.prototype.update = function (du) {
     if (this.isColliding()) {
         let hitEntity = this.findHitEntity();
         if (hitEntity) {
-            let canTakeHit = hitEntity.resolveCollision;
-            if (canTakeHit) canTakeHit.call(hitEntity);
+            let fun = hitEntity.resolveCollision;
+            if (fun) fun.call(hitEntity);
         }
+
+        // Bounce player back
+        this.velX *= - 1/8;
+        this.velY = 0;
+        this.cx = this.prevCx;
+        this.cy = this.prevCy;
     }
     else {spatialManager.register(this)}
 };

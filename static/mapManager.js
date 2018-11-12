@@ -129,6 +129,8 @@ step: function() {
   // here our turn is over and we have handled the final event so we end our turn
   else {
     if (!this.eventIsRunning) {
+      // change die side to 0
+      entityManager.getDie().side_sprite(0);
       this.someoneIsMoving = false; // we stop running this from the update loop
       this.stepIter = 0; // reset
       // we are ready to finalize our turn
