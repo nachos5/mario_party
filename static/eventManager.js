@@ -116,7 +116,7 @@ let eventManager = {
     const starPos = mapManager.getPosition(player);
     const blueTiles = mapManager.getTilePositions(01);
     // we pick out 1 random blue tile
-    const rand = Math.random() * blueTiles.length + 1;
+    const rand = Math.random() * blueTiles.length;
     const bluePos = blueTiles[rand];
     // we swap the star tile with the blue tile
     mapManager.swapTiles(starPos, bluePos);
@@ -175,7 +175,7 @@ let eventManager = {
       // filter out the pipe we are on currently
       const notMyTiles = tilePos.filter(obj => obj.row != myPos.row && obj.column != myPos.column);
       // get 1 random pipe
-      const rand = parseInt(Math.random() * notMyTiles.length + 1);
+      const rand = parseInt(Math.random() * notMyTiles.length);
       const notMyTile = notMyTiles[rand];
       // set the player position to the chosen pipe
       mapManager.setPosition(player, notMyTile);
