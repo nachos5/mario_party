@@ -70,12 +70,6 @@ let stateManager = {
 
   // eventManager can call this
   callNextTurn: function() {
-    // Update Scoreboard positions
-    this.players.sort(function(x, y){
-      if(y.stars === x.stars) { return y.coins - x.coins };
-      return y.stars - x.stars;
-    });
-
     // we are ready for the next turn
     this.nextTurn();
     // let the server know so he can let all other players know
@@ -83,6 +77,12 @@ let stateManager = {
   },
 
   nextTurn: function() {
+    // Update Scoreboard positions
+    this.players.sort(function(x, y){
+      if(y.stars === x.stars) { return y.coins - x.coins };
+      return y.stars - x.stars;
+    });
+    
     // prevPlayer ends his turn
     const prevPlayer = this.findPlayer(this.curr_player_id);
     prevPlayer.tt_player.myTurn = false;

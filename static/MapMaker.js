@@ -175,21 +175,21 @@ MapMaker.prototype.render = function(ctx) {
 
             // Background tiles
             if(this.tiles[i][j] === 80) {
-                this.backGreenTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale * 0.01);
+                this.backGreenTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale * 0.01, i, j);
             }
             if(this.tiles[i][j] === 81) {
-                this.backBlueTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale);
+                this.backBlueTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale, i, j);
             }
             if(this.tiles[i][j] === 82) {
-                this.backRedTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale);
+                this.backRedTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale, i, j);
             }
             if(this.tiles[i][j] === 83) {
-                this.backYellowTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale);
+                this.backYellowTile.drawCentredAt(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale, i, j);
             }
 
             // Filler tile
             if(this.tiles[i][j] === 99) {
-                this.fillerTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale);
+                this.fillerTile.drawTile(ctx, (j+1)*this.tilesWidth - this.offsetW + this.mapLeft, (i+1)*this.tilesHeight - this.offsetH + this.mapTop, 0, this.scale, i, j);
             }
 
             // Pipes

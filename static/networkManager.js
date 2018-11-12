@@ -49,7 +49,7 @@ networkManager.socket.on("new_player", function(player) {
     coins: 0,
     player_id: player.player_id
   });
-  
+
   const client_players = entityManager._players;
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
@@ -135,7 +135,6 @@ networkManager.socket.on("update_player_server", function(player) {
 
 // we are ready for the next turn
 networkManager.socket.on("next_turn_server", function() {
-  // we handle events first
   stateManager.nextTurn();
 });
 
@@ -147,6 +146,10 @@ networkManager.socket.on("die_sprite_server", function(rand) {
 // game state from server
 networkManager.socket.on("game_state_server", function(state) {
   stateManager.gamestate = state;
+});
+
+networkManager.socket.on("audio_trigger", function(data) {
+  audioManager.playAudio(data.bufferString, data.delayTime, data.loop, data.gainConst);
 });
 
 

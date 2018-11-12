@@ -106,6 +106,11 @@ server.startServer = function(startServer) {
       gamestate = state;
     });
 
+    // emit an audio trigger to other sockets
+    socket.on('audio', function(data) {
+      socket.broadcast.emit('audio_trigger', data);
+    });
+
     socket.on('disconnect', function() {
       let player = null;
       for (let key in players) {

@@ -64,7 +64,7 @@ Die.prototype.side_sprite = function(value) {
       this.sprite = g_sprites.die9; break;
     case 10:
       this.sprite = g_sprites.die10; break;
-    default: break;  
+    default: break;
   }
 }
 

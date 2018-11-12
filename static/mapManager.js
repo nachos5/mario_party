@@ -102,6 +102,7 @@ step: function() {
     this.diceThrow--;
     // change die side
     entityManager.getDie().side_sprite(this.diceThrow);
+      networkManager.socket.emit("die_sprite", this.diceThrow);
     // get some valid adjacent tile
     const validTile = this.checkForNextValidTiles(player, pos);
     // set prev position
@@ -114,6 +115,8 @@ step: function() {
     // we check for an event on the current tile
     this.currTile = this.getTile(validPos);
     this.currTilePos = validPos;
+    // play audio
+    this.tileSound(this.currTile);
     // event only runs if it is an mid movement event
     this.initEvent(this.currTile, eventManager.eventIsMidMovement(this.currTile));
   }
@@ -131,12 +134,23 @@ step: function() {
     if (!this.eventIsRunning) {
       // change die side to 0
       entityManager.getDie().side_sprite(0);
+      networkManager.socket.emit("die_sprite", 0);
       this.someoneIsMoving = false; // we stop running this from the update loop
       this.stepIter = 0; // reset
       // we are ready to finalize our turn
       stateManager.finalizeTurn();
     };
   }
+},
+
+tileSound: function(tileId) {
+  switch(tileId) {
+    case 36: audioManager.playAndEmit("arrow", 0, false, 0.5); break;
+    case 37: audioManager.playAndEmit("arrow", 0, false, 0.5); break;
+    case 38: audioManager.playAndEmit("arrow", 0, false, 0.5); break;
+    case 39: audioManager.playAndEmit("arrow", 0, false, 0.5); break;
+    default: audioManager.playAndEmit("movement", 0, false, 0.5); break;
+  };
 },
 
 // initalize an event (from the step function)
@@ -238,6 +252,16 @@ checkForNextValidTiles: function(player, pos) {
   return validTiles[rand];
 },
 
+swapTiles: function(tilePos1, tilePos2) {
+  // get ids
+  const tile1 = this.getTile(tilePos1);
+  const tile2 = this.getTile(tilePos2);
+  // swap ids
+  this.currentMap.tiles[tilePos1.row][tilePos1.column] = tile2;
+  this.currentMap.tiles[tilePos2.row][tilePos2.column] = tile1;
+  // swap sprites
+},
+
 resetArrows: function() {
   this.arrows = {up: false, right: false, down: false, left: false};
 },
@@ -262,13 +286,14 @@ arrowOnTile: function(pos) {
 },
 
 update: function(du) {
+
   /* moving animation for tabletop players
      readyToMove sets this value to true */
   if (this.someoneIsMoving) {
     // we only move while no event is running
     if (!this.eventIsRunning) {
-      // we run this every 40th frame
-      if (Math.floor(this.stepIter) % 40 == 0) {
+      // we run this every 20th frame
+      if (Math.floor(this.stepIter) % 20 == 0) {
         this.step();
       }
       this.stepIter++;

@@ -197,6 +197,7 @@ EventPlayer.prototype.calcAccelY = function () {
     if (this.velY === 0 && !(this.cy + this.getRadius() < this.bot - this.getRadius())) {
         if (eatKey(this.KEY_JUMP))  {
             this.velY = maxAccelY;
+            audioManager.playAndEmit("jump", 0, false);
         }
     }
 

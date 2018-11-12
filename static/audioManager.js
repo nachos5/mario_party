@@ -51,11 +51,18 @@ AudioManager.prototype.onError = function() {
 }
 
 // a function that takes a buffer as argument and plays the audio source
-AudioManager.prototype.playAudio = function(buffer, delayTime, loop) {
+AudioManager.prototype.playAudio = function(bufferString, delayTime, loop, gainConst=1) {
+  // buffer and buffer duration
+  const buffer = audioManager.bufferArr[bufferString];
+  const dur = buffer.duration;
+
   if (loop == undefined) loop = false;
   // lets reduce the audio gain so the players ears won't get destroyed (like mine)
   let gainNode = this.audioCtx.createGain();
-  gainNode.gain.setValueAtTime(0.1, this.audioCtx.currentTime)
+  const gainVal = 0.1 * gainConst;
+  gainNode.gain.setValueAtTime(gainVal, this.audioCtx.currentTime)
+  // decay to prevent clicks
+  gainNode.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + dur)
   // lets also add a little bit of ping-pong delay for better "experience"
   let pingpong = this.pingpongDelay(this.audioCtx, delayTime);
   // buffer source
@@ -71,6 +78,14 @@ AudioManager.prototype.playAudio = function(buffer, delayTime, loop) {
   gainNode.connect(this.audioCtx.destination);
   // play!
   source.start(0);
+}
+
+// play an audio file and emit a trigger to the server
+AudioManager.prototype.playAndEmit = function(bufferString, delayTime, loop, gainConst=1) {
+   // play
+  this.playAudio(bufferString, delayTime, loop, gainConst);
+  // emit
+  networkManager.emit("audio", {bufferString: bufferString, delayTime: delayTime, loop: loop, gainConst: gainConst});
 }
 
 AudioManager.prototype.pingpongDelay = function(ctx, delayTime) {
@@ -115,7 +130,13 @@ AudioManager.prototype.resume = function() {
 // preload all our audiofiles (and store in our buffer array)
 AudioManager.prototype.preloadAll = function(callback) {
   // all files:
-  this.preLoad("static/sounds/cantina.mp3", "cantina", 0);
+  this.preLoad("static/sounds/coin.wav", "coin", 0);
+  this.preLoad("static/sounds/diceroll.wav", "diceroll", 1);
+  this.preLoad("static/sounds/jump.wav", "jump", 2);
+  this.preLoad("static/sounds/movement.wav", "movement", 3);
+  this.preLoad("static/sounds/pipe.wav", "pipe", 4);
+  this.preLoad("static/sounds/star.wav", "star", 5);
+  this.preLoad("static/sounds/arrow.wav", "arrow", 6);  
 
   // when we have preloaded all files we go to the callback
   let fileCount = this.fileCount;
