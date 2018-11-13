@@ -29,6 +29,8 @@ function updateSimulation(du) {
     mapManager.update(du);
 
     if (!g_startGame) { menuManager.update(du) }
+
+    if (g_startGame) { this.popup.update(du) }
 }
 
 // ================
@@ -74,8 +76,10 @@ function renderSimulation(ctx) {
     // Tester
     //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
     //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
+    if (g_startGame) { this.popup.render(ctx) }
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
+
 }
 
 // =======================
@@ -93,6 +97,9 @@ function requestPreloads_images() {
         backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
         backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
 
+        // Popup
+        buyStarText     : "static/assets/popBuyStar.png",
+
         // Menu
         marioPartyLogo  : "static/assets/Mario_Party_logo.png",
         background2     : "static/assets/superMarioBackground.jpg",
@@ -103,6 +110,10 @@ function requestPreloads_images() {
         // Button
         cyanReady       : "static/assets/cyanReady.png",
         greenReady      : "static/assets/greenReady.png",
+        greenYes        : "static/assets/greenYesButton.png",
+        greenNo         : "static/assets/greenNoButton.png",
+        cyanYes         : "static/assets/cyanYesButton.png",
+        cyanNo          : "static/assets/cyanNoButton.png",
 
         // Map
         tiles2          : "static/assets/marioPartyTiles.png",
@@ -171,6 +182,9 @@ function preloadDone() {
     g_sprites.marioPartyLogo    = new Sprite(g_images.marioPartyLogo);
     g_sprites.background2       = new Sprite(g_images.background2);
 
+    // Popup
+    g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
+
     // Character Select
     // Row 1
     g_sprites.selectMario        = new Sprite(g_images.characters,  200, 350, 0, 2, 200, 275);
@@ -191,6 +205,10 @@ function preloadDone() {
     // Button
     g_sprites.cyanReady         = new Sprite(g_images.cyanReady);
     g_sprites.greenReady        = new Sprite(g_images.greenReady);
+    g_sprites.greenYes          = new Sprite(g_images.greenYes);
+    g_sprites.greenNo           = new Sprite(g_images.greenNo);
+    g_sprites.cyanYes           = new Sprite(g_images.cyanYes);
+    g_sprites.cyanNo            = new Sprite(g_images.cyanNo);
 
     // Background
     g_sprites.background1       = new Sprite(g_images.background1);
@@ -385,6 +403,9 @@ function preloadDoneNext() {
   entityManager.sharedObjects();
 
   menuManager.init();
+
+  // Temp
+  this.popup = new PopUp();
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
   main.init();

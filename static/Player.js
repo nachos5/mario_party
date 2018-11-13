@@ -53,9 +53,6 @@ Player.prototype.refresh = function() {
 
 Player.prototype.update = function (du) {
 
-    this.tt_player.spriteID = this.spriteID;
-    this.eventPlayer.spriteID = this.spriteID;
-
     // we only emit our player to the server!
     if (this.my_player) {
       // emit players position to the server
