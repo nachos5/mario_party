@@ -12,7 +12,7 @@ function ScoreRoom() {
 
     // Animation
     this.coinIter = 0;
-    this.coinFrame = 1;
+    this.coinFrame = 0;
 
     // Position
     this.cx = 0;
@@ -65,12 +65,12 @@ ScoreRoom.prototype.update = function(du) {
         // Coin animation
         // Swap frames every 10th frame
         if (this.coinIter % 6 == 0) {
-            this.coinFram += 1;
+            this.coinFrame += 1;
         }
         this.coinIter++;
         // Restart
-        if(this.coinIter === 24) {
-            this.coinFram = 0;
+        if(this.coinIter === 30) {
+            this.coinFrame = 0;
             this.coinIter = 0;
         };
     }
@@ -89,7 +89,6 @@ ScoreRoom.prototype.render = function(ctx) {
         let x = this.cx + this.padding;
         for(let j = 0; j < this.brickLength; j++) {
             this.brick.drawTopLeft(ctx, x, y, 0, this.brickScaleX, this.brickScaleY);
-            //console.log("x = " + x + " y = " + y);
             x += this.brick.width * this.brickScaleX;
         }
         y += this.brick.height * this.brickScaleY;

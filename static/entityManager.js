@@ -1,27 +1,6 @@
-/*
-
-entityManager.js
-
-A module which handles arbitrary entity-management for "Asteroids"
-
-
-We create this module as a single global object, and initialise it
-with suitable 'data' and 'methods'.
-
-"Private" properties are denoted by an underscore prefix convention.
-
-*/
-
-
-"use strict";
-
-
-// Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops
-// (plusplus).
-//
-/*jslint nomen: true, white: true, plusplus: true*/
-
+// ==============
+// ENTITY MANAGER
+// ==============
 
 var entityManager = {
 
@@ -40,6 +19,23 @@ _gameRoomcx: null,
 _gameRoomcy: null,
 _gameRoomBrickWidth: null,
 _gameRoomBrickHeight: null,
+
+// Current player
+_curr_player: null,
+_curr_tt_player: null,
+_animation: null,       // Current animation
+_isAnimation: false,    // Is anything animating
+
+_aniTimes: 0,           // Times to repeat animation
+_aniIter: 0,            // Animation iterator
+_aniFrame: 0,           // Animation frame
+
+_aniUp: false,
+_aniDown: false,
+
+_aniX: 0,               // Animation x offset
+_aniY: 0,               // Animation y offset
+_aniAlpha: 1,           // Animation alpha level
 
 // "PRIVATE" METHODS
 
@@ -190,7 +186,38 @@ haltPlayers: function() {
     this._forEachOf(this._players, Player.prototype.halt);
 },
 
+updateCurrPlayer: function() {
+    this._curr_player = stateManager.curr_player;
+    this._curr_tt_player = this._curr_player.tt_player;
+},
+
+playAnimation: function(animation) {
+    if (animation === 0) { this._aniDown = true }   // + 3 coins
+    if (animation === 1) { this._aniUp = true }     // - 3 coins
+
+    this._animation = animation
+    this._isAnimation = true;
+},
+
+stopAnimation: function() {
+    this._aniFrame = 0;
+    this._aniIter = 0;
+    this._aniTimes = 0;
+
+    this._aniX = 0;
+    this._aniY = 0;
+    this._aniAlpha = 1;
+
+    this._aniUp = false;
+    this._aniDown = false;
+
+    this._animation = null;
+    this._isAnimation = false;
+},
+
 update: function(du) {
+
+    this.updateCurrPlayer();
 
     for (var c = 0; c < this._categories.length; ++c) {
 
@@ -215,6 +242,33 @@ update: function(du) {
         }
     }
 
+    // Animations
+    if (g_useAnimation && this._isAnimation) {
+        
+        // Coin animation
+        if (this._animation === 0 || this._animation === 1) {
+            // Swap frames every 10th frame
+            if (this._aniIter % 6 == 0) {
+                this._aniFrame += 1;
+            }
+            this._aniIter++;
+            if (this._aniDown) { this._aniY-- }
+            if (this._aniUp) { this._aniY++ }
+            this._aniAlpha -= 0.03;
+            // Restart
+            if(this._aniIter === 30) {
+                this._aniFrame = 0;
+                this._aniIter = 0;
+                this._aniY = 0;
+                this._aniAlpha = 1;
+                this._aniTimes++;
+                if (this._aniTimes === 3) {
+                    this.stopAnimation();
+                }
+            };
+        }
+    }
+
 },
 
 render: function(ctx) {
@@ -229,6 +283,20 @@ render: function(ctx) {
             aCategory[i].render(ctx);
         }
         debugY += 10;
+    }
+
+    // Render animations
+    if (this._isAnimation) {    
+        // To prevent bugs with alpha level
+        if (this._aniAlpha < 0) { this._aniAlpha = 0}
+        ctx.globalAlpha = this._aniAlpha;
+        
+        // +- 3 Coin
+        if (this._animation === 0 || this._animation === 1) {
+            g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + this._aniY, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+        }
+        // Reset ctx
+        ctx.globalAlpha = 1;
     }
 }
 

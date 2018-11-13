@@ -25,10 +25,10 @@ function TableTopPlayer(id) {
 
     switch(this.id) {
         case 0:
-            player = g_sprites.mario;
+            player = g_sprites.luigi;
             break;
         case 1:
-            player = g_sprites.luigi;
+            player = g_sprites.mario;
             break;
         case 2:
             player = g_sprites.pinkPeach;
