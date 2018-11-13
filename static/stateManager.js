@@ -50,8 +50,7 @@ let stateManager = {
       this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
       this.score_room.num2 = this.rounds_remaining % 10;
       // Initialize values in GameRoom
-      //this.game_room.num = 0;
-      this.game_room.spriteID = this.players[0].spriteID;
+      this.game_room.currPlayer = this.curr_player;
   },
 
   // ===========
@@ -148,8 +147,7 @@ let stateManager = {
     }
 
     // Update Player Turn
-    //this.game_room.num = this.curr_player_id;
-    this.game_room.spriteID = this.curr_player_id;
+    this.game_room.currPlayer = this.curr_player;
   },
 
   // ==========

@@ -10,15 +10,18 @@ function Player(descr) {
     }
 
     // New TableTopPlayer
-    this.tt_player = new TableTopPlayer(this.player_id);
-    entityManager._ttplayers.push(this.tt_player); // store in entity manager
+    this.tt_player = new TableTopPlayer({
+        id       : this.player_id,   // Id of the player
+        sprite   : g_playerSprites[this.spriteID].sp,
+    });
 
-    this.sprite = this.tt_player.sprite;
-    this.spriteID = this.player_id;
+    //entityManager._ttplayers.push(this.tt_player); // store in entity manager
 
     // New EventPlayer
-    this.eventPlayer = new EventPlayer(this.player_id);
-    this.eventPlayer.sprite = this.tt_player.sprite;
+    this.eventPlayer = new EventPlayer({
+        id       : this.player_id,   // Id of the player
+        sprite   : g_playerSprites[this.spriteID].sp,
+    });
 };
 
 // ==========
@@ -28,11 +31,26 @@ function Player(descr) {
 Player.prototype.stars = 0;
 Player.prototype.myTurn = false;
 
+Player.prototype.spriteID = 0;
+
+// =======
+// REFRESH
+// =======
+
+Player.prototype.refresh = function() {
+    this.eventPlayer.sprite = g_playerSprites[this.spriteID].sp;
+    this.tt_player.sprite = g_playerSprites[this.spriteID].sp;
+};
+
 // ======
 // UPDATE
 // ======
 
 Player.prototype.update = function (du) {
+
+    this.tt_player.spriteID = this.spriteID;
+    this.eventPlayer.spriteID = this.spriteID;
+
     // we only emit our player to the server!
     if (this.my_player) {
       // emit players position to the server
@@ -41,14 +59,6 @@ Player.prototype.update = function (du) {
       this.tt_player.update(du);
       this.eventPlayer.update(du);
     }
-};
-
-// ==========
-// GET RADIUS
-// ==========
-
-Player.prototype.getRadius = function () {
-    return this.sprite.clipWidth * 0.9;
 };
 
 // ======

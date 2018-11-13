@@ -2,11 +2,8 @@
 // CONSTRUCTOR
 // ===========
 
-function EventPlayer(id) {
-    this.setup();
-
-    this.id = id;
-    this.sprite = null;
+function EventPlayer(descr) {
+    this.setup(descr);
 
     this.cx = null;
     this.cy = null;

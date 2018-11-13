@@ -4,11 +4,9 @@
 
 var entityManager = {
 
-// "PRIVATE" DATA
-
-_players: [],
-_ttplayers: [], // tabletop players
-_dice: [],  // Dice Room
+_players: [],       // Players
+_ttplayers: [],     // tabletop players
+_dice: [],          // Dice Room
 _eventBlocks: [],   // Event Room
 _stars: [],
 
@@ -23,6 +21,8 @@ _gameRoomBrickHeight: null,
 // Current player
 _curr_player: null,
 _curr_tt_player: null,
+
+// Animations
 _animation: null,       // Current animation
 _isAnimation: false,    // Is anything animating
 
@@ -30,14 +30,16 @@ _aniTimes: 0,           // Times to repeat animation
 _aniIter: 0,            // Animation iterator
 _aniFrame: 0,           // Animation frame
 
-_aniUp: false,
-_aniDown: false,
+_aniUp: false,          // Animation moving up
+_aniDown: false,        // Animation moving down
 
 _aniX: 0,               // Animation x offset
 _aniY: 0,               // Animation y offset
 _aniAlpha: 1,           // Animation alpha level
 
-// "PRIVATE" METHODS
+// ============
+// _FOR EACH OF
+// ============
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -60,8 +62,6 @@ deferredSetup : function () {
 },
 
 init: function() {
-  const cx = 300,
-        cy = 300;
 
   if (!localStorage.getItem('uuid')) {
     localStorage.setItem('uuid', Math.random().toString(12));
@@ -131,7 +131,6 @@ initEventPlayer: function(player) {
 
 // Get data from other managers
 getData: function() {
-    console.log("GOT DATA")
     // stateMangager -> GameRoom
     this._gameRoomcx = stateManager.game_room.cx;
     this._gameRoomcy = stateManager.game_room.cy;
@@ -176,6 +175,24 @@ generateEventBlocks: function() {
         height: this._gameRoomBrickHeight* 2
     }
     this._eventBlocks.push(new EventBlocks(descr));
+},
+
+resolveEventBlocks: function(entity) {
+    let winner = entity.block2.winner;
+
+    let p1   = entity.block1.results;
+    let item = entity.block2.results;
+    let p2   = entity.block3.results;
+
+    if (winner === this._curr_player.spriteID) {
+        if (item === 0) {
+            console.log("play animation")
+            this.playAnimation(0);
+        }
+    }
+    else {
+        this.playAnimation(1);
+    }
 },
 
 resetPlayers: function() {

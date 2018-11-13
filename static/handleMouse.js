@@ -32,21 +32,22 @@ function eatClick() {
 }
 
 function handleMouseMove(evt) {
-    g_skip = false;
+  g_skip = false;
 
-    g_mouseX = evt.clientX - g_canvas.offsetLeft;
-    g_mouseY = evt.clientY - g_canvas.offsetTop;
+  g_mouseX = evt.clientX - g_canvas.offsetLeft;
+  g_mouseY = evt.clientY - g_canvas.offsetTop;
 
-    // If no button is being pressed, then bail
-    var button = evt.buttons === undefined ? evt.which : evt.buttons;
-    if (!button) return;
+  // If no button is being pressed, then bail
+  let button = evt.buttons === undefined ? evt.which : evt.buttons;
+  if (!button) return;
 
-    /*// can only roll if our player is the current player & nobody is moving & die is not rolling
-    if (!mapManager.someoneIsMoving && !entityManager.getDie().isRolling &&
-        stateManager.curr_player.my_player) {
-          entityManager.getDie().roll();
-        }*/
+  let hitEntity = spatialManager.findEntityInRange(g_mouseX, g_mouseY, 1);
 
+  // Call object that was clicked on
+  if (hitEntity) {
+      let fun = hitEntity.resolveCollision;
+      if (fun) fun.call(hitEntity);
+  }
 }
 
 window.addEventListener("mousedown", handleMouseDown);

@@ -139,7 +139,7 @@ ScoreRoom.prototype.render = function(ctx) {
         g_alphSprites[letter1].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
         g_alphSprites[letter2].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2.5 * this.brickScaleX), this.cy + (this.brick.height * (i+3.4) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX)/2, (this.brick.height * this.brickScaleY)/2, 1, 1);
         // Player
-        g_playerSprites[this.players[i].spriteID].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+        g_playerSprites[this.players[i].spriteID].sp.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
         //this.alphP.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 4 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,         (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
         //this['number'+[this.players[i].player_id]].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 5 * this.brickScaleX), this.cy + (this.brick.height * (i+3) * this.brickScaleY), 0,          (this.brick.width * this.brickScaleX), (this.brick.height * this.brickScaleY), 1, 1);
         // Star

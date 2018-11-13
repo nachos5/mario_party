@@ -18,6 +18,7 @@ function Block(descr) {
 Block.prototype = new Entity();
 
 Block.prototype.results  = null;
+Block.prototype.winner   = null;
 Block.prototype.iconIter = 0;
 
 // ==========
@@ -34,10 +35,11 @@ Block.prototype.getRadius = function () {
 
 Block.prototype.resolveCollision = function () {
     if (this.id === 2 && this.results === null) {
-        this.results = parseInt(Math.random() * 3) + 1;
+        this.results = g_itemSprites[this.icon].id;
+        this.winner = parseInt(Math.random() * 3) + 1;
     }
     else if(this.results === null){
-        this.results = 1;
+        this.results = g_playerSprites[this.icon].id;
     }
 };
 
@@ -88,10 +90,10 @@ Block.prototype.render = function(ctx) {
     // Item Block Arrows
     if (this.id === 2) {
         // Arrows
-        if(this.results === 1 || this.results ===2) {
+        if(this.winner === 1 || this.winner ===2) {
             this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy - (this.brickHeight * this.arrowPos), 0, this.itemWidth, this.itemHeight);
         }
-        if(this.results === 3 || this.results ===2) {
+        if(this.winner === 3 || this.winner ===2) {
             this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy + (this.brickHeight * this.arrowPos), Math.PI, this.itemWidth, this.itemHeight);
         }
     }
@@ -101,11 +103,11 @@ Block.prototype.render = function(ctx) {
 
     // Player Block 1
     if (this.id === 1){
-        g_playerSprites[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
     // Item Block 
     if (this.id === 2) {
-        if(g_itemSprites[this.icon].id === 1) {
+        if(g_itemSprites[this.icon].type === 'clipped') {
             g_itemSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
         }
         else {
@@ -114,6 +116,6 @@ Block.prototype.render = function(ctx) {
     }
     // Player Block 2
     if (this.id === 3){
-        g_playerSprites[this.icon].drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
 };

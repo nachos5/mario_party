@@ -67,7 +67,7 @@ function GameRoom() {
 // PROPERTIES
 // ==========
 
-GameRoom.prototype.spriteID = 0;
+GameRoom.prototype.currPlayer = 0;
 
 // ======
 // UPDATE
@@ -161,7 +161,7 @@ GameRoom.prototype.render = function(ctx) {
     /*5*/this.altPipe.drawTopLeft(ctx, this.cx + (this.brick.width * (this.brickLength - 1) * this.brickScaleX), this.cy + (this.brick.height * (this.brickHeight - 6 + this.pipePos) * this.brickScaleY), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // PlayerSprite Word
-    g_playerSprites[this.spriteID].drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
+    g_playerSprites[this.currPlayer.spriteID].sp.drawClipTopLeftFixed(ctx, this.cx + (this.brick.width * 2 * this.brickScaleX), this.cy + (this.brick.height * 1 * this.brickScaleY), 0,         (this.brick.width * 2 * this.brickScaleX), (this.brick.height * this.brickScaleY),      1, 1);
     for(let i = 0; i < this.wordLength; i++) {
         let alph = this.word[i];
         if(this.word[i] !== ' ') {

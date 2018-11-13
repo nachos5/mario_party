@@ -78,14 +78,16 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
 // DRAW TOP LEFT FIXED - FIXED WIDTH AND HEIGHT
 // ============================================
 
-Sprite.prototype.drawCentredAtFixed = function (ctx, cx, cy, rotation=0, width, height, scaleX=1, scaleY=1) {
+Sprite.prototype.drawCentredAtFixed = function (ctx, cx, cy, rotation=0, width, height, flip=0, scaleX=1, scaleY=1) {
     ctx.save();
     // Center of the sprite
     ctx.translate(cx, cy);
     // Rotate in radians
     ctx.rotate(rotation);
     // Scale image
-    ctx.scale(scaleX,scaleY);
+    if(flip === 0) {  ctx.scale(scaleX,scaleY)  }
+    else if(flip === 1) {  ctx.scale(-scaleX,scaleY)  }
+    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  };
     // Draw sprite at it's center point
     ctx.drawImage(this.image, -width/2, -height/2, width, height);
 
