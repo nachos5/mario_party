@@ -320,6 +320,29 @@ arrowOnTile: function(pos) {
   else if (tileId == 39) return "left";
   else return "no_arrow";
 },
+
+
+// ===========
+// STAR STUFF
+// ===========
+
+moveStar: function(rand=true) {
+  // get all blue tiles
+  const blueTiles = this.getTilePositions(01);
+  let blueTilePos = null;
+  // we pick one tile at random
+  if (rand)
+    blueTilePos = blueTiles[parseInt(Math.random() * blueTiles.length)];
+  // not random
+  else
+    blueTilePos = blueTiles[parseInt(blueTiles.length / 2)];
+  // set star to that tiles position
+  entityManager.getStar().setPosition(blueTilePos);
+},
+
+
+
+
 // ======
 // UPDATE
 // ======

@@ -55,7 +55,7 @@ server.startServer = function(startServer) {
       } else {
       // our player
         players[uuid] = {uuid: uuid, player_id: player_id,
-                         existing_players: e_players};
+                         existing_players: e_players};              
         player_id++;
       }
       // let our socket know that we are ready to spawn

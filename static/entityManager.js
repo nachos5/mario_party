@@ -31,6 +31,7 @@ _players: [],
 _ttplayers: [], // tabletop players
 _dice: [],  // Dice Room
 _eventBlocks: [],   // Event Room
+_stars: [],
 
 _gravity: 0.12,     // Constant
 
@@ -59,7 +60,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlocks];
+    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlocks, this._stars];
 },
 
 init: function() {
@@ -97,6 +98,12 @@ sharedObjects: function() {
         cx: this._gameRoomcx + (this._gameRoomBrickWidth  * 5) + this._gameRoomBrickWidth * 1.5,
         cy: this._gameRoomcy + (this._gameRoomBrickHeight * 6) + this._gameRoomBrickHeight * 1.5
       });
+
+    this.generateStar({
+      cx: -100,
+      cy: -100
+    });
+    mapManager.moveStar();
 
     // Start rolling the die
     this.getDie().roll();
@@ -151,6 +158,15 @@ generateDie: function(descr) {
 // returns the first die
 getDie: function() {
   return this._dice[0];
+},
+
+generateStar: function(descr) {
+  this._stars.push(new Star(descr));
+},
+
+// returns the first star
+getStar: function() {
+  return this._stars[0];
 },
 
 generateEventBlocks: function() {
