@@ -95,6 +95,7 @@ let eventManager = {
   01: function() {
     const player = this.getCurrPlayer();
     player.coins += 3;
+    entityManager.playAnimation(1);
   },
 
   // red tile lose 3 coins
@@ -104,6 +105,7 @@ let eventManager = {
     if (player.coins < 0) {
       player.coins = 0;
     }
+    entityManager.playAnimation(0);
   },
 
   // star tile
