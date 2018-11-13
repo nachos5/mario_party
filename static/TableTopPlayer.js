@@ -16,7 +16,6 @@ function TableTopPlayer(descr) {
     this.rotation = 0;
     this.alpha = 1;
 
-    this.sprite = g_playerSprites[this.spriteID].sp;
     // ====================
     // SELECT PLAYER SPRITE
     // ====================

@@ -5,8 +5,6 @@
 function EventPlayer(descr) {
     this.setup(descr);
 
-    this.sprite = g_playerSprites[this.spriteID].sp;
-
     this.cx = null;
     this.cy = null;
 
