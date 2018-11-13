@@ -3,6 +3,9 @@
 // ===========
 
 function TableTopPlayer(id) {
+
+    this.setup();
+
     this.position = mapManager.getStartPosition();
     this.prevPosition = {column: -1, row: -1};
     this.id = id;   // Id of the player
@@ -56,13 +59,44 @@ function TableTopPlayer(id) {
 
 TableTopPlayer.prototype = new Entity();
 
+// ==========
+// GET RADIUS
+// ==========
+
+TableTopPlayer.prototype.getRadius = function (du) {
+    return this.sprite.clipWidth * 0.75;
+};
+
+// =================
+// RESOLVE COLLISION
+// =================
+
+TableTopPlayer.prototype.resolveCollision = function (du) {
+
+};
+
 // ======
 // UPDATE
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
-  this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
-  this.cy = this.position.row * this.map.tilesHeight + this.centerY;
+
+    spatialManager.unregister(this);
+
+    this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
+    this.cy = this.position.row * this.map.tilesHeight + this.centerY;
+
+    // Check collision
+    if (this.isColliding()) {
+        let hitEntity = this.findHitEntity();
+        if (hitEntity) {
+            let fun = hitEntity.resolveCollision;
+            if (fun) fun.call(hitEntity);
+        }
+    }
+    else {spatialManager.register(this)}
+    
+    if (this._isDeadNow) { return -1 }
 };
 
 // ======
