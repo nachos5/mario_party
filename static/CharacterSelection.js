@@ -33,13 +33,11 @@ CharacterSelection.prototype.getRadius = function () {
 
 CharacterSelection.prototype.resolveCollision = function () {
     let player = entityManager._players.find(player => player.my_player == true);
-    
     player.spriteID = this.id;
     player.refresh();
-
-    if (this.isSelected) {
-        this.alpha = 1;
-        this.isSelected = false;
+    
+    if (player.isSelectedSprite) {
+        menuManager.refresh();
     }
 
     this.alpha = 0.5;
@@ -51,7 +49,7 @@ CharacterSelection.prototype.resolveCollision = function () {
 // ======
 
 CharacterSelection.prototype.update = function(du) {
-
+    return -1;
 };
 
 // ======

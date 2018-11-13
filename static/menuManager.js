@@ -87,8 +87,23 @@ let menuManager = {
         }
     },
 
-    update: function() {
+    refresh: function() {
+        // Set alpha to 1
+        for (let i = 0; i < this.charSelection.length; i++) {
+            this.charSelection[i].alpha = 1;
+        }
+    },
 
+    update: function(du) {
+        let begin = this.button.update(du);
+
+        if (begin === -1) {
+            for (let i = 0; i < this.charSelection.length; i++) {
+                spatialManager.unregister(this.charSelection[i]);
+            }
+            spatialManager.unregister(this.button);
+            g_startGame = true;
+        }
     },
 
     render: function(ctx) {        
@@ -147,12 +162,6 @@ let menuManager = {
 
         // Button
         this.button.render(ctx);
-        //this.charSelection[0].render(ctx);
-        //this.charSelection[1].render(ctx);
-        //this.charSelection[2].render(ctx);
-
-        //g_charSelectionSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
-        //g_playerSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
 
         for(let i = 0; i < this.charSelection.length; i++) {
             this.charSelection[i].render(ctx);

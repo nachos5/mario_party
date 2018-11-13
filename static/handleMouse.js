@@ -31,7 +31,7 @@ function eatClick() {
     return click;
 }
 
-function handleMouseMove(evt) {
+function handleMouse(evt) {
   g_skip = false;
 
   g_mouseX = evt.clientX - g_canvas.offsetLeft;
@@ -41,15 +41,18 @@ function handleMouseMove(evt) {
   let button = evt.buttons === undefined ? evt.which : evt.buttons;
   if (!button) return;
 
-  let hitEntity = spatialManager.findEntityInRange(g_mouseX, g_mouseY, 1);
-
-  // Call object that was clicked on
-  if (hitEntity) {
+  if (eatClick()) {
+    let hitEntity = spatialManager.findEntityInRange(g_mouseX, g_mouseY, 1);
+    
+    // Call object that was clicked on
+    if (hitEntity) {
       let fun = hitEntity.resolveCollision;
       if (fun) fun.call(hitEntity);
+    }
   }
 }
 
 window.addEventListener("mousedown", handleMouseDown);
 window.addEventListener("mouseup", handleMouseUp);
-window.addEventListener("mousemove", handleMouseMove);
+window.addEventListener("mousemove", handleMouse);
+window.addEventListener("mousedown", handleMouse);
