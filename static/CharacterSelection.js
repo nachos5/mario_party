@@ -36,7 +36,6 @@ CharacterSelection.prototype.resolveCollision = function () {
     
     player.spriteID = this.id;
     player.refresh();
-    //player.eventPlayer.sprite = this.id;
 
     if (this.isSelected) {
         this.alpha = 1;
