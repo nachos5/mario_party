@@ -17,7 +17,8 @@ CharacterSelection.prototype = new Entity();
 
 CharacterSelection.prototype.ObjectID = 'charSelection';
 CharacterSelection.prototype.isSelected = false;
-CharacterSelection.prototype.alpha = 1;
+CharacterSelection.prototype.isLocked = false;
+CharacterSelection.prototype.alpha = 0.5;
 
 // ==========
 // GET RADIUS
@@ -32,16 +33,14 @@ CharacterSelection.prototype.getRadius = function () {
 // =================
 
 CharacterSelection.prototype.resolveCollision = function () {
+    if (this.isLocked) { return }
+
     let player = entityManager.getMyPlayer();
-
     player.spriteID = this.id;
+    
     player.refresh();
+    menuManager.refresh();
 
-    if (player.isSelectedSprite) {
-        menuManager.refresh();
-    }
-
-    this.alpha = 0.5;
     this.isSelected = true;
 };
 
@@ -58,7 +57,7 @@ CharacterSelection.prototype.update = function(du) {
 // ======
 
 CharacterSelection.prototype.render = function(ctx) {
-    if (this.isSelected) { ctx.globalAlpha = this.alpha }
+    if (this.isSelected || this.isLocked) { ctx.globalAlpha = this.alpha }
     this.sprite.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.width, this.height);
 
     ctx.globalAlpha = 1;

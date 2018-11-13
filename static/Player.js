@@ -35,8 +35,6 @@ Player.prototype.isReady = false;
 
 Player.prototype.spriteID = 0;
 
-Player.prototype.isSelectedSprite = false;
-
 // =======
 // REFRESH
 // =======
