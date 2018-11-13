@@ -163,7 +163,7 @@ let eventManager = {
     }
     // fade out
     if (this.eventIter > 0) {
-      if (this.eventIter == 50) audioManager.playAndEmit("pipe", 0, false, 0.5);
+      if (this.eventIter == 50) audioManager.playAndEmit("pipe", 0, false, 0.8);
       player.alpha -= 0.01;
       if (player.alpha < 0) player.alpha = 0;
       this.eventIter--;
