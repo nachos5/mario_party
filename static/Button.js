@@ -40,7 +40,7 @@ Button.prototype.resolveCollision = function () {
 // ======
 
 Button.prototype.update = function(du) {
-
+    if (this.isReady) { return -1 }
 };
 
 // ======

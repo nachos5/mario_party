@@ -159,6 +159,7 @@ networkManager.socket.on("animation_trigger_server", function(data) {
 
 networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
+  g_startGame = true;
 });
 
 

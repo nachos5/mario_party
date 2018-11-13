@@ -22,6 +22,7 @@ function Player(descr) {
         id       : this.player_id,   // Id of the player
         sprite   : g_playerSprites[this.spriteID].sp,
     });
+
 };
 
 // ==========
@@ -34,6 +35,8 @@ Player.prototype.isReady = false;
 
 Player.prototype.spriteID = 0;
 
+Player.prototype.isSelectedSprite = false;
+
 // =======
 // REFRESH
 // =======
@@ -41,6 +44,7 @@ Player.prototype.spriteID = 0;
 Player.prototype.refresh = function() {
     this.eventPlayer.sprite = g_playerSprites[this.spriteID].sp;
     this.tt_player.sprite = g_playerSprites[this.spriteID].sp;
+    this.isSelectedSprite = true;
 };
 
 // ======
@@ -58,7 +62,7 @@ Player.prototype.update = function (du) {
       networkManager.emit("update_player", this);
 
       this.tt_player.update(du);
-      this.eventPlayer.update(du);
+      if (g_startGame) this.eventPlayer.update(du);
     }
 };
 

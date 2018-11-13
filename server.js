@@ -120,6 +120,7 @@ server.startServer = function(startServer) {
         // if we have reached this point, all players are ready!
         all_players_ready = true;
         socket.emit('all_players_ready_server');
+        socket.broadcast.emit('all_players_ready_server');
       };
     });
 

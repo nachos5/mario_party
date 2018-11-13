@@ -5,6 +5,9 @@
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
+// Master global
+let g_startGame = false;    // Game start when ready button is pressed for all players
+
 // =============
 // GATHER INPUTS
 // =============
@@ -24,6 +27,8 @@ function updateSimulation(du) {
     stateManager.update(du);
     entityManager.update(du);
     mapManager.update(du);
+
+    if (!g_startGame) { menuManager.update(du) }
 }
 
 // ================
@@ -65,7 +70,7 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
     eventManager.render(ctx);
 
-    menuManager.render(ctx);
+    if (!g_startGame) { menuManager.render(ctx) }
     // Tester
     //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
     //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
@@ -333,29 +338,34 @@ let g_charSelectionSprites = [];  // Character Selection
 
 function loadSpriteLibaries() {
     // Players
-    g_playerSprites.push({sp : g_sprites.mario      , id : 0});
-    g_playerSprites.push({sp : g_sprites.luigi      , id : 1});
-    g_playerSprites.push({sp : g_sprites.pinkPeach  , id : 2});
-    g_playerSprites.push({sp : g_sprites.yoshi      , id : 3});
-    g_playerSprites.push({sp : g_sprites.wario      , id : 4});
-    g_playerSprites.push({sp : g_sprites.yellowPeach, id : 5});
+    g_playerSprites.push({sp : g_sprites.mario       , id : 0  });
+    g_playerSprites.push({sp : g_sprites.pinkPeach   , id : 1  });
+    g_playerSprites.push({sp : g_sprites.yoshi       , id : 2  });
+    g_playerSprites.push({sp : g_sprites.wario       , id : 3  });
+    g_playerSprites.push({sp : g_sprites.paleToad    , id : 4  });
+    g_playerSprites.push({sp : g_sprites.luigi       , id : 5  });
+    g_playerSprites.push({sp : g_sprites.yellowPeach , id : 6  });
+    g_playerSprites.push({sp : g_sprites.waluigi     , id : 7  });
+    g_playerSprites.push({sp : g_sprites.pinkToad    , id : 8  });
+    g_playerSprites.push({sp : g_sprites.bowserjr    , id : 9  });
+    g_playerSprites.push({sp : g_sprites.boo         , id : 10 });
 
     // Items
     g_itemSprites.push({sp : g_aniSprites.coin[0], id : 0, type : 'clipped'});
     g_itemSprites.push({sp : g_sprites.star      , id : 1, type : 'normal' });
 
     // Character Selection
-    g_charSelectionSprites.push({sp : g_sprites.selectMario,        id : 0});
-    g_charSelectionSprites.push({sp : g_sprites.selectPinkPeach,    id : 1});
-    g_charSelectionSprites.push({sp : g_sprites.selectYoshi,        id : 2});
-    g_charSelectionSprites.push({sp : g_sprites.selectWario,        id : 3});
-    g_charSelectionSprites.push({sp : g_sprites.selectPaleToad,     id : 4});
-    g_charSelectionSprites.push({sp : g_sprites.selectLuigi,        id : 5});
-    g_charSelectionSprites.push({sp : g_sprites.selectYellowPeach,  id : 6});
-    g_charSelectionSprites.push({sp : g_sprites.selectWaluigi,      id : 7});
-    g_charSelectionSprites.push({sp : g_sprites.selectPinkToad,     id : 8});
-    g_charSelectionSprites.push({sp : g_sprites.selectBowserjr,     id : 9});
-    g_charSelectionSprites.push({sp : g_sprites.selectBoo,          id : 10});
+    g_charSelectionSprites.push({sp : g_sprites.selectMario,        id : 0  });
+    g_charSelectionSprites.push({sp : g_sprites.selectPinkPeach,    id : 1  });
+    g_charSelectionSprites.push({sp : g_sprites.selectYoshi,        id : 2  });
+    g_charSelectionSprites.push({sp : g_sprites.selectWario,        id : 3  });
+    g_charSelectionSprites.push({sp : g_sprites.selectPaleToad,     id : 4  });
+    g_charSelectionSprites.push({sp : g_sprites.selectLuigi,        id : 5  });
+    g_charSelectionSprites.push({sp : g_sprites.selectYellowPeach,  id : 6  });
+    g_charSelectionSprites.push({sp : g_sprites.selectWaluigi,      id : 7  });
+    g_charSelectionSprites.push({sp : g_sprites.selectPinkToad,     id : 8  });
+    g_charSelectionSprites.push({sp : g_sprites.selectBowserjr,     id : 9  });
+    g_charSelectionSprites.push({sp : g_sprites.selectBoo,          id : 10 });
 
 
     console.log(g_playerSprites);

@@ -41,12 +41,14 @@ function handleMouse(evt) {
   let button = evt.buttons === undefined ? evt.which : evt.buttons;
   if (!button) return;
 
-  let hitEntity = spatialManager.findEntityInRange(g_mouseX, g_mouseY, 1);
-
-  // Call object that was clicked on
-  if (hitEntity) {
+  if (eatClick()) {
+    let hitEntity = spatialManager.findEntityInRange(g_mouseX, g_mouseY, 1);
+    
+    // Call object that was clicked on
+    if (hitEntity) {
       let fun = hitEntity.resolveCollision;
       if (fun) fun.call(hitEntity);
+    }
   }
 }
 

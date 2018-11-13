@@ -8,7 +8,7 @@ let menuManager = {
     mapTop: null,
     mapLeft: null,
     mapRight: null,
-    
+
     // Menu variables
     menuTop:   0,
     menuRight: 0,
@@ -87,11 +87,25 @@ let menuManager = {
         }
     },
 
-    update: function() {
-
+    refresh: function() {
+        // Set alpha to 1
+        for (let i = 0; i < this.charSelection.length; i++) {
+            this.charSelection[i].alpha = 1;
+        }
     },
 
-    render: function(ctx) {        
+    update: function(du) {
+        let begin = this.button.update(du);
+
+        if (begin === -1) {
+            for (let i = 0; i < this.charSelection.length; i++) {
+                spatialManager.unregister(this.charSelection[i]);
+            }
+            spatialManager.unregister(this.button);
+        }
+    },
+
+    render: function(ctx) {
 
         // Background
         g_sprites.background2.drawTopLeftFixed(ctx, this.menuLeft, this.menuTop - (this.height * 0.75), 0,1,1, this.width*15, this.height*9.3);
@@ -99,7 +113,7 @@ let menuManager = {
         // Framing
         // Top side
         g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + 1, this.menuTop - (this.height * 0.75), -Math.PI/2, this.width, this.height, 1);
-        
+
         let t = 1;
         while(this.menuLeft + (this.width * 0.15) + this.midXOffset * (t+1) < this.menuRight) {
             g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + this.midXOffset * t, this.menuTop - (this.height * 0.75), Math.PI/2, this.width, this.height);
@@ -121,7 +135,7 @@ let menuManager = {
 
         // Right side
         g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuRight, this.menuTop, 0, this.width, this.height);
-        
+
         let r = 1;
         while(this.menuTop + this.midYOffset * (r+1) < this.menuBot) {
             g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuRight, this.menuTop + this.midYOffset * r, 0, this.width, this.height);
@@ -132,7 +146,7 @@ let menuManager = {
 
         // Left side
         g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft, this.menuTop, 0, this.width, this.height);
-        
+
         let l = 1;
         while(this.menuTop + this.midYOffset * (l+1) < this.menuBot) {
             g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft, this.menuTop + this.midYOffset * l, 0, this.width, this.height);
@@ -147,12 +161,6 @@ let menuManager = {
 
         // Button
         this.button.render(ctx);
-        //this.charSelection[0].render(ctx);
-        //this.charSelection[1].render(ctx);
-        //this.charSelection[2].render(ctx);
-
-        //g_charSelectionSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
-        //g_playerSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
 
         for(let i = 0; i < this.charSelection.length; i++) {
             this.charSelection[i].render(ctx);
