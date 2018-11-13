@@ -15,6 +15,7 @@ let stateManager = {
   players: [],
   gamestate: {}, // emitted from the server
   turn: 1,
+  all_players_ready: false,
 
   // =========
   // INITALIZE
@@ -170,7 +171,8 @@ let stateManager = {
   // emit game state information
   stateIter: 0,
   emitGameState: function(du) {
-    if (Math.floor(this.stateIter) == 200) {
+// we emit the gamestate
+    if (Math.floor(this.stateIter) == 50) {
       networkManager.socket.emit("gamestate", {
         curr_player_id: this.curr_player_id,
       });

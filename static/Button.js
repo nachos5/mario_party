@@ -32,6 +32,7 @@ Button.prototype.getRadius = function () {
 
 Button.prototype.resolveCollision = function () {
     this.isReady = true;
+    entityManager.getMyPlayer().isReady = true;
 };
 
 // ======

@@ -32,8 +32,8 @@ CharacterSelection.prototype.getRadius = function () {
 // =================
 
 CharacterSelection.prototype.resolveCollision = function () {
-    let player = entityManager._players.find(player => player.my_player == true);
-    
+    let player = entityManager.getMyPlayer();
+
     player.spriteID = this.id;
     player.refresh();
 
@@ -61,6 +61,6 @@ CharacterSelection.prototype.update = function(du) {
 CharacterSelection.prototype.render = function(ctx) {
     if (this.isSelected) { ctx.globalAlpha = this.alpha }
     this.sprite.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.width, this.height);
-    
+
     ctx.globalAlpha = 1;
 };

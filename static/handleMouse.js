@@ -31,7 +31,7 @@ function eatClick() {
     return click;
 }
 
-function handleMouseMove(evt) {
+function handleMouse(evt) {
   g_skip = false;
 
   g_mouseX = evt.clientX - g_canvas.offsetLeft;
@@ -52,4 +52,5 @@ function handleMouseMove(evt) {
 
 window.addEventListener("mousedown", handleMouseDown);
 window.addEventListener("mouseup", handleMouseUp);
-window.addEventListener("mousemove", handleMouseMove);
+window.addEventListener("mousemove", handleMouse);
+window.addEventListener("mousedown", handleMouse);

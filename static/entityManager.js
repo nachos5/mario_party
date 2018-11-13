@@ -146,6 +146,10 @@ pushPlayer: function(player) {
   this._players.push(player);
 },
 
+getMyPlayer: function() {
+  return entityManager._players.find(player => player.my_player == true);
+},
+
 generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },

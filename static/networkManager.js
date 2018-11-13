@@ -18,6 +18,7 @@ NetworkManager.prototype.emit = function(message, data) {
 // initialize the manager
 let networkManager = new NetworkManager();
 
+networkManager.all_players_ready = false;
 networkManager.error = false;
 
 // we initialise with non-valid information
@@ -154,6 +155,10 @@ networkManager.socket.on("audio_trigger", function(data) {
 
 networkManager.socket.on("animation_trigger_server", function(data) {
   entityManager.playAnimation(data);
+});
+
+networkManager.socket.on("all_players_ready_server", function() {
+  networkManager.all_players_ready = true;
 });
 
 

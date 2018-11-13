@@ -40,6 +40,8 @@ server.startServer = function(startServer) {
   let gamestate = {};
   // star position
   let starPos = null;
+  // all players ready
+  let all_players_ready = false;
 
   // Add the WebSocket handlers
   io.on('connection', function(socket) {
@@ -89,6 +91,7 @@ server.startServer = function(startServer) {
     socket.on('update_player', function(player) {
       players[player.uuid] = player;
       players[player.uuid].connected = true;
+      players[player.uuid].isReady = player.isReady;
       players[player.uuid].socket_id = socket.id;
       players[player.uuid].star_pos = starPos;
       socket.broadcast.emit('update_player_server', player);
@@ -107,6 +110,17 @@ server.startServer = function(startServer) {
     // we get information about the game state
     socket.on('gamestate', function(state) {
       gamestate = state;
+
+      if (!all_players_ready) {
+        for (let p in players) {
+          if (!players[p].isReady) {
+            return; // if a player is not ready we return
+          }
+        };
+        // if we have reached this point, all players are ready!
+        all_players_ready = true;
+        socket.emit('all_players_ready_server');
+      };
     });
 
     socket.on('starPos', function(pos) {

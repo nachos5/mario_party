@@ -30,6 +30,7 @@ function Player(descr) {
 
 Player.prototype.stars = 0;
 Player.prototype.myTurn = false;
+Player.prototype.isReady = false;
 
 Player.prototype.spriteID = 0;
 
