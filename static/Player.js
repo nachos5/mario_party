@@ -33,8 +33,6 @@ Player.prototype.myTurn = false;
 
 Player.prototype.spriteID = 0;
 
-Player.prototype.isSelectedSprite = false;
-
 // =======
 // REFRESH
 // =======

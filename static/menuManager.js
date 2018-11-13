@@ -90,7 +90,7 @@ let menuManager = {
     refresh: function() {
         // Set alpha to 1
         for (let i = 0; i < this.charSelection.length; i++) {
-            this.charSelection[i].alpha = 1;
+            this.charSelection[i].isSelected = false;
         }
     },
 
