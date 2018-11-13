@@ -38,6 +38,7 @@ Player.prototype.update = function (du) {
       // emit players position to the server
       networkManager.emit("update_player", this);
 
+      this.tt_player.update(du);
       this.eventPlayer.update(du);
     }
 };
