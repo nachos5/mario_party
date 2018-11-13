@@ -63,6 +63,7 @@ function renderSimulation(ctx) {
     mapManager.render(ctx);
     stateManager.render(ctx);
     entityManager.render(ctx);
+    eventManager.render(ctx);
 
     // Tester
     //g_sprites.mario.drawClipped(ctx, 500, 500)
@@ -131,10 +132,14 @@ function requestPreloads_audio() {
 // ========================
 
 function waitForServerResponse() {
+  let breakIter = 0;
   // we wait until the server sends us required information about our player
   while ((networkManager.player_info.uuid == -1 &&
           networkManager.player_info.player_id == -1) &&
-          !networkManager.error) {};
+          !networkManager.error) {
+            if (breakIter > 1000) break;
+            breakIter++;
+          };
 
   preloadDone();
 }
@@ -202,9 +207,9 @@ function preloadDone() {
     coin.push(new Sprite(g_images.coinAni, 415,  100, 0, 2, 50, 50));  // Frame 4
     coin.push(new Sprite(g_images.coinAni, 535,  100, 0, 2, 50, 50));  // Frame 5
     coin.push(new Sprite(g_images.coinAni, 655,  100, 0, 2, 50, 50));  // Frame 6
-    
+
     g_aniSprites.coin = coin;
-    
+
     // GameRoom and ScoreRoom
     g_sprites.eventBlock      = new Sprite(g_images.eventBlock);
     g_sprites.arrow           = new Sprite(g_images.arrow);

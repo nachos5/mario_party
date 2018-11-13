@@ -134,6 +134,10 @@ step: function() {
     this.tileSound(this.currTile);
     // event only runs if it is an mid movement event
     this.initEvent(this.currTile, eventManager.eventIsMidMovement(this.currTile));
+    // if we are on a blue tile, we check if there is a star on it
+    if (this.currTile == 01) {
+      this.checkForStar();
+    }
   }
 
   // we keep on going if we have reached the end of the dice roll
@@ -326,6 +330,17 @@ arrowOnTile: function(pos) {
 // STAR STUFF
 // ===========
 
+checkForStar: function() {
+  const player = stateManager.curr_player;
+  const player_pos = mapManager.getPosition(player.tt_player);
+  const star_pos = entityManager.getStar().getTilePosition();
+  // the check
+  if (star_pos.row == player_pos.row && star_pos.column == player_pos.column) {
+    // we run a star event
+    this.initEvent("buyStar", true);
+  }
+},
+
 moveStar: function(rand=true) {
   // get all blue tiles
   const blueTiles = this.getTilePositions(01);
@@ -336,8 +351,12 @@ moveStar: function(rand=true) {
   // not random
   else
     blueTilePos = blueTiles[parseInt(blueTiles.length / 2)];
+
   // set star to that tiles position
-  entityManager.getStar().setPosition(blueTilePos);
+  entityManager.getStar().setTilePosition(blueTilePos);
+
+  // emit to the server
+  networkManager.emit("starPos", blueTilePos);
 },
 
 
@@ -361,8 +380,13 @@ update: function(du) {
       this.stepIter++;
       // this.stepIter += du; test more
     } else {
-      // if an event is running
-      eventManager[this.currTile]();
+      // if an event is running and no animation going on
+      if (!entityManager._isAnimation) {
+        if (eventManager.buy_star)
+          eventManager["buyStar"]();
+        else
+          eventManager[this.currTile]();
+      }
     }
   };
 },

@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 10,
+  rounds_remaining: 30,
   game_room: 0,
   score_room: 0,
 
@@ -114,6 +114,7 @@ let stateManager = {
 
   // map manager calls this
   nextTurn: function() {
+    console.log("NOW")
     // Update Scoreboard positions
     this.players.sort(function(x, y){
       if(y.stars === x.stars) { return y.coins - x.coins };
@@ -142,7 +143,9 @@ let stateManager = {
     this.turn++;
 
     // Roll the die for the next player
-    entityManager.getDie().roll();
+    if (this.curr_player.my_player) {
+      entityManager.getDie().roll();
+    }
 
     // Update Player Turn
     //this.game_room.num = this.curr_player_id;

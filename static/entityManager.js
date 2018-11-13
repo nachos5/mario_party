@@ -77,8 +77,6 @@ init: function() {
     player_id: networkManager.player_info.player_id
   });
 
-  //console.log(entityManager._players[0]);
-
   // let the server know that a new player has joined the game
   networkManager.emit('new player', entityManager._players[0]);
 },
@@ -99,10 +97,12 @@ sharedObjects: function() {
       cx: -100,
       cy: -100
     });
-    mapManager.moveStar();
-
-    // Start rolling the die
-    this.getDie().roll();
+    // first player on the network generates the initial star position and rolls the die
+    if (this._players[0].player_id == 1) {
+      mapManager.moveStar();
+      this.getDie().roll();
+      //audioManager.playAndEmit("jump", 0, true, 1);
+    }
 
     // Initalize variables in eventPlayer
     for(let i = 0; i < this._players.length; i++) {
@@ -213,6 +213,7 @@ stopAnimation: function() {
 
     this._animation = null;
     this._isAnimation = false;
+    mapManager.eventIsRunning = false; // event is done
 },
 
 update: function(du) {
@@ -244,7 +245,7 @@ update: function(du) {
 
     // Animations
     if (g_useAnimation && this._isAnimation) {
-        
+
         // Coin animation
         if (this._animation === 0 || this._animation === 1) {
             // Swap frames every 10th frame
@@ -257,6 +258,7 @@ update: function(du) {
             this._aniAlpha -= 0.03;
             // Restart
             if(this._aniIter === 30) {
+                audioManager.playAndEmit("coin", 0.2, false, 1);
                 this._aniFrame = 0;
                 this._aniIter = 0;
                 this._aniY = 0;
@@ -286,11 +288,11 @@ render: function(ctx) {
     }
 
     // Render animations
-    if (this._isAnimation) {    
+    if (this._isAnimation) {
         // To prevent bugs with alpha level
         if (this._aniAlpha < 0) { this._aniAlpha = 0}
         ctx.globalAlpha = this._aniAlpha;
-        
+
         // +- 3 Coin
         if (this._animation === 0 || this._animation === 1) {
             g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + this._aniY, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);

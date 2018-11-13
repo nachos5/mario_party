@@ -38,6 +38,8 @@ server.startServer = function(startServer) {
   let player_id = 1;
   // keep track of the game state
   let gamestate = {};
+  // star position
+  let starPos = null;
 
   // Add the WebSocket handlers
   io.on('connection', function(socket) {
@@ -55,7 +57,7 @@ server.startServer = function(startServer) {
       } else {
       // our player
         players[uuid] = {uuid: uuid, player_id: player_id,
-                         existing_players: e_players};              
+                         existing_players: e_players};
         player_id++;
       }
       // let our socket know that we are ready to spawn
@@ -88,6 +90,7 @@ server.startServer = function(startServer) {
       players[player.uuid] = player;
       players[player.uuid].connected = true;
       players[player.uuid].socket_id = socket.id;
+      players[player.uuid].star_pos = starPos;
       socket.broadcast.emit('update_player_server', player);
     });
 
@@ -106,9 +109,18 @@ server.startServer = function(startServer) {
       gamestate = state;
     });
 
+    socket.on('starPos', function(pos) {
+      starPos = pos;
+    });
+
     // emit an audio trigger to other sockets
     socket.on('audio', function(data) {
       socket.broadcast.emit('audio_trigger', data);
+    });
+
+    // animation trigger
+    socket.on('animation_trigger', function(data) {
+      socket.broadcast.emit('animation_trigger_server', data);
     });
 
     socket.on('disconnect', function() {
@@ -125,9 +137,6 @@ server.startServer = function(startServer) {
       if (!isAnyoneConnected()) {
         const t = setTimeout(function() {
           if (!isAnyoneConnected()) {
-            //players = {};
-            //player_id = 1;
-            //gamestate = {};
             io.close();
             startServer(startServer);
           }

@@ -12,15 +12,21 @@
 let eventManager = {
   eventIter: 0,
   // events that require no animation
-  instant_events: [01, 02, 36, 37, 38, 39],
+  instant_events: [36, 37, 38, 39],
   // we use this to check if our event happens mid movement
-  mid_movement_events: [08, 36, 37, 38, 39, 60, 61],
+  mid_movement_events: [08, 36, 37, 38, 39, 60, 61, "buyStar"],
   // we use this to check if our event happens after the movement
   after_movement_events: [01, 02],
+  // bool that says if we want to render or not
+  allow_rendering: false,
+  // current function inside the render function
+  curr_render_function: null,
 
   // Added
   isBlocksEvent: false,
-  starCost: 10,
+  star_cost: 10,
+  buy_star: false, // is true while star stuff is running
+  can_buy_star: false, // true if the player can buy the star
   isEvent: false,
 
   getCurrPlayer: function() {
@@ -91,39 +97,187 @@ let eventManager = {
 
   // ==== COLLECTABLES ==== //
 
-  // blue tile, gain 3 coins
-  01: function() {
+  // blue tile - gain 3 coins, or potentially gain a star!
+  01: function(parameters) {
     const player = this.getCurrPlayer();
     player.coins += 3;
     entityManager.playAnimation(1);
+    networkManager.emit("animation_trigger", 1);
+
+
   },
 
-  // red tile lose 3 coins
-  02: function() {
+  // red tile - lose 3 coins
+  02: function(parameters) {
     const player = this.getCurrPlayer();
     player.coins -= 3;
     if (player.coins < 0) {
       player.coins = 0;
     }
     entityManager.playAnimation(0);
+    networkManager.emit("animation_trigger", 0);
   },
 
-  // star tile
-  08: function(parameters) {
+
+  // player goes past a star
+  buyStar: function(parameters) {
+    // initial parameters
     if (parameters) {
-      this.eventiter = 200;
+      const pl = this.getCurrPlayer();
+      this.buy_star = true;
+      if (pl.coins >= this.star_cost) {
+        this.can_buy_star = true;
+        this.eventIter = 0;
+      }
+      else {
+        this.can_buy_star = false;
+        this.eventIter = -100;
+      }
+      this.curr_render_function = this.starRender;
+      this.allow_rendering = true;
     }
-    this.eventIter--;
     const player = this.getCurrPlayer();
-    const starPos = mapManager.getPosition(player);
-    const blueTiles = mapManager.getTilePositions(01);
-    // we pick out 1 random blue tile
-    const rand = Math.random() * blueTiles.length;
-    const bluePos = blueTiles[rand];
-    // we swap the star tile with the blue tile
-    mapManager.swapTiles(starPos, bluePos);
-    mapManager.eventIsRunning = false; // event is done
+    // handle click on yes button
+    if (this.eventIter == 1) {
+      this.allow_rendering = false;
+      this.curr_render_function = null;
+      // player gains a star
+      this.eventIter += 1;
+    }
+    // handle click on no button
+    else if (this.eventIter == -1) {
+      this.allow_rendering = false;
+      this.curr_render_function = null;
+      mapManager.moveStar();
+      this.buy_star = false;
+      mapManager.eventIsRunning = false;
+    }
+
+    //  ==== if we are here then the player bought the star and we display animations ==== //
+    else if (this.eventIter > 1) {
+      const star = entityManager.getStar();
+      if (this.eventIter == 150) {
+        // play sound!
+        audioManager.playAndEmit("star", 0.3 , false, 0.8);
+      }
+      if (this.eventIter == 200) {
+        // reset star stuff
+        star.width = star.originalWidth;
+        star.height = star.originalHeight;
+        // end the event and gain a star
+        player.stars++;
+        mapManager.moveStar();
+        this.buy_star = false;
+        mapManager.eventIsRunning = false;
+      }
+      // animation stuff
+      star.rotation += Math.PI * (this.eventIter * 0.0005); // rotate faster
+      // enlarge the star
+      star.width += this.eventIter * 0.005;
+      star.height += this.eventIter * 0.005;
+      this.eventIter++;
+    }
+
+    // ==== if we are here the player doesn't have the coins to buy the star. ==== //
+    else if (this.eventIter <= -100) {
+      if (this.eventIter == -300) {
+        // we stop the event
+        this.allow_rendering = false;
+        this.curr_render_function = null;
+        mapManager.moveStar();
+        this.buy_star = false;
+        mapManager.eventIsRunning = false;
+      }
+      this.eventIter--;
+    }
   },
+
+  // popup for asking if the player wants to buy a star
+  starRender: function(ctx) {
+    const centerX = g_canvas.width/2,
+          centerY = g_canvas.height/2,
+          offsetX = g_canvas.width/4,
+          offsetY = g_canvas.height/4;
+
+    // ==== popup box ==== //
+    ctx.fillStyle = "black";
+    ctx.globalAlpha = 0.8;
+    ctx.fillRect(centerX - offsetX, centerY - offsetY,
+                 centerX, centerY);
+
+    // current player can't buy the star
+    if (!this.can_buy_star) {
+      // ==== text ==== //
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "white";
+      ctx.font = "40px Georgia";
+      ctx.textAlign = "center";
+      const string = "Sorry, you can't buy the star :( It costs";
+      const string2 = this.star_cost + " coins but you have " + this.getCurrPlayer().coins + " coins.";
+      ctx.fillText(string, centerX, centerY - offsetY/8);
+      ctx.fillText(string2, centerX, centerY + offsetY/8);
+    }
+    // current player can buy the star
+    else {
+      // ==== text ==== //
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "white";
+      ctx.font = "40px Georgia";
+      ctx.textAlign = "center";
+      const string = "Do you want to buy the star for";
+      const string2 = this.star_cost + " coins?";
+      ctx.fillText(string, centerX, centerY - offsetY/2);
+      ctx.fillText(string2, centerX, centerY - offsetY/4);
+
+      //  ==== buttons ==== //
+      // -- yes button
+      ctx.globalAlpha = 0.8;
+      let x = centerX - offsetX / 2,
+          y = centerY + offsetY / 2,
+          w = centerX / 6,
+          h = centerY / 6;
+      // mouse is inside box
+      if (g_mouseX > x && g_mouseX < x+w && g_mouseY > y && g_mouseY < y+h) {
+        ctx.fillStyle = "red"; // on hover the button is red
+        if (eatClick()) { // handle click
+          this.eventIter = 1;
+        }
+      }
+      else
+        ctx.fillStyle = "yellow";
+      ctx.fillRect(x, y, w, h);
+      // button text
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "black";
+      ctx.fillText("Yes", x + w/2, y + h/1.5);
+      // handle click
+      // -- no button
+      ctx.globalAlpha = 0.8;
+      x = centerX + offsetX / 2,
+      y = centerY + offsetY / 2,
+      w = centerX / 6,
+      h = centerY / 6,
+      x -= w;
+      // mouse is inside box
+      if (g_mouseX > x && g_mouseX < x+w && g_mouseY > y && g_mouseY < y+h) {
+        ctx.fillStyle = "red"; // on hover the button is red
+        if (eatClick()) { // handle click
+          this.eventIter = -1;
+        }
+      }
+      else
+        ctx.fillStyle = "yellow";
+      ctx.fillRect(x, y, w, h);
+      // button text
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "black";
+      ctx.fillText("No", x + w/2, y + h/1.5);
+
+      ctx.globalAlpha = 1;
+    }
+
+  },
+
 
 
   // ========= ARROW EVENTS ========== //
@@ -204,6 +358,15 @@ let eventManager = {
   // red pipe, same code for both pipes so we just "redirect"
   61: function(parameters=false) {
     this[60](parameters, 61);
+  },
+
+
+
+  // ==== RENDERING ==== //
+  render: function(ctx) {
+    if (this.allow_rendering) {
+      this.curr_render_function(ctx);
+    }
   },
 
 };

@@ -12,9 +12,27 @@
 */
 
 var g_mouseX = 0,
-    g_mouseY = 0;
+    g_mouseY = 0,
+    g_mouseClick = false,
+    g_skip = false;
 
-function handleMouse(evt) {
+function handleMouseDown() {
+  g_mouseClick = true;
+}
+
+function handleMouseUp() {
+  g_mouseClick = false;
+}
+
+// return current state of mouseclick and then set it to false
+function eatClick() {
+    let click = g_mouseClick;
+    g_mouseClick = false;
+    return click;
+}
+
+function handleMouseMove(evt) {
+    g_skip = false;
 
     g_mouseX = evt.clientX - g_canvas.offsetLeft;
     g_mouseY = evt.clientY - g_canvas.offsetTop;
@@ -31,6 +49,6 @@ function handleMouse(evt) {
 
 }
 
-// Handle "down" and "move" events the same way.
-window.addEventListener("mousedown", handleMouse);
-//window.addEventListener("mousemove", handleMouse);
+window.addEventListener("mousedown", handleMouseDown);
+window.addEventListener("mouseup", handleMouseUp);
+window.addEventListener("mousemove", handleMouseMove);

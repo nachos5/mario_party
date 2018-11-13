@@ -65,18 +65,21 @@ AudioManager.prototype.onError = function() {
 // ==========
 
 // a function that takes a buffer as argument and plays the audio source
-AudioManager.prototype.playAudio = function(bufferString, delayTime, loop, gainConst=1) {
+AudioManager.prototype.playAudio = function(bufferString, delayTime, loop=false, gainConst=1) {
   // buffer and buffer duration
   const buffer = audioManager.bufferArr[bufferString];
   const dur = buffer.duration;
 
-  if (loop == undefined) loop = false;
   // lets reduce the audio gain so the players ears won't get destroyed (like mine)
   let gainNode = this.audioCtx.createGain();
   const gainVal = 0.1 * gainConst;
   gainNode.gain.setValueAtTime(gainVal, this.audioCtx.currentTime)
-  // decay to prevent clicks
-  gainNode.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + dur)
+
+  if (!loop) {
+    // decay to prevent clicks
+    gainNode.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + dur)
+  }
+
   // lets also add a little bit of ping-pong delay for better "experience"
   let pingpong = this.pingpongDelay(this.audioCtx, delayTime);
   // buffer source

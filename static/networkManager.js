@@ -42,12 +42,8 @@ networkManager.socket.on("my player", function(player) {
 // when we get a message from the server that a new player has joined the game
 networkManager.socket.on("new_player", function(player) {
   entityManager.generatePlayer({
-    cx: default_coords.cx,
-    cy: default_coords.cy,
     uuid: player.uuid,
     my_player: false,
-
-    // Added
     stars: 0,
     coins: 0,
     player_id: player.player_id
@@ -62,8 +58,6 @@ networkManager.socket.on("new_player", function(player) {
 networkManager.socket.on("reconnecting", function(player) {
   const clientPlayer = entityManager._players[0];
   // ==== MAIN PLAYER ==== //
-  clientPlayer.cx = player.cx;
-  clientPlayer.cy = player.cy;
   clientPlayer.stars = player.stars;
   clientPlayer.coins = player.coins;
   // ==== TT PLAYER ==== //
@@ -89,12 +83,8 @@ networkManager.socket.on("existingPlayers", function(data) {
         // player from server
         const player = data.players[p];
         entityManager.generatePlayer({
-          cx: player.cx,
-          cy: player.cy,
           uuid: player.uuid,
           my_player: false,
-
-          // Added
           stars: player.stars,
           coins: player.stars,
           player_id: player.player_id
@@ -113,8 +103,7 @@ networkManager.socket.on("update_player_server", function(player) {
 
   try {
     // ==== MAIN PLAYER ==== //
-    // position
-    obj.setPos(player.cx, player.cy);
+
     // scoreboard stuff
     obj.coins = player.coins;
     obj.stars = player.stars;
@@ -132,7 +121,11 @@ networkManager.socket.on("update_player_server", function(player) {
     obj.eventPlayer.cx = player.eventPlayer.cx;
     obj.eventPlayer.cy = player.eventPlayer.cy;
 
-  } catch(e) {}
+    // ==== STAR ==== //
+    entityManager.getStar().setTilePosition(player.star_pos);
+  } catch(e) {
+    console.log("Player couldn't be updated!");
+  }
 });
 
 
@@ -143,7 +136,11 @@ networkManager.socket.on("next_turn_server", function() {
 
 // change the sprite of the die
 networkManager.socket.on("die_sprite_server", function(rand) {
-  entityManager.getDie().side_sprite(rand);
+  try {
+    entityManager.getDie().side_sprite(rand);
+  } catch(e) {
+    // if we are here the die just hasn't spawned yet
+  }
 });
 
 // game state from server
@@ -153,6 +150,10 @@ networkManager.socket.on("game_state_server", function(state) {
 
 networkManager.socket.on("audio_trigger", function(data) {
   audioManager.playAudio(data.bufferString, data.delayTime, data.loop, data.gainConst);
+});
+
+networkManager.socket.on("animation_trigger_server", function(data) {
+  entityManager.playAnimation(data);
 });
 
 
