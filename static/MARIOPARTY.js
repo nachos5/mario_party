@@ -64,6 +64,7 @@ function renderSimulation(ctx) {
     stateManager.render(ctx);
     entityManager.render(ctx);
 
+    menuManager.render(ctx);
     // Tester
     //g_sprites.mario.drawClipped(ctx, 500, 500)
 
@@ -86,6 +87,9 @@ function requestPreloads_images() {
         backBluePipe    : "static/assets/NSMBU-Blue_Pipe.png",
         backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
         backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
+
+        framePipeTop    : "static/assets/superMarioWorldPipeTop.png",
+        framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
 
         // Map
         tiles2          : "static/assets/marioPartyTiles.png",
@@ -144,9 +148,10 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
-    g_sprites.ship              = new Sprite(g_images.ship);
-
     // Background
+    g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
+    g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
+
     g_sprites.background1       = new Sprite(g_images.background1);
     g_sprites.brickBlock        = new Sprite(g_images.brickBlock);
 
@@ -290,18 +295,16 @@ let g_numberSprites = {};   // Numbers
 
 function loadSpriteLibaries() {
     // Players
-    g_playerSprites.push(g_sprites.mario);
-    g_playerSprites.push(g_sprites.luigi);
-    g_playerSprites.push(g_sprites.pinkPeach);
-    g_playerSprites.push(g_sprites.yoshi);
-    g_playerSprites.push(g_sprites.wario);
-    g_playerSprites.push(g_sprites.yellowPeach);
+    g_playerSprites.push({sp : g_sprites.mario      , id : 0});
+    g_playerSprites.push({sp : g_sprites.luigi      , id : 1});
+    g_playerSprites.push({sp : g_sprites.pinkPeach  , id : 2});
+    g_playerSprites.push({sp : g_sprites.yoshi      , id : 3});
+    g_playerSprites.push({sp : g_sprites.wario      , id : 4});
+    g_playerSprites.push({sp : g_sprites.yellowPeach, id : 5});
 
     // Items
-    // ID = 0 -> Normal Sprite
-    // ID = 1 -> Clipped Sprite
-    g_itemSprites.push({sp : g_aniSprites.coin[0], id : 1});
-    g_itemSprites.push({sp : g_sprites.star, id : 0});
+    g_itemSprites.push({sp : g_aniSprites.coin[0], id : 0, type : 'clipped'});
+    g_itemSprites.push({sp : g_sprites.star      , id : 1, type : 'normal' });
 
 
 
@@ -320,6 +323,8 @@ function loadSpriteLibaries() {
 function preloadDoneNext() {
   stateManager.init();
   entityManager.sharedObjects();
+
+  menuManager.init();
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
   main.init();

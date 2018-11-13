@@ -2,13 +2,12 @@
 // CONSTRUCTOR
 // ===========
 
-function TableTopPlayer(id) {
+function TableTopPlayer(descr) {
 
-    this.setup();
+    this.setup(descr);
 
     this.position = mapManager.getStartPosition();
     this.prevPosition = {column: -1, row: -1};
-    this.id = id;   // Id of the player
 
     this.map = mapManager.getMap();
 
@@ -17,10 +16,11 @@ function TableTopPlayer(id) {
     this.rotation = 0;
     this.alpha = 1;
 
+    this.sprite = g_playerSprites[this.spriteID].sp;
     // ====================
     // SELECT PLAYER SPRITE
     // ====================
-
+/*
     let player = null;
 
     switch(this.id) {
@@ -46,7 +46,7 @@ function TableTopPlayer(id) {
             player = g_sprites.waluigi;
             break;
     }
-    this.sprite = player;
+    this.sprite = player;*/
 
     let scale = 0.8;
     this.width  = this.map.tilesWidth * scale;

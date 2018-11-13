@@ -61,6 +61,8 @@ EventBlocks.prototype.results1 = null;
 EventBlocks.prototype.results2 = null;
 EventBlocks.prototype.results3 = null;
 
+EventBlocks.prototype.winner = null;
+
 EventBlocks.prototype.waitTime = 0;
 
 // ==========
@@ -141,7 +143,8 @@ EventBlocks.prototype.update = function(du) {
     // If all 3 blocks are dead, kill EventBlocks
     if (status1 === -1 && status2 === -1 && status3 === -1) {
         this.waitTime++;
-        if (this.waitTime === 75) {
+        if (this.waitTime === 100) {
+            entityManager.resolveEventBlocks(this);
             // Unregister all the blocks
             spatialManager.unregister(this.block1);
             spatialManager.unregister(this.block2);

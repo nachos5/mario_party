@@ -8,17 +8,21 @@ function Player(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
-
-    // New TableTopPlayer
-    this.tt_player = new TableTopPlayer(this.player_id);
-    entityManager._ttplayers.push(this.tt_player); // store in entity manager
-
-    this.sprite = this.tt_player.sprite;
     this.spriteID = this.player_id;
 
+    // New TableTopPlayer
+    this.tt_player = new TableTopPlayer({
+        id       : this.player_id,   // Id of the player
+        spriteID : this.player_id,
+    });
+
+    //entityManager._ttplayers.push(this.tt_player); // store in entity manager
+
     // New EventPlayer
-    this.eventPlayer = new EventPlayer(this.player_id);
-    this.eventPlayer.sprite = this.tt_player.sprite;
+    this.eventPlayer = new EventPlayer({
+        id       : this.player_id,   // Id of the player
+        spriteID : this.player_id,
+    });
 };
 
 // ==========
@@ -41,14 +45,6 @@ Player.prototype.update = function (du) {
       this.tt_player.update(du);
       this.eventPlayer.update(du);
     }
-};
-
-// ==========
-// GET RADIUS
-// ==========
-
-Player.prototype.getRadius = function () {
-    return this.sprite.clipWidth * 0.9;
 };
 
 // ======

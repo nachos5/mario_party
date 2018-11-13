@@ -40,7 +40,7 @@ let eventManager = {
   rollEvent: function() {
 
   },
-/*
+
   // BLOCKS EVENT
   blocksEvent: function() {
       this.isEvent = true;
@@ -86,9 +86,8 @@ let eventManager = {
   02: function() {
     this.blocksEvent();
   },
-  */
 
-
+/*
   // ==== COLLECTABLES ==== //
 
   // blue tile, gain 3 coins
@@ -130,7 +129,7 @@ let eventManager = {
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
-  36: function() {
+  /*36: function() {
     mapManager.arrows["up"] = true;
     mapManager.diceThrow++; // free movement
   },
@@ -148,7 +147,7 @@ let eventManager = {
   39: function() {
     mapManager.arrows["left"] = true;
     mapManager.diceThrow++; // free movement
-  },
+  },*/
 
 
 
@@ -157,7 +156,7 @@ let eventManager = {
   // destination pipe is chosen at random!
 
   // green pipe, we use the eventIter to control the flow
-  60: function(parameters=false, tileNo=60) {
+  /*60: function(parameters=false, tileNo=60) {
     const player = this.getCurrPlayer().tt_player;
     const myPos = mapManager.getPosition(player);
     if (parameters) {
@@ -203,6 +202,6 @@ let eventManager = {
   // red pipe, same code for both pipes so we just "redirect"
   61: function(parameters=false) {
     this[60](parameters, 61);
-  },
+  },*/
 
 };
