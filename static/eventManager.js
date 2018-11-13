@@ -193,86 +193,15 @@ let eventManager = {
 
   // popup for asking if the player wants to buy a star
   starRender: function(ctx) {
-    const centerX = g_canvas.width/2,
-          centerY = g_canvas.height/2,
-          offsetX = g_canvas.width/4,
-          offsetY = g_canvas.height/4;
-
-    // ==== popup box ==== //
-    ctx.fillStyle = "black";
-    ctx.globalAlpha = 0.8;
-    ctx.fillRect(centerX - offsetX, centerY - offsetY,
-                 centerX, centerY);
+    // Temp
+    let popup = null;
 
     // current player can't buy the star
     if (!this.can_buy_star) {
-      // ==== text ==== //
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "white";
-      ctx.font = "40px Georgia";
-      ctx.textAlign = "center";
-      const string = "Sorry, you can't buy the star :( It costs";
-      const string2 = this.star_cost + " coins but you have " + this.getCurrPlayer().coins + " coins.";
-      ctx.fillText(string, centerX, centerY - offsetY/8);
-      ctx.fillText(string2, centerX, centerY + offsetY/8);
     }
     // current player can buy the star
     else {
-      // ==== text ==== //
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "white";
-      ctx.font = "40px Georgia";
-      ctx.textAlign = "center";
-      const string = "Do you want to buy the star for";
-      const string2 = this.star_cost + " coins?";
-      ctx.fillText(string, centerX, centerY - offsetY/2);
-      ctx.fillText(string2, centerX, centerY - offsetY/4);
-
-      //  ==== buttons ==== //
-      // -- yes button
-      ctx.globalAlpha = 0.8;
-      let x = centerX - offsetX / 2,
-          y = centerY + offsetY / 2,
-          w = centerX / 6,
-          h = centerY / 6;
-      // mouse is inside box
-      if (g_mouseX > x && g_mouseX < x+w && g_mouseY > y && g_mouseY < y+h) {
-        ctx.fillStyle = "red"; // on hover the button is red
-        if (eatClick()) { // handle click
-          this.eventIter = 1;
-        }
-      }
-      else
-        ctx.fillStyle = "yellow";
-      ctx.fillRect(x, y, w, h);
-      // button text
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "black";
-      ctx.fillText("Yes", x + w/2, y + h/1.5);
-      // handle click
-      // -- no button
-      ctx.globalAlpha = 0.8;
-      x = centerX + offsetX / 2,
-      y = centerY + offsetY / 2,
-      w = centerX / 6,
-      h = centerY / 6,
-      x -= w;
-      // mouse is inside box
-      if (g_mouseX > x && g_mouseX < x+w && g_mouseY > y && g_mouseY < y+h) {
-        ctx.fillStyle = "red"; // on hover the button is red
-        if (eatClick()) { // handle click
-          this.eventIter = -1;
-        }
-      }
-      else
-        ctx.fillStyle = "yellow";
-      ctx.fillRect(x, y, w, h);
-      // button text
-      ctx.globalAlpha = 1;
-      ctx.fillStyle = "black";
-      ctx.fillText("No", x + w/2, y + h/1.5);
-
-      ctx.globalAlpha = 1;
+      popup = new PopUp();
     }
 
   },

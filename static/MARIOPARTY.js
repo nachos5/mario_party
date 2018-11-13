@@ -404,8 +404,6 @@ function preloadDoneNext() {
 
   menuManager.init();
 
-  // Temp
-  this.popup = new PopUp();
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
   main.init();
