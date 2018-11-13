@@ -21,6 +21,10 @@ let menuManager = {
     midXOffset: 0,
     midYOffset: 0,
 
+    // Objects
+    button: null,   // Ready Button
+    charSelection: [],
+
     init: function() {
         // Calculation variables
         this.mapTop = mapManager.mapTop;
@@ -33,43 +37,86 @@ let menuManager = {
 
         // Menu box variables
         this.menuTop   = this.mapTop   + this.mapHeight/4;
-        this.menuRight = this.mapRight - this.mapLeft * 0.1;
+        this.menuRight = this.mapRight - this.mapLeft * 0.075;
         this.menuBot   = this.mapBot   - this.mapHeight/4;
-        this.menuLeft  = this.mapLeft  + this.mapLeft * 0.1;
+        this.menuLeft  = this.mapLeft  + this.mapLeft * 0.075;
 
         this.width = this.mapWidth/16;
         this.height = this.mapHeight/16;
 
         this.midXOffset = -1 + this.width;
         this.midYOffset = -1 + this.height;
+
+        // Menu objects
+        this.button = new Button({
+            cx: this.menuRight - 1.5 * (this.width * 2.5/2),
+            cy: this.menuBot   - 1.5 * this.height,
+
+            width: this.width * 2.5,
+            height: this.height * 2,
+
+            onSprite: g_sprites.greenReady,
+            offSprite: g_sprites.cyanReady,
+        });
+
+        for (let i = 0; i < g_charSelectionSprites.length-5; i++) {
+            this.charSelection.push(new CharacterSelection({
+                id : g_charSelectionSprites[(i+5)].id,
+                sprite : g_charSelectionSprites[(i+5)].sp,
+
+                cx: this.mapLeft + this.width * 1.5 + (this.width * 2 * i),
+                cy: this.menuBot - this.height * 4.5,
+
+                width : this.width * 2,
+                height: this.height * 3,
+            }));
+        }
+
+
+        for (let i = 0; i < 5; i++) {
+            this.charSelection.push(new CharacterSelection({
+                id : g_charSelectionSprites[i].id,
+                sprite : g_charSelectionSprites[i].sp,
+
+                cx: this.mapLeft + this.width * 1.5 + (this.width * 2 * i),
+                cy: this.menuBot - this.height * 1.5,
+
+                width : this.width * 2,
+                height: this.height * 3,
+            }));
+        }
     },
 
     update: function() {
 
     },
 
-    render: function(ctx) {
+    render: function(ctx) {        
 
+        // Background
+        g_sprites.background2.drawTopLeftFixed(ctx, this.menuLeft, this.menuTop - (this.height * 0.75), 0,1,1, this.width*15, this.height*9.3);
+
+        // Framing
         // Top side
-        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + 1, this.menuTop - (this.height * 0.75), -Math.PI/2, this.width, this.height, 1);
+        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + 1, this.menuTop - (this.height * 0.75), -Math.PI/2, this.width, this.height, 1);
         
         let t = 1;
-        while(this.menuLeft + (this.width * 0.5) + this.midXOffset * (t+1) < this.menuRight) {
-            g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + this.midXOffset * t, this.menuTop - (this.height * 0.75), Math.PI/2, this.width, this.height);
+        while(this.menuLeft + (this.width * 0.15) + this.midXOffset * (t+1) < this.menuRight) {
+            g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + this.midXOffset * t, this.menuTop - (this.height * 0.75), Math.PI/2, this.width, this.height);
             t++;
         }
-        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + (this.midXOffset * t), this.menuTop - (this.height * 0.75), Math.PI/2, this.width, this.height);
+        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + (this.midXOffset * t), this.menuTop - (this.height * 0.75), Math.PI/2, this.width, this.height);
 
 
         // Bot side
-        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + 1, this.menuBot + (this.height * 0.6), -Math.PI/2, this.width, this.height, 1);
+        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + 1, this.menuBot + (this.height * 0.55), -Math.PI/2, this.width, this.height, 1);
 
         let b = 1;
-        while(this.menuLeft + (this.width * 0.5) + this.midXOffset * (b+1) < this.menuRight) {
-            g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + this.midXOffset * b, this.menuBot + (this.height * 0.6), Math.PI/2, this.width, this.height);
+        while(this.menuLeft + (this.width * 0.15) + this.midXOffset * (b+1) < this.menuRight) {
+            g_sprites.framePipeMid.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + this.midXOffset * b, this.menuBot + (this.height * 0.55), Math.PI/2, this.width, this.height);
             b++;
         }
-        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.5) + (this.midXOffset * b), this.menuBot + (this.height * 0.6), Math.PI/2, this.width, this.height);
+        g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft + (this.width * 0.15) + (this.midXOffset * b), this.menuBot + (this.height * 0.55), Math.PI/2, this.width, this.height);
 
 
         // Right side
@@ -92,5 +139,23 @@ let menuManager = {
             l++;
         }
         g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.menuLeft, this.menuTop + (this.midYOffset * l) - 1, 0, this.width, this.height, 2);
+
+
+        // Inside the pipes
+        // Logo
+        g_sprites.marioPartyLogo.drawCentredAtFixed(ctx, this.mapLeft + this.mapWidth/2, this.menuTop - (this.height * 0.75) + this.height * 1.5, 0, this.width*8, this.height*2);
+
+        // Button
+        this.button.render(ctx);
+        //this.charSelection[0].render(ctx);
+        //this.charSelection[1].render(ctx);
+        //this.charSelection[2].render(ctx);
+
+        //g_charSelectionSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
+        //g_playerSprites[1].sp.drawClipCentredAtFixed(ctx, 200, 200, 0, 200, 300);
+
+        for(let i = 0; i < this.charSelection.length; i++) {
+            this.charSelection[i].render(ctx);
+        }
     }
 };

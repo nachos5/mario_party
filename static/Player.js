@@ -8,7 +8,6 @@ function Player(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
-    this.spriteID = this.player_id;
 
     // New TableTopPlayer
     this.tt_player = new TableTopPlayer({
@@ -31,6 +30,8 @@ function Player(descr) {
 
 Player.prototype.stars = 0;
 Player.prototype.myTurn = false;
+
+Player.prototype.spriteID = 0;
 
 // ======
 // UPDATE

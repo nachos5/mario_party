@@ -66,7 +66,8 @@ function renderSimulation(ctx) {
 
     menuManager.render(ctx);
     // Tester
-    //g_sprites.mario.drawClipped(ctx, 500, 500)
+    //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
+    //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -78,8 +79,6 @@ function renderSimulation(ctx) {
 function requestPreloads_images() {
 
     let requiredImages = {
-        ship            : "static/assets/boardgamePack_v2/PNG/Pieces (Purple)/piecePurple_border15.png",
-
         // Background
         background1     : "static/assets/Mario-Background.jpg",
         brickBlock      : "static/assets/Brick_Block.png",
@@ -88,8 +87,16 @@ function requestPreloads_images() {
         backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
         backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
 
+        // Menu
+        marioPartyLogo  : "static/assets/Mario_Party_logo.png",
+        background2     : "static/assets/superMarioBackground.jpg",
         framePipeTop    : "static/assets/superMarioWorldPipeTop.png",
         framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
+        characters      : "static/assets/marioCharacters.png",
+
+        // Button
+        cyanReady       : "static/assets/cyanReady.png",
+        greenReady      : "static/assets/greenReady.png",
 
         // Map
         tiles2          : "static/assets/marioPartyTiles.png",
@@ -148,10 +155,34 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
-    // Background
+    // Menu
     g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
+    g_sprites.marioPartyLogo    = new Sprite(g_images.marioPartyLogo);
+    g_sprites.background2       = new Sprite(g_images.background2);
 
+    // Character Select
+    // Row 1
+    g_sprites.selectMario        = new Sprite(g_images.characters,  200, 350, 0, 2, 200, 275);
+    g_sprites.selectPinkPeach    = new Sprite(g_images.characters,  600, 350, 0, 2, 200, 275);
+    g_sprites.selectYoshi        = new Sprite(g_images.characters, 1000, 350, 0, 2, 200, 275);
+    g_sprites.selectWario        = new Sprite(g_images.characters, 1400, 350, 0, 2, 200, 275);
+    g_sprites.selectPaleToad     = new Sprite(g_images.characters, 1800, 350, 0, 2, 200, 275);
+    // Row 2
+    g_sprites.selectLuigi        = new Sprite(g_images.characters,  200, 930, 0, 2, 200, 275);
+    g_sprites.selectYellowPeach  = new Sprite(g_images.characters,  600, 930, 0, 2, 200, 275);
+    // Skipped one sprite
+    g_sprites.selectWaluigi      = new Sprite(g_images.characters, 1400, 930, 0, 2, 200, 275);
+    g_sprites.selectPinkToad     = new Sprite(g_images.characters, 1800, 930, 0, 2, 200, 275);
+    g_sprites.selectBowserjr     = new Sprite(g_images.characters, 2200, 930, 0, 2, 200, 275);
+    // Skipped one sprite
+    g_sprites.selectBoo          = new Sprite(g_images.characters, 2970, 930, 0, 2, 200, 275);
+
+    // Button
+    g_sprites.cyanReady         = new Sprite(g_images.cyanReady);
+    g_sprites.greenReady        = new Sprite(g_images.greenReady);
+
+    // Background
     g_sprites.background1       = new Sprite(g_images.background1);
     g_sprites.brickBlock        = new Sprite(g_images.brickBlock);
 
@@ -167,18 +198,18 @@ function preloadDone() {
 
     // Tiles2
     // Column 1
-    g_sprites.mario             = new Sprite(g_images.tiles2, 655, 55, 0, 2, 30, 30);
-    g_sprites.luigi             = new Sprite(g_images.tiles2, 655, 120, 0, 2, 30, 30);
-    g_sprites.pinkPeach         = new Sprite(g_images.tiles2, 655, 185, 0, 2, 30, 30);
-    g_sprites.yoshi             = new Sprite(g_images.tiles2, 655, 255, 0, 2, 30, 30);
-    g_sprites.wario             = new Sprite(g_images.tiles2, 655, 320, 0, 2, 30, 30);
-    g_sprites.yellowPeach       = new Sprite(g_images.tiles2, 655, 385, 0, 2, 30, 30);
+    g_sprites.mario             = new Sprite(g_images.tiles2, 655, 55,  0, 2, 30, 30);//
+    g_sprites.luigi             = new Sprite(g_images.tiles2, 655, 120, 0, 2, 30, 30);//
+    g_sprites.pinkPeach         = new Sprite(g_images.tiles2, 655, 185, 0, 2, 30, 30);//
+    g_sprites.yoshi             = new Sprite(g_images.tiles2, 655, 255, 0, 2, 30, 30);//
+    g_sprites.wario             = new Sprite(g_images.tiles2, 655, 320, 0, 2, 30, 30);//
+    g_sprites.yellowPeach       = new Sprite(g_images.tiles2, 655, 385, 0, 2, 30, 30);//
     // Column 2
-    g_sprites.waluigi           = new Sprite(g_images.tiles2, 720, 55, 0, 2, 30, 30);
-    g_sprites.paleToad          = new Sprite(g_images.tiles2, 720, 120, 0, 2, 30, 30);
+    g_sprites.waluigi           = new Sprite(g_images.tiles2, 720, 55,  0, 2, 30, 30);//
+    g_sprites.paleToad          = new Sprite(g_images.tiles2, 720, 120, 0, 2, 30, 30);//
     g_sprites.boo               = new Sprite(g_images.tiles2, 720, 185, 0, 2, 30, 30);
     g_sprites.bowserjr          = new Sprite(g_images.tiles2, 723, 250, 0, 2, 30, 30);
-    g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);
+    g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);//
 
     // Objects
     // Dice
@@ -289,6 +320,8 @@ let g_aniSprites    = [];   // Animation
 let g_alphSprites   = {};   // Alphabet + symbols
 let g_numberSprites = {};   // Numbers
 
+let g_charSelectionSprites = [];  // Character Selection
+
 // ====================
 // LOAD SPRITE LIBARIES
 // ====================
@@ -306,6 +339,18 @@ function loadSpriteLibaries() {
     g_itemSprites.push({sp : g_aniSprites.coin[0], id : 0, type : 'clipped'});
     g_itemSprites.push({sp : g_sprites.star      , id : 1, type : 'normal' });
 
+    // Character Selection
+    g_charSelectionSprites.push({sp : g_sprites.selectMario,        id : 0});
+    g_charSelectionSprites.push({sp : g_sprites.selectPinkPeach,    id : 1});
+    g_charSelectionSprites.push({sp : g_sprites.selectYoshi,        id : 2});
+    g_charSelectionSprites.push({sp : g_sprites.selectWario,        id : 3});
+    g_charSelectionSprites.push({sp : g_sprites.selectPaleToad,     id : 4});
+    g_charSelectionSprites.push({sp : g_sprites.selectLuigi,        id : 5});
+    g_charSelectionSprites.push({sp : g_sprites.selectYellowPeach,  id : 6});
+    g_charSelectionSprites.push({sp : g_sprites.selectWaluigi,      id : 7});
+    g_charSelectionSprites.push({sp : g_sprites.selectPinkToad,     id : 8});
+    g_charSelectionSprites.push({sp : g_sprites.selectBowserjr,     id : 9});
+    g_charSelectionSprites.push({sp : g_sprites.selectBoo,          id : 10});
 
 
     console.log(g_playerSprites);
