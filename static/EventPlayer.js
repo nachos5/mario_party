@@ -13,7 +13,7 @@ function EventPlayer(descr) {
     this.width = null;
     this.height = null;
 
-    // 0 = diceRoom, 1 = eventRoom, 2 = minigame
+    // 0 = diceRoom, 1 = eventRoom, 2 = minigame, 3 victory Room
     this.room = null;
 };
 

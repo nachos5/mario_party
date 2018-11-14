@@ -16,36 +16,7 @@ function TableTopPlayer(descr) {
     this.rotation = 0;
     this.alpha = 1;
 
-    // ====================
-    // SELECT PLAYER SPRITE
-    // ====================
-/*
-    let player = null;
-
-    switch(this.id) {
-        case 0:
-            player = g_sprites.luigi;
-            break;
-        case 1:
-            player = g_sprites.mario;
-            break;
-        case 2:
-            player = g_sprites.pinkPeach;
-            break;
-        case 3:
-            player = g_sprites.yoshi;
-            break;
-        case 4:
-            player = g_sprites.wario;
-            break;
-        case 5:
-            player = g_sprites.yellowPeach;
-            break;
-        case 6:
-            player = g_sprites.waluigi;
-            break;
-    }
-    this.sprite = player;*/
+    this.rememberResets();
 
     let scale = 0.8;
     this.width  = this.map.tilesWidth * scale;
@@ -58,11 +29,29 @@ function TableTopPlayer(descr) {
 
 TableTopPlayer.prototype = new Entity();
 
+// ===============
+// REMEMBER RESETS
+// ===============
+
+TableTopPlayer.prototype.rememberResets = function() {
+    this.resetCenterX = this.centerX;
+    this.resetCenterY = this.centerY;
+};
+
+// =====
+// RESET
+// =====
+
+TableTopPlayer.prototype.reset = function() {
+    this.centerX = this.resetCenterX;
+    this.centerY = this.resetCenterY;
+};
+
 // ==========
 // GET RADIUS
 // ==========
 
-TableTopPlayer.prototype.getRadius = function (du) {
+TableTopPlayer.prototype.getRadius = function() {
     return this.sprite.clipWidth * 0.75;
 };
 
@@ -70,7 +59,7 @@ TableTopPlayer.prototype.getRadius = function (du) {
 // RESOLVE COLLISION
 // =================
 
-TableTopPlayer.prototype.resolveCollision = function (du) {
+TableTopPlayer.prototype.resolveCollision = function() {
 
 };
 

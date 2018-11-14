@@ -2,7 +2,10 @@
 // CONSTRUCTOR
 // ===========
 
-function PopUp(descr) {
+function PopUp(isVictory=false) {
+
+    this.victory = isVictory;
+
     // Calculation variables
     let mapTop   = mapManager.mapTop;
     let mapRight = mapManager.mapRight;
@@ -21,6 +24,9 @@ function PopUp(descr) {
     this.width  = mapWidth/16;
     this.height = mapHeight/16;
 
+    this.backWidth  = this.width;
+    this.backHeight = this.height;
+
     this.midXOffset = -1 + this.width;
     this.midYOffset = -1 + this.height;
     
@@ -32,27 +38,31 @@ function PopUp(descr) {
     this.coinIter = 0;
     this.coinFrame = 0;
 
+    this.sprite = g_sprites.buyStarText;
 
-    // Yes button
-    this.buttonYes = new Button({
-        cx:         this.popUpRight - 1.5 * (this.width * 2.5/2),
-        cy:         this.popUpBot   - 1.5 * this.height,
-        width:      this.width * 2.5,
-        height:     this.height * 2,
-        onSprite:   g_sprites.greenYes,
-        offSprite:  g_sprites.cyanYes,
-    });
+    if (this.victory === false) {
 
-    // No button
-    this.buttonNo = new Button({
-        cx:         this.popUpLeft + 1.5 * (this.width * 2.5/2),
-        cy:         this.popUpBot   - 1.5 * this.height,
-        width:      this.width * 2.5,
-        height:     this.height * 2,
-        onSprite:   g_sprites.greenNo,
-        offSprite:  g_sprites.cyanNo,
-    });
+        // Yes button
+        this.buttonYes = new Button({
+            cx:         this.popUpRight - 1.5 * (this.width * 2.5/2),
+            cy:         this.popUpBot   - 1.5 * this.height,
+            width:      this.width * 2.5,
+            height:     this.height * 2,
+            onSprite:   g_sprites.greenYes,
+            offSprite:  g_sprites.cyanYes,
+        });
 
+        // No button
+        this.buttonNo = new Button({
+            cx:         this.popUpLeft + 1.5 * (this.width * 2.5/2),
+            cy:         this.popUpBot   - 1.5 * this.height,
+            width:      this.width * 2.5,
+            height:     this.height * 2,
+            onSprite:   g_sprites.greenNo,
+            offSprite:  g_sprites.cyanNo,
+        });
+    }   
+    
 }
 
 // ==========
@@ -107,14 +117,18 @@ PopUp.prototype.update = function(du) {
 PopUp.prototype.render = function(ctx) {
 
         // Background
-        g_sprites.background2.drawTopLeftFixed(ctx, this.popUpLeft, this.popUpTop - (this.height * 0.75), 0,1,1, this.width*11, this.height*6.3);
-        g_sprites.buyStarText.drawTopLeftFixed(ctx, this.popUpLeft + this.width, this.popUpTop, 0,1,1, this.width*8, this.height*2);
-
-        // Star cost
-        g_numberSprites['num'+[this.digit1]].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 3.5, this.popUpTop + this.height * 0.95, 0, this.width, this.height, 1,1);
-        g_numberSprites['num'+[this.digit2]].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 4.4, this.popUpTop + this.height * 0.95, 0, this.width, this.height, 1,1);
-
-        g_aniSprites.coin[this.coinFrame].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 5.5, this.popUpTop + this.height * 1.05, 0, this.width * 0.8, this.height * 0.8, 1,1);
+        g_sprites.background2.drawTopLeftFixed(ctx, this.popUpLeft, this.popUpTop - (this.height * 0.75), 0,1,1, this.backWidth*11, this.backHeight*6.3);
+        this.sprite.drawTopLeftFixed(ctx, this.popUpLeft + this.width, this.popUpTop, 0,1,1, this.backWidth*8, this.backHeight*2);
+        
+        // Render if this is not a victory popup
+        if (this.victory === false) {
+            
+            // Star cost
+            g_numberSprites['num'+[this.digit1]].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 3.5, this.popUpTop + this.height * 0.95, 0, this.width, this.height, 1,1);
+            g_numberSprites['num'+[this.digit2]].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 4.4, this.popUpTop + this.height * 0.95, 0, this.width, this.height, 1,1);
+            
+            g_aniSprites.coin[this.coinFrame].drawClipTopLeftFixed(ctx, this.popUpLeft + this.width * 5.5, this.popUpTop + this.height * 1.05, 0, this.width * 0.8, this.height * 0.8, 1,1);
+        }
 
         // Framing
         // Top side
@@ -160,7 +174,10 @@ PopUp.prototype.render = function(ctx) {
         }
         g_sprites.framePipeTop.drawCentredAtFixed(ctx, this.popUpLeft, this.popUpTop + (this.midYOffset * l) - 1, 0, this.width, this.height, 2);
 
-        // Buttons
-        this.buttonYes.render(ctx);
-        this.buttonNo.render(ctx);
+        // Render if this is not a victory popup
+        if (this.victory === false) {
+            // Buttons
+            this.buttonYes.render(ctx);
+            this.buttonNo.render(ctx);
+        }
 };

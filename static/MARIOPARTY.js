@@ -7,6 +7,7 @@ var g_ctx = g_canvas.getContext("2d");
 
 // Master global
 let g_startGame = false;    // Game start when ready button is pressed for all players
+let g_gameOver = false;     // Game ends when the rounds are over
 
 // =============
 // GATHER INPUTS
@@ -24,13 +25,12 @@ function gatherInputs() {
 
 function updateSimulation(du) {
     processDiagnostics();
+
     stateManager.update(du);
-    if (g_startGame) { entityManager.update(du) }
+    entityManager.update(du);
     mapManager.update(du);
 
     if (!g_startGame) { menuManager.update(du) }
-
-    if (g_startGame) { this.popup.update(du) }
 }
 
 // ================
@@ -76,7 +76,6 @@ function renderSimulation(ctx) {
     // Tester
     //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
     //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
-    if (g_startGame) { this.popup.render(ctx) }
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
@@ -96,6 +95,9 @@ function requestPreloads_images() {
         backBluePipe    : "static/assets/NSMBU-Blue_Pipe.png",
         backRedPipe     : "static/assets/NSMBU-Red_Pipe.png",
         backYellowPipe  : "static/assets/NSMBU-Yellow_Pipe.png",
+
+        // Victory
+        marioPodium     : "static/assets/marioPodium.png",
 
         // Popup
         buyStarText     : "static/assets/popBuyStar.png",
@@ -181,6 +183,9 @@ function preloadDone() {
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
     g_sprites.marioPartyLogo    = new Sprite(g_images.marioPartyLogo);
     g_sprites.background2       = new Sprite(g_images.background2);
+
+    // Victory
+    g_sprites.marioPodium       = new Sprite(g_images.marioPodium);
 
     // Popup
     g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
@@ -384,14 +389,6 @@ function loadSpriteLibaries() {
     g_charSelectionSprites.push({sp : g_sprites.selectPinkToad,     id : 8  });
     g_charSelectionSprites.push({sp : g_sprites.selectBowserjr,     id : 9  });
     g_charSelectionSprites.push({sp : g_sprites.selectBoo,          id : 10 });
-
-
-    console.log(g_playerSprites);
-    console.log(g_itemSprites);
-    console.log(g_aniSprites);
-
-    console.log(g_alphSprites);
-    console.log(g_numberSprites);
 }
 
 // =================
@@ -404,8 +401,6 @@ function preloadDoneNext() {
 
   menuManager.init();
 
-  // Temp
-  this.popup = new PopUp();
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
   main.init();

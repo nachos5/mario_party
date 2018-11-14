@@ -7,9 +7,10 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 30,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
+  victoryScreen: 0,   // Victory screen
 
   // Added
   players: [],
@@ -141,13 +142,16 @@ let stateManager = {
     }
     this.turn++;
 
-    // Roll the die for the next player
-    if (this.curr_player.my_player) {
-      entityManager.getDie().roll();
+    // If the game is over stop updating
+    if (!g_gameOver) { 
+      // Roll the die for the next player
+      if (this.curr_player.my_player) {
+        entityManager.getDie().roll();
+      }
+      
+      // Update Player Turn
+      this.game_room.currPlayer = this.curr_player;
     }
-
-    // Update Player Turn
-    this.game_room.currPlayer = this.curr_player;
   },
 
   // ==========
@@ -155,6 +159,14 @@ let stateManager = {
   // ==========
 
   nextRound: function() {
+
+    if (this.rounds_remaining === 1) {
+      this.victoryScreen = new Victory();
+      entityManager.victory();
+      // Freeze interactive objects except event player
+      g_gameOver = true;
+    }
+
     // Decrement Round
     this.rounds_remaining--;
 
@@ -198,6 +210,8 @@ let stateManager = {
   render: function(ctx) {
     this.game_room.render(ctx);
     this.score_room.render(ctx);
+
+    if (this.victoryScreen) { this.victoryScreen.render(ctx) }
   },
 
 }
