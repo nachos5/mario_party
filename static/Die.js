@@ -123,7 +123,7 @@ Die.prototype.stopRoll = function () {
 // ==========
 
 Die.prototype.getRadius = function () {
-  return this.width * 0.75;
+  return this.width * 0.7;
 };
 
 // =================

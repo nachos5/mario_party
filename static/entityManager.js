@@ -5,7 +5,6 @@
 var entityManager = {
 
 _players: [],       // Players
-_ttplayers: [],     // tabletop players
 _dice: [],          // Dice Room
 _eventBlocks: [],   // Event Room
 _stars: [],
@@ -58,7 +57,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._players, this._ttplayers, this._dice, this._eventBlocks, this._stars];
+    this._categories = [this._players, this._dice, this._eventBlocks, this._stars];
 },
 
 init: function() {

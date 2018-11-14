@@ -38,7 +38,7 @@ EventPlayer.prototype.prevVelY = 0;
 // ==========
 
 EventPlayer.prototype.getRadius = function () {
-    return this.sprite.clipWidth * 0.75;
+    return this.sprite.clipWidth * 0.7;
 };
 
 // ===============
@@ -61,13 +61,13 @@ EventPlayer.prototype.changeRoom = function (room) {
     // Dice Room
     if (this.room === 0) {
         this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
-        this.cy = entityManager._gameRoomcy + entityManager._gameRoomBrickHeight * 11;
+        this.cy = entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 12) - this.getRadius();
         this.bot = stateManager.game_room.diceRoomBot;
     }
     // Event Room
     else if (this.room === 1) {
         this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
-        this.cy = entityManager._gameRoomcy + entityManager._gameRoomBrickHeight * 22;
+        this.cy = entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 22) - this.getRadius();
         this.bot = stateManager.game_room.eventRoomBot;
     }
 

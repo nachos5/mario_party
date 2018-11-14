@@ -7,10 +7,14 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 1,
+  rounds_remaining: 5,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
+
+  // Image data
+  gameRoomSprite: 0,
+  scoreRoomSprite: 0,
 
   // Added
   players: [],
@@ -40,6 +44,22 @@ let stateManager = {
     this.game_room = new GameRoom();
     this.score_room = new ScoreRoom();
     this.initObjects();
+
+    this.imageData();
+  },
+
+  // ==========
+  // IMAGE DATA
+  // ==========
+
+  // Get image data of static objects to render as a whole
+  imageData: function() {
+    // Game room image data
+    this.game_room.staticRender(g_ctx);
+    this.gameRoomSprite = g_ctx.getImageData(this.game_room.cx, 0, g_canvas.width - this.game_room.cx, g_canvas.height)
+    // Score room image data
+    this.score_room.staticRender(g_ctx);
+    this.scoreRoomSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height)
   },
 
   // =================
@@ -210,6 +230,10 @@ let stateManager = {
   // ======
 
   render: function(ctx) {
+    // Render static objects
+    ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
+    ctx.putImageData(this.scoreRoomSprite, 0, 0);
+
     this.game_room.render(ctx);
     this.score_room.render(ctx);
 

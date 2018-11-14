@@ -25,8 +25,6 @@ function Player(descr) {
         sprite   : g_playerSprites[this.spriteID].sp,
     });
 
-    //entityManager._ttplayers.push(this.tt_player); // store in entity manager
-
     // ==== New EventPlayer ==== //
     this.eventPlayer = new EventPlayer({
         id       : this.player_id,   // Id of the player
