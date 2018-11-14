@@ -25,7 +25,7 @@ register: function(entity) {
     const pos = entity.getPos(),
         spatialID = entity.getSpatialID(),
         radius = entity.getRadius();
-    
+
     // Register the entity
     this._entities[spatialID] = {entity : entity, posX : pos.posX, posY : pos.posY,
             radius : radius};
@@ -55,7 +55,7 @@ findEntityInRange: function(posX, posY, radius) {
           const dist = util.EUdist(posX, posY, e.posX, e.posY),
           // collision threshold (distance between the center coords)
           threshold = radius + e.radius;
-          
+
           // collision
           if (dist < threshold) {
               //console.log("COLLISION!");
@@ -63,6 +63,23 @@ findEntityInRange: function(posX, posY, radius) {
             }
         }
 },
+
+
+// ======
+// UPDATE
+// ======
+update: function(du) {
+  if (eatClick("spatial")) {
+    let hitEntity = this.findEntityInRange(g_mouseX, g_mouseY, 1);
+
+    // Call object that was clicked on
+    if (hitEntity) {
+      let fun = hitEntity.resolveCollision;
+      if (fun) fun.call(hitEntity);
+    }
+  }
+},
+
 
 // ======
 // RENDER

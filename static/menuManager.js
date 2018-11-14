@@ -94,6 +94,13 @@ let menuManager = {
         }
     },
 
+    cleanup: function() {
+      for (let i = 0; i < this.charSelection.length; i++) {
+          spatialManager.unregister(this.charSelection[i]);
+      }
+      spatialManager.unregister(this.button);
+    },
+
     update: function(du) {
         let begin = this.button.update(du);
 

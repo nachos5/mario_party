@@ -94,7 +94,13 @@ server.startServer = function(startServer) {
       players[player.uuid].isReady = player.isReady;
       players[player.uuid].socket_id = socket.id;
       players[player.uuid].star_pos = starPos;
+      players[player.uuid].spriteID = player.spriteID;
+
       socket.broadcast.emit('update_player_server', player);
+      // lock char selection
+      if (player.isReady) {
+        socket.broadcast.emit('lock_char', {uuid: player.uuid, id: player.spriteID});
+      }
     });
 
     // send to all clients except sender that we are ready for the next turn

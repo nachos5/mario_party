@@ -29,6 +29,10 @@ let eventManager = {
   can_buy_star: false, // true if the player can buy the star
   isEvent: false,
 
+  init: function(popup) {
+    this.starPopup = popup;
+  },
+
   getCurrPlayer: function() {
     return stateManager.curr_player;
   },
@@ -171,7 +175,7 @@ let eventManager = {
       }
       // animation stuff
       star.rotation += Math.PI * (this.eventIter * 0.0005); // rotate faster
-      // enlarge the star
+      // enlargen the star
       star.width += this.eventIter * 0.005;
       star.height += this.eventIter * 0.005;
       this.eventIter++;
@@ -193,15 +197,35 @@ let eventManager = {
 
   // popup for asking if the player wants to buy a star
   starRender: function(ctx) {
-    // Temp
-    let popup = null;
-
+    this.starPopup.render(ctx);
     // current player can't buy the star
-    if (!this.can_buy_star) {
+    if (this.can_buy_star) {
     }
     // current player can buy the star
     else {
-      popup = new PopUp();
+      // yes button
+      const yes = this.starPopup.buttonYes;
+      const yes_cx = yes.cx - yes.width/2;
+      const yes_cy = yes.cy - yes.height/2;
+
+      if (g_mouseX > yes_cx && g_mouseY > yes_cy &&
+          g_mouseX < yes_cx + yes.width && g_mouseY < yes_cy + yes.height) {
+            if (eatClick("event")) {
+              this.eventIter = 1;
+            }
+          }
+
+      // no button
+      const no = this.starPopup.buttonNo;
+      const no_cx = no.cx - no.width/2;
+      const no_cy = no.cy - no.height/2;
+
+      if (g_mouseX > no_cx && g_mouseY > no_cy &&
+          g_mouseX < no_cx + yes.width && g_mouseY < no_cy + no.height) {
+            if (eatClick("event")) {
+              this.eventIter = -1;
+            }
+          }
     }
 
   },
@@ -289,9 +313,17 @@ let eventManager = {
   },
 
 
+  // ==== UPDATE ==== //
+  update: function(du) {
+    //this.starPopup.update(du);
+    if (this.allow_rendering) {
+      this.starPopup.update(du);
+    }
+  },
 
   // ==== RENDERING ==== //
   render: function(ctx) {
+    //this.starRender(ctx);
     if (this.allow_rendering) {
       this.curr_render_function(ctx);
     }

@@ -61,6 +61,10 @@ networkManager.socket.on("reconnecting", function(player) {
   // ==== MAIN PLAYER ==== //
   clientPlayer.stars = player.stars;
   clientPlayer.coins = player.coins;
+  clientPlayer.spriteID = player.spriteID;
+  clientPlayer.refresh();
+  g_startGame = true;
+  menuManager.cleanup();
   // ==== TT PLAYER ==== //
   clientPlayer.tt_player.position = player.tt_player.position;
   // ==== EVENT PLAYER ==== //
@@ -104,7 +108,7 @@ networkManager.socket.on("update_player_server", function(player) {
 
   try {
     // ==== MAIN PLAYER ==== //
-
+    //obj.spriteID = player.spriteID;
     // scoreboard stuff
     obj.coins = player.coins;
     obj.stars = player.stars;
@@ -160,6 +164,18 @@ networkManager.socket.on("animation_trigger_server", function(data) {
 networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
   g_startGame = true;
+});
+
+let emit_lock_once = true;
+networkManager.socket.on("lock_char", function(data) {
+  if (emit_lock_once) {
+    const player = entityManager._players.find(obj => obj.uuid == data.uuid);
+    player.spriteID = data.id;
+    const obj = menuManager.charSelection.find(obj => obj.id == data.id);
+    obj.isLocked = true;
+    player.refresh();
+  }
+  emit_lock_once = false;
 });
 
 

@@ -25,12 +25,12 @@ function gatherInputs() {
 function updateSimulation(du) {
     processDiagnostics();
     stateManager.update(du);
+    spatialManager.update(du);
     entityManager.update(du);
     mapManager.update(du);
+    eventManager.update(du);
 
     if (!g_startGame) { menuManager.update(du) }
-
-    if (g_startGame) { this.popup.update(du) }
 }
 
 // ================
@@ -76,7 +76,9 @@ function renderSimulation(ctx) {
     // Tester
     //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
     //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
-    if (g_startGame) { this.popup.render(ctx) }
+    if (g_startGame && eventManager.popup != null) {
+      eventManager.popup.render(ctx)
+    }
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 
@@ -401,8 +403,8 @@ function loadSpriteLibaries() {
 function preloadDoneNext() {
   stateManager.init();
   entityManager.sharedObjects();
-
   menuManager.init();
+  eventManager.init(new PopUp());
 
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);

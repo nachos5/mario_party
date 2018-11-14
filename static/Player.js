@@ -9,7 +9,17 @@ function Player(descr) {
         this[property] = descr[property];
     }
 
-    // New TableTopPlayer
+    // ==========
+    // PROPERTIES
+    // ==========
+
+    this.stars = 0;
+    this.myTurn = false;
+    this.isReady = false;
+    this.spriteID = 0;
+
+
+    // ==== New TableTopPlayer ==== //
     this.tt_player = new TableTopPlayer({
         id       : this.player_id,   // Id of the player
         sprite   : g_playerSprites[this.spriteID].sp,
@@ -17,23 +27,12 @@ function Player(descr) {
 
     //entityManager._ttplayers.push(this.tt_player); // store in entity manager
 
-    // New EventPlayer
+    // ==== New EventPlayer ==== //
     this.eventPlayer = new EventPlayer({
         id       : this.player_id,   // Id of the player
         sprite   : g_playerSprites[this.spriteID].sp,
     });
-
 };
-
-// ==========
-// PROPERTIES
-// ==========
-
-Player.prototype.stars = 0;
-Player.prototype.myTurn = false;
-Player.prototype.isReady = false;
-
-Player.prototype.spriteID = 0;
 
 // =======
 // REFRESH
