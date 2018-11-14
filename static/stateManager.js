@@ -15,6 +15,7 @@ let stateManager = {
   // Image data
   gameRoomSprite: 0,
   scoreRoomSprite: 0,
+  scoreRoomDynamicSprite: 0,
 
   // Added
   players: [],
@@ -54,12 +55,31 @@ let stateManager = {
 
   // Get image data of static objects to render as a whole
   imageData: function() {
-    // Game room image data
+    // Static image data
+
+    // Game room static image data
     this.game_room.staticRender(g_ctx);
     this.gameRoomSprite = g_ctx.getImageData(this.game_room.cx, 0, g_canvas.width - this.game_room.cx, g_canvas.height)
-    // Score room image data
+    // Score room  static image data
     this.score_room.staticRender(g_ctx);
     this.scoreRoomSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height)
+    
+    // Dynamic image data
+    // Score room dynamic image data
+    this.score_room.dynamicRender(g_ctx);
+    this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
+  },
+
+  // =================
+  // UPDATE IMAGE DATA
+  // =================
+
+  updateImageDate: function(room) {
+    if (room === 'scoreRoom') {
+      ctx.putImageData(this.scoreRoomSprite, 0, 0);
+      this.score_room.dynamicRender(g_ctx);
+      this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
+    }
   },
 
   // =================
@@ -135,7 +155,6 @@ let stateManager = {
 
   // map manager calls this
   nextTurn: function() {
-    console.log("NOW")
     // Update Scoreboard positions
     this.players.sort(function(x, y){
       if(y.stars === x.stars) { return y.coins - x.coins };
@@ -173,6 +192,9 @@ let stateManager = {
       // Update Player Turn
       this.game_room.currPlayer = this.curr_player;
     }
+
+    // Update dynamic objects render
+    this.updateImageDate();
   },
 
   // ==========
@@ -233,6 +255,8 @@ let stateManager = {
     // Render static objects
     ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
     ctx.putImageData(this.scoreRoomSprite, 0, 0);
+    // Render dynamic objects
+    ctx.putImageData(this.scoreRoomDynamicSprite, 0, 0);
 
     this.game_room.render(ctx);
     this.score_room.render(ctx);

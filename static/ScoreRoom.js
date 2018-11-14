@@ -78,14 +78,24 @@ ScoreRoom.prototype.update = function(du) {
 // ======
 
 ScoreRoom.prototype.render = function(ctx) {
-    // 3 - Moving pipe
-    this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * (this.players.length + 4), 3*Math.PI/2, this.altPipeScaleX, this.altPipeScaleY);
-    this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * (this.players.length + 4), Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
-
     // Round number
     g_numberSprites['num'+[this.num1]].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (this.wallWidth - 4), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
     g_numberSprites['num'+[this.num2]].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (this.wallWidth - 3), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
 
+    for(let i = 0; i < this.players.length; i++) {
+        // Coin
+        g_aniSprites.coin[this.coinFrame].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 9, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
+    }
+};
+
+// ==============
+// DYNAMIC RENDER
+// ==============
+
+ScoreRoom.prototype.dynamicRender = function(ctx) {
+    // 3 - Moving pipe
+    this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * (this.players.length + 4), 3*Math.PI/2, this.altPipeScaleX, this.altPipeScaleY);
+    this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * (this.players.length + 4), Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // 1st playerSprite *00 .00
     for(let i = 0; i < this.players.length; i++) {
@@ -101,15 +111,13 @@ ScoreRoom.prototype.render = function(ctx) {
         // Star
         this.star.drawTopLeftFixed(ctx, this.cx + this.brickWidth * 7, this.cy + this.brickHeight * (i+3), 0, 1, 1, this.brickWidth, this.brickHeight);
         g_numberSprites['num'+[this.players[i].stars]].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 8, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
-        // Coin
-        g_aniSprites.coin[this.coinFrame].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 9, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
         // Calculate 1st and 2nd digit of number
         let digit1 = Math.floor(this.players[i].coins / 10);
         let digit2 = this.players[i].coins % 10;
         g_numberSprites['num'+[digit1]].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 10, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
         g_numberSprites['num'+[digit2]].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 11, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
     }
-};
+}
 
 // =============
 // STATIC RENDER

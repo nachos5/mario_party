@@ -53,6 +53,9 @@ networkManager.socket.on("new_player", function(player) {
   const client_players = entityManager._players;
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
+
+  // Update scoreboard
+  stateManager.updateImageDate('scoreRoom');
 });
 
 // player reconnects
