@@ -212,6 +212,14 @@ updateCurrPlayer: function() {
     this._curr_tt_player = this._curr_player.tt_player;
 },
 
+victory: function() {
+    // Set position of tabletop players to avoid overlap in rendering
+    // Set event players into the victory room
+    for(let i = 0; i < this._players.length; i++) {
+        this._players[i].tt_player.reset();
+    }    
+},
+
 playAnimation: function(animation) {
     if (animation === 0) { this._aniDown = true }   // + 3 coins
     if (animation === 1) { this._aniUp = true }     // - 3 coins
