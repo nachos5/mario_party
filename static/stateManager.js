@@ -76,7 +76,7 @@ let stateManager = {
 
   updateImageDate: function(room) {
     if (room === 'scoreRoom') {
-      ctx.putImageData(this.scoreRoomSprite, 0, 0);
+      g_ctx.putImageData(this.scoreRoomSprite, 0, 0);
       this.score_room.dynamicRender(g_ctx);
       this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
     }
@@ -244,7 +244,6 @@ let stateManager = {
 
     this.score_room.update(du);
     this.game_room.update(du);
-
   },
 
   // ======

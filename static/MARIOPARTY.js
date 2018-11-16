@@ -40,16 +40,21 @@ function updateSimulation(du) {
 // ================
 
 let g_renderSpatialDebug = false;
-let g_useGrid = false;
-let g_useAnimation = true;
+let g_useGrid            = false;
+let g_useSpriteBox       = false;
+let g_useAnimation       = true;
 
 // Render hit boxes
 // Render a grid
 // Render animations
 
-let KEY_SPATIAL = keyCode('X');
-let KEY_GRID = keyCode('F');
-let KEY_ANIMATION = keyCode('I');
+let KEY_SPATIAL     = keyCode('X');
+let KEY_GRID        = keyCode('F');
+let KEY_SPRITE_BOX  = keyCode('V');
+let KEY_ANIMATION   = keyCode('I');
+
+let KEY_LINE_UP     = keyCode('N');
+let KEY_LINE_DOWN   = keyCode('M');
 
 // ===================
 // PROCESS DIAGNOSTICS
@@ -57,9 +62,10 @@ let KEY_ANIMATION = keyCode('I');
 
 function processDiagnostics() {
 
-    if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;  // Hit box
-    if (eatKey(KEY_GRID)) g_useGrid = !g_useGrid;                           // Grid
-    if (eatKey(KEY_ANIMATION)) g_useAnimation = !g_useAnimation;            // Animation
+    if (eatKey(KEY_SPATIAL))    g_renderSpatialDebug = !g_renderSpatialDebug;   // Hit box
+    if (eatKey(KEY_GRID))       g_useGrid = !g_useGrid;                         // Grid
+    if (eatKey(KEY_SPRITE_BOX)) g_useSpriteBox = !g_useSpriteBox;               // Sprite box
+    if (eatKey(KEY_ANIMATION))  g_useAnimation = !g_useAnimation;               // Animation
 }
 
 
@@ -68,6 +74,13 @@ function processDiagnostics() {
 // =================
 
 function renderSimulation(ctx) {
+
+    if (eatKey(KEY_LINE_UP)) {
+        ctx.lineWidth++;
+    }
+    if (eatKey(KEY_LINE_DOWN)) {
+        ctx.lineWidth--;
+    }
 
     mapManager.render(ctx);
     stateManager.render(ctx);
@@ -111,6 +124,19 @@ function requestPreloads_images() {
         framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
         characters      : "static/assets/marioCharacters.png",
 
+        // Characters
+        selectMario         : "static/assets/selectionMario.png",
+        selectPinkPeach     : "static/assets/selectionPinkPeach.png",
+        selectYoshi         : "static/assets/selectionYoshi.png",
+        selectWario         : "static/assets/selectionWario.png",
+        selectPaleToad      : "static/assets/selectionPaleToad.png",
+        selectLuigi         : "static/assets/selectionLuigi.png",
+        selectYellowPeach   : "static/assets/selectionYellowPeach.png",
+        selectWaluigi       : "static/assets/selectionWaluigi.png",
+        selectPinkToad      : "static/assets/selectionPinkToad.png",
+        selectBowserjr      : "static/assets/selectionBowserjr.png",
+        selectBoo           : "static/assets/selectionBoo.png",
+
         // Button
         cyanReady       : "static/assets/cyanReady.png",
         greenReady      : "static/assets/greenReady.png",
@@ -145,6 +171,8 @@ function requestPreloads_images() {
 
         numbers          : "static/assets/marioNumbers.png",
         alph             : "static/assets/FontPixels.png",
+
+        test             : "static/assets/test.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -180,6 +208,7 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
+    g_sprites.test      = new Sprite(g_images.test);
     // Menu
     g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
@@ -193,8 +222,20 @@ function preloadDone() {
     g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
 
     // Character Select
+    g_sprites.selectMario       = new Sprite(g_images.selectMario);
+    g_sprites.selectPinkPeach   = new Sprite(g_images.selectPinkPeach);
+    g_sprites.selectYoshi       = new Sprite(g_images.selectYoshi);
+    g_sprites.selectWario       = new Sprite(g_images.selectWario);
+    g_sprites.selectPaleToad    = new Sprite(g_images.selectPaleToad);
+    g_sprites.selectLuigi       = new Sprite(g_images.selectLuigi);
+    g_sprites.selectYellowPeach = new Sprite(g_images.selectYellowPeach);
+    g_sprites.selectWaluigi     = new Sprite(g_images.selectWaluigi);
+    g_sprites.selectPinkToad    = new Sprite(g_images.selectPinkToad);
+    g_sprites.selectBowserjr    = new Sprite(g_images.selectBowserjr);
+    g_sprites.selectBoo         = new Sprite(g_images.selectBoo);
+
     // Row 1
-    g_sprites.selectMario        = new Sprite(g_images.characters,  200, 350, 0, 2, 200, 275);
+    /*g_sprites.selectMario        = new Sprite(g_images.characters,  250, 350, 0, 2, 200, 275);
     g_sprites.selectPinkPeach    = new Sprite(g_images.characters,  600, 350, 0, 2, 200, 275);
     g_sprites.selectYoshi        = new Sprite(g_images.characters, 1000, 350, 0, 2, 200, 275);
     g_sprites.selectWario        = new Sprite(g_images.characters, 1400, 350, 0, 2, 200, 275);
@@ -207,7 +248,7 @@ function preloadDone() {
     g_sprites.selectPinkToad     = new Sprite(g_images.characters, 1800, 930, 0, 2, 200, 275);
     g_sprites.selectBowserjr     = new Sprite(g_images.characters, 2200, 930, 0, 2, 200, 275);
     // Skipped one sprite
-    g_sprites.selectBoo          = new Sprite(g_images.characters, 2970, 930, 0, 2, 200, 275);
+    g_sprites.selectBoo          = new Sprite(g_images.characters, 2970, 930, 0, 2, 200, 275);*/
 
     // Button
     g_sprites.cyanReady         = new Sprite(g_images.cyanReady);

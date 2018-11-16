@@ -17,6 +17,7 @@ Button.prototype = new Entity();
 
 Button.prototype.ObjectID = 'button';
 Button.prototype.isReady = false;
+Button.prototype.owner = 0;     // Owner of this button, to resolve render updates
 
 // ==========
 // GET RADIUS
@@ -33,6 +34,9 @@ Button.prototype.getRadius = function () {
 Button.prototype.resolveCollision = function () {
     this.isReady = true;
     entityManager.getMyPlayer().isReady = true;
+
+    // Update menu
+    if (this.owner === 'menu') menuManager.updateImageData();
 };
 
 // ======
@@ -49,9 +53,9 @@ Button.prototype.update = function(du) {
 
 Button.prototype.render = function(ctx) {
     if (this.isReady) {
-        this.offSprite.drawCentredAtFixed(ctx, this.cx, this.cy, 0, this.width, this.height);
+        this.offSprite.drawCentredAt(ctx, this.cx, this.cy, 0, this.scaleX, this.scaleY);
     }
     else {
-        this.onSprite.drawCentredAtFixed(ctx, this.cx, this.cy, 0, this.width, this.height);
+        this.onSprite.drawCentredAt(ctx, this.cx, this.cy, 0, this.scaleX, this.scaleY);
     }
 };

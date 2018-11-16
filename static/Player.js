@@ -16,7 +16,6 @@ function Player(descr) {
     this.stars = 0;
     this.myTurn = false;
     this.isReady = false;
-    this.spriteID = 0;
 
 
     // ==== New TableTopPlayer ==== //
@@ -39,7 +38,6 @@ function Player(descr) {
 Player.prototype.refresh = function() {
     this.eventPlayer.sprite = g_playerSprites[this.spriteID].sp;
     this.tt_player.sprite = g_playerSprites[this.spriteID].sp;
-    this.isSelectedSprite = true;
 };
 
 // ======

@@ -66,18 +66,17 @@ init: function() {
     localStorage.setItem('uuid', Math.random().toString(12));
   };
 
-  entityManager.generatePlayer({
+  this.generatePlayer({
     uuid: localStorage.getItem('uuid'),
     my_player: true,
-
-    // Added
     stars: 0,
     coins: 0,
-    player_id: networkManager.player_info.player_id
+    player_id: networkManager.player_info.player_id,
+    spriteID: this._players.length
   });
 
   // let the server know that a new player has joined the game
-  networkManager.emit('new player', entityManager._players[0]);
+  networkManager.emit('new player', this._players[0]);
 },
 
 // Initialize shared objects

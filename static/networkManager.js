@@ -22,7 +22,7 @@ networkManager.all_players_ready = false;
 networkManager.error = false;
 
 // we initialise with non-valid information
-networkManager.player_info = {uuid: -1, player_id: -1};
+networkManager.player_info = {uuid: -1, player_id: -1, spriteID: -1};
 
 // gather info about my player
 networkManager.socket.on("my player", function(player) {
@@ -37,23 +37,29 @@ networkManager.socket.on("my player", function(player) {
   // if not
   networkManager.player_info = {uuid: player.uuid,
                                 player_id: player.player_id,
-                                existing_players: player.existing_players};
+                                existing_players: player.existing_players, spriteID: player.spriteID};
 });
 
 // when we get a message from the server that a new player has joined the game
 networkManager.socket.on("new_player", function(player) {
+  const client_players = entityManager._players;
+  
   entityManager.generatePlayer({
     uuid: player.uuid,
     my_player: false,
     stars: 0,
     coins: 0,
-    player_id: player.player_id
+    player_id: player.player_id,
+    spriteID: player.spriteID,
   });
-
-  const client_players = entityManager._players;
+console.log(client_players)
+console.log(player)
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
-
+/*
+  const spriteID = client_player.spriteID;
+  // Lock default sprite
+  menuManager.menuPopUp.charSelection[spriteID].lock();*/
   // Update scoreboard
   stateManager.updateImageDate('scoreRoom');
 });
@@ -95,7 +101,8 @@ networkManager.socket.on("existingPlayers", function(data) {
           my_player: false,
           stars: player.stars,
           coins: player.stars,
-          player_id: player.player_id
+          player_id: player.player_id,
+          spriteID: player.spriteID
         });
     }
   };
@@ -177,6 +184,9 @@ networkManager.socket.on("lock_char", function(data) {
     const obj = menuManager.charSelection.find(obj => obj.id == data.id);
     obj.isLocked = true;
     player.refresh();
+
+    // Update menu
+    menuManager.updateImageData();
   }
   emit_lock_once = false;
 });
