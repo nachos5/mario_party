@@ -77,20 +77,22 @@ let stateManager = {
   // UPDATE IMAGE DATA
   // =================
 
-  updateImageDate: function(room) {
+  updateImageData: function(room) {
     if (room === 'scoreRoom') {
       g_ctx.putImageData(this.scoreRoomSprite, 0, 0);
       this.score_room.dynamicRender(g_ctx);
       this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
-
-      // Static image data
-      this.victoryScreen.staticRender(g_ctx);
-      this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
-      this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
-      // Dynamic image data
-      this.victoryScreen.dynamicRender(g_ctx);
-      this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
     }
+  },
+
+  updateVictoryImageData: function() {
+    // Static image data
+    this.victoryScreen.staticRender(g_ctx);
+    this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+    this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
+    // Dynamic image data
+    this.victoryScreen.dynamicRender(g_ctx);
+    this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
   },
 
   // =================
@@ -205,7 +207,7 @@ let stateManager = {
     }
 
     // Update dynamic objects render
-    this.updateImageDate();
+    this.updateImageData();
   },
 
   // ==========
