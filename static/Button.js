@@ -33,10 +33,14 @@ Button.prototype.getRadius = function () {
 
 Button.prototype.resolveCollision = function () {
     this.isReady = true;
-    entityManager.getMyPlayer().isReady = true;
-
+    
     // Update menu
-    if (this.owner === 'menu') menuManager.updateImageData();
+    if (this.owner === 'menu') {
+        entityManager.getMyPlayer().isReady = true;
+        menuManager.updateImageData();
+    }
+
+    if (this.owner === 'buyStar') {}
 };
 
 // ======

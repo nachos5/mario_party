@@ -78,12 +78,18 @@ CharacterSelection.prototype.update = function(du) {
 // ======
 
 CharacterSelection.prototype.render = function(ctx) {
+    if (g_useSpriteBox) this.renderSpriteBox();
+};
+
+// ==============
+// DYNAMIC RENDER
+// ==============
+
+CharacterSelection.prototype.dynamicRender = function(ctx) {
     if (this.isSelected || this.isLocked) { ctx.globalAlpha = this.alpha }
     this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0, this.scaleX, this.scaleY);
 
     ctx.globalAlpha = 1;
-    
-    if (g_useSpriteBox) this.renderSpriteBox();
 };
 
 // =================

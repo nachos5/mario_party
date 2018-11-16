@@ -442,7 +442,7 @@ function preloadDoneNext() {
   stateManager.init();
   entityManager.sharedObjects();
   menuManager.init();
-  eventManager.init(new PopUp());
+  eventManager.init();
 
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);

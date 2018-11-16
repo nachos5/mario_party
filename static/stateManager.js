@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 5,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -16,6 +16,9 @@ let stateManager = {
   gameRoomSprite: 0,
   scoreRoomSprite: 0,
   scoreRoomDynamicSprite: 0,
+  victoryStaticSprite: 0,
+  victoryStatic2Sprite: 0,
+  victoryDynamicSprite:0,
 
   // Added
   players: [],
@@ -79,6 +82,14 @@ let stateManager = {
       g_ctx.putImageData(this.scoreRoomSprite, 0, 0);
       this.score_room.dynamicRender(g_ctx);
       this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
+
+      // Static image data
+      this.victoryScreen.staticRender(g_ctx);
+      this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+      this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
+      // Dynamic image data
+      this.victoryScreen.dynamicRender(g_ctx);
+      this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
     }
   },
 
@@ -205,6 +216,14 @@ let stateManager = {
 
     if (this.rounds_remaining === 1) {
       this.victoryScreen = new Victory();
+      // Static image data
+      this.victoryScreen.staticRender(g_ctx);
+      this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+      this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
+      // Dynamic image data
+      this.victoryScreen.dynamicRender(g_ctx);
+      this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+
       entityManager.victory();
       // Freeze interactive objects except event player
       g_gameOver = true;
@@ -260,7 +279,14 @@ let stateManager = {
     this.game_room.render(ctx);
     this.score_room.render(ctx);
 
-    if (this.victoryScreen) { this.victoryScreen.render(ctx) }
+    if (this.victoryScreen) {
+      // Render static object
+      ctx.putImageData(this.victoryStatic2Sprite, this.victoryScreen.left, this.victoryScreen.top);
+      ctx.putImageData(this.victoryStaticSprite, this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top);
+      // Render dynamic object
+      ctx.putImageData(this.victoryDynamicSprite, this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top);
+      this.victoryScreen.render(ctx);
+    }
   },
 
 }

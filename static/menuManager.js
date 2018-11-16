@@ -89,14 +89,7 @@ let menuManager = {
     // ======
 
     update: function(du) {
-        let begin = this.menuPopUp.button.update(du);
-
-        if (begin === -1) {
-            for (let i = 0; i < this.menuPopUp.charSelection.length; i++) {
-                spatialManager.unregister(this.menuPopUp.charSelection[i]);
-            }
-            spatialManager.unregister(this.menuPopUp.button);
-        }
+        this.menuPopUp.update(du);
     },
 
     // ======

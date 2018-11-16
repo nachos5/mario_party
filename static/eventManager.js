@@ -29,9 +29,51 @@ let eventManager = {
   can_buy_star: false, // true if the player can buy the star
   isEvent: false,
 
-  init: function(popup) {
-    this.starPopup = popup;
+  starPopUpSprite: 0,   // Image data
+
+  init: function() {
+    this.generateStarPopUp();
+
+    // Unregister hitboxes because of pre initialization
+    //spatialManager.unregister(this.starPopup.buttonYes);
+    //spatialManager.unregister(this.starPopup.buttonNo);
+  },
+
+  generateStarPopUp: function() {
+  // Offset values are based on mapHeight and mapWidth
+    this.starPopup = new PopUp({
+      offsetTop   : 0.2,
+      offsetRight : 0.02,
+      offsetBot   : 0.2,
+      offsetLeft  : 0.02,
+    });
     this.starPopup.setPreset('buyStar');
+
+    this.imageData();
+  },
+
+    // ==========
+    // IMAGE DATA
+    // ==========
+
+  imageData: function() {
+    // Static image data
+    this.staticRender(g_ctx);
+    // Dynamic image data
+    this.dynamicRender(g_ctx);
+    this.starPopUpSprite = g_ctx.getImageData(this.starPopup.left, this.starPopup.top, this.starPopup.width, this.starPopup.height);
+  },
+
+  // =================
+  // UPDATE IMAGE DATA
+  // =================
+
+  updateImageData: function() {
+    // Static image data
+    this.staticRender(g_ctx);
+    // Dynamic image data
+    this.dynamicRender(g_ctx);
+    this.starPopUpSprite = g_ctx.getImageData(this.starPopup.left, this.starPopup.top, this.starPopup.width, this.starPopup.height);
   },
 
   getCurrPlayer: function() {
@@ -139,6 +181,12 @@ let eventManager = {
       }
       this.curr_render_function = this.starRender;
       this.allow_rendering = true;
+
+      this.generateStarPopUp();
+      console.log("hallo")
+      // Register button hitboxes
+      //spatialManager.register(this.starPopup.buttonYes);
+      //spatialManager.register(this.starPopup.buttonNo);
     }
     const player = this.getCurrPlayer();
     // handle click on yes button
@@ -198,7 +246,10 @@ let eventManager = {
 
   // popup for asking if the player wants to buy a star
   starRender: function(ctx) {
+    // Render static object
+    ctx.putImageData(this.starPopUpSprite, this.starPopup.left, this.starPopup.top);
     this.starPopup.render(ctx);
+
     // current player can't buy the star
     if (this.can_buy_star) {
     }
@@ -328,6 +379,22 @@ let eventManager = {
     if (this.allow_rendering) {
       this.curr_render_function(ctx);
     }
+  },
+
+  // ==============
+  // DYNAMIC RENDER
+  // ==============
+
+  dynamicRender: function(ctx) {
+    this.starPopup.dynamicRender(ctx);
+  },
+
+  // =============
+  // STATIC RENDER
+  // =============
+
+  staticRender: function(ctx) {
+    this.starPopup.staticRender(ctx);
   },
 
 };

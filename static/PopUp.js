@@ -116,6 +116,12 @@ PopUp.prototype.setPreset = function(preset) {
         this.logoScaleX = this.width/2  / this.logo.width;
         this.logoScaleY = this.height/5 / this.logo.height;
 
+        this.logoWidth  = this.logoScaleX * this.logo.width;
+        this.logoHeight = this.logoScaleY * this.logo.height;
+
+        this.logoCx = this.cx;
+        this.logoCy = this.cy - this.logoHeight * 1.5;
+
         // ==========
         // CHARACTERS
         // ==========
@@ -248,6 +254,8 @@ PopUp.prototype.setPreset = function(preset) {
 
         // Yes button
         this.buttonYes = new Button({
+            id:         'yes',
+
             cx:         this.innerRight - buttonWidth/2,
             cy:         this.innerBot - buttonHeight/2,
 
@@ -259,10 +267,14 @@ PopUp.prototype.setPreset = function(preset) {
 
             onSprite:   g_sprites.greenYes,
             offSprite:  g_sprites.cyanYes,
+
+            owner:      'buyStar'
         });
 
         // No button
         this.buttonNo = new Button({
+            id:         'no',
+
             cx:         this.innerLeft + buttonWidth/2,
             cy:         this.innerBot - buttonHeight/2,
 
@@ -274,9 +286,26 @@ PopUp.prototype.setPreset = function(preset) {
 
             onSprite:   g_sprites.greenNo,
             offSprite:  g_sprites.cyanNo,
+            owner:      'buyStar'
         });
     }
-}
+    if (this.preset === 'victory') {
+        // Variables that are created
+        this.textSprite = 0;
+
+        // ===========
+        // TEXT SPRITE
+        // ===========
+
+        this.textSprite = g_sprites.buyStarText;
+
+        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width; 
+        this.textScaleY = (this.innerHeight * 0.5) / this.textSprite.height;
+
+        this.textWidth  = this.textScaleX * this.textSprite.width;
+        this.textHeight = this.textScaleY * this.textSprite.height;
+    }
+};
 
 // ==========
 // GET RADIUS
@@ -315,6 +344,28 @@ PopUp.prototype.update = function(du) {
             };
         }
     }
+
+    if (this.preset === 'menu') {
+        let begin = this.button.update(du);
+
+        // If button is clicked unregister all hitboxes
+        if (begin === -1) {
+            for (let i = 0; i < this.charSelection.length; i++) {
+                spatialManager.unregister(this.charSelection[i]);
+            }
+            spatialManager.unregister(this.button);
+        }
+    }
+    if (this.preset === 'buyStar') {
+        let yes = this.buttonYes.update(du);
+        let no  = this.buttonNo.update(du);
+
+        // If a button is clicked unregister hitboxes
+        if (yes === -1 || no === -1) {
+            spatialManager.unregister(this.buttonYes);
+            spatialManager.unregister(this.buttonNo);
+        }
+    }
 };
 
 // ======
@@ -327,6 +378,12 @@ PopUp.prototype.render = function(ctx) {
     if (this.preset === 'buyStar') {
         g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.innerLeft + this.textWidth * 0.45 + this.starWidth * 3.5, this.innerTop + this.textHeight * 0.75, 0, this.starScaleX, this.starScaleY);
     }
+    if (this.preset === 'menu') {
+        // Characters
+        for(let i = 0; i < this.charSelection.length; i++) {
+            this.charSelection[i].render(ctx);
+        }
+    }
 }
 
 // ==============
@@ -337,12 +394,12 @@ PopUp.prototype.dynamicRender = function(ctx) {
     // Presets
     if (this.preset === 'menu') {
         // Logo
-        this.logo.drawCentredAt(ctx, this.cx, this.cy - this.height/3, 0, this.logoScaleX, this.logoScaleY);
+        this.logo.drawCentredAt(ctx, this.logoCx, this.logoCy, 0, this.logoScaleX, this.logoScaleY);
         // Button
         this.button.render(ctx);
         // Characters
         for(let i = 0; i < this.charSelection.length; i++) {
-            this.charSelection[i].render(ctx);
+            this.charSelection[i].dynamicRender(ctx);
         }
     }
     if (this.preset === 'buyStar') {
@@ -355,6 +412,9 @@ PopUp.prototype.dynamicRender = function(ctx) {
         // Buttons
         this.buttonYes.render(ctx);
         this.buttonNo.render(ctx);
+    }
+    if (this.preset === 'victory') {
+        this.textSprite.drawCentredAt(ctx, this.innerLeft + this.textWidth/2, this.innerTop + this.textHeight/2, 0, this.textScaleX, this.textScaleY);
     }
 };
 
@@ -409,7 +469,6 @@ PopUp.prototype.staticRender = function(ctx) {
 // =================
 
 PopUp.prototype.renderSpriteBox = function(ctx) {
-    console.log("hallo")
     ctx.beginPath();
     ctx.moveTo(this.left, this.top);    // Top-left corner
 
@@ -430,4 +489,27 @@ PopUp.prototype.renderSpriteBox = function(ctx) {
     ctx.stroke();
 
     ctx.closePath();
+
+    if (this.preset === 'menu') {
+        ctx.beginPath();
+        ctx.moveTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);    // Top-left corner
+
+        // Top line
+        ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy - this.logoHeight/2);
+        ctx.stroke();
+
+        // Right line
+        ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy + this.logoHeight/2);
+        ctx.stroke();
+
+        // Bot line
+        ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy + this.logoHeight/2);
+        ctx.stroke();
+
+        // Left line
+        ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);
+        ctx.stroke();
+
+        ctx.closePath();
+    }
 }
