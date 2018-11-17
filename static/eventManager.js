@@ -113,44 +113,26 @@ let eventManager = {
       if(stateManager.game_room.isAnimating === 2) {
         if (entityManager._eventBlocks.length === 0) {
           entityManager.generateEventBlocks();
+          stateManager.curr_player.eventPlayer.changeRoom(1);
         }
-        stateManager.curr_player.eventPlayer.changeRoom(1);
       }
   },
 
-  closeBlocksEvent: function(state) {
+  closeBlocksEvent: function() {
     // Event is done, start closing
-    if (state === 0) { stateManager.callNextTurn() }
-    else {
-      this.isEvent = false;
-      this.isBlocksEvent = false;
-      stateManager.curr_player.eventPlayer.changeRoom(0);
-    }
+    this.isEvent = false;
+    this.isBlocksEvent = false;
+    stateManager.curr_player.eventPlayer.changeRoom(0);
+    stateManager.callNextTurn();
   },
 
-  36: function() {
-    this.blocksEvent();
-  },
-  37: function() {
-    this.blocksEvent();
-  },
-  38: function() {
-    this.blocksEvent();
-  },
-  39: function() {
-    this.blocksEvent();
-  },
   01: function() {
     this.blocksEvent();
   },
-  02: function() {
-    this.blocksEvent();
-  },
 
 
-/*
   // ==== COLLECTABLES ==== //
-
+/*
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
@@ -160,7 +142,7 @@ let eventManager = {
 
 
   },
-
+*/
   // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
@@ -171,7 +153,7 @@ let eventManager = {
     entityManager.playAnimation(0);
     networkManager.emit("animation_trigger", 0);
   },
-*/
+
 
   // PLAYER GOES PAST A STAR //
   buyStar: function(parameters) {
@@ -290,7 +272,7 @@ let eventManager = {
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
-/*  36: function() {
+  36: function() {
     mapManager.arrows["up"] = true;
     mapManager.diceThrow++; // free movement
   },
@@ -309,8 +291,7 @@ let eventManager = {
     mapManager.arrows["left"] = true;
     mapManager.diceThrow++; // free movement
   },
-*/
-/*
+
 
   // ========= PIPE EVENTS ========== //
   //     pipes give free movement!
@@ -364,7 +345,7 @@ let eventManager = {
   // red pipe, same code for both pipes so we just "redirect"
   61: function(parameters=false) {
     this[60](parameters, 61);
-  },*/
+  },
 
 
   // ==== TURN EVENTS ==== //

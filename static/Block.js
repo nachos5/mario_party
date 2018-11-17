@@ -39,7 +39,7 @@ Block.prototype.resolveCollision = function () {
         this.winner = parseInt(Math.random() * 3) + 1;
     }
     else if(this.results === null){
-        this.results = g_playerSprites[this.icon].id;
+        this.results = g_playerSpritesInUse[this.icon].id;
     }
 };
 
@@ -77,7 +77,7 @@ Block.prototype.update = function(du) {
 
     // Let EventBlocks know that the results are in
     if(this.results !== null) {
-        return  -1;
+        return this.results;
     }
 };
 
@@ -90,10 +90,10 @@ Block.prototype.render = function(ctx) {
     // Item Block Arrows
     if (this.id === 2) {
         // Arrows
-        if(this.winner === 1 || this.winner ===2) {
+        if(this.winner === 3 || this.winner === 2) {
             this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy - (this.brickHeight * this.arrowPos), 0, this.itemWidth, this.itemHeight);
         }
-        if(this.winner === 3 || this.winner ===2) {
+        if(this.winner === 1 || this.winner === 2) {
             this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy + (this.brickHeight * this.arrowPos), Math.PI, this.itemWidth, this.itemHeight);
         }
     }
@@ -103,7 +103,7 @@ Block.prototype.render = function(ctx) {
 
     // Player Block 1
     if (this.id === 1){
-        g_playerSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
     // Item Block 
     if (this.id === 2) {
@@ -116,6 +116,6 @@ Block.prototype.render = function(ctx) {
     }
     // Player Block 2
     if (this.id === 3){
-        g_playerSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+        g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
 };

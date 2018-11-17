@@ -390,14 +390,15 @@ let g_images = {};      // All images
 // GLOBAL SPRITES
 // ==============
 
-let g_sprites       = {};   // Misc sprites
+let g_sprites            = {};   // Misc sprites
 
-let g_playerSprites = [];   // Player sprites in use
-let g_itemSprites   = [];   // Item sprites in use
-let g_aniSprites    = [];   // Animation
+let g_playerSprites      = [];   // Player sprites
+let g_playerSpritesInUse = [];   // Sprites currently in use
+let g_itemSprites        = [];   // Item sprites in use
+let g_aniSprites         = [];   // Animation
 
-let g_alphSprites   = {};   // Alphabet + symbols
-let g_numberSprites = {};   // Numbers
+let g_alphSprites        = {};   // Alphabet + symbols
+let g_numberSprites      = {};   // Numbers
 
 let g_charSelectionSprites = [];  // Character Selection
 

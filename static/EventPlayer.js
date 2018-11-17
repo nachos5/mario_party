@@ -52,12 +52,13 @@ EventPlayer.prototype.rememberResets = function () {
 };
 
 EventPlayer.prototype.initRooms = function() {
+    // Dice location
+    this.diceRoomCx = stateManager.game_room.diceRoomLeft + stateManager.game_room.diceRoomWidth/2;
+    this.diceRoomCy = stateManager.game_room.diceRoomBot  - this.getRadius() * 1.5;
+    
     // Room locations
     this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
-    this.eventRoomCy = stateManager.game_room.eventRoomBot - this.getRadius() * 1.5;
-
-    console.log(this.eventRoomCx)
-    console.log(this.eventRoomCy)
+    this.eventRoomCy = stateManager.game_room.eventRoomBot  - this.getRadius() * 1.5;
 };
 
 // ===========
@@ -69,14 +70,14 @@ EventPlayer.prototype.changeRoom = function (room) {
 
     // Dice Room
     if (this.room === 0) {
-        this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
-        this.cy = entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 12) - this.getRadius();
+        this.cx = this.diceRoomCx;
+        this.cy = this.diceRoomCy;
         this.bot = stateManager.game_room.diceRoomBot;
     }
     // Event Room
     else if (this.room === 1) {
-        this.cx = this.eventRoomCx;//entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
-        this.cy = this.eventRoomCy;//entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 22) - this.getRadius();
+        this.cx = this.eventRoomCx;
+        this.cy = this.eventRoomCy;
         this.bot = stateManager.game_room.eventRoomBot;
     }
 

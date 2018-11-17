@@ -33,6 +33,14 @@ function Player(descr) {
 };
 
 // =======
+// VICTORY
+// =======
+
+Player.prototype.victory = function(cx, cy) {
+    this.tt_player.victory(cx, cy);
+};
+
+// =======
 // REFRESH
 // =======
 
@@ -54,7 +62,8 @@ Player.prototype.update = function (du) {
       // emit players position to the server
       networkManager.emit("update_player", this);
 
-      if (g_startGame) this.eventPlayer.update(du);
+      this.tt_player.update(du);
+      if (g_startGame && !g_gameOver) this.eventPlayer.update(du);
     }
 };
 

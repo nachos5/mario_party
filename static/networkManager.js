@@ -106,6 +106,8 @@ networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
 networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
   g_startGame = true;
+
+  stateManager.updatePlayerSprites();
   stateManager.updateImageData('scoreRoom');
 });
 
