@@ -62,6 +62,7 @@ networkManager.socket.on("new_player", function(player) {
 
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
+  stateManager.updateImageData('scoreRoom');
 /*
   const spriteID = client_player.spriteID;
   // Lock default sprite
