@@ -27,7 +27,7 @@ function EventBlocks(descr) {
     // BLOCK VARIABLES
     // ===============
 
-    this.randPlayer = function() { return parseInt(Math.random() * g_playerSprites.length) };
+    this.randPlayer = function() { return parseInt(Math.random() * g_playerSpritesInUse.length) };
     this.randItem   = function() { return parseInt(Math.random() * g_itemSprites.length) };
 
     // =============
@@ -61,7 +61,7 @@ EventBlocks.prototype.results1 = null;
 EventBlocks.prototype.results2 = null;
 EventBlocks.prototype.results3 = null;
 
-EventBlocks.prototype.winner = null;
+EventBlocks.prototype.winner   = null;
 
 EventBlocks.prototype.waitTime = 0;
 
@@ -136,14 +136,48 @@ EventBlocks.prototype.getPreset = function(preset) {
 // ======
 
 EventBlocks.prototype.update = function(du) {
-    let status1 = this.block1.update(du);
-    let status2 = this.block2.update(du);
-    let status3 = this.block3.update(du);
+    this.results1 = this.block1.update(du);
+    this.results2 = this.block2.update(du);
+    this.results3 = this.block3.update(du);
 
     // If all 3 blocks are dead, kill EventBlocks
-    if (status1 === -1 && status2 === -1 && status3 === -1) {
+    if (this.results1 !== undefined && this.results2 !== undefined && this.results3 !== undefined) {
+        this.winner = this.block2.winner;
         this.waitTime++;
         if (this.waitTime === 100) {
+            console.log(this.results1);
+            console.log(this.results2);
+            console.log(this.results3);
+            console.log("WINNER")
+            console.log(this.winner);
+            //let players = entityManager._players;
+            //let player1;
+            //let player3;
+            
+            const player1    = entityManager._players.find(obj => obj.spriteID == this.results1);
+            const tt_player1 = player1.tt_player;
+            const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
+            const tt_player3 = player3.tt_player;
+            
+            // Resolve winner and loser
+            if (this.winner === 1 || this.winner === 2) {
+                player3.coins -= 5;
+                //console.log("winner 1 1st")
+                //entityManager.playAnimation(1, tt_player3, repeat);
+                player1.coins += 5;
+                //console.log("winner 1 2nd")
+                //entityManager.playAnimation(0, tt_player1);
+            }
+            if (this.winner === 3 || this.winner === 2) {
+                player1.coins -= 5;
+                //console.log("winner 3 1st")
+                //entityManager.playAnimation(1, tt_player1, repeat);
+                player3.coins += 5;
+                //console.log("winner 3 2nd")
+                //entityManager.playAnimation(0, tt_player3);
+            }
+
+
             entityManager.resolveEventBlocks(this);
             // Unregister all the blocks
             spatialManager.unregister(this.block1);

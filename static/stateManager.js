@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 1,
+  rounds_remaining: 5,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -120,6 +120,24 @@ let stateManager = {
   updateInfo: function() {
     this.players = entityManager._players;
     this.no_players = this.players.length;
+  },
+
+  // =====================
+  // UPDATE PLAYER SPRITES
+  // =====================
+
+  updatePlayerSprites: function() {
+    this.updateInfo();
+
+    // Array of player sprites in use
+    for(let i = 0; i < this.players.length; i++) {
+      let curr_playerSprite = g_playerSprites[this.players[i].spriteID]
+      g_playerSpritesInUse.push ({
+        sp : curr_playerSprite.sp , 
+        id : curr_playerSprite.id, 
+        name : curr_playerSprite.name
+      });
+    };
   },
 
   // ==========

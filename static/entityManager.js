@@ -22,10 +22,13 @@ _curr_player: null,
 _curr_tt_player: null,
 
 // Animations
-_animation: null,       // Current animation
-_isAnimation: false,    // Is anything animating
+_animation: null,           // Current animation
+_isAnimation: false,        // Is anything animating
+_curr_ani_tt_player: null,  // Current player animating
 
-_aniTimes: 0,           // Times to repeat animation
+_aniNext: 0,            // Next animation
+_aniTimes: 0,           // Repeat animation iterator
+_aniAmount: 3,          // Times to repeat animation
 _aniIter: 0,            // Animation iterator
 _aniFrame: 0,           // Animation frame
 
@@ -219,9 +222,15 @@ victory: function() {
     }
 },
 
-playAnimation: function(animation) {
+playAnimation: function(animation, tt_player=this.curr_player, repeat=0) {
+    this._aniNext = repeat;
+
+    if (tt_player) this._curr_ani_tt_player = tt_player;
+
     if (animation === 0) { this._aniDown = true }   // + 3 coins
     if (animation === 1) { this._aniUp = true }     // - 3 coins
+
+    //this._aniAmount = 5;
 
     this._animation = animation
     this._isAnimation = true;
@@ -231,6 +240,8 @@ stopAnimation: function() {
     this._aniFrame = 0;
     this._aniIter = 0;
     this._aniTimes = 0;
+    this._aniAmount = 3;
+    _curr_ani_tt_player = this._curr_tt_player;
 
     this._aniX = 0;
     this._aniY = 0;
@@ -292,7 +303,7 @@ update: function(du) {
                 this._aniY = 0;
                 this._aniAlpha = 1;
                 this._aniTimes++;
-                if (this._aniTimes === 3) {
+                if (this._aniTimes === this._aniAmount) {
                     this.stopAnimation();
                 }
             };
@@ -323,7 +334,7 @@ render: function(ctx) {
 
         // +- 3 Coin
         if (this._animation === 0 || this._animation === 1) {
-            g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + this._aniY, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+            g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_ani_tt_player.cx, this._curr_ani_tt_player.cy - this._curr_ani_tt_player.height + this._aniY, 0, this._curr_ani_tt_player.width * 2/3, this._curr_ani_tt_player.height * 2/3);
         }
         // Reset ctx
         ctx.globalAlpha = 1;
