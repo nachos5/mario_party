@@ -12,30 +12,51 @@ function Victory() {
     let mapWidth  = mapManager.mapWidth;
     let mapHeight = mapManager.mapHeight;
 
-    // Victory blocks variables
-    this.width  = 1 + mapWidth;
-    this.height = mapHeight/4;
+    // ================
+    // PODIUM VARIABLES
+    // ================
 
-    this.victoryTop   =  1 + mapBot - mapHeight/4;
-    this.victoryRight = mapRight;
-    this.victoryBot   = mapBot - this.height / 3;
-    this.victoryLeft  = mapLeft;
+    this.top   = mapBot - mapHeight * 0.25;
+    this.right = mapRight;
+    this.bot   = mapBot;
+    this.left  = mapLeft;
 
-    this.blockW = this.width/14;
-    this.blockH = this.height/3;
+    this.width  = mapWidth;
+    this.height = this.bot - this.top;
 
-    this.scale = 1;
+    this.podium = g_sprites.marioPodium;
 
-    // Popup Window
-    this.popup = new PopUp(true);
+    this.podiumScaleX = mapWidth / this.podium.width;
+    this.podiumScaleY = this.height / this.podium.height;
 
-    this.popup.popUpTop   = mapTop   + mapHeight * 0.15;
-    this.popup.popUpRight = mapRight - mapLeft * 0.55;
-    this.popup.popUpBot   = mapBot   - mapHeight * 0.58;
-    this.popup.popUpLeft  = mapLeft  + mapLeft * 0.55;
+    this.podiumWidth  = this.podiumScaleX * this.podium.width;
+    this.podiumHeight = this.podiumScaleY * this.podium.height;
 
-    this.popup.backWidth  = mapWidth/19;
-    this.popup.backHeight = mapHeight/18.2;
+    this.cx = mapLeft  + mapWidth/2;
+    this.cy = this.bot - this.podiumHeight/2;
+
+    this.blockWidth  = this.podiumWidth  / 14;
+    this.blockHeight = this.podiumHeight / 3;
+
+    // ===============
+    // OTHER VARIABLES
+    // ===============
+
+    this.numberScaleX = (this.blockWidth  * 0.4) / g_numberSprites.num0.clipWidth;
+    this.numberScaleY = (this.blockHeight * 0.4) / g_numberSprites.num0.clipHeight;
+
+    this.numberWidth  = this.numberScaleX * g_numberSprites.num0.clipWidth;
+    this.numberHeight = this.numberScaleY * g_numberSprites.num0.clipHeight;
+
+    // Offset values are based on mapHeight and mapWidth
+    this.victoryPopUp = new PopUp({
+        offsetTop   : 0.1,
+        offsetRight : 0.02,
+        offsetBot   : 0.5,
+        offsetLeft  : 0.02,
+    });
+
+    this.victoryPopUp.setPreset('victory');
 
     //this.popup.sprite = g_sprites.die0;
 }
@@ -59,16 +80,53 @@ Victory.prototype.update = function(du) {
 // ======
 
 Victory.prototype.render = function(ctx) {
-    this.popup.render(ctx);
+    this.victoryPopUp.render(ctx);
 
-    g_sprites.marioPodium.drawTopLeftFixed(ctx, this.victoryLeft, this.victoryTop, 0, this.scale, this.scale, this.width, this.height);
+    if (g_useSpriteBox) this.renderSpriteBox(ctx);
+};
+
+// ==============
+// DYNAMIC RENDER
+// ==============
+
+Victory.prototype.dynamicRender = function(ctx) {
+    this.victoryPopUp.dynamicRender(ctx);
+};
+
+// =============
+// STATIC RENDER
+// =============
+
+Victory.prototype.staticRender = function(ctx) {
+    this.victoryPopUp.staticRender(ctx);
+
+    this.podium.drawCentredAt(ctx, this.cx, this.cy, 0, this.podiumScaleX, this.podiumScaleY);
     
     // Places
-    g_numberSprites.num1.drawClipCentredAtFixed(ctx, this.victoryLeft + this.blockW * 6.5, this.victoryTop + this.blockH * 0.5, 0, this.blockW * 0.6, this.blockH * 0.6);
+    g_numberSprites.num1.drawClipCentredAt(ctx, this.left + this.blockWidth * 6.5, this.bot - this.blockHeight * 2.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num2.drawClipCentredAt(ctx, this.left + this.blockWidth * 4.5, this.bot - this.blockHeight * 1.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num3.drawClipCentredAt(ctx, this.left + this.blockWidth * 8.5, this.bot - this.blockHeight * 1.5, 0, this.numberScaleX, this.numberScaleY);
+};
 
-    g_alphSprites.S.drawClipCentredAtFixed(ctx, this.victoryLeft + this.blockW * 7.25, this.victoryTop + this.blockH * 0.6, 0, this.blockW * 0.3, this.blockH * 0.3);
-    g_alphSprites.T.drawClipCentredAtFixed(ctx, this.victoryLeft + this.blockW * 7.5, this.victoryTop + this.blockH * 0.6, 0, this.blockW * 0.3, this.blockH * 0.3);
+Victory.prototype.renderSpriteBox = function(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(this.left, this.top);    // Top-left corner
 
-    g_numberSprites.num2.drawClipCentredAtFixed(ctx, this.victoryLeft + this.blockW * 4.5, this.victoryTop + this.blockH * 1.5, 0, this.blockW * 0.6, this.blockH * 0.6);
-    g_numberSprites.num3.drawClipCentredAtFixed(ctx, this.victoryLeft + this.blockW * 8.5, this.victoryTop + this.blockH * 1.5, 0, this.blockW * 0.6, this.blockH * 0.6);
+    // Top line
+    ctx.lineTo(this.right, this.top);
+    ctx.stroke();
+
+    // Right line
+    ctx.lineTo(this.right, this.bot);
+    ctx.stroke();
+
+    // Bot line
+    ctx.lineTo(this.left, this.bot);
+    ctx.stroke();
+
+    // Left line
+    ctx.lineTo(this.left, this.top);
+    ctx.stroke();
+
+    ctx.closePath();
 };

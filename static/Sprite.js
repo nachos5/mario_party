@@ -14,8 +14,8 @@ function Sprite(image, cx=0, cy=0, radius=0, bool=1, cWidth, cHeight) {
         this.scale = 1;
     }
     else if(bool === 2) {
-        this.cx = cx;
-        this.cy = cy;
+        this.sx = cx;
+        this.sy = cy;
         this.clipWidth = cWidth;
         this.clipHeight = cHeight;
     }
@@ -31,14 +31,17 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
                   x, y);
 };
 
-Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation=0, scale=this.scale) {
+Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation=0, scaleX=this.scale, scaleY=this.scale, flip=0) {
     var w = this.width,
         h = this.height;
 
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(rotation);
-    ctx.scale(scale, scale);
+    // Scale image
+    if(flip === 0) {  ctx.scale(scaleX,scaleY)  }
+    else if(flip === 1) {  ctx.scale(-scaleX,scaleY)  }
+    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  };
 
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
@@ -99,16 +102,17 @@ Sprite.prototype.drawCentredAtFixed = function (ctx, cx, cy, rotation=0, width, 
 // =============
 
 // Draw object at the top left corner
-Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, flip=0) {
+Sprite.prototype.drawTopLeft = function (ctx, x, y, rotation=0, scaleX=1, scaleY=1, flip=0) {
     ctx.save();
     // Center of the sprite
-    ctx.translate(cx, cy);
+    ctx.translate(x, y);
     // Rotate in radians
     ctx.rotate(rotation);
     // Scale image
     if(flip === 0) {  ctx.scale(scaleX,scaleY)  }
     else if(flip === 1) {  ctx.scale(-scaleX,scaleY)  }
-    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  };
+    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  }
+    else if(flip === 3) {  ctx.scale(-scaleX,-scaleY)  };
     // Draw sprite at it's center point
     ctx.drawImage(this.image, 0, 0);
     ctx.restore();
@@ -118,14 +122,17 @@ Sprite.prototype.drawTopLeft = function (ctx, cx, cy, rotation=0, scaleX=1, scal
 // DRAW TOP LEFT FIXED - FIXED WIDTH AND HEIGHT
 // ============================================
 
-Sprite.prototype.drawTopLeftFixed = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1, width, height) {
+Sprite.prototype.drawTopLeftFixed = function (ctx, x, y, rotation=0, scaleX=1, scaleY=1, width, height, flip=0) {
     ctx.save();
     // Center of the sprite
-    ctx.translate(cx, cy);
+    ctx.translate(x, y);
     // Rotate in radians
     ctx.rotate(rotation);
     // Scale image
-    ctx.scale(scaleX,scaleY);
+    if(flip === 0) {  ctx.scale(scaleX,scaleY)  }
+    else if(flip === 1) {  ctx.scale(-scaleX,scaleY)  }
+    else if(flip === 2) {  ctx.scale(scaleX,-scaleY)  }
+    else if(flip === 3) {  ctx.scale(-scaleX,-scaleY)  };
     // Draw sprite at it's center point
     ctx.drawImage(this.image, 0, 0, width, height);
 
@@ -157,20 +164,20 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
 // DRAW CLIPPED 
 // ============
 
-Sprite.prototype.drawClipped = function (ctx, x, y, rotation=0, scaleX=1, scaleY=1) {
+Sprite.prototype.drawClipCentredAt = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1) {
     ctx.save();
     let cW = this.clipWidth * 2;
     let cH = this.clipHeight * 2;
 
-    ctx.translate(x, y);       // coords on canvas
+    ctx.translate(cx, cy);       // coords on canvas
     ctx.rotate(rotation);
     ctx.scale(scaleX, scaleY);
 
     ctx.drawImage(this.image,
-                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
-                    cW, cH,           // width, height of clipped img
+                    this.sx-cW/2, this.sy-cH/2,                  // clip x, y coords
+                    cW, cH,                          // width, height of clipped img
                     -cW/2, -cH/2,     // center coords                    
-                    cW, cH);          // width, height of image, strech
+                    cW, cH);                         // width, height of image, strech
 
     ctx.restore();
 };
@@ -189,7 +196,7 @@ Sprite.prototype.drawClipTopLeftFixed = function (ctx, x, y, rotation, width, he
     ctx.scale(scaleX, scaleY);
 
     ctx.drawImage(this.image,
-                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
+                    this.sx-cW/2, this.sy-cH/2,   // clip x, y coords
                     cW, cH,           // width, height of clipped img
                     0, 0,     // Top left coords
                     width, height);          // width, height of image, strech
@@ -201,17 +208,17 @@ Sprite.prototype.drawClipTopLeftFixed = function (ctx, x, y, rotation, width, he
 // DRAW CLIP CENTRED FIXED - WITH A FIXED WIDTH AND HEIGHT
 // =======================================================
 
-Sprite.prototype.drawClipCentredAtFixed = function (ctx, x, y, rotation, width, height, scaleX=1, scaleY=1) {
+Sprite.prototype.drawClipCentredAtFixed = function (ctx, cx, cy, rotation, width, height, scaleX=1, scaleY=1) {
     ctx.save();
     let cW = this.clipWidth * 2;
     let cH = this.clipHeight * 2;
 
-    ctx.translate(x, y);       // coords on canvas
+    ctx.translate(cx, cy);       // coords on canvas
     ctx.rotate(rotation);
     ctx.scale(scaleX, scaleY);
 
     ctx.drawImage(this.image,
-                    this.cx-cW/2, this.cy-cH/2,   // clip x, y coords
+                    this.sx-cW/2, this.sy-cH/2,   // clip x, y coords
                     cW, cH,           // width, height of clipped img
                     -width/2, -height/2,     // Top left coords
                     width, height);          // width, height of image, strech

@@ -50,8 +50,8 @@ Star.prototype.update = function(du) {
   this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
   this.cy = this.position.row * this.map.tilesHeight + this.centerY;
   if (this.rotate) {
-    this.rotation += 0.008 * Math.PI;
-    if (this.rotation == 2 * Math.PI) this.rotation = 0; // reset
+    this.rotation += 0.008 * du * Math.PI;
+    if (this.rotation >= 2 * Math.PI) this.rotation = 0; // reset
   }
 };
 

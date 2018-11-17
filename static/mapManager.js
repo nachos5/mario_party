@@ -347,7 +347,8 @@ moveStar: function(rand=true) {
   let blueTilePos = null;
   // we pick one tile at random
   if (rand)
-    blueTilePos = blueTiles[parseInt(Math.random() * blueTiles.length)];
+    //blueTilePos = blueTiles[parseInt(Math.random() * blueTiles.length)];
+    blueTilePos = blueTiles[1];
   // not random
   else
     blueTilePos = blueTiles[parseInt(blueTiles.length / 2)];
@@ -367,7 +368,6 @@ moveStar: function(rand=true) {
 // ======
 
 update: function(du) {
-
   /* moving animation for tabletop players
      readyToMove sets this value to true */
   if (this.someoneIsMoving) {

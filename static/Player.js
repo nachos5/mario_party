@@ -16,13 +16,13 @@ function Player(descr) {
     this.stars = 0;
     this.myTurn = false;
     this.isReady = false;
-    this.spriteID = 0;
 
 
     // ==== New TableTopPlayer ==== //
     this.tt_player = new TableTopPlayer({
         id       : this.player_id,   // Id of the player
         sprite   : g_playerSprites[this.spriteID].sp,
+        name     : g_playerSprites[this.spriteID].name,
     });
 
     // ==== New EventPlayer ==== //
@@ -39,7 +39,7 @@ function Player(descr) {
 Player.prototype.refresh = function() {
     this.eventPlayer.sprite = g_playerSprites[this.spriteID].sp;
     this.tt_player.sprite = g_playerSprites[this.spriteID].sp;
-    this.isSelectedSprite = true;
+    this.tt_player.name = g_playerSprites[this.spriteID].name;
 };
 
 // ======
