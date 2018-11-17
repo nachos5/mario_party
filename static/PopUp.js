@@ -80,10 +80,10 @@ function PopUp(descr) {
     // POPUP INNER VARIABLES
     // =====================
 
-    this.innerTop   = this.top   + this.pipeHeight * 2;
-    this.innerRight = this.right - this.pipeWidth  * 2;
-    this.innerBot   = this.bot   - this.pipeHeight * 2;
-    this.innerLeft  = this.left  + this.pipeWidth  * 2;
+    this.innerTop   = this.top   + this.pipeHeight;
+    this.innerRight = this.right - this.pipeWidth;
+    this.innerBot   = this.bot   - this.pipeHeight;
+    this.innerLeft  = this.left  + this.pipeWidth;
 
     this.innerWidth  = this.width  - this.pipeWidth  * 2;
     this.innerHeight = this.height - this.pipeHeight * 2;
@@ -473,6 +473,7 @@ PopUp.prototype.staticRender = function(ctx) {
 // =================
 
 PopUp.prototype.renderSpriteBox = function(ctx) {
+    // Outer box
     ctx.beginPath();
     ctx.moveTo(this.left, this.top);    // Top-left corner
 
@@ -490,6 +491,28 @@ PopUp.prototype.renderSpriteBox = function(ctx) {
 
     // Left line
     ctx.lineTo(this.left, this.top);
+    ctx.stroke();
+
+    ctx.closePath();
+
+    // Inner box
+    ctx.beginPath();
+    ctx.moveTo(this.innerLeft, this.innerTop);    // Top-left corner
+
+    // Top line
+    ctx.lineTo(this.innerRight, this.innerTop);
+    ctx.stroke();
+
+    // Right line
+    ctx.lineTo(this.innerRight, this.innerBot);
+    ctx.stroke();
+
+    // Bot line
+    ctx.lineTo(this.innerLeft, this.innerBot);
+    ctx.stroke();
+
+    // Left line
+    ctx.lineTo(this.innerLeft, this.innerTop);
     ctx.stroke();
 
     ctx.closePath();

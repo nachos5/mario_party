@@ -59,10 +59,12 @@ EventPlayer.prototype.initRooms = function() {
     // Event locations
     this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
     this.eventRoomCy = stateManager.game_room.eventRoomBot  - this.getRadius() * 1.5;
+};
 
+EventPlayer.prototype.initMinigameRoom = function() {
     // Minigame location
-    /*this.miniGameCx = ;
-    this.miniGameCy = ;*/
+    this.minigameCx = minigameManager.popup.innerLeft + minigameManager.popup.innerWidth/2;
+    this.minigameCy = minigameManager.popup.innerBot - this.getRadius() * 1.5;
 };
 
 // ===========
@@ -85,13 +87,11 @@ EventPlayer.prototype.changeRoom = function (room) {
         this.bot = stateManager.game_room.eventRoomBot;
     }
     // Minigame Room
-    else if (this.room === 3) {
-        this.cx = this.eventRoomCx;
-        this.cy = this.eventRoomCy;
-        this.bot = stateManager.game_room.eventRoomBot;
+    else if (this.room === 2) {
+        this.cx = this.minigameCx;
+        this.cy = this.minigameCy;
+        this.bot = minigameManager.popup.innerBot;
     }
-
-
 };
 
 // =====
@@ -121,6 +121,14 @@ EventPlayer.prototype.isRoomCollision = function () {
             stateManager.game_room.eventRoomRight  < this.cx + this.getRadius() ||
             stateManager.game_room.eventRoomBot    < this.cy + this.getRadius() ||
             stateManager.game_room.eventRoomLeft   > this.cx - this.getRadius()
+        ) { return true }
+        return false;
+    }
+    if(this.room === 2) {
+        if( minigameManager.popup.innerTop    > this.cy - this.getRadius() ||
+            minigameManager.popup.innerRight  < this.cx + this.getRadius() ||
+            minigameManager.popup.innerBot    < this.cy + this.getRadius() ||
+            minigameManager.popup.innerLeft   > this.cx - this.getRadius()
         ) { return true }
         return false;
     }

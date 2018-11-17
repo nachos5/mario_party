@@ -87,9 +87,9 @@ function renderSimulation(ctx) {
 
     mapManager.render(ctx);
     stateManager.render(ctx);
+    minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
-    minigameManager.render(ctx);
 
     if (!g_startGame) { menuManager.render(ctx) }
     // Tester
@@ -446,11 +446,12 @@ function loadSpriteLibaries() {
 // =================
 
 function preloadDoneNext() {
-  stateManager.init();
-  entityManager.sharedObjects();
-  menuManager.init();
-  eventManager.init();
-  animationManager.init();
+stateManager.init();
+entityManager.sharedObjects();
+menuManager.init();
+eventManager.init();
+animationManager.init();
+minigameManager.init();
 
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
