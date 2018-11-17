@@ -47,13 +47,13 @@ Player.prototype.refresh = function() {
 // ======
 
 Player.prototype.update = function (du) {
-
     // we only emit our player to the server!
     if (this.my_player) {
+      //this.socket_id = networkManager.player_info.socket_id;
+      //this.uuid = networkManager.player_info.uuid;
       // emit players position to the server
       networkManager.emit("update_player", this);
 
-      this.tt_player.update(du);
       if (g_startGame) this.eventPlayer.update(du);
     }
 };

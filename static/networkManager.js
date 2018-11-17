@@ -50,7 +50,7 @@ networkManager.socket.on("my player", function(player) {
 // when we get a message from the server that a new player has joined the game
 networkManager.socket.on("new_player", function(player) {
   const client_players = entityManager._players;
-
+  console.log("new player");
   entityManager.generatePlayer({
     uuid: player.uuid,
     my_player: false,
@@ -70,9 +70,8 @@ networkManager.socket.on("new_player", function(player) {
 });
 
 // player reconnects
-networkManager.socket.on("reconnecting", function(data) {
-  const player = data.player;
-  const disconnected = data.disconnected
+networkManager.socket.on("reconnecting", function(player) {
+  console.log("reconnecting");
   const clientPlayer = entityManager._players[0];
   // ==== MAIN PLAYER ==== //
   clientPlayer.stars = player.stars;
@@ -90,6 +89,15 @@ networkManager.socket.on("reconnecting", function(data) {
   networkManager.all_players_ready = true;
   stateManager.updateImageData('scoreRoom');
 
+  //console.log(disconnected)
+  //networkManager.displayDc(disconnected);
+});
+
+networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
+  const player = data.player;
+  const disconnected = data.disconnected;
+  const obj = entityManager._players.find(obj => obj.uuid = player.uuid);
+  obj.socket_id = player.socket_id;
   networkManager.displayDc(disconnected);
 });
 
@@ -126,6 +134,7 @@ networkManager.socket.on("disconnected", function(data) {
 networkManager.socket.on("existingPlayers", function(data) {
   for (let p in data.players)  {
       if (p != data.my_uuid) {
+        console.log("existing")
         // player from server
         const player = data.players[p];
         entityManager.generatePlayer({
@@ -135,7 +144,7 @@ networkManager.socket.on("existingPlayers", function(data) {
           stars: player.stars,
           coins: player.stars,
           player_id: player.player_id,
-          spriteID: player.spriteID
+          spriteID: player.spriteID,
         });
     }
   };
@@ -146,14 +155,17 @@ networkManager.socket.on("existingPlayers", function(data) {
 
 // UPDATING PLAYER STUFF
 networkManager.socket.on("update_player_server", function(player) {
-  // lets find the player with the same id
+
+  //for (let i in entityManager._players) console.log(entityManager._players[i].uuid);
   let obj = entityManager._players.find(obj => obj.uuid == player.uuid);
+  //console.log(obj)
 
   try {
 
     // ==== MAIN PLAYER ==== //
     obj.connected = player.connected;
-    obj.socket_id = player.socket_id
+    obj.spriteID = player.spriteID;
+
     // scoreboard stuff
     obj.coins = player.coins;
     obj.stars = player.stars;
@@ -174,7 +186,7 @@ networkManager.socket.on("update_player_server", function(player) {
     // ==== STAR ==== //
     entityManager.getStar().setTilePosition(player.star_pos);
   } catch(e) {
-    console.log("Player couldn't be updated!");
+    //console.log(e.stack);
   }
 });
 
@@ -208,14 +220,28 @@ networkManager.socket.on("animation_trigger_server", function(data) {
 
 networkManager.socket.on("lock_char", function(data) {
   try {
-    const player = entityManager._players.find(obj => obj.uuid == data.uuid);
-    player.spriteID = data.id;
-    const obj = menuManager.menuPopUp.charSelection.find(obj => obj.id == data.id);
-    obj.isLocked = true;
-    player.refresh();
+    //  unlock all
+    for (let c in menuManager.menuPopUp.charSelection) {
+      menuManager.menuPopUp.charSelection[c].isLocked = false;
+      menuManager.menuPopUp.charSelection[c].isSelected = false;
+    }
 
+    const players = entityManager._players;
+    const my_player = entityManager.getMyPlayer();
+    const chars = data.locked_chars;
+
+    // lock relevant stuff
+    for (let c in chars) {
+      const sprite_id = chars[c];
+      menuManager.menuPopUp.charSelection[sprite_id].isLocked = true;
+
+      if (c == my_player.uuid)
+        menuManager.menuPopUp.charSelection[sprite_id].isSelected = true;
+    }
     menuManager.updateImageData();
-  } catch(e) {}
+  } catch(e) {
+    console.log(e.stack);
+  }
 });
 
 

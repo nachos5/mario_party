@@ -44,6 +44,8 @@ server.startServer = function(startServer) {
   let starPos = null;
   // all players ready
   let all_players_ready = false;
+  // currently locked chars (from selection)
+  let locked_chars = {};
 
   //setInterval(function() { console.log("nýtt"); for (let p in players) { console.log(players[p].socket_id); }; }, 1000);
 
@@ -64,19 +66,23 @@ server.startServer = function(startServer) {
         reconnect = true;
       } else {
       // our player
-        players[uuid] = {uuid: uuid, player_id: player_id,
+        players[uuid] = {uuid: uuid, player_id: player_id, spriteID: player_id - 1,
                          existing_players: e_players, game_full: all_players_ready && !reconnect};
+        locked_chars[uuid] = player_id - 1;
         player_id++;
       }
       players[uuid].socket_id = socket.id;
       // let our socket know that we are ready to spawn
       socket.emit('my player', players[uuid]);
+
+      console.log("init " + Object.keys(players) );
     });
 
     // a new player has joined the game
     socket.on('new player', function(player) {
       if (!reconnect) {
         players[player.uuid] = player;
+        console.log(players[player.uuid].uuid)
         players[player.uuid].connected = true;
         players[player.uuid].socket_id = socket.id;
       }
@@ -90,31 +96,40 @@ server.startServer = function(startServer) {
         // send to all clients except sender
         socket.broadcast.emit('new_player', players[player.uuid]);
       } else {
+        delete players[player.uuid].socket_id;
         players[player.uuid].socket_id = socket.id;
         players[player.uuid].connected = true;
         delete disconnected[player.uuid];
-        socket.emit('reconnecting', {player: players[player.uuid], disconnected: disconnected});
+        socket.emit('reconnecting', players[player.uuid]);
+        socket.broadcast.emit('reconnecting_anotherPlayer', {player: players[player.uuid], disconnected: disconnected})
       }
+      console.log("new player " + Object.keys(players))
     });
 
     // send to all clients except sender
     socket.on('update_player', function(player) {
-      if (!(player.uuid in disconnected))  {
+      const check = player.uuid in disconnected;
+
+      if (!check)  {
         players[player.uuid] = player;
         if (player.uuid in disconnected)
           players[player.uuid].connected = false;
         else
           players[player.uuid].connected = true;
         players[player.uuid].isReady = player.isReady;
-        players[player.uuid].socket_id = socket.id;
+        //players[player.uuid].socket_id = socket.id;
         players[player.uuid].star_pos = starPos;
+        players[player.uuid].uuid = player.uuid;
+
         players[player.uuid].spriteID = player.spriteID;
+        locked_chars[player.uuid] = player.spriteID;
+        //console.log(locked_chars);
 
         socket.broadcast.emit('update_player_server', player);
         // lock char selection
-        if (player.isReady) {
-          socket.broadcast.emit('lock_char', {uuid: player.uuid, id: player.spriteID});
-        }
+        //if (player.isReady) {
+        socket.emit('lock_char', {uuid: player.uuid, spriteID: player.spriteID, locked_chars: locked_chars});
+        //}
       }
     });
 
@@ -130,8 +145,8 @@ server.startServer = function(startServer) {
 
     // we get information about the game state
     socket.on('gamestate', function(state) {
+      //console.log("gamestate " + Object.keys(players))
       gamestate = state;
-
       if (!all_players_ready) {
         for (let p in players) {
           if (!players[p].isReady) {

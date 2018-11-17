@@ -61,6 +61,7 @@ deferredSetup : function () {
 },
 
 init: function() {
+  console.log("init");
 
   if (!localStorage.getItem('uuid')) {
     localStorage.setItem('uuid', Math.random().toString(12));
@@ -74,7 +75,7 @@ init: function() {
     stars: 0,
     coins: 0,
     player_id: networkManager.player_info.player_id,
-    spriteID: this._players.length
+    spriteID: networkManager.player_info.spriteID,
   });
 
   // let the server know that a new player has joined the game

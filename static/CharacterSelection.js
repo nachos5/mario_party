@@ -38,12 +38,12 @@ CharacterSelection.prototype.resolveCollision = function () {
 
     let player = entityManager.getMyPlayer();
     player.spriteID = this.id;
-    
+
     player.refresh();
     menuManager.refresh();
     // Update scoreboard
     stateManager.updateImageData('scoreRoom');
-    
+
     this.isSelected = true;
 
     // Update menu
