@@ -392,6 +392,10 @@ PopUp.prototype.render = function(ctx) {
 
 PopUp.prototype.dynamicRender = function(ctx) {
     // Presets
+    if (this.preset === 'minigame') {
+      minigameManager.currentPreset(ctx);
+    }
+
     if (this.preset === 'menu') {
         // Logo
         this.logo.drawCentredAt(ctx, this.logoCx, this.logoCy, 0, this.logoScaleX, this.logoScaleY);

@@ -32,6 +32,7 @@ function updateSimulation(du) {
     entityManager.update(du);
     mapManager.update(du);
     eventManager.update(du);
+    minigameManager.update(du);
 
     if (!g_startGame) { menuManager.update(du) }
 }
@@ -87,6 +88,7 @@ function renderSimulation(ctx) {
     stateManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
+    minigameManager.render(ctx);
 
     if (!g_startGame) { menuManager.render(ctx) }
     // Tester
@@ -451,6 +453,8 @@ function preloadDoneNext() {
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
   main.init();
+
+  minigameManager.initializeMinigame("test");
 }
 
 requestPreloads_images();
