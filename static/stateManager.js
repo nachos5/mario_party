@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 10,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -212,12 +212,12 @@ let stateManager = {
 
       // Update Player Turn
       this.game_room.currPlayer = this.curr_player;
+      
+      eventManager.anotherTurn = false;
+      
+      // Update dynamic objects render
+      this.updateImageData();
     }
-
-    eventManager.anotherTurn = false;
-
-    // Update dynamic objects render
-    this.updateImageData();
   },
 
   // ==========
@@ -226,27 +226,39 @@ let stateManager = {
 
   nextRound: function() {
 
-    if (this.rounds_remaining === 1) {
-      this.victoryScreen = new Victory();
-      // Static image data
-      this.victoryScreen.staticRender(g_ctx);
-      this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
-      this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
-      // Dynamic image data
-      this.victoryScreen.dynamicRender(g_ctx);
-      this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+    if (this.rounds_remaining <= 1) {
 
-      entityManager.victory();
-      // Freeze interactive objects except event player
-      g_gameOver = true;
+      if (!g_gameOver) {
+        this.victoryScreen = new Victory(this.players);
+        // Static image data
+        this.victoryScreen.staticRender(g_ctx);
+        this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+        this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
+        // Dynamic image data
+        this.victoryScreen.dynamicRender(g_ctx);
+        this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+        
+        entityManager.victory();
+        // Freeze interactive objects except event player
+        g_gameOver = true;
+        console.log(this.players)
+      }
+
+      // Set Round to zero
+      this.rounds_remaining = 0;
+      this.score_room.num1 = 0;
+      this.score_room.num2 = 0;
     }
-
-    // Decrement Round
-    this.rounds_remaining--;
-
-    // Update Round number
-    this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
-    this.score_room.num2 = this.rounds_remaining % 10;
+    else {
+      // Decrement Round
+      this.rounds_remaining--;
+      
+      // Update Round number
+      this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
+      this.score_room.num2 = this.rounds_remaining % 10;
+    }
+    console.log("asdasd")
+    console.log(this.players)
   },
 
   // ===============

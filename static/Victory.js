@@ -2,7 +2,7 @@
 // CONSTRUCTOR
 // ===========
 
-function Victory() {
+function Victory(players) {
     // Calculation variables
     let mapTop   = mapManager.mapTop;
     let mapRight = mapManager.mapRight;
@@ -38,6 +38,12 @@ function Victory() {
     this.blockWidth  = this.podiumWidth  / 14;
     this.blockHeight = this.podiumHeight / 3;
 
+    this.first      = {cx : this.left + this.blockWidth * 6.5, cy : this.bot - this.blockHeight * 3}; 
+    this.second     = {cx : this.left + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2};
+    this.third      = {cx : this.left + this.blockWidth * 8.5, cy : this.bot - this.blockHeight * 2};
+    this.otherLeft  = {cx : this.left + this.blockWidth, cy : this.bot - this.blockHeight};
+    this.otherRight = {cx : this.right + this.blockWidth, cy : this.bot - this.blockHeight};
+
     // ===============
     // OTHER VARIABLES
     // ===============
@@ -59,13 +65,27 @@ function Victory() {
     this.victoryPopUp.setPreset('victory');
 
     //this.popup.sprite = g_sprites.die0;
+
+    console.log(players)
+    let placement = [
+        this.first,
+        this.second,
+        this.third,
+        this.otherLeft,
+        this.otherRight
+    ]
+
+    for(let i = 0; i < players.length; i++) {
+        players[i].victory(placement[i].cx, placement[i].cy - players[i].tt_player.getRadius());
+
+        if (i > 2) {
+            players[i].victory(placement[3].cx + this.blockWidth * (i-3), placement[3].cy - players[i].tt_player.getRadius());
+        }
+        if (i > 6) {
+            players[i].victory(placement[4].cx - this.blockWidth * (i-7), placement[4].cy - players[i].tt_player.getRadius());
+        }
+    }
 }
-
-// ==========
-// PROPERTIES
-// ==========
-
-
 
 // ======
 // UPDATE
@@ -103,9 +123,9 @@ Victory.prototype.staticRender = function(ctx) {
     this.podium.drawCentredAt(ctx, this.cx, this.cy, 0, this.podiumScaleX, this.podiumScaleY);
     
     // Places
-    g_numberSprites.num1.drawClipCentredAt(ctx, this.left + this.blockWidth * 6.5, this.bot - this.blockHeight * 2.5, 0, this.numberScaleX, this.numberScaleY);
-    g_numberSprites.num2.drawClipCentredAt(ctx, this.left + this.blockWidth * 4.5, this.bot - this.blockHeight * 1.5, 0, this.numberScaleX, this.numberScaleY);
-    g_numberSprites.num3.drawClipCentredAt(ctx, this.left + this.blockWidth * 8.5, this.bot - this.blockHeight * 1.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num1.drawClipCentredAt(ctx, this.first.cx,  this.first.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num2.drawClipCentredAt(ctx, this.second.cx, this.second.cy + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num3.drawClipCentredAt(ctx, this.third.cx,  this.third.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
 };
 
 Victory.prototype.renderSpriteBox = function(ctx) {

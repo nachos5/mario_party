@@ -169,7 +169,6 @@ getStar: function() {
 },
 
 generateEventBlocks: function() {
-    console.log(this._gameRoomcx);
     let descr = {
         brickWidth: this._gameRoomBrickWidth,
         brickHeight: this._gameRoomBrickHeight,

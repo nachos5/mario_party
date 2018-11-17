@@ -150,7 +150,7 @@ EventBlocks.prototype.update = function(du) {
             spatialManager.unregister(this.block2);
             spatialManager.unregister(this.block3);
             // Initialize closing event
-            eventManager.closeBlocksEvent(2);
+            eventManager.closeBlocksEvent();
             return -1;
         }
     }

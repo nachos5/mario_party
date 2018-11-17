@@ -29,6 +29,15 @@ function TableTopPlayer(descr) {
 
 TableTopPlayer.prototype = new Entity();
 
+// =======
+// VICTORY
+// =======
+
+TableTopPlayer.prototype.victory = function(cx, cy) {
+    this.victoryCx = cx;
+    this.victoryCy = cy;
+};
+
 // ===============
 // REMEMBER RESETS
 // ===============
@@ -73,6 +82,11 @@ TableTopPlayer.prototype.update = function (du) {
 
     this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
     this.cy = this.position.row * this.map.tilesHeight + this.centerY;
+
+    if (g_gameOver) {
+        this.cx = this.victoryCx;
+        this.cy = this.victoryCy;
+    }
 
     // Check collision
     if (this.isColliding()) {

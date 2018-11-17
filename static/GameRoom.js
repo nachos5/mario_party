@@ -109,7 +109,7 @@ GameRoom.prototype.update = function(du) {
     if(this.pipeIter <= -144 && this.isAnimating === 3) { 
       this.pipeIter = 0;
       this.isAnimating = 0; // closing -> off
-      eventManager.closeBlocksEvent(0);
+      //eventManager.closeBlocksEvent();
     }
 
   }
@@ -130,6 +130,8 @@ GameRoom.prototype.render = function(ctx) {
   // 5
   this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * (this.wallHeight - 6 + this.pipePos), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
   this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * (this.wallHeight - 6 + this.pipePos), Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
+
+  if (g_useSpriteBox) this.renderSpriteBox(ctx);
 };
 
 // =============
@@ -180,52 +182,53 @@ GameRoom.prototype.staticRender = function(ctx) {
   }
 
   // =================
-// RENDER SPRITE BOX
-// =================
-/*
-PopUp.prototype.renderSpriteBox = function(ctx) {
-  ctx.beginPath();
-  ctx.moveTo(this.left, this.top);    // Top-left corner
+  // RENDER SPRITE BOX
+  // =================
 
-  // Top line
-  ctx.lineTo(this.right, this.top);
-  ctx.stroke();
+  GameRoom.prototype.renderSpriteBox = function(ctx) {
+    // Dice Room
+    ctx.beginPath();
+    ctx.moveTo(this.diceRoomLeft, this.diceRoomTop);    // Top-left corner
 
-  // Right line
-  ctx.lineTo(this.right, this.bot);
-  ctx.stroke();
+    // Top line
+    ctx.lineTo(this.diceRoomRight, this.diceRoomTop);
+    ctx.stroke();
 
-  // Bot line
-  ctx.lineTo(this.left, this.bot);
-  ctx.stroke();
+    // Right line
+    ctx.lineTo(this.diceRoomRight, this.diceRoomBot);
+    ctx.stroke();
 
-  // Left line
-  ctx.lineTo(this.left, this.top);
-  ctx.stroke();
+    // Bot line
+    ctx.lineTo(this.diceRoomLeft, this.diceRoomBot);
+    ctx.stroke();
 
-  ctx.closePath();
+    // Left line
+    ctx.lineTo(this.diceRoomLeft, this.diceRoomTop);
+    ctx.stroke();
 
-  if (this.preset === 'menu') {
-      ctx.beginPath();
-      ctx.moveTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);    // Top-left corner
+    ctx.closePath();
 
-      // Top line
-      ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy - this.logoHeight/2);
-      ctx.stroke();
+    // Event Room
+    ctx.beginPath();
+    ctx.moveTo(this.eventRoomLeft, this.eventRoomTop);    // Top-left corner
 
-      // Right line
-      ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy + this.logoHeight/2);
-      ctx.stroke();
+    // Top line
+    ctx.lineTo(this.eventRoomRight, this.eventRoomTop);
+    ctx.stroke();
 
-      // Bot line
-      ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy + this.logoHeight/2);
-      ctx.stroke();
+    // Right line
+    ctx.lineTo(this.eventRoomRight, this.eventRoomBot);
+    ctx.stroke();
 
-      // Left line
-      ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);
-      ctx.stroke();
+    // Bot line
+    ctx.lineTo(this.eventRoomLeft, this.eventRoomBot);
+    ctx.stroke();
 
-      ctx.closePath();
+    // Left line
+    ctx.lineTo(this.eventRoomLeft, this.eventRoomTop);
+    ctx.stroke();
+
+    ctx.closePath();
+
   }
-}*/
 };
