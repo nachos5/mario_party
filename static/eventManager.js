@@ -120,7 +120,7 @@ let eventManager = {
       stateManager.curr_player.eventPlayer.changeRoom(0);
     }
   },
-/*
+
   36: function() {
     this.blocksEvent();
   },
@@ -140,7 +140,8 @@ let eventManager = {
     this.blocksEvent();
   },
 
-*/
+
+/*
   // ==== COLLECTABLES ==== //
 
   // blue tile - gain 3 coins, or potentially gain a star!
@@ -163,7 +164,7 @@ let eventManager = {
     entityManager.playAnimation(0);
     networkManager.emit("animation_trigger", 0);
   },
-
+*/
 
   // player goes past a star
   buyStar: function(parameters) {
@@ -288,7 +289,7 @@ let eventManager = {
   /* the player ignores the prev position tile so we can use that to our advantage
      by setting the prev position to the tile that the arrow is not pointing at */
   // arrow up
-  36: function() {
+/*  36: function() {
     mapManager.arrows["up"] = true;
     mapManager.diceThrow++; // free movement
   },
@@ -307,8 +308,8 @@ let eventManager = {
     mapManager.arrows["left"] = true;
     mapManager.diceThrow++; // free movement
   },
-
-
+*/
+/*
 
   // ========= PIPE EVENTS ========== //
   //     pipes give free movement!
@@ -362,7 +363,7 @@ let eventManager = {
   // red pipe, same code for both pipes so we just "redirect"
   61: function(parameters=false) {
     this[60](parameters, 61);
-  },
+  },*/
 
 
   // ==== UPDATE ==== //

@@ -50,6 +50,11 @@ let stateManager = {
     this.initObjects();
 
     this.imageData();
+
+    // Initialize room variables
+    for(let i = 0; i < this.players.length; i++) {
+      this.players[i].eventPlayer.initRooms();
+    }
   },
 
   // ==========
