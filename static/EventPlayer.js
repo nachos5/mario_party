@@ -51,6 +51,15 @@ EventPlayer.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
+EventPlayer.prototype.initRooms = function() {
+    // Room locations
+    this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
+    this.eventRoomCy = stateManager.game_room.eventRoomBot - this.getRadius() * 1.5;
+
+    console.log(this.eventRoomCx)
+    console.log(this.eventRoomCy)
+};
+
 // ===========
 // CHANGE ROOM
 // ===========
@@ -66,8 +75,8 @@ EventPlayer.prototype.changeRoom = function (room) {
     }
     // Event Room
     else if (this.room === 1) {
-        this.cx = entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
-        this.cy = entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 22) - this.getRadius();
+        this.cx = this.eventRoomCx;//entityManager._gameRoomcx + entityManager._gameRoomBrickWidth * 6.5;
+        this.cy = this.eventRoomCy;//entityManager._gameRoomcy + (entityManager._gameRoomBrickHeight * 22) - this.getRadius();
         this.bot = stateManager.game_room.eventRoomBot;
     }
 

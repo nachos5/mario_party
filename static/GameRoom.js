@@ -42,15 +42,21 @@ function GameRoom() {
 
   // Dice Room
   this.diceRoomTop    = this.brickHeight * 3;
-  this.diceRoomRight  = g_canvas.width - this.brickWidth;
+  this.diceRoomRight  = g_canvas.width   - this.brickWidth;
   this.diceRoomBot    = this.brickHeight * 12;
-  this.diceRoomLeft   = g_canvas.width - this.brickWidth * 12;
+  this.diceRoomLeft   = g_canvas.width   - this.brickWidth * 12;
+
+  this.diceRoomWidth  = this.diceRoomRight - this.diceRoomLeft;
+  this.diceRoomHeight = this.diceRoomBot   - this.diceRoomTop; 
 
   // Event Room
   this.eventRoomTop   = this.brickHeight * 14;
-  this.eventRoomRight = g_canvas.width - this.brickWidth;
+  this.eventRoomRight = g_canvas.width   - this.brickWidth;
   this.eventRoomBot   = this.brickHeight * 23;
-  this.eventRoomLeft  = g_canvas.width - this.brickWidth * 12;
+  this.eventRoomLeft  = g_canvas.width   - this.brickWidth * 12;
+
+  this.eventRoomWidth  = this.eventRoomRight - this.eventRoomLeft;
+  this.eventRoomHeight = this.eventRoomBot   - this.eventRoomTop;
 };
 
 // ==========
@@ -172,4 +178,54 @@ GameRoom.prototype.staticRender = function(ctx) {
         g_alphSprites[alph].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (i+5), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
     }
   }
+
+  // =================
+// RENDER SPRITE BOX
+// =================
+/*
+PopUp.prototype.renderSpriteBox = function(ctx) {
+  ctx.beginPath();
+  ctx.moveTo(this.left, this.top);    // Top-left corner
+
+  // Top line
+  ctx.lineTo(this.right, this.top);
+  ctx.stroke();
+
+  // Right line
+  ctx.lineTo(this.right, this.bot);
+  ctx.stroke();
+
+  // Bot line
+  ctx.lineTo(this.left, this.bot);
+  ctx.stroke();
+
+  // Left line
+  ctx.lineTo(this.left, this.top);
+  ctx.stroke();
+
+  ctx.closePath();
+
+  if (this.preset === 'menu') {
+      ctx.beginPath();
+      ctx.moveTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);    // Top-left corner
+
+      // Top line
+      ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy - this.logoHeight/2);
+      ctx.stroke();
+
+      // Right line
+      ctx.lineTo(this.logoCx + this.logoWidth/2, this.logoCy + this.logoHeight/2);
+      ctx.stroke();
+
+      // Bot line
+      ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy + this.logoHeight/2);
+      ctx.stroke();
+
+      // Left line
+      ctx.lineTo(this.logoCx - this.logoWidth/2, this.logoCy - this.logoHeight/2);
+      ctx.stroke();
+
+      ctx.closePath();
+  }
+}*/
 };
