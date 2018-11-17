@@ -33,7 +33,8 @@ function updateSimulation(du) {
     mapManager.update(du);
     eventManager.update(du);
     minigameManager.update(du);
-
+    animationManager.update(du);
+    
     if (!g_startGame) { menuManager.update(du) }
 }
 
@@ -449,6 +450,7 @@ function preloadDoneNext() {
   entityManager.sharedObjects();
   menuManager.init();
   eventManager.init();
+  animationManager.init();
 
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);

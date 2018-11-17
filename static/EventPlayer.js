@@ -13,7 +13,7 @@ function EventPlayer(descr) {
     this.width = null;
     this.height = null;
 
-    // 0 = diceRoom, 1 = eventRoom, 2 = minigame, 3 victory Room
+    // 0 = diceRoom, 1 = eventRoom, 2 = minigame
     this.room = null;
 };
 
@@ -56,9 +56,13 @@ EventPlayer.prototype.initRooms = function() {
     this.diceRoomCx = stateManager.game_room.diceRoomLeft + stateManager.game_room.diceRoomWidth/2;
     this.diceRoomCy = stateManager.game_room.diceRoomBot  - this.getRadius() * 1.5;
     
-    // Room locations
+    // Event locations
     this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
     this.eventRoomCy = stateManager.game_room.eventRoomBot  - this.getRadius() * 1.5;
+
+    // Minigame location
+    /*this.miniGameCx = ;
+    this.miniGameCy = ;*/
 };
 
 // ===========
@@ -76,6 +80,12 @@ EventPlayer.prototype.changeRoom = function (room) {
     }
     // Event Room
     else if (this.room === 1) {
+        this.cx = this.eventRoomCx;
+        this.cy = this.eventRoomCy;
+        this.bot = stateManager.game_room.eventRoomBot;
+    }
+    // Minigame Room
+    else if (this.room === 3) {
         this.cx = this.eventRoomCx;
         this.cy = this.eventRoomCy;
         this.bot = stateManager.game_room.eventRoomBot;
