@@ -368,7 +368,6 @@ moveStar: function(rand=true) {
 // ======
 
 update: function(du) {
-
   /* moving animation for tabletop players
      readyToMove sets this value to true */
   if (this.someoneIsMoving) {

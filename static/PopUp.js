@@ -14,12 +14,12 @@ function PopUp(descr) {
     let mapRight = mapManager.mapRight;
     let mapBot = mapManager.mapBot;
     let mapLeft = mapManager.mapLeft;
-    
+
     let mapWidth = mapManager.mapWidth;
     let mapHeight = mapManager.mapHeight;
 
     // Defining variable for the scale of everything
-    const baseWidth  = mapWidth/16  * 0.6;      // 2/3 tileWidth 
+    const baseWidth  = mapWidth/16  * 0.6;      // 2/3 tileWidth
     const baseHeight = mapHeight/16 * 0.6;      // 2/3 tileHeight
 
     // ===============
@@ -101,9 +101,9 @@ PopUp.prototype.isReady = false;
 
 PopUp.prototype.setPreset = function(preset) {
     this.preset = preset;
-    
+
     if (this.preset === 'menu') {
-        
+
         // Variables that are created
         this.charSelection = [];
         this.logo = g_sprites.marioPartyLogo;
@@ -173,13 +173,13 @@ PopUp.prototype.setPreset = function(preset) {
             this.charSelection.push(new CharacterSelection({
                 id : g_charSelectionSprites[i].id,
                 sprite : g_charSelectionSprites[i].sp,
-            
+
                 cx: charCx + charWidth * i + charPadding * i,
                 cy: charCy,
 
                 width : charWidth,
                 height: charHeight,
-            
+
                 scaleX: charScaleX,
                 scaleY: charScaleY,
 
@@ -193,10 +193,10 @@ PopUp.prototype.setPreset = function(preset) {
             this.charSelection.push(new CharacterSelection({
                 id : g_charSelectionSprites[i].id,
                 sprite : g_charSelectionSprites[i].sp,
-            
+
                 cx: charCx + charWidth * (i-5) + charPadding * (i-5),
                 cy: charCy - charHeight - charPadding,
-            
+
                 width : charWidth,
                 height: charHeight,
 
@@ -222,7 +222,7 @@ PopUp.prototype.setPreset = function(preset) {
 
         this.textSprite = g_sprites.buyStarText;
 
-        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width; 
+        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width;
         this.textScaleY = (this.innerHeight * 0.5) / this.textSprite.height;
 
         this.textWidth  = this.textScaleX * this.textSprite.width;
@@ -299,7 +299,7 @@ PopUp.prototype.setPreset = function(preset) {
 
         this.textSprite = g_sprites.buyStarText;
 
-        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width; 
+        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width;
         this.textScaleY = (this.innerHeight * 0.5) / this.textSprite.height;
 
         this.textWidth  = this.textScaleX * this.textSprite.width;

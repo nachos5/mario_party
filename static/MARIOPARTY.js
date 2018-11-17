@@ -24,6 +24,7 @@ function gatherInputs() {
 // =================
 
 function updateSimulation(du) {
+    window.du = du; // store globally;
     processDiagnostics();
 
     stateManager.update(du);
@@ -144,6 +145,7 @@ function requestPreloads_images() {
         greenNo         : "static/assets/greenNoButton.png",
         cyanYes         : "static/assets/cyanYesButton.png",
         cyanNo          : "static/assets/cyanNoButton.png",
+        greyYes         : "static/assets/greyYesButton.png",
 
         // Map
         tiles2          : "static/assets/marioPartyTiles.png",
@@ -257,6 +259,7 @@ function preloadDone() {
     g_sprites.greenNo           = new Sprite(g_images.greenNo);
     g_sprites.cyanYes           = new Sprite(g_images.cyanYes);
     g_sprites.cyanNo            = new Sprite(g_images.cyanNo);
+    g_sprites.greyYes           = new Sprite(g_images.greyYes);
 
     // Background
     g_sprites.background1       = new Sprite(g_images.background1);
@@ -404,17 +407,17 @@ let g_charSelectionSprites = [];  // Character Selection
 
 function loadSpriteLibaries() {
     // Players
-    g_playerSprites.push({sp : g_sprites.mario       , id : 0  });
-    g_playerSprites.push({sp : g_sprites.pinkPeach   , id : 1  });
-    g_playerSprites.push({sp : g_sprites.yoshi       , id : 2  });
-    g_playerSprites.push({sp : g_sprites.wario       , id : 3  });
-    g_playerSprites.push({sp : g_sprites.paleToad    , id : 4  });
-    g_playerSprites.push({sp : g_sprites.luigi       , id : 5  });
-    g_playerSprites.push({sp : g_sprites.yellowPeach , id : 6  });
-    g_playerSprites.push({sp : g_sprites.waluigi     , id : 7  });
-    g_playerSprites.push({sp : g_sprites.pinkToad    , id : 8  });
-    g_playerSprites.push({sp : g_sprites.bowserjr    , id : 9  });
-    g_playerSprites.push({sp : g_sprites.boo         , id : 10 });
+    g_playerSprites.push({sp : g_sprites.mario       , id : 0 , name: "Mario"  });
+    g_playerSprites.push({sp : g_sprites.pinkPeach   , id : 1 , name: "Pink Peach" });
+    g_playerSprites.push({sp : g_sprites.yoshi       , id : 2 , name: "Yoshi" });
+    g_playerSprites.push({sp : g_sprites.wario       , id : 3 , name: "Wario" });
+    g_playerSprites.push({sp : g_sprites.paleToad    , id : 4 , name: "Pale Toad" });
+    g_playerSprites.push({sp : g_sprites.luigi       , id : 5 , name: "Luigi" });
+    g_playerSprites.push({sp : g_sprites.yellowPeach , id : 6 , name: "Yellow Peach" });
+    g_playerSprites.push({sp : g_sprites.waluigi     , id : 7 , name: "Waluigi" });
+    g_playerSprites.push({sp : g_sprites.pinkToad    , id : 8 , name: "Pink Toad" });
+    g_playerSprites.push({sp : g_sprites.bowserjr    , id : 9 , name: "Bowser" });
+    g_playerSprites.push({sp : g_sprites.boo         , id : 10, name: "Boo" });
 
     // Items
     g_itemSprites.push({sp : g_aniSprites.coin[0], id : 0, type : 'clipped'});

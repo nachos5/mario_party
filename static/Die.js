@@ -84,7 +84,7 @@ Die.prototype.rand = function() {
 Die.prototype.roll = function(du=1) {
   this.isRolling = true;
   // animation! Every 4th frame
-  if (Math.floor(this.rollIter) % 4 === 0 ){//&& this.timeIter < 100) {
+  if (Math.floor(this.rollIter) % 4 === 0 ) {
     // never the same number twice in a row
     while (this.currRand === this.prevRand) {
       this.currRand = this.rand();
@@ -95,9 +95,6 @@ Die.prototype.roll = function(du=1) {
   this.rollIter++;
   // emit to the server
   networkManager.socket.emit("die_sprite", this.currRand);
-
-  // we let the die roll for some time
-  this.timeIter++;
 }
 
 // =========

@@ -6,13 +6,21 @@
 /* IF WE HAVE NON-INSTANT EVENTS IT'S IMPORTANT TO SET mapManager.eventIsRunning
    TO FALSE WHEN THEY ARE DONE */
 
-// check step function in the map manager
+   /*
+   00 - no space (background), 01 - blue tile (gain coins), 02 - red tile (lose coins)
+   36 - arrow up, 37 - arrow right, 38 - arrow down, 39 - arrow left
+   60 - green pipe, 61 - red pipe
+   03 - question mark, 04 - green star
+   31 - Toad, 07 - Bowser
+   13 - another turn
+   08 - star
+   */
 
 // our event manager object
 let eventManager = {
   eventIter: 0,
   // events that require no animation
-  instant_events: [36, 37, 38, 39],
+  instant_events: [13, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
   mid_movement_events: [08, 36, 37, 38, 39, 60, 61, "buyStar"],
   // we use this to check if our event happens after the movement
@@ -28,12 +36,11 @@ let eventManager = {
   buy_star: false, // is true while star stuff is running
   can_buy_star: false, // true if the player can buy the star
   isEvent: false,
+  anotherTurn: false,
 
   starPopUpSprite: 0,   // Image data
 
   init: function() {
-    this.generateStarPopUp();
-
     // Unregister hitboxes because of pre initialization
     //spatialManager.unregister(this.starPopup.buttonYes);
     //spatialManager.unregister(this.starPopup.buttonNo);
@@ -143,7 +150,7 @@ let eventManager = {
 */
   // ==== COLLECTABLES ==== //
 
-  // blue tile - gain 3 coins, or potentially gain a star!
+  // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
     player.coins += 3;
@@ -153,7 +160,7 @@ let eventManager = {
 
   },
 
-  // red tile - lose 3 coins
+  // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
     player.coins -= 3;
@@ -165,7 +172,7 @@ let eventManager = {
   },
 
 
-  // player goes past a star
+  // PLAYER GOES PAST A STAR //
   buyStar: function(parameters) {
     // initial parameters
     if (parameters) {
@@ -179,11 +186,10 @@ let eventManager = {
         this.can_buy_star = false;
         this.eventIter = -100;
       }
+      this.generateStarPopUp();
       this.curr_render_function = this.starRender;
       this.allow_rendering = true;
 
-      this.generateStarPopUp();
-      console.log("hallo")
       // Register button hitboxes
       //spatialManager.register(this.starPopup.buttonYes);
       //spatialManager.register(this.starPopup.buttonNo);
@@ -202,6 +208,7 @@ let eventManager = {
       this.curr_render_function = null;
       mapManager.moveStar();
       this.buy_star = false;
+      this.updateStarRenderOnce = true;
       mapManager.eventIsRunning = false;
     }
 
@@ -212,7 +219,7 @@ let eventManager = {
         // play sound!
         audioManager.playAndEmit("star", 0.3 , false, 0.8);
       }
-      if (this.eventIter == 200) {
+      if (this.eventIter === 200) {
         // reset star stuff
         star.width = star.originalWidth;
         star.height = star.originalHeight;
@@ -220,65 +227,59 @@ let eventManager = {
         player.stars++;
         mapManager.moveStar();
         this.buy_star = false;
+        this.updateStarRenderOnce = true;
         mapManager.eventIsRunning = false;
       }
       // animation stuff
-      star.rotation += Math.PI * (this.eventIter * 0.0005); // rotate faster
+      star.rotation += Math.PI * (this.eventIter * 0.0005 * window.du); // rotate faster
       // enlargen the star
-      star.width += this.eventIter * 0.005;
-      star.height += this.eventIter * 0.005;
+      star.width += this.eventIter * 0.002 * window.du;
+      star.height += this.eventIter * 0.002 * window.du;
       this.eventIter++;
-    }
-
-    // ==== if we are here the player doesn't have the coins to buy the star. ==== //
-    else if (this.eventIter <= -100) {
-      if (this.eventIter == -300) {
-        // we stop the event
-        this.allow_rendering = false;
-        this.curr_render_function = null;
-        mapManager.moveStar();
-        this.buy_star = false;
-        mapManager.eventIsRunning = false;
-      }
-      this.eventIter--;
     }
   },
 
-  // popup for asking if the player wants to buy a star
+  updateStarRenderOnce: true,
+  // RENDERING THE STAR POPUP AND HANDLES CLICKS ON YES + NO BUTTONS //
   starRender: function(ctx) {
     // Render static object
     ctx.putImageData(this.starPopUpSprite, this.starPopup.left, this.starPopup.top);
     this.starPopup.render(ctx);
 
-    // current player can't buy the star
-    if (this.can_buy_star) {
-    }
-    // current player can buy the star
-    else {
-      // yes button
-      const yes = this.starPopup.buttonYes;
-      const yes_cx = yes.cx - yes.width/2;
-      const yes_cy = yes.cy - yes.height/2;
+    // yes button
+    let yes = this.starPopup.buttonYes;
+    const yes_cx = yes.cx - yes.width/2;
+    const yes_cy = yes.cy - yes.height/2;
 
+    // current player can't buy the star
+    if (!this.can_buy_star) {
+      if (this.updateStarRenderOnce) { // we run this only once
+        this.starPopup.buttonYes.onSprite = g_sprites.greyYes;
+        this.starPopup.buttonYes.offSprite = g_sprites.greyYes;
+        this.updateImageData();
+      }
+      this.updateStarRenderOnce = false;
+    }
+    else {
       if (g_mouseX > yes_cx && g_mouseY > yes_cy &&
           g_mouseX < yes_cx + yes.width && g_mouseY < yes_cy + yes.height) {
             if (eatClick("event")) {
               this.eventIter = 1;
             }
           }
+      }
 
-      // no button
-      const no = this.starPopup.buttonNo;
-      const no_cx = no.cx - no.width/2;
-      const no_cy = no.cy - no.height/2;
+    // no button
+    let no = this.starPopup.buttonNo;
+    const no_cx = no.cx - no.width/2;
+    const no_cy = no.cy - no.height/2;
 
-      if (g_mouseX > no_cx && g_mouseY > no_cy &&
-          g_mouseX < no_cx + yes.width && g_mouseY < no_cy + no.height) {
-            if (eatClick("event")) {
-              this.eventIter = -1;
-            }
+    if (g_mouseX > no_cx && g_mouseY > no_cy &&
+        g_mouseX < no_cx + yes.width && g_mouseY < no_cy + no.height) {
+          if (eatClick("event")) {
+            this.eventIter = -1;
           }
-    }
+        }
 
   },
 
@@ -365,6 +366,13 @@ let eventManager = {
   },
 
 
+  // ==== TURN EVENTS ==== //
+  // another turn
+  13: function() {
+    this.anotherTurn = true;
+  },
+
+
   // ==== UPDATE ==== //
   update: function(du) {
     //this.starPopup.update(du);
@@ -375,7 +383,6 @@ let eventManager = {
 
   // ==== RENDERING ==== //
   render: function(ctx) {
-    //this.starRender(ctx);
     if (this.allow_rendering) {
       this.curr_render_function(ctx);
     }

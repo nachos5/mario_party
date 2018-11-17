@@ -68,7 +68,9 @@ init: function() {
 
   this.generatePlayer({
     uuid: localStorage.getItem('uuid'),
+    socket_id: networkManager.player_info.socket_id,
     my_player: true,
+    connected: true,
     stars: 0,
     coins: 0,
     player_id: networkManager.player_info.player_id,
@@ -215,7 +217,7 @@ victory: function() {
     // Set event players into the victory room
     for(let i = 0; i < this._players.length; i++) {
         this._players[i].tt_player.reset();
-    }    
+    }
 },
 
 playAnimation: function(animation) {

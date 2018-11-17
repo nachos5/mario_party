@@ -34,6 +34,8 @@ server.startServer = function(startServer) {
 
   // store our players in an object
   let players = {};
+  // keep track of disconnected players
+  let disconnected = {};
   // keep track of the id of each player (not socket id, used in game logic stuff)
   let player_id = 1;
   // keep track of the game state
@@ -43,15 +45,19 @@ server.startServer = function(startServer) {
   // all players ready
   let all_players_ready = false;
 
+  //setInterval(function() { console.log("nýtt"); for (let p in players) { console.log(players[p].socket_id); }; }, 1000);
+
   // Add the WebSocket handlers
   io.on('connection', function(socket) {
+
     // emit game state
     socket.emit('game_state_server', gamestate);
+
     // existing players
     let e_players = Object.keys(players).length > 0;
     let reconnect = false;
     socket.on('init', function(uuid) {
-      console.log("player " + uuid + " has connected");
+      if (!all_players_ready) console.log("player " + uuid + " has connected");
       if (uuid in players) {
         // player is reconnecting
         players[uuid].existing_players = e_players;
@@ -59,9 +65,10 @@ server.startServer = function(startServer) {
       } else {
       // our player
         players[uuid] = {uuid: uuid, player_id: player_id,
-                         existing_players: e_players};
+                         existing_players: e_players, game_full: all_players_ready && !reconnect};
         player_id++;
       }
+      players[uuid].socket_id = socket.id;
       // let our socket know that we are ready to spawn
       socket.emit('my player', players[uuid]);
     });
@@ -73,6 +80,7 @@ server.startServer = function(startServer) {
         players[player.uuid].connected = true;
         players[player.uuid].socket_id = socket.id;
       }
+
       // spawn existing players
       if (e_players) {
         socket.emit('existingPlayers', {players: players, my_uuid: player.uuid});
@@ -82,30 +90,37 @@ server.startServer = function(startServer) {
         // send to all clients except sender
         socket.broadcast.emit('new_player', players[player.uuid]);
       } else {
+        players[player.uuid].socket_id = socket.id;
         players[player.uuid].connected = true;
-        socket.emit('reconnecting', players[player.uuid]);
+        delete disconnected[player.uuid];
+        socket.emit('reconnecting', {player: players[player.uuid], disconnected: disconnected});
       }
     });
 
     // send to all clients except sender
     socket.on('update_player', function(player) {
-      players[player.uuid] = player;
-      players[player.uuid].connected = true;
-      players[player.uuid].isReady = player.isReady;
-      players[player.uuid].socket_id = socket.id;
-      players[player.uuid].star_pos = starPos;
-      players[player.uuid].spriteID = player.spriteID;
+      if (!(player.uuid in disconnected))  {
+        players[player.uuid] = player;
+        if (player.uuid in disconnected)
+          players[player.uuid].connected = false;
+        else
+          players[player.uuid].connected = true;
+        players[player.uuid].isReady = player.isReady;
+        players[player.uuid].socket_id = socket.id;
+        players[player.uuid].star_pos = starPos;
+        players[player.uuid].spriteID = player.spriteID;
 
-      socket.broadcast.emit('update_player_server', player);
-      // lock char selection
-      if (player.isReady) {
-        socket.broadcast.emit('lock_char', {uuid: player.uuid, id: player.spriteID});
+        socket.broadcast.emit('update_player_server', player);
+        // lock char selection
+        if (player.isReady) {
+          socket.broadcast.emit('lock_char', {uuid: player.uuid, id: player.spriteID});
+        }
       }
     });
 
     // send to all clients except sender that we are ready for the next turn
-    socket.on('next_turn', function() {
-      socket.broadcast.emit('next_turn_server');
+    socket.on('next_turn', function(bool) {
+      socket.broadcast.emit('next_turn_server', bool);
     });
 
     // send to all clients except sender the state of the die
@@ -144,6 +159,10 @@ server.startServer = function(startServer) {
       socket.broadcast.emit('animation_trigger_server', data);
     });
 
+    socket.on('game_is_full', function(uuid) {
+      delete players[uuid];
+    });
+
     socket.on('disconnect', function() {
       let player = null;
       for (let key in players) {
@@ -152,12 +171,16 @@ server.startServer = function(startServer) {
         }
       }
       player.connected = false;
+      player.socket_id = socket.id;
+      disconnected[player.uuid] = player.uuid;
+      socket.broadcast.emit("disconnected", {disconnected: disconnected, uuid: player.uuid});
       console.log("player " + player.uuid + " has disconnected");
 
       // nobody is connected
       if (!isAnyoneConnected()) {
         const t = setTimeout(function() {
           if (!isAnyoneConnected()) {
+            disconnected = {};
             io.close();
             startServer(startServer);
           }
