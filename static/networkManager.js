@@ -110,7 +110,7 @@ networkManager.socket.on("all_players_ready_server", function() {
   stateManager.updatePlayerSprites();
   stateManager.updateImageData('scoreRoom');
 
-  minigameManager.initMinigame();
+  //minigameManager.initMinigame();
 });
 
 
@@ -219,7 +219,7 @@ networkManager.socket.on("audio_trigger", function(data) {
 });
 
 networkManager.socket.on("animation_trigger_server", function(data) {
-  entityManager.playAnimation(data);
+  animationManager.generateMapAnimation(data);
 });
 
 networkManager.socket.on("lock_char", function(data) {

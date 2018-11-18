@@ -4,12 +4,15 @@
 
 let animationManager = {
     // Control variables
-    mod: 50,
+    mod: 6,
     
     // Animations
     coin: 0,
     die: 0,
-    //tempAnimations = [],
+    
+    // Map animations
+    isMapAnimation: false,
+    mapAnimations: [],
 
     // todo
     star: 0,
@@ -31,28 +34,50 @@ let animationManager = {
         });
 
     },
-/*
-    generateAnimation: function(preset) {
-        if (preset === 'mapCoin') {
-            this.tempAnimations.push(new Animation({
+
+    generateMapAnimation: function(preset, p = entityManager._curr_tt_player) {
+        // - 3 coins
+        if (preset === 'coinUp') {
+            this.mapAnimations.push(new Animation({
                 frameNo : 5,
                 mod     : this.mod,
-                preset  : 'mapCoin'
+                times   : 3,
+                preset  : 'mapCoin',
+                isUp    : true,
+                player  : p,
             }));
         }
-    },*/
+        // + 3 coins
+        if (preset === 'coinDown') {
+            this.mapAnimations.push(new Animation({
+                frameNo : 5,
+                mod     : this.mod,
+                times   : 3,
+                preset  : 'mapCoin',
+                isDown  : true,
+                player  : p,
+            }));
+        }
+        console.log("generate animat")
+    },
     
 
     update: function(du) {
         this.coin.update(du);
         this.die.update(du);
-/*
-        for(let i = 0; i < this.tempAnimations.length; i++) {
-            let status = this.tempAnimations[i].update(du);
+
+        for(let i = 0; i < this.mapAnimations.length; i++) {
+            let status = this.mapAnimations[i].update(du);
             if (status === -1) {
-                this.tempAnimations.splice(i, 1);
+                this.mapAnimations.splice(i, 1);
             }
-        }*/
+        }
+
+        if (this.mapAnimations.length === 0) this.isMapAnimation = false;
+        else {
+            mapManager.eventIsRunning = false; // Event is done
+            this.isMapAnimation = true;
+        }
     },
 
 };

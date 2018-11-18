@@ -380,7 +380,7 @@ update: function(du) {
       // this.stepIter += du; test more
     } else {
       // if an event is running and no animation going on
-      if (!entityManager._isAnimation) {
+      if (!animationManager.isMapAnimation) {
         if (eventManager.buy_star)
           eventManager["buyStar"]();
         else

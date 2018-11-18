@@ -32,7 +32,7 @@ function updateSimulation(du) {
     entityManager.update(du);
     mapManager.update(du);
     eventManager.update(du);
-    minigameManager.update(du);
+    //minigameManager.update(du);
 
     if (g_useAnimation) animationManager.update(du);
 
@@ -88,7 +88,7 @@ function renderSimulation(ctx) {
 
     mapManager.render(ctx);
     stateManager.render(ctx);
-    minigameManager.render(ctx);
+    //minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
 

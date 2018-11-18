@@ -145,40 +145,46 @@ EventBlocks.prototype.update = function(du) {
         this.winner = this.block2.winner;
         this.waitTime++;
         if (this.waitTime === 100) {
-            console.log(this.results1);
-            console.log(this.results2);
-            console.log(this.results3);
-            console.log("WINNER")
-            console.log(this.winner);
-            //let players = entityManager._players;
-            //let player1;
-            //let player3;
-            
+            // Player variables
             const player1    = entityManager._players.find(obj => obj.spriteID == this.results1);
             const tt_player1 = player1.tt_player;
             const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
             const tt_player3 = player3.tt_player;
             
+
             // Resolve winner and loser
-            if (this.winner === 1 || this.winner === 2) {
-                player3.coins -= 5;
-                //console.log("winner 1 1st")
-                //entityManager.playAnimation(1, tt_player3, repeat);
-                player1.coins += 5;
-                //console.log("winner 1 2nd")
-                //entityManager.playAnimation(0, tt_player1);
+
+            // Item box -> coin
+            if (this.results2 === 0) {
+                if (this.winner === 1 || this.winner === 2) {
+                    player1.coins += 5;
+                    animationManager.generateMapAnimation('coinDown', tt_player1);
+                    player3.coins -= 5;
+                    animationManager.generateMapAnimation('coinUp', tt_player3);
+                }
+                if (this.winner === 3 || this.winner === 2) {
+                    player3.coins += 5;
+                    animationManager.generateMapAnimation('coinDown', tt_player3);
+                    player1.coins -= 5;
+                    animationManager.generateMapAnimation('coinUp', tt_player1);
+                }
             }
-            if (this.winner === 3 || this.winner === 2) {
-                player1.coins -= 5;
-                //console.log("winner 3 1st")
-                //entityManager.playAnimation(1, tt_player1, repeat);
-                player3.coins += 5;
-                //console.log("winner 3 2nd")
-                //entityManager.playAnimation(0, tt_player3);
+            // temp fyrir boswer
+            // Item box -> star
+            if (this.results2 === 1) {
+                if (this.winner === 1 || this.winner === 2) {
+                    player3.coins -= 5;
+                    animationManager.generateMapAnimation('coinUp', tt_player3);
+                }
+                if (this.winner === 3 || this.winner === 2) {
+                    player1.coins -= 5;
+                    animationManager.generateMapAnimation('coinUp', tt_player1);
+                }
             }
 
+            if (player1.coins < 0) player1.coins = 0;
+            if (player3.coins < 0) player3.coins = 0;
 
-            entityManager.resolveEventBlocks(this);
             // Unregister all the blocks
             spatialManager.unregister(this.block1);
             spatialManager.unregister(this.block2);
