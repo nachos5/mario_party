@@ -33,9 +33,10 @@ function updateSimulation(du) {
     mapManager.update(du);
     eventManager.update(du);
     minigameManager.update(du);
-    animationManager.update(du);
     
-    if (!g_startGame) { menuManager.update(du) }
+    if (g_useAnimation) animationManager.update(du);
+    
+    if (!g_startGame)  menuManager.update(du);
 }
 
 // ================

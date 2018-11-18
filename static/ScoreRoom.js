@@ -45,10 +45,6 @@ ScoreRoom.prototype.players = 0;
 ScoreRoom.prototype.cx = 0;
 ScoreRoom.prototype.cy = 0;
 
-// Animation
-ScoreRoom.prototype.coinIter = 0;
-ScoreRoom.prototype.coinFrame = 0;
-
 // Round number
 ScoreRoom.prototype.num1 = 0;
 ScoreRoom.prototype.num2 = 0;
@@ -58,19 +54,6 @@ ScoreRoom.prototype.num2 = 0;
 // ======
 
 ScoreRoom.prototype.update = function(du) {
-    if (g_useAnimation) {
-        // Coin animation
-        // Swap frames every 10th frame
-        if (this.coinIter % 6 == 0) {
-            this.coinFrame += 1;
-        }
-        this.coinIter++;
-        // Restart
-        if(this.coinIter === 30) {
-            this.coinFrame = 0;
-            this.coinIter = 0;
-        };
-    }
 };
 
 // ======
@@ -84,7 +67,7 @@ ScoreRoom.prototype.render = function(ctx) {
 
     for(let i = 0; i < this.players.length; i++) {
         // Coin
-        g_aniSprites.coin[this.coinFrame].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 9, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
+        g_aniSprites.coin[animationManager.coin.frame].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 9, this.cy + this.brickHeight * (i+3), 0, this.brickWidth, this.brickHeight, 1, 1);
     }
 };
 

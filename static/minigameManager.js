@@ -27,7 +27,7 @@ init: function() {
   
   for(let i = 0; i < entityManager._players.length; i++) {
     entityManager._players[i].eventPlayer.initMinigameRoom();
-    entityManager._players[i].eventPlayer.changeRoom(2);
+    //entityManager._players[i].eventPlayer.changeRoom(2);
   }
 
   console.log("mini gameda")
@@ -70,19 +70,19 @@ currentPreset: function() {
 },
 
 update: function(du) {
-  this.updateImageData(g_ctx);
+ /* this.updateImageData(g_ctx);
   // update current minigame
   if (this.currentMinigame != null)
-    this.currentMinigame.update(du);
+    this.currentMinigame.update(du);*/
 },
 
 render: function(ctx) {
-  ctx.putImageData(this.popupSprite, this.popup.left, this.popup.top);
+ /* ctx.putImageData(this.popupSprite, this.popup.left, this.popup.top);
   // render current minigame
   if (this.currentMinigame != null)
     this.currentMinigame.render(ctx);
 
-  this.popup.render(ctx);
+  this.popup.render(ctx);*/
 },
 
 // ==============

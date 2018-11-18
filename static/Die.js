@@ -26,14 +26,8 @@ Die.prototype.scale = 1;
 Die.prototype.side_n = 1;
 
 Die.prototype.isRolling = false;
-Die.prototype.rollIter = 0;
 
 Die.prototype.isCollision = false;
-
-Die.prototype.currRand = 0;
-Die.prototype.prevRand = 0;
-
-Die.prototype.timeIter = 0;
 
 // ===========
 // SIDE_SPRITE
@@ -83,18 +77,12 @@ Die.prototype.rand = function() {
 
 Die.prototype.roll = function(du=1) {
   this.isRolling = true;
-  // animation! Every 4th frame
-  if (Math.floor(this.rollIter) % 4 === 0 ) {
-    // never the same number twice in a row
-    while (this.currRand === this.prevRand) {
-      this.currRand = this.rand();
-    }
-    this.prevRand = this.currRand;
-    this.side_sprite(this.currRand);
-  }
-  this.rollIter++;
+
+  this.dieFrame = animationManager.die.frame;
+  this.side_sprite(this.dieFrame);
+  
   // emit to the server
-  networkManager.socket.emit("die_sprite", this.currRand);
+  networkManager.socket.emit("die_sprite", this.dieFrame);
 }
 
 // =========
@@ -106,12 +94,10 @@ Die.prototype.stopRoll = function () {
     this.isRolling = false;
     this.isCollision = false;
     // emit the correct side to the server
-    networkManager.socket.emit("die_sprite", this.currRand);
-    // reset stuff
-    this.rollIter = 0;
-    this.timeIter = 0;
+    networkManager.socket.emit("die_sprite", this.dieFrame);
+
     // we are ready to move the player!
-    mapManager.readyToMove(this.currRand);
+    mapManager.readyToMove(this.dieFrame);
   }
 };
 
