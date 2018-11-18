@@ -34,7 +34,7 @@ function updateSimulation(du) {
     eventManager.update(du);
     minigameManager.update(du);
     animationManager.update(du);
-    
+
     if (!g_startGame) { menuManager.update(du) }
 }
 
@@ -451,13 +451,10 @@ entityManager.sharedObjects();
 menuManager.init();
 eventManager.init();
 animationManager.init();
-minigameManager.init();
 
   // play background music
   //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
-  main.init();
-
-  minigameManager.initializeMinigame("test");
+main.init();
 }
 
 requestPreloads_images();

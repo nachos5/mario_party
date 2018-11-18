@@ -72,6 +72,7 @@ Player.prototype.update = function (du) {
 // ======
 
 Player.prototype.render = function (ctx) {
-    this.tt_player.render(ctx);     // TableTopPlayer
+    if (!minigameManager.minigame_is_running) 
+      this.tt_player.render(ctx);     // TableTopPlayer
     this.eventPlayer.render(ctx);   // EventPlayer
 };

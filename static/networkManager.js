@@ -109,6 +109,8 @@ networkManager.socket.on("all_players_ready_server", function() {
 
   stateManager.updatePlayerSprites();
   stateManager.updateImageData('scoreRoom');
+
+  minigameManager.initMinigame();
 });
 
 

@@ -56,7 +56,9 @@ Star.prototype.update = function(du) {
 };
 
 Star.prototype.render = function(ctx) {
-  ctx.globalAlpha = this.alpha;
-  this.sprite.drawCentredAtFixed(ctx, this.cx, this.cy, this.rotation, this.width, this.height);
-  ctx.globalAlpha = 1;
+  if (!minigameManager.minigame_is_running) {
+    ctx.globalAlpha = this.alpha;
+    this.sprite.drawCentredAtFixed(ctx, this.cx, this.cy, this.rotation, this.width, this.height);
+    ctx.globalAlpha = 1;
+  }
 };
