@@ -232,9 +232,18 @@ render: function(ctx) {
     // Render animations
     for(let i = 0; i < animationManager.mapAnimations.length; i++) {
         ctx.globalAlpha = animationManager.mapAnimations[i].alpha;
+
         let frame = animationManager.mapAnimations[i].frame;
         let cy = animationManager.mapAnimations[i].cy;
-        g_aniSprites.coin[frame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+
+        // Coin animation
+        if (animationManager.mapAnimations[i].preset === 'mapCoin') {
+            g_aniSprites.coin[frame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+        }
+        // Star animation
+        if (animationManager.mapAnimations[i].preset === 'mapStar') {
+            g_itemSprites[1].sp.drawCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+        }
     }
     // Reset ctx
     ctx.globalAlpha = 1;

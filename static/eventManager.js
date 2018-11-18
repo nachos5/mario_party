@@ -20,7 +20,7 @@
 let eventManager = {
   eventIter: 0,
   // events that require no animation
-  instant_events: [13, 36, 37, 38, 39],
+  instant_events: [03, 04, 07, 13, 31, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
   mid_movement_events: [08, 36, 37, 38, 39, 60, 61, "buyStar"],
   // we use this to check if our event happens after the movement
@@ -128,33 +128,53 @@ let eventManager = {
     stateManager.callNextTurn();
   },
 
-bool: true,
+  // ==== EVENT SPACES ==== //
+  
+  // Green questionmark - random event
+  03: function() {
 
-  01: function() {
-    if (this.bool) {
-      console.log("blueTile blocksevent")
-      this.blocksEvent();
-      this.bool = false;
+    let events = [01, 02, 04, 07, 13, 31];
+    let random = Math.floor(Math.random() * events.length);
+
+    // Call a random event
+    this[events[random]]();
+  },
+
+  // Green star - initialize blocks event
+  04: function() {
+    this.blocksEvent();
+  },
+
+  // Bowser, everbody loses coins
+  07: function() {
+    const players = entityManager._players;
+
+    for(let i = 0; i < players.length; i++) {
+      stateManager.updateCollectable(players[i], 'coin', -this.coinAmount*2);
+      animationManager.generateMapAnimation('coinUp', this.coinAmount*2, players[i].tt_player);
     }
+  },
+
+  // Swap 
+  13: function() {
+    console.log("i'am toad")
   },
 
 
   // ==== COLLECTABLES ==== //
 
-  /*// blue tile - gain 3 coins, or potentially gain a star! //
+  // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
     animationManager.generateMapAnimation('coinDown', this.coinAmount);
-    networkManager.emit("animation_trigger", 'coinDown', this.coinAmount);
-  },*/
+  },
 
   // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', -this.coinAmount);
     animationManager.generateMapAnimation('coinUp', this.coinAmount);
-    networkManager.emit("animation_trigger", 'coinUp', this.coinAmount);
   },
 
 
@@ -352,8 +372,8 @@ bool: true,
 
 
   // ==== TURN EVENTS ==== //
-  // another turn
-  13: function() {
+  // Toad - another turn
+  31: function() {
     this.anotherTurn = true;
   },
 
