@@ -37,8 +37,8 @@ Animation.prototype.preset = 0;         // Choose a preset
 
 
 Animation.prototype.restart = function() {
-    
-    this.frame = 0; 
+
+    this.frame = 0;
     this.iter = 0;
 
     if (this.preset === 'mapCoin') {
@@ -60,7 +60,7 @@ Animation.prototype.update = function(du) {
             this.frame++;
         }
         this.iter += du;
-        
+
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();
@@ -113,7 +113,7 @@ Animation.prototype.update = function(du) {
             this.frame = parseInt(Math.random() * (this.frameNo+1)) + 1;;
         }
         this.iter += du;
-        
+
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();

@@ -174,7 +174,6 @@ networkManager.socket.on("update_player_server", function(player) {
     obj.coins = player.coins;
     obj.stars = player.stars;
 
-
     // ==== TABLETOP PLAYER ==== //
     // position
     mapManager.setPosition(obj.tt_player, {row: player.tt_player.position.row,
@@ -218,8 +217,8 @@ networkManager.socket.on("audio_trigger", function(data) {
   audioManager.playAudio(data.bufferString, data.delayTime, data.loop, data.gainConst);
 });
 
-networkManager.socket.on("animation_trigger_server", function(animation, times) {
-  animationManager.generateMapAnimation(animation, times);
+networkManager.socket.on("animation_trigger_server", function(data) {
+  animationManager.generateMapAnimation(data.animation, data.times);
 });
 
 networkManager.socket.on("lock_char", function(data) {

@@ -56,7 +56,15 @@ Player.prototype.refresh = function() {
 // UPDATE
 // ======
 
+Player.prototype.updateIter = 0;
 Player.prototype.update = function (du) {
+    // stuff we don't want to update every single frame
+    if (this.updateIter === 50) {
+      this.refresh();
+      this.updateIter = -1;
+    }
+    this.updateIter++;
+
     // we only emit our player to the server!
     if (this.my_player) {
       //this.socket_id = networkManager.player_info.socket_id;
@@ -74,7 +82,8 @@ Player.prototype.update = function (du) {
 // ======
 
 Player.prototype.render = function (ctx) {
-    if (!minigameManager.minigame_is_running)
+    if (!minigameManager.minigame_is_running) {
       this.tt_player.render(ctx);     // TableTopPlayer
+    }
     this.eventPlayer.render(ctx);   // EventPlayer
 };

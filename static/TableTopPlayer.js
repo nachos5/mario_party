@@ -77,6 +77,7 @@ TableTopPlayer.prototype.resolveCollision = function() {
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
+  console.log(this)
 
     spatialManager.unregister(this);
 
@@ -97,7 +98,7 @@ TableTopPlayer.prototype.update = function (du) {
         }
     }
     else {spatialManager.register(this)}
-    
+
     if (this._isDeadNow) { return -1 }
 };
 

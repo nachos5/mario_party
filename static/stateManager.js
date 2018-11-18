@@ -147,16 +147,16 @@ let stateManager = {
     if (collectable === 'coin') {
       player.coins += amount;
 
-      if (amount > 0) networkManager.emit("animation_trigger", 'coinDown', amount);   // + coin
-      else networkManager.emit("animation_trigger", 'coinUp', -amount);               // - coin
+      if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
+      else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
     }
 
     // Star
     if (collectable === 'star') {
       player.stars += amount;
 
-      if (amount > 0) networkManager.emit("animation_trigger", 'starDown', amount);   // + star
-      else networkManager.emit("animation_trigger", 'starUp', -amount);                // - star
+      if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
+      else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
     }
 
     // Prevent error, can't own negative
@@ -242,6 +242,7 @@ let stateManager = {
         this.turn = 1;
         // minigame manager calls the next round function
         //minigameManager.initMinigame();
+        this.nextRound();
       }
       this.turn++;
     }
