@@ -87,6 +87,45 @@ function PopUp(descr) {
 
     this.innerWidth  = this.width  - this.pipeWidth  * 2;
     this.innerHeight = this.height - this.pipeHeight * 2;
+
+    // ===========
+    // ALPH SPRITE
+    // ===========
+
+    // Special characters
+    /* 
+        '/' = enter
+        ' ' = spacebar
+    */
+       
+    // Word to display
+    //this.word = 'ABCDEFGHIJKLMNOPQRSTUVWXZY?.'
+
+    // Good default -> 40 and 8
+    let textLength = 0;       // Characters per line
+    let textLines = 8;        // Divide popup into x lines
+
+    let n = 0;      // Counter for textLength
+    for(let i = 0; i < this.word.length; i++) {
+        if (this.word[i] === '/' || i === this.word.length-1) {
+            if (n > textLength) {
+                textLength = n+1;
+                n = 0;
+            }
+        }
+        n++;
+    }
+
+    this.alphSprite = g_alphSprites.A;
+
+    this.alphScaleX = (this.innerWidth  - this.alphSprite.clipWidth)  / (textLength * this.alphSprite.clipWidth * 2.15);
+    this.alphScaleY = (this.innerHeight - this.alphSprite.clipHeight) / (textLines * this.alphSprite.clipHeight * 2.15);
+
+    this.alphWidth  = this.alphScaleX * this.alphSprite.clipWidth  * 2.15;
+    this.alphHeight = this.alphScaleY * this.alphSprite.clipHeight * 2.15;
+
+    this.alphTop  = this.innerTop  + this.alphHeight;
+    this.alphLeft = this.innerLeft + this.alphWidth;
 };
 
 // ==========
@@ -94,6 +133,7 @@ function PopUp(descr) {
 // ==========
 
 PopUp.prototype.isReady = false;
+PopUp.prototype.word = '';
 
 // ==========
 // SET PRESET
@@ -210,23 +250,10 @@ PopUp.prototype.setPreset = function(preset) {
     if (preset === 'buyStar') {
 
         // Variables that are created
-        this.textSprite = 0;
         this.buttonYes = null;
         this.buttonNo = null;
         this.coinFrame = 0;
         this.coinIter = 0;
-
-        // ===========
-        // TEXT SPRITE
-        // ===========
-
-        this.textSprite = g_sprites.buyStarText;
-
-        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width;
-        this.textScaleY = (this.innerHeight * 0.5) / this.textSprite.height;
-
-        this.textWidth  = this.textScaleX * this.textSprite.width;
-        this.textHeight = this.textScaleY * this.textSprite.height;
 
         // =========
         // STAR COST
@@ -257,7 +284,7 @@ PopUp.prototype.setPreset = function(preset) {
             id:         'yes',
 
             cx:         this.innerRight - buttonWidth/2,
-            cy:         this.innerBot - buttonHeight/2,
+            cy:         this.innerBot   - buttonWidth/2,
 
             width:      buttonWidth,
             height:     buttonHeight,
@@ -276,7 +303,7 @@ PopUp.prototype.setPreset = function(preset) {
             id:         'no',
 
             cx:         this.innerLeft + buttonWidth/2,
-            cy:         this.innerBot - buttonHeight/2,
+            cy:         this.innerBot  - buttonWidth/2,
 
             width:      buttonWidth,
             height:     buttonHeight,
@@ -288,22 +315,6 @@ PopUp.prototype.setPreset = function(preset) {
             offSprite:  g_sprites.cyanNo,
             owner:      'buyStar'
         });
-    }
-    if (this.preset === 'victory') {
-        // Variables that are created
-        this.textSprite = 0;
-
-        // ===========
-        // TEXT SPRITE
-        // ===========
-
-        this.textSprite = g_sprites.buyStarText;
-
-        this.textScaleX = (this.innerWidth  * 0.75) / this.textSprite.width;
-        this.textScaleY = (this.innerHeight * 0.5) / this.textSprite.height;
-
-        this.textWidth  = this.textScaleX * this.textSprite.width;
-        this.textHeight = this.textScaleY * this.textSprite.height;
     }
 };
 
@@ -376,7 +387,7 @@ PopUp.prototype.render = function(ctx) {
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 
     if (this.preset === 'buyStar') {
-        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.innerLeft + this.textWidth * 0.45 + this.starWidth * 3.5, this.innerTop + this.textHeight * 0.75, 0, this.starScaleX, this.starScaleY);
+        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 + this.starWidth * 2, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
     }
     if (this.preset === 'menu') {
         // Characters
@@ -407,18 +418,29 @@ PopUp.prototype.dynamicRender = function(ctx) {
         }
     }
     if (this.preset === 'buyStar') {
-        // Text
-        this.textSprite.drawCentredAt(ctx, this.innerLeft + this.textWidth/2, this.innerTop + this.textHeight/2, 0, this.textScaleX, this.textScaleY);
-        // Starcost
         // Star cost
-        g_numberSprites['num'+[this.starDigit1]].drawClipCentredAt(ctx, this.innerLeft + this.textWidth * 0.45, this.innerTop + this.textHeight * 0.75, 0, this.starScaleX, this.starScaleY);
-        g_numberSprites['num'+[this.starDigit2]].drawClipCentredAt(ctx, this.innerLeft + this.textWidth * 0.45 + this.starWidth * 1.5, this.innerTop + this.textHeight * 0.75, 0, this.starScaleX, this.starScaleY);
+        g_numberSprites['num'+[this.starDigit1]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 - this.starWidth * 1.5, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
+        g_numberSprites['num'+[this.starDigit2]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2                       , this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
         // Buttons
         this.buttonYes.render(ctx);
         this.buttonNo.render(ctx);
     }
-    if (this.preset === 'victory') {
-        this.textSprite.drawCentredAt(ctx, this.innerLeft + this.textWidth/2, this.innerTop + this.textHeight/2, 0, this.textScaleX, this.textScaleY);
+
+    // Display text
+    let j = 0;  // Lines
+    let i = 0;  // Character
+
+    for(let n = 0; n < this.word.length; n++) {
+        let alph = this.word[n];
+        if (alph === ' ') {}        // Space
+        else if (alph === '/') {    // Newline
+            i = -2;
+            j++;
+        }
+        else {
+            g_alphSprites[alph].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.alphScaleX, this.alphScaleY);
+        }
+        i++;
     }
 };
 

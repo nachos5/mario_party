@@ -6,16 +6,13 @@ let animationManager = {
     // Control variables
     mod: 6,
 
-    // Animations
+    // Continous animations
     coin: 0,
     die: 0,
 
     // Map animations
     isMapAnimation: false,
     mapAnimations: [],
-
-    // todo
-    star: 0,
 
 
 

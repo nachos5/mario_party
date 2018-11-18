@@ -60,11 +60,12 @@ function Victory(players) {
         offsetRight : 0.02,
         offsetBot   : 0.5,
         offsetLeft  : 0.02,
+        word        : 'PLAYER X ENDED UP WITH THE MOST COINS/AND GAINS ONE STAR',
+        //word        : 'PLAYER X ENDED UP WITH MOST COINS/AND GAINS ONE STAR',
     });
 
-    this.victoryPopUp.setPreset('victory');
+    //this.victoryPopUp.setPreset('victory');
 
-    //this.popup.sprite = g_sprites.die0;
 
     console.log(players)
     let placement = [
