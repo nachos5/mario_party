@@ -109,8 +109,6 @@ networkManager.socket.on("all_players_ready_server", function() {
 
   stateManager.updatePlayerSprites();
   stateManager.updateImageData('scoreRoom');
-
-  minigameManager.initMinigame();
 });
 
 
@@ -246,6 +244,12 @@ networkManager.socket.on("lock_char", function(data) {
   } catch(e) {
     console.log(e.stack);
   }
+
+
+// ==== MINIGAME STUFF ==== //
+
+
+
 });
 
 

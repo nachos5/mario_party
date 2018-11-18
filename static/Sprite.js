@@ -45,8 +45,7 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation=0, scaleX=this.
 
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
-    ctx.drawImage(this.image,
-                  -w/2, -h/2);
+    ctx.drawImage(this.image, -w/2, -h/2);
 
     ctx.restore();
 };
@@ -161,7 +160,7 @@ Sprite.prototype.drawTile = function (ctx, x, y, rotation, scale=1) {
 };
 
 // ============
-// DRAW CLIPPED 
+// DRAW CLIPPED
 // ============
 
 Sprite.prototype.drawClipCentredAt = function (ctx, cx, cy, rotation=0, scaleX=1, scaleY=1) {
@@ -176,7 +175,7 @@ Sprite.prototype.drawClipCentredAt = function (ctx, cx, cy, rotation=0, scaleX=1
     ctx.drawImage(this.image,
                     this.sx-cW/2, this.sy-cH/2,                  // clip x, y coords
                     cW, cH,                          // width, height of clipped img
-                    -cW/2, -cH/2,     // center coords                    
+                    -cW/2, -cH/2,     // center coords
                     cW, cH);                         // width, height of image, strech
 
     ctx.restore();

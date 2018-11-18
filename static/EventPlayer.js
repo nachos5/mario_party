@@ -55,7 +55,7 @@ EventPlayer.prototype.initRooms = function() {
     // Dice location
     this.diceRoomCx = stateManager.game_room.diceRoomLeft + stateManager.game_room.diceRoomWidth/2;
     this.diceRoomCy = stateManager.game_room.diceRoomBot  - this.getRadius() * 1.5;
-    
+
     // Event locations
     this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
     this.eventRoomCy = stateManager.game_room.eventRoomBot  - this.getRadius() * 1.5;
@@ -169,7 +169,11 @@ EventPlayer.prototype.accel = function (du) {
 
     // New position = current position + aVel * time
     this.cx += this.velX * du;
-    this.cy += this.velY * du;
+    // minigame stuff...
+    if (this.mash)
+      this.cy += 1 * du;
+    else
+      this.cy += this.velY * du;
 
     // Check for room collision
     if(this.isRoomCollision()) {

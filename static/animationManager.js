@@ -5,7 +5,7 @@
 let animationManager = {
     // Control variables
     mod: 50,
-    
+
     // Animations
     coin: 0,
     die: 0,
@@ -13,8 +13,8 @@ let animationManager = {
 
     // todo
     star: 0,
-    
-    
+
+
 
 
     init: function() {
@@ -41,7 +41,7 @@ let animationManager = {
             }));
         }
     },*/
-    
+
 
     update: function(du) {
         this.coin.update(du);

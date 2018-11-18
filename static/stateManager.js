@@ -133,8 +133,8 @@ let stateManager = {
     for(let i = 0; i < this.players.length; i++) {
       let curr_playerSprite = g_playerSprites[this.players[i].spriteID]
       g_playerSpritesInUse.push ({
-        sp : curr_playerSprite.sp , 
-        id : curr_playerSprite.id, 
+        sp : curr_playerSprite.sp ,
+        id : curr_playerSprite.id,
         name : curr_playerSprite.name
       });
     };
@@ -216,7 +216,8 @@ let stateManager = {
       // Decrement round after all players have played a turn
       if (this.turn % this.no_players === 0) {
         this.turn = 1;
-        this.nextRound();
+        // minigame manager calls the next round function
+        minigameManager.initMinigame();
       }
       this.turn++;
     }
@@ -230,9 +231,9 @@ let stateManager = {
 
       // Update Player Turn
       this.game_room.currPlayer = this.curr_player;
-      
+
       eventManager.anotherTurn = false;
-      
+
       // Update dynamic objects render
       this.updateImageData();
     }
@@ -255,7 +256,7 @@ let stateManager = {
         // Dynamic image data
         this.victoryScreen.dynamicRender(g_ctx);
         this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
-        
+
         entityManager.victory();
         // Freeze interactive objects except event player
         g_gameOver = true;
@@ -270,7 +271,7 @@ let stateManager = {
     else {
       // Decrement Round
       this.rounds_remaining--;
-      
+
       // Update Round number
       this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
       this.score_room.num2 = this.rounds_remaining % 10;

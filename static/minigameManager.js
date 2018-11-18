@@ -21,7 +21,7 @@ currentMinigame: null,
 popup: null,
 
 // stores current popup preset
-currentPreset: null,
+currentPresetFunction: null,
 
 initMinigame: function(name) {
   // Offset values are based on mapHeight and mapWidth
@@ -34,13 +34,13 @@ initMinigame: function(name) {
 
   if (name == undefined) this.currentMinigame = this.getRandomMinigame();
   else                   this.currentMinigame = this.minigames[name];
-  this.currentPreset = this.currentMinigame.preset;
+  this.currentPresetFunction = this.currentMinigame.preset;
   this.popup.setPreset('minigame');
   this.imageData();
 
   for(let i = 0; i < entityManager._players.length; i++) {
     entityManager._players[i].eventPlayer.initMinigameRoom();
-    //entityManager._players[i].eventPlayer.changeRoom(2);
+    entityManager._players[i].eventPlayer.changeRoom(2);
   }
 
   this.currentMinigame.init();
@@ -49,11 +49,30 @@ initMinigame: function(name) {
 },
 
 endMinigame: function() {
-  const placement = this.currentMinigame.placement;
+  const placements = this.currentMinigame.placements;
+  this.rewards(placements);
 
+  this.popup = null;
   this.currentMinigame = null;
-  this.currentPreset = null;
+  this.currentPresetFunction = null;
   this.minigame_is_running = false;
+
+  // start the next round!
+  stateManager.nextRound();
+},
+
+rewards: function(placements) {
+  const players = entityManager._players;
+  let coins = 20;
+  let index = 1;
+  for (let key in placements) {
+    const player = players.find(obj => obj.player_id === placements[index]);
+    console.log(player);
+    player.coins += coins;
+    coins -= 5;
+    if (coins < 0) coins = 0;
+    index++;
+  };
 },
 
 // gets a random unplayed minigame (resets when all have been played)

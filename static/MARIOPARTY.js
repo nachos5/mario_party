@@ -157,6 +157,9 @@ function requestPreloads_images() {
         greenPipe       : "static/assets/WarpPipeGreen.png",
         redPipe         : "static/assets/RedWarpPipeRed.png",
 
+        // Minigame stuff
+        finishLine      : "static/assets/finishLine.png",
+
         // Objects
         die0             : "static/assets/diceBlock0.png",
         die1             : "static/assets/diceBlock1.png",
@@ -255,6 +258,9 @@ function preloadDone() {
     g_sprites.selectBowserjr     = new Sprite(g_images.characters, 2200, 930, 0, 2, 200, 275);
     // Skipped one sprite
     g_sprites.selectBoo          = new Sprite(g_images.characters, 2970, 930, 0, 2, 200, 275);*/
+
+    // Minigames stuff
+    g_sprites.finishLine        = new Sprite(g_images.finishLine);
 
     // Button
     g_sprites.cyanReady         = new Sprite(g_images.cyanReady);
@@ -453,8 +459,12 @@ menuManager.init();
 eventManager.init();
 animationManager.init();
 
-  // play background music
-  //audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
+// play background music
+//audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
+
+g_canvas.style.display = 'block';
+document.getElementById('loadingMessage').style.display = 'none';
+
 main.init();
 }
 

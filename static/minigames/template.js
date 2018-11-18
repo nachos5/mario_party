@@ -11,6 +11,14 @@ const template = {
     this.my_player = minigameManager.my_player;
   },
 
+  unregister: function() {
+    
+  },
+
+  register: function() {
+
+  },
+
   preset: function() {
 
   },

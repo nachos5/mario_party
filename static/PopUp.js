@@ -393,7 +393,7 @@ PopUp.prototype.render = function(ctx) {
 PopUp.prototype.dynamicRender = function(ctx) {
     // Presets
     if (this.preset === 'minigame') {
-      minigameManager.currentPreset(ctx);
+      minigameManager.currentPresetFunction(ctx);
     }
 
     if (this.preset === 'menu') {
