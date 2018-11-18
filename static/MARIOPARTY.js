@@ -93,12 +93,7 @@ function renderSimulation(ctx) {
     eventManager.render(ctx);
 
     if (!g_startGame) { menuManager.render(ctx) }
-    // Tester
-    //g_sprites.selectLuigi.drawClipped(ctx, 500, g_canvas.height)
-    //g_sprites.selectMario.drawClipped(ctx, g_canvas.width, g_canvas.height)
-
     if (g_renderSpatialDebug) spatialManager.render(ctx);
-
 }
 
 // =======================
@@ -127,7 +122,6 @@ function requestPreloads_images() {
         background2     : "static/assets/superMarioBackground.jpg",
         framePipeTop    : "static/assets/superMarioWorldPipeTop.png",
         framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
-        characters      : "static/assets/marioCharacters.png",
 
         // Characters
         selectMario         : "static/assets/selectionMario.png",
@@ -245,22 +239,6 @@ function preloadDone() {
     g_sprites.selectBowserjr    = new Sprite(g_images.selectBowserjr);
     g_sprites.selectBoo         = new Sprite(g_images.selectBoo);
 
-    // Row 1
-    /*g_sprites.selectMario        = new Sprite(g_images.characters,  250, 350, 0, 2, 200, 275);
-    g_sprites.selectPinkPeach    = new Sprite(g_images.characters,  600, 350, 0, 2, 200, 275);
-    g_sprites.selectYoshi        = new Sprite(g_images.characters, 1000, 350, 0, 2, 200, 275);
-    g_sprites.selectWario        = new Sprite(g_images.characters, 1400, 350, 0, 2, 200, 275);
-    g_sprites.selectPaleToad     = new Sprite(g_images.characters, 1800, 350, 0, 2, 200, 275);
-    // Row 2
-    g_sprites.selectLuigi        = new Sprite(g_images.characters,  200, 930, 0, 2, 200, 275);
-    g_sprites.selectYellowPeach  = new Sprite(g_images.characters,  600, 930, 0, 2, 200, 275);
-    // Skipped one sprite
-    g_sprites.selectWaluigi      = new Sprite(g_images.characters, 1400, 930, 0, 2, 200, 275);
-    g_sprites.selectPinkToad     = new Sprite(g_images.characters, 1800, 930, 0, 2, 200, 275);
-    g_sprites.selectBowserjr     = new Sprite(g_images.characters, 2200, 930, 0, 2, 200, 275);
-    // Skipped one sprite
-    g_sprites.selectBoo          = new Sprite(g_images.characters, 2970, 930, 0, 2, 200, 275);*/
-
     // Minigames stuff
     g_sprites.finishLine        = new Sprite(g_images.finishLine);
 
@@ -289,18 +267,18 @@ function preloadDone() {
 
     // Tiles2
     // Column 1
-    g_sprites.mario             = new Sprite(g_images.tiles2, 655, 55,  0, 2, 30, 30);//
-    g_sprites.luigi             = new Sprite(g_images.tiles2, 655, 120, 0, 2, 30, 30);//
-    g_sprites.pinkPeach         = new Sprite(g_images.tiles2, 655, 185, 0, 2, 30, 30);//
-    g_sprites.yoshi             = new Sprite(g_images.tiles2, 655, 255, 0, 2, 30, 30);//
-    g_sprites.wario             = new Sprite(g_images.tiles2, 655, 320, 0, 2, 30, 30);//
-    g_sprites.yellowPeach       = new Sprite(g_images.tiles2, 655, 385, 0, 2, 30, 30);//
+    g_sprites.mario             = new Sprite(g_images.tiles2, 655, 55,  0, 2, 30, 30);
+    g_sprites.luigi             = new Sprite(g_images.tiles2, 655, 120, 0, 2, 30, 30);
+    g_sprites.pinkPeach         = new Sprite(g_images.tiles2, 655, 185, 0, 2, 30, 30);
+    g_sprites.yoshi             = new Sprite(g_images.tiles2, 655, 255, 0, 2, 30, 30);
+    g_sprites.wario             = new Sprite(g_images.tiles2, 655, 320, 0, 2, 30, 30);
+    g_sprites.yellowPeach       = new Sprite(g_images.tiles2, 655, 385, 0, 2, 30, 30);
     // Column 2
-    g_sprites.waluigi           = new Sprite(g_images.tiles2, 720, 55,  0, 2, 30, 30);//
-    g_sprites.paleToad          = new Sprite(g_images.tiles2, 720, 120, 0, 2, 30, 30);//
+    g_sprites.waluigi           = new Sprite(g_images.tiles2, 720, 55,  0, 2, 30, 30);
+    g_sprites.paleToad          = new Sprite(g_images.tiles2, 720, 120, 0, 2, 30, 30);
     g_sprites.boo               = new Sprite(g_images.tiles2, 720, 185, 0, 2, 30, 30);
     g_sprites.bowserjr          = new Sprite(g_images.tiles2, 723, 250, 0, 2, 30, 30);
-    g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);//
+    g_sprites.pinkToad          = new Sprite(g_images.tiles2, 720, 320, 0, 2, 30, 30);
 
     // Objects
     // Dice
@@ -348,38 +326,41 @@ function preloadDone() {
     g_numberSprites.num7      = new Sprite(g_images.numbers, 685, 195, 0, 2, 45, 55);  // 7
     g_numberSprites.num8      = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 55);  // 8
     g_numberSprites.num9      = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 55);  // 9
-
+// ha
+//lo
     // Alphabet
-    g_alphSprites.A           = new Sprite(g_images.alph, 35,   37, 0, 2, 25, 40);  // A
-    g_alphSprites.B           = new Sprite(g_images.alph, 85,   37, 0, 2, 25, 40);  // B
-    g_alphSprites.C           = new Sprite(g_images.alph, 135,  37, 0, 2, 25, 40);  // C
-    g_alphSprites.D           = new Sprite(g_images.alph, 185,  37, 0, 2, 25, 40);  // D
-    g_alphSprites.E           = new Sprite(g_images.alph, 235,  37, 0, 2, 25, 40);  // E
-    g_alphSprites.F           = new Sprite(g_images.alph, 286,  37, 0, 2, 25, 40);  // F
-    g_alphSprites.G           = new Sprite(g_images.alph, 337,  37, 0, 2, 25, 40);  // G
-    g_alphSprites.H           = new Sprite(g_images.alph, 388,  37, 0, 2, 25, 40);  // H
-    g_alphSprites.I           = new Sprite(g_images.alph, 440,  37, 0, 2, 25, 40);  // I
+    g_alphSprites.A           = new Sprite(g_images.alph, 35,   37, 0, 2, 25, 37);  // A
+    g_alphSprites.B           = new Sprite(g_images.alph, 85,   37, 0, 2, 25, 37);  // B
+    g_alphSprites.C           = new Sprite(g_images.alph, 135,  37, 0, 2, 25, 37);  // C
+    g_alphSprites.D           = new Sprite(g_images.alph, 185,  37, 0, 2, 25, 37);  // D
+    g_alphSprites.E           = new Sprite(g_images.alph, 235,  37, 0, 2, 25, 37);  // E
+    g_alphSprites.F           = new Sprite(g_images.alph, 289,  37, 0, 2, 25, 37);  // F
+    g_alphSprites.G           = new Sprite(g_images.alph, 337,  37, 0, 2, 25, 37);  // G
+    g_alphSprites.H           = new Sprite(g_images.alph, 388,  37, 0, 2, 25, 37);  // H
+    g_alphSprites.I           = new Sprite(g_images.alph, 440,  37, 0, 2, 25, 37);  // I
 
-    g_alphSprites.J           = new Sprite(g_images.alph, 35,  125, 0, 2, 25, 40);  // J
-    g_alphSprites.K           = new Sprite(g_images.alph, 85,  125, 0, 2, 25, 40);  // K
-    g_alphSprites.L           = new Sprite(g_images.alph, 135, 125, 0, 2, 25, 40);  // L
-    g_alphSprites.M           = new Sprite(g_images.alph, 185, 125, 0, 2, 25, 40);  // M
-    g_alphSprites.N           = new Sprite(g_images.alph, 235, 125, 0, 2, 25, 40);  // N
-    g_alphSprites.O           = new Sprite(g_images.alph, 286, 125, 0, 2, 25, 40);  // O
-    g_alphSprites.P           = new Sprite(g_images.alph, 337, 125, 0, 2, 25, 40);  // P
-    g_alphSprites.Q           = new Sprite(g_images.alph, 388, 125, 0, 2, 25, 40);  // Q
-    g_alphSprites.R           = new Sprite(g_images.alph, 440, 125, 0, 2, 25, 40);  // R
-    g_alphSprites.Qmark       = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 40);  // ?
+    g_alphSprites.J           = new Sprite(g_images.alph, 35,  125, 0, 2, 25, 37);  // J
+    g_alphSprites.K           = new Sprite(g_images.alph, 85,  125, 0, 2, 25, 37);  // K
+    g_alphSprites.L           = new Sprite(g_images.alph, 135, 125, 0, 2, 25, 37);  // L
+    g_alphSprites.M           = new Sprite(g_images.alph, 185, 125, 0, 2, 25, 37);  // M
+    g_alphSprites.N           = new Sprite(g_images.alph, 235, 125, 0, 2, 25, 37);  // N
+    g_alphSprites.O           = new Sprite(g_images.alph, 286, 125, 0, 2, 25, 37);  // O
+    g_alphSprites.P           = new Sprite(g_images.alph, 339, 125, 0, 2, 25, 37);  // P
+    g_alphSprites.Q           = new Sprite(g_images.alph, 388, 125, 0, 2, 25, 37);  // Q
+    g_alphSprites.R           = new Sprite(g_images.alph, 440, 125, 0, 2, 25, 37);  // R
+    g_alphSprites.Qmark       = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 37);  // ?
+    g_alphSprites['?']        = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 37);  // ?
 
-    g_alphSprites.S           = new Sprite(g_images.alph, 35,  211, 0, 2, 25, 40);  // S
-    g_alphSprites.T           = new Sprite(g_images.alph, 85,  211, 0, 2, 25, 40);  // T
-    g_alphSprites.U           = new Sprite(g_images.alph, 135, 211, 0, 2, 25, 40);  // U
-    g_alphSprites.V           = new Sprite(g_images.alph, 185, 211, 0, 2, 25, 40);  // V
-    g_alphSprites.W           = new Sprite(g_images.alph, 237, 211, 0, 2, 25, 40);  // W
-    g_alphSprites.X           = new Sprite(g_images.alph, 287, 211, 0, 2, 25, 40);  // X
-    g_alphSprites.Y           = new Sprite(g_images.alph, 339, 211, 0, 2, 25, 40);  // Y
-    g_alphSprites.Z           = new Sprite(g_images.alph, 389, 211, 0, 2, 25, 40);  // Z
-    g_alphSprites.Dot         = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 40);  // .
+    g_alphSprites.S           = new Sprite(g_images.alph, 35,  211, 0, 2, 25, 37);  // S
+    g_alphSprites.T           = new Sprite(g_images.alph, 85,  211, 0, 2, 25, 37);  // T
+    g_alphSprites.U           = new Sprite(g_images.alph, 135, 211, 0, 2, 25, 37);  // U
+    g_alphSprites.V           = new Sprite(g_images.alph, 185, 211, 0, 2, 25, 37);  // V
+    g_alphSprites.W           = new Sprite(g_images.alph, 237, 211, 0, 2, 25, 37);  // W
+    g_alphSprites.X           = new Sprite(g_images.alph, 287, 211, 0, 2, 25, 37);  // X
+    g_alphSprites.Y           = new Sprite(g_images.alph, 339, 211, 0, 2, 25, 37);  // Y
+    g_alphSprites.Z           = new Sprite(g_images.alph, 389, 211, 0, 2, 25, 37);  // Z
+    g_alphSprites.Dot         = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 37);  // .
+    g_alphSprites['.']        = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 37);  // .
 
     loadSpriteLibaries();
 
