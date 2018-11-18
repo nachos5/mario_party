@@ -14,6 +14,8 @@ function Player(descr) {
     // ==========
 
     this.stars = 0;
+    this.coins = 0;
+    this.minigames_won = 0;
     this.myTurn = false;
     this.isReady = false;
 

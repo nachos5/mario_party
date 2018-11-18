@@ -132,17 +132,15 @@ let eventManager = {
 
 
   // ==== COLLECTABLES ==== //
-/*
-  // blue tile - gain 3 coins, or potentially gain a star! //
+
+  /*// blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
     player.coins += 3;
     entityManager.playAnimation(1);
-    networkManager.emit("animation_trigger", 1);
+    //networkManager.emit("animation_trigger", 1);
+  },*/
 
-
-  },
-*/
   // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
@@ -151,7 +149,7 @@ let eventManager = {
       player.coins = 0;
     }
     entityManager.playAnimation(0);
-    networkManager.emit("animation_trigger", 0);
+    //networkManager.emit("animation_trigger", 0);
   },
 
 

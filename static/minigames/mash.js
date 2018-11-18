@@ -4,6 +4,12 @@ const mash = {
 
   minSpeed: 5,
   speed: 5, // more mashing -> more speed
+  rules_string: "Mash spacebar to reach the finish line! :)",
+  rules_popup: null,
+  rules_running: false,
+  rules_iter: 0,
+  win_iter: 0,
+  win_running: false,
 
   // keys are placement seatings, values are player ids
   placements: {
@@ -24,6 +30,7 @@ const mash = {
     this.unregister();
     this.register();
     this.lanes();
+    this.rules(g_ctx, true);
   },
 
   unregister: function() {
@@ -35,6 +42,30 @@ const mash = {
   register: function() {
     this.KEY_MASH = ' '.charCodeAt(0);
     this.my_player.mash = true;
+  },
+
+  rules: function(ctx, init=false) {
+    if (init) {
+      minigameManager.newRulesPopup();
+      this.rules_running = true;
+      this.rules_iter = 400;
+    }
+    ctx.save();
+
+    ctx.fillStyle = "black";
+    ctx.font = "30px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText(this.rules_string,
+                 minigameManager.popup.innerLeft + minigameManager.popup.innerWidth/2,
+                 minigameManager.popup.innerTop + minigameManager.popup.innerHeight/2);
+
+    this.rules_iter--;
+    if (this.rules_iter === 0) {
+      this.rules_running = false;
+      minigameManager.rules_popup = null;
+    }
+
+    ctx.restore();
   },
 
   preset: function() {
@@ -61,7 +92,22 @@ const mash = {
   checkForWin: function() {
     for (let key in this.players) {
       if (this.players[key].cy <= this.finishLine.cy)
-        this.cleanup();
+        this.win(g_ctx, true);
+    }
+  },
+
+  win: function(ctx, init=false) {
+    if (init) {
+      this.sortByPlacement();
+      minigameManager.winningPopup();
+      this.win_iter = 400;
+      this.win_running = true;
+    }
+
+    this.win_iter--;
+    if (this.win_iter === 0) {
+      minigameManager.winning_popup = null;
+      this.cleanup();
     }
   },
 
@@ -80,8 +126,6 @@ const mash = {
 
   // we call this at the end of the minigame
   cleanup: function() {
-    this.sortByPlacement();
-
     this.KEY_MASH = null;
     this.my_player.mash = false;
     this.my_player.KEY_JUMP = ' '.charCodeAt(0);
@@ -93,7 +137,8 @@ const mash = {
 
   updateIter: 0, // used for resetting speed
   update: function(du) {
-    if (eatKey(this.KEY_MASH)) {
+    // --- speed stuff --- //
+    if (eatKey(this.KEY_MASH) && !this.rules_running) {
       this.my_player.cy -= this.speed;
       this.speed += 0.55; // gain speed for each mash
       this.updateIter = 0;
@@ -105,12 +150,23 @@ const mash = {
         this.speed = this.minSpeed;
     }
 
+    // --- did someone win? --- //
     this.checkForWin();
   },
 
   render: function(ctx) {
     const fl = this.finishLine;
     fl.sprite.drawCentredAtFixed(ctx, fl.cx, fl.cy, 0, minigameManager.popup.innerWidth, fl.sprite.height/1.5);
+
+    // --- show rules --- //
+    if (this.rules_running) {
+      this.rules(ctx);
+    }
+
+    // --- show winning stuff --- //
+    if (this.win_running) {
+      this.win(ctx);
+    }
   }
 
 }

@@ -224,6 +224,8 @@ victory: function() {
 },
 
 playAnimation: function(animation, tt_player=this.curr_player, repeat=0) {
+    networkManager.emit("animation_trigger", animation);
+
     this._aniNext = repeat;
 
     if (tt_player) this._curr_ani_tt_player = tt_player;
