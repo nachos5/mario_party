@@ -32,7 +32,7 @@ function updateSimulation(du) {
     entityManager.update(du);
     mapManager.update(du);
     eventManager.update(du);
-    minigameManager.update(du);
+    //minigameManager.update(du);
 
     if (g_useAnimation) animationManager.update(du);
 
@@ -88,7 +88,7 @@ function renderSimulation(ctx) {
 
     mapManager.render(ctx);
     stateManager.render(ctx);
-    minigameManager.render(ctx);
+    //minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
 
@@ -173,15 +173,18 @@ function requestPreloads_images() {
         die9             : "static/assets/diceBlock9.png",
         die10            : "static/assets/diceBlock10.png",
 
-        eventBlock       : "static/assets/marioBlock.png",
+        // Items
+        tileBowser       : "static/assets/marioPartyTilesBowser.png",
         coinAni          : "static/assets/marioCoinAnimation.png",
         star             : "static/assets/marioStarHiRes.png",
+        
+        // Misc
+        eventBlock       : "static/assets/marioBlock.png",
         arrow            : "static/assets/marioArrow.png",
 
+        // Alphabet and numbers
         numbers          : "static/assets/marioNumbers.png",
         alph             : "static/assets/FontPixels.png",
-
-        test             : "static/assets/test.png",
     };
 
     imagesPreload(requiredImages, g_images, requestPreloads_audio);
@@ -217,7 +220,6 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
-    g_sprites.test      = new Sprite(g_images.test);
     // Menu
     g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
@@ -318,6 +320,7 @@ function preloadDone() {
     // ITEMS
     // =====
     g_sprites.star              = new Sprite(g_images.star);
+    g_sprites.tileBowser        = new Sprite(g_images.tileBowser);
 
     // Coin Animated
     let coin = [];
@@ -418,21 +421,22 @@ let g_charSelectionSprites = [];  // Character Selection
 
 function loadSpriteLibaries() {
     // Players
-    g_playerSprites.push({sp : g_sprites.mario       , id : 0 , name: "Mario"  });
-    g_playerSprites.push({sp : g_sprites.pinkPeach   , id : 1 , name: "Pink Peach" });
-    g_playerSprites.push({sp : g_sprites.yoshi       , id : 2 , name: "Yoshi" });
-    g_playerSprites.push({sp : g_sprites.wario       , id : 3 , name: "Wario" });
-    g_playerSprites.push({sp : g_sprites.paleToad    , id : 4 , name: "Pale Toad" });
-    g_playerSprites.push({sp : g_sprites.luigi       , id : 5 , name: "Luigi" });
+    g_playerSprites.push({sp : g_sprites.mario       , id : 0 , name: "Mario"        });
+    g_playerSprites.push({sp : g_sprites.pinkPeach   , id : 1 , name: "Pink Peach"   });
+    g_playerSprites.push({sp : g_sprites.yoshi       , id : 2 , name: "Yoshi"        });
+    g_playerSprites.push({sp : g_sprites.wario       , id : 3 , name: "Wario"        });
+    g_playerSprites.push({sp : g_sprites.paleToad    , id : 4 , name: "Pale Toad"    });
+    g_playerSprites.push({sp : g_sprites.luigi       , id : 5 , name: "Luigi"        });
     g_playerSprites.push({sp : g_sprites.yellowPeach , id : 6 , name: "Yellow Peach" });
-    g_playerSprites.push({sp : g_sprites.waluigi     , id : 7 , name: "Waluigi" });
-    g_playerSprites.push({sp : g_sprites.pinkToad    , id : 8 , name: "Pink Toad" });
-    g_playerSprites.push({sp : g_sprites.bowserjr    , id : 9 , name: "Bowser" });
-    g_playerSprites.push({sp : g_sprites.boo         , id : 10, name: "Boo" });
+    g_playerSprites.push({sp : g_sprites.waluigi     , id : 7 , name: "Waluigi"      });
+    g_playerSprites.push({sp : g_sprites.pinkToad    , id : 8 , name: "Pink Toad"    });
+    g_playerSprites.push({sp : g_sprites.bowserjr    , id : 9 , name: "Bowser"       });
+    g_playerSprites.push({sp : g_sprites.boo         , id : 10, name: "Boo"          });
 
     // Items
-    g_itemSprites.push({sp : g_aniSprites.coin[0], id : 0, type : 'clipped'});
-    g_itemSprites.push({sp : g_sprites.star      , id : 1, type : 'normal' });
+    g_itemSprites.push({sp : g_aniSprites.coin[0]   , id : 0, type : 'clipped'});
+    g_itemSprites.push({sp : g_sprites.star         , id : 1, type : 'normal' });
+    g_itemSprites.push({sp : g_sprites.tileBowser   , id : 2, type : 'normal' });
 
     // Character Selection
     g_charSelectionSprites.push({sp : g_sprites.selectMario,        id : 0  });

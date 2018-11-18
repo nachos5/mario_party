@@ -82,12 +82,10 @@ let stateManager = {
   // UPDATE IMAGE DATA
   // =================
 
-  updateImageData: function(room) {
-    if (room === 'scoreRoom') {
-      g_ctx.putImageData(this.scoreRoomSprite, 0, 0);
-      this.score_room.dynamicRender(g_ctx);
-      this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
-    }
+  updateImageData: function() {
+    g_ctx.putImageData(this.scoreRoomSprite, 0, 0);
+    this.score_room.dynamicRender(g_ctx);
+    this.scoreRoomDynamicSprite = g_ctx.getImageData(0, 0, mapManager.mapLeft, g_canvas.height);
   },
 
   updateVictoryImageData: function() {
@@ -138,6 +136,20 @@ let stateManager = {
         name : curr_playerSprite.name
       });
     };
+  },
+
+  // ==================
+  // UPDATE COLLECTABLE
+  // ==================
+
+  updateCollectable: function(player, collectable, amount) {
+    if (collectable === 'coin') {
+      player.coins += amount;
+    }
+
+    // Prevent error, can't own negative
+    if (player.coins < 0) player.coins = 0;
+    if (player.stars < 0) player.stars = 0; 
   },
 
   // ==========
@@ -276,8 +288,6 @@ let stateManager = {
       this.score_room.num1 = Math.floor(this.rounds_remaining / 10);
       this.score_room.num2 = this.rounds_remaining % 10;
     }
-    console.log("asdasd")
-    console.log(this.players)
   },
 
   // ===============

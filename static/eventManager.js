@@ -38,6 +38,8 @@ let eventManager = {
   isEvent: false,
   anotherTurn: false,
 
+  coinAmount: 3,    // How many coins gained or lost
+
   starPopUpSprite: 0,   // Image data
 
   init: function() {
@@ -126,8 +128,14 @@ let eventManager = {
     stateManager.callNextTurn();
   },
 
+bool: true,
+
   01: function() {
-    this.blocksEvent();
+    if (this.bool) {
+      console.log("blueTile blocksevent")
+      this.blocksEvent();
+      this.bool = false;
+    }
   },
 
 
@@ -136,20 +144,17 @@ let eventManager = {
   /*// blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
-    player.coins += 3;
-    entityManager.playAnimation(1);
-    //networkManager.emit("animation_trigger", 1);
+    stateManager.updateCollectable(player, 'coin', this.coinAmount);
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);
+    networkManager.emit("animation_trigger", 'coinDown', this.coinAmount);
   },*/
 
   // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
-    player.coins -= 3;
-    if (player.coins < 0) {
-      player.coins = 0;
-    }
-    entityManager.playAnimation(0);
-    //networkManager.emit("animation_trigger", 0);
+    stateManager.updateCollectable(player, 'coin', -this.coinAmount);
+    animationManager.generateMapAnimation('coinUp', this.coinAmount);
+    networkManager.emit("animation_trigger", 'coinUp', this.coinAmount);
   },
 
 

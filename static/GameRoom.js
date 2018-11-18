@@ -97,6 +97,7 @@ GameRoom.prototype.update = function(du) {
       // Stop opening
       if(this.pipeIter >= 144) {
         if(this.isAnimating === 1) {this.isAnimating = 2};  // opening -> done
+        console.log("opening -> done")
         eventManager.blocksEvent();
       }
     }
@@ -109,7 +110,6 @@ GameRoom.prototype.update = function(du) {
     if(this.pipeIter <= -144 && this.isAnimating === 3) { 
       this.pipeIter = 0;
       this.isAnimating = 0; // closing -> off
-      //eventManager.closeBlocksEvent();
     }
 
   }
