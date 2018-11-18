@@ -29,7 +29,7 @@ Animation.prototype.isUp   = false;     // Play animation up
 Animation.prototype.isDown = false;     // Play animation down
 
 // Manipulation variables
-Animation.prototype.alpha = 0;          // Ctx alpha level - [0 - 1]
+Animation.prototype.alpha = 1;          // Ctx alpha level - [0 - 1]
 Animation.prototype.cx    = 0;          // Cx coordinates of the sprite
 Animation.prototype.cy    = 0;          // Cy coordinates of the sprite
 
@@ -72,6 +72,25 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod == 0) {
             this.frame++;
         }
+        this.iter += 1;
+        if (this.isUp)      this.cy--;
+        if (this.isDown)    this.cy++;
+        this.alpha -= 0.03;
+
+        // Restart
+        if(Math.floor(this.iter) === this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+            this.restart();
+            this.count++;
+            if (this.count === this.times) {
+                console.log("kill me")
+                return -1;
+            }
+        }
+    }
+
+    // Map star - static
+    if (this.preset === 'mapStar') {
+
         this.iter += 1;
         if (this.isUp)      this.cy--;
         if (this.isDown)    this.cy++;

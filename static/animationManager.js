@@ -36,7 +36,7 @@ let animationManager = {
     },
 
     generateMapAnimation: function(preset, t, p = entityManager._curr_tt_player) {
-        // - 3 coins
+        // - coins
         if (preset === 'coinUp') {
             this.mapAnimations.push(new Animation({
                 frameNo : 5,
@@ -47,7 +47,7 @@ let animationManager = {
                 player  : p,
             }));
         }
-        // + 3 coins
+        // + coins
         if (preset === 'coinDown') {
             this.mapAnimations.push(new Animation({
                 frameNo : 5,
@@ -58,7 +58,29 @@ let animationManager = {
                 player  : p,
             }));
         }
-        console.log("generate animat")
+
+        // - star
+        if (preset === 'starUp') {
+            this.mapAnimations.push(new Animation({
+                frameNo : 5,
+                mod     : this.mod,
+                times   : t,
+                preset  : 'mapStar',
+                isUp    : true,
+                player  : p,
+            }));
+        }
+        // + star
+        if (preset === 'starDown') {
+            this.mapAnimations.push(new Animation({
+                frameNo : 5,
+                mod     : this.mod,
+                times   : t,
+                preset  : 'mapStar',
+                isDown  : true,
+                player  : p,
+            }));
+        }
     },
 
 

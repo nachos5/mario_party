@@ -143,8 +143,20 @@ let stateManager = {
   // ==================
 
   updateCollectable: function(player, collectable, amount) {
+    // Coin
     if (collectable === 'coin') {
       player.coins += amount;
+
+      if (amount > 0) networkManager.emit("animation_trigger", 'coinDown', amount);   // + coin
+      else networkManager.emit("animation_trigger", 'coinUp', -amount);               // - coin
+    }
+
+    // Star
+    if (collectable === 'star') {
+      player.stars += amount;
+
+      if (amount > 0) networkManager.emit("animation_trigger", 'starDown', amount);   // + star
+      else networkManager.emit("animation_trigger", 'starUp', -amount);                // - star
     }
 
     // Prevent error, can't own negative
@@ -229,7 +241,7 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 1;
         // minigame manager calls the next round function
-        minigameManager.initMinigame();
+        //minigameManager.initMinigame();
       }
       this.turn++;
     }
