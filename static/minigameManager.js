@@ -36,6 +36,8 @@ initMinigame: function(name) {
 
   if (name == undefined) this.currentMinigame = this.getRandomMinigame();
   else                   this.currentMinigame = this.minigames[name];
+  this.currentMinigame.init();
+  this.currentMinigame = this.currentMinigame.game;
   this.currentPresetFunction = this.currentMinigame.preset;
   this.popup.setPreset('minigame');
   this.imageData();
@@ -53,11 +55,14 @@ initMinigame: function(name) {
 endMinigame: function() {
   const placements = this.currentMinigame.placements;
   this.rewards(placements);
-
   this.popup = null;
   this.currentMinigame = null;
   this.currentPresetFunction = null;
   this.minigame_is_running = false;
+
+  for(let i = 0; i < entityManager._players.length; i++) {
+    entityManager._players[i].eventPlayer.changeRoom(0);
+  }
 
   // start the next round!
   stateManager.nextRound();
@@ -69,7 +74,7 @@ rewards: function(placements) {
   let index = 1;
   for (let key in placements) {
     const player = players.find(obj => obj.player_id === placements[index]);
-    if (index === 1) player.minigames_won++; 
+    if (index === 1) player.minigames_won++;
     player.coins += coins;
     coins -= 5;
     if (coins < 0) coins = 0;

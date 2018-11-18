@@ -149,7 +149,7 @@ let stateManager = {
 
     // Prevent error, can't own negative
     if (player.coins < 0) player.coins = 0;
-    if (player.stars < 0) player.stars = 0; 
+    if (player.stars < 0) player.stars = 0;
   },
 
   // ==========
