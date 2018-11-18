@@ -54,20 +54,18 @@ function Victory(players) {
     this.numberWidth  = this.numberScaleX * g_numberSprites.num0.clipWidth;
     this.numberHeight = this.numberScaleY * g_numberSprites.num0.clipHeight;
 
-    // Offset values are based on mapHeight and mapWidth
-    this.victoryPopUp = new PopUp({
-        offsetTop   : 0.1,
-        offsetRight : 0.02,
-        offsetBot   : 0.5,
-        offsetLeft  : 0.02,
-        word        : 'PLAYER X ENDED UP WITH THE MOST COINS/AND GAINS ONE STAR',
-        //word        : 'PLAYER X ENDED UP WITH MOST COINS/AND GAINS ONE STAR',
-    });
+    // Text to display
+    let textCoins    = 'PLAYER # ENDED UP WITH THE/MOST COINS AND GAINS *';
+    let textMinigame = 'PLAYER # DID BEST IN MINIGAMES/AND GAINS *';
+    let texttest     = 'GULL ER NOOB OG KANN/EKKI NETWORKING';
 
-    //this.victoryPopUp.setPreset('victory');
+    this.victoryText = [textCoins, textMinigame, texttest];
+    this.victoryPopUp = [];
+    this.i = 0;
 
+    this.generatePopUps();
 
-    console.log(players)
+    // Podium
     let placement = [
         this.first,
         this.second,
@@ -88,12 +86,41 @@ function Victory(players) {
     }
 }
 
+// ================
+// GENERATE POP UPS
+// ================
+
+Victory.prototype.generatePopUps = function() {
+    for(let i = 0; i < this.victoryText.length; i++) {
+        this.victoryPopUp.push(new PopUp({
+            offsetTop   : 0.1,
+            offsetRight : 0.02,
+            offsetBot   : 0.5,
+            offsetLeft  : 0.02,
+            word        : this.victoryText[i],
+            pSpriteID   : entityManager._players[0].spriteID,
+            textLines   : 3,
+        }));
+    }
+};
+
+// ===========
+// NEXT POP UP
+// ===========
+
+Victory.prototype.nextPopUp = function() {
+    this.i++;
+    if (this.i === this.victoryPopUp.length) {
+        this.i--;
+        return -1;
+    }
+};
+
 // ======
 // UPDATE
 // ======
 
 Victory.prototype.update = function(du) {
-    return -1;
 };
 
 // ======
@@ -101,7 +128,7 @@ Victory.prototype.update = function(du) {
 // ======
 
 Victory.prototype.render = function(ctx) {
-    this.victoryPopUp.render(ctx);
+    this.victoryPopUp[this.i].render(ctx);
 
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 };
@@ -111,7 +138,7 @@ Victory.prototype.render = function(ctx) {
 // ==============
 
 Victory.prototype.dynamicRender = function(ctx) {
-    this.victoryPopUp.dynamicRender(ctx);
+    this.victoryPopUp[this.i].dynamicRender(ctx);
 };
 
 // =============
@@ -119,7 +146,7 @@ Victory.prototype.dynamicRender = function(ctx) {
 // =============
 
 Victory.prototype.staticRender = function(ctx) {
-    this.victoryPopUp.staticRender(ctx);
+    this.victoryPopUp[this.i].staticRender(ctx);
 
     this.podium.drawCentredAt(ctx, this.cx, this.cy, 0, this.podiumScaleX, this.podiumScaleY);
     
