@@ -218,8 +218,8 @@ networkManager.socket.on("audio_trigger", function(data) {
   audioManager.playAudio(data.bufferString, data.delayTime, data.loop, data.gainConst);
 });
 
-networkManager.socket.on("animation_trigger_server", function(data) {
-  animationManager.generateMapAnimation(data);
+networkManager.socket.on("animation_trigger_server", function(animation, times) {
+  animationManager.generateMapAnimation(animation, times);
 });
 
 networkManager.socket.on("lock_char", function(data) {

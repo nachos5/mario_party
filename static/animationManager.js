@@ -35,13 +35,13 @@ let animationManager = {
 
     },
 
-    generateMapAnimation: function(preset, p = entityManager._curr_tt_player) {
+    generateMapAnimation: function(preset, t, p = entityManager._curr_tt_player) {
         // - 3 coins
         if (preset === 'coinUp') {
             this.mapAnimations.push(new Animation({
                 frameNo : 5,
                 mod     : this.mod,
-                times   : 3,
+                times   : t,
                 preset  : 'mapCoin',
                 isUp    : true,
                 player  : p,
@@ -52,7 +52,7 @@ let animationManager = {
             this.mapAnimations.push(new Animation({
                 frameNo : 5,
                 mod     : this.mod,
-                times   : 3,
+                times   : t,
                 preset  : 'mapCoin',
                 isDown  : true,
                 player  : p,

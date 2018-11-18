@@ -38,6 +38,8 @@ let eventManager = {
   isEvent: false,
   anotherTurn: false,
 
+  coinAmount: 3,    // How many coins gained or lost
+
   starPopUpSprite: 0,   // Image data
 
   init: function() {
@@ -136,26 +138,23 @@ bool: true,
     }
   },
 
-/*
-  // ==== COLLECTABLES ==== //
 
+  // ==== COLLECTABLES ==== //
+/*
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
     const player = this.getCurrPlayer();
-    player.coins += 3;
-    animationManager.generateMapAnimation('coinDown');
-    networkManager.emit("animation_trigger", 'coinDown');
+    stateManager.updateCollectable(player, 'coin', this.coinAmount);
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);
+    networkManager.emit("animation_trigger", 'coinDown', this.coinAmount);
   },*/
 
   // red tile - lose 3 coins //
   02: function(parameters) {
     const player = this.getCurrPlayer();
-    player.coins -= 3;
-    if (player.coins < 0) {
-      player.coins = 0;
-    }
-    animationManager.generateMapAnimation('coinUp');
-    networkManager.emit("animation_trigger", 'coinUp');
+    stateManager.updateCollectable(player, 'coin', -this.coinAmount);
+    animationManager.generateMapAnimation('coinUp', this.coinAmount);
+    networkManager.emit("animation_trigger", 'coinUp', this.coinAmount);
   },
 
 

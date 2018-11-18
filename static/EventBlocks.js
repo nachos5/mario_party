@@ -28,7 +28,7 @@ function EventBlocks(descr) {
     // ===============
 
     this.randPlayer = function() { return parseInt(Math.random() * g_playerSpritesInUse.length) };
-    this.randItem   = function() { return parseInt(Math.random() * g_itemSprites.length) };
+    this.randItem   = function() { return 2}//parseInt(Math.random() * g_itemSprites.length) };
 
     // =============
     // OFFSET VALUES
@@ -149,42 +149,37 @@ EventBlocks.prototype.update = function(du) {
             const player1    = entityManager._players.find(obj => obj.spriteID == this.results1);
             const tt_player1 = player1.tt_player;
             const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
-            const tt_player3 = player3.tt_player;
-            
+            const tt_player3 = player3.tt_player;            
 
             // Resolve winner and loser
+            let coinAmount = 5;
 
             // Item box -> coin
             if (this.results2 === 0) {
                 if (this.winner === 1 || this.winner === 2) {
-                    player1.coins += 5;
-                    animationManager.generateMapAnimation('coinDown', tt_player1);
-                    player3.coins -= 5;
-                    animationManager.generateMapAnimation('coinUp', tt_player3);
+                    stateManager.updateCollectable(player1, 'coin', coinAmount);
+                    animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
+                    stateManager.updateCollectable(player3, 'coin', -coinAmount);
+                    animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
                 }
                 if (this.winner === 3 || this.winner === 2) {
-                    player3.coins += 5;
-                    animationManager.generateMapAnimation('coinDown', tt_player3);
-                    player1.coins -= 5;
-                    animationManager.generateMapAnimation('coinUp', tt_player1);
+                    stateManager.updateCollectable(player3, 'coin', coinAmount);
+                    animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
+                    stateManager.updateCollectable(player1, 'coin', -coinAmount);
+                    animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
                 }
             }
-            // temp fyrir boswer
-            // Item box -> star
-            if (this.results2 === 1) {
+            // Item box -> bowser
+            if (this.results2 === 2) {
                 if (this.winner === 1 || this.winner === 2) {
-                    player3.coins -= 5;
-                    animationManager.generateMapAnimation('coinUp', tt_player3);
+                    stateManager.updateCollectable(player3, 'coin', -coinAmount);
+                    animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
                 }
                 if (this.winner === 3 || this.winner === 2) {
-                    player1.coins -= 5;
-                    animationManager.generateMapAnimation('coinUp', tt_player1);
+                    stateManager.updateCollectable(player1, 'coin', -coinAmount);
+                    animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
                 }
             }
-
-            if (player1.coins < 0) player1.coins = 0;
-            if (player3.coins < 0) player3.coins = 0;
-
             // Unregister all the blocks
             spatialManager.unregister(this.block1);
             spatialManager.unregister(this.block2);

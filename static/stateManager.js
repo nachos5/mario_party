@@ -138,6 +138,20 @@ let stateManager = {
     };
   },
 
+  // ==================
+  // UPDATE COLLECTABLE
+  // ==================
+
+  updateCollectable: function(player, collectable, amount) {
+    if (collectable === 'coin') {
+      player.coins += amount;
+    }
+
+    // Prevent error, can't own negative
+    if (player.coins < 0) player.coins = 0;
+    if (player.stars < 0) player.stars = 0; 
+  },
+
   // ==========
   // NEW PLAYER
   // ==========
