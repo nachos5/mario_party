@@ -285,7 +285,7 @@ update: function(du) {
 
     // Animations
     if (g_useAnimation && this._isAnimation) {
-
+/*
         // Coin animation
         if (this._animation === 0 || this._animation === 1) {
             // Swap frames every 10th frame
@@ -308,7 +308,7 @@ update: function(du) {
                     this.stopAnimation();
                 }
             };
-        }
+        }*/
     }
 
 },
@@ -335,7 +335,7 @@ render: function(ctx) {
 
         // +- 3 Coin
         if (this._animation === 0 || this._animation === 1) {
-            g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_ani_tt_player.cx, this._curr_ani_tt_player.cy - this._curr_ani_tt_player.height + this._aniY, 0, this._curr_ani_tt_player.width * 2/3, this._curr_ani_tt_player.height * 2/3);
+            g_aniSprites.coin[this._aniFrame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + this._aniY, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
         }
         // Reset ctx
         ctx.globalAlpha = 1;

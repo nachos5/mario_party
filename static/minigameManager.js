@@ -33,14 +33,14 @@ initMinigame: function(name) {
   });
 
   if (name == undefined) this.currentMinigame = this.getRandomMinigame();
-  else                   this.currentMinigame = this.minigames[name]; 
+  else                   this.currentMinigame = this.minigames[name];
   this.currentPreset = this.currentMinigame.preset;
   this.popup.setPreset('minigame');
   this.imageData();
 
   for(let i = 0; i < entityManager._players.length; i++) {
     entityManager._players[i].eventPlayer.initMinigameRoom();
-    entityManager._players[i].eventPlayer.changeRoom(2);
+    //entityManager._players[i].eventPlayer.changeRoom(2);
   }
 
   this.currentMinigame.init();
