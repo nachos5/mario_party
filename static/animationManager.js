@@ -14,6 +14,9 @@ let animationManager = {
     isMapAnimation: false,
     mapAnimations: [],
 
+    // Temp animations
+    tempAnimations: [],
+
 
 
 
@@ -59,7 +62,7 @@ let animationManager = {
         // - star
         if (preset === 'starUp') {
             this.mapAnimations.push(new Animation({
-                frameNo : 5,
+                frameNo : 10,
                 mod     : this.mod,
                 times   : t,
                 preset  : 'mapStar',
@@ -70,12 +73,22 @@ let animationManager = {
         // + star
         if (preset === 'starDown') {
             this.mapAnimations.push(new Animation({
-                frameNo : 5,
+                frameNo : 10,
                 mod     : this.mod,
                 times   : t,
                 preset  : 'mapStar',
                 isDown  : true,
                 player  : p,
+            }));
+        }
+    },
+
+    generateTempAnimation: function(preset) {
+        if (preset === 'eventArrow') {
+            this.tempAnimations.push(new Animation({
+                frameNo : 11,
+                mod     : this.mod,
+                preset  : 'eventArrow'
             }));
         }
     },

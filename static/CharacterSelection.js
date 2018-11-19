@@ -42,7 +42,7 @@ CharacterSelection.prototype.resolveCollision = function () {
     player.refresh();
     menuManager.refresh();
     // Update scoreboard
-    stateManager.updateImageData('scoreRoom');
+    stateManager.updateImageData();
 
     this.isSelected = true;
 
