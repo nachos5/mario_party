@@ -126,8 +126,8 @@ function PopUp(descr) {
     this.alphLeft = this.innerLeft + this.alphWidth;
 
     // Number symbol
-    this.numberScaleX = this.alphWidth  / g_numberSprites.num0.clipWidth;
-    this.numberScaleY = this.numberScaleX;
+    this.numberScaleX = this.alphWidth     / g_numberSprites.num0.clipWidth;
+    this.numberScaleY = this.alphHeight/2  / g_numberSprites.num0.clipHeight;
 
     // Player symbol
     this.playerScaleX = this.alphWidth  / g_playerSprites[1].sp.width;
@@ -136,6 +136,13 @@ function PopUp(descr) {
     // Star symbol
     this.starScaleY = this.alphHeight / g_itemSprites[1].sp.height;
     this.starScaleX = this.starScaleY;
+
+    // Coin animated symbol
+    this.coinScaleX = this.alphWidth / g_aniSprites.coin[0].clipWidth;
+    this.coinScaleY = this.coinScaleX;
+
+    // Iterator
+    this.wordIter = 0;
 };
 
 // ==========
@@ -267,20 +274,6 @@ PopUp.prototype.setPreset = function(preset) {
         this.coinFrame = 0;
         this.coinIter = 0;
 
-        // =========
-        // STAR COST
-        // =========
-
-        let starCost = eventManager.star_cost;
-        this.starDigit1 = Math.floor(starCost / 10);
-        this.starDigit2 = starCost % 10;
-
-        this.starScaleX = (this.innerWidth  * 0.08)/ g_numberSprites.num0.clipWidth;
-        this.starScaleY = (this.innerHeight * 0.08) / g_numberSprites.num0.clipHeight;
-
-        this.starWidth  = this.starScaleX * g_numberSprites.num0.clipWidth;
-        this.starHeight = this.starScaleY * g_numberSprites.num0.clipHeight;
-
         // ======
         // BUTTON
         // ======
@@ -399,7 +392,7 @@ PopUp.prototype.render = function(ctx) {
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 
     if (this.preset === 'buyStar') {
-        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 + this.starWidth * 2, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
+        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
     }
     if (this.preset === 'menu') {
         // Characters
@@ -430,9 +423,6 @@ PopUp.prototype.dynamicRender = function(ctx) {
         }
     }
     if (this.preset === 'buyStar') {
-        // Star cost
-        g_numberSprites['num'+[this.starDigit1]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 - this.starWidth * 1.5, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
-        g_numberSprites['num'+[this.starDigit2]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2                       , this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
         // Buttons
         this.buttonYes.render(ctx);
         this.buttonNo.render(ctx);
@@ -465,6 +455,7 @@ PopUp.prototype.dynamicRender = function(ctx) {
             }
         }
         i++;
+        this.wordIter = i;
     }
 };
 

@@ -55,7 +55,8 @@ let eventManager = {
       offsetRight : 0.02,
       offsetBot   : 0.2,
       offsetLeft  : 0.02,
-      word        : 'DO YOU WANT TO BUY/THE STAR FOR',
+      word        : 'DO YOU WANT TO BUY THE/STAR FOR  10  ',
+      textLines   : 4,
     });
     this.starPopup.setPreset('buyStar');
 
