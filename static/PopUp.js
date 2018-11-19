@@ -96,7 +96,9 @@ function PopUp(descr) {
     /* 
         '/' = enter
         ' ' = spacebar
-        '#' = player sprite
+        '#' = 1 player sprite
+        '$' = 2 player sprite
+        '%' = 3 player sprite
         '*' = item star
     */
        
@@ -271,9 +273,7 @@ PopUp.prototype.setPreset = function(preset) {
         // Variables that are created
         this.buttonYes = null;
         this.buttonNo = null;
-        this.coinFrame = 0;
-        this.coinIter = 0;
-
+        
         // ======
         // BUTTON
         // ======
@@ -344,23 +344,6 @@ PopUp.prototype.resolveCollision = function () {
 // ======
 
 PopUp.prototype.update = function(du) {
-    if (g_useAnimation) {
-
-        if (this.preset === 'buyStar') {
-            // Coin animation
-            // Swap frames every 10th frame
-            if (this.coinIter % 6 == 0) {
-                this.coinFrame += 1;
-            }
-            this.coinIter++;
-            // Restart
-            if(this.coinIter === 30) {
-                this.coinFrame = 0;
-                this.coinIter = 0;
-            };
-        }
-    }
-
     if (this.preset === 'menu') {
         let begin = this.button.update(du);
 
@@ -392,7 +375,7 @@ PopUp.prototype.render = function(ctx) {
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 
     if (this.preset === 'buyStar') {
-        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
+        g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
     }
     if (this.preset === 'menu') {
         // Characters
@@ -436,7 +419,13 @@ PopUp.prototype.dynamicRender = function(ctx) {
         let alph = this.word[n];
         if (alph === ' ') {}        // Space
         else if (alph === '#') {    // Player sprite
-            g_playerSprites[this.pSpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
+            g_playerSprites[this.p1SpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
+        }
+        else if (alph === '$') {    // Player sprite
+            g_playerSprites[this.p2SpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
+        }
+        else if (alph === '%') {    // Player sprite
+            g_playerSprites[this.p3SpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
         }
         else if (alph === '*') {    // Star
             //i++;
