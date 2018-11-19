@@ -33,7 +33,7 @@ Button.prototype.getRadius = function () {
 
 Button.prototype.resolveCollision = function () {
     this.isReady = true;
-    
+
     // Update menu
     if (this.owner === 'menu') {
         entityManager.getMyPlayer().isReady = true;
@@ -41,6 +41,10 @@ Button.prototype.resolveCollision = function () {
     }
 
     if (this.owner === 'buyStar') {}
+
+    if (this.owner === 'minigame_ready') {
+      networkManager.emit('minigame_ready', entityManager.getMyPlayer().player_id);
+    }
 };
 
 // ======

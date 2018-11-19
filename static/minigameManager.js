@@ -22,6 +22,7 @@ popup: null,
 rules_popup: null,
 winning_popup: null,
 placements: {},
+minigame_ready: false,
 
 // stores current popup preset
 currentPresetFunction: null,
@@ -84,6 +85,7 @@ rewards: function() {
     if (coins < 0) coins = 0;
     index++;
   };
+  stateManager.updateImageData('scoreRoom');
 },
 
 // gets a random unplayed minigame (resets when all have been played)
@@ -123,6 +125,7 @@ newRulesPopup: function(string, lines) {
     word        : string,
     textLines   : lines,
   });
+  this.rules_popup.setPreset('minigame_ready');
 },
 
 winningPopup: function() {
@@ -138,11 +141,14 @@ winningPopup: function() {
   let coins = 20;
   let string = "REWARDS/"
   for (let i=0; i<player_ids_order.length; i++) {
-    string += "PLAYER " + player_ids_order[i] + " GETS " + coins + " COINS/";
+    const player = players.find(obj => obj.player_id === player_ids_order[i]);
+    const name = g_playerSprites[player.spriteID].name.toUpperCase();
+    string += name + " GETS " + coins + " COINS/";
     coins -= 5;
     if (coins < 0) coins = 0;
     lines++;
   }
+
   this.winning_popup = new PopUp({
     offsetTop   : 0.2,
     offsetRight : 0.02,

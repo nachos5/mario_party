@@ -182,7 +182,7 @@ let stateManager = {
       if (player.coins < 0) player.coins = 0;
       if (player.stars < 0) player.stars = 0;
     //}
-    //networkManager.emit('update_collectables', player);
+      stateManager.updateImageData('scoreRoom');
   },
 
   // ==========

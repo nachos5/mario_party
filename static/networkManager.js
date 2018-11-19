@@ -291,7 +291,9 @@ networkManager.socket.on("results3_server", function(results3) {
 
 
 // ==== MINIGAME STUFF ==== //
-
+networkManager.socket.on("minigame_ready_server", function() {
+  minigameManager.minigame_ready = true;
+});
 
 
 

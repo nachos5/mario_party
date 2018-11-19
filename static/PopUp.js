@@ -93,13 +93,13 @@ function PopUp(descr) {
     // ===========
 
     // Special characters
-    /* 
+    /*
         '/' = enter
         ' ' = spacebar
         '#' = player sprite
         '*' = item star
     */
-       
+
     // Word to display
     //this.word = 'ABCDEFGHIJKLMNOPQRSTUVWXZY?.'
 
@@ -266,6 +266,39 @@ PopUp.prototype.setPreset = function(preset) {
             }));
         };
     }
+
+    if (this.preset === 'minigame_ready') {
+      // ======
+      // BUTTON
+      // ======
+
+      let buttonScaleX = this.width/5  / g_sprites.greenReady.width;
+      let buttonScaleY = this.height/4 / g_sprites.greenReady.height;
+
+      let buttonWidth  = g_sprites.greenReady.width  * buttonScaleX;
+      let buttonHeight = g_sprites.greenReady.height * buttonScaleY;
+
+      let buttonCx = this.right - this.pipeWidth  - buttonWidth/2;
+      let buttonCy = this.bot   - this.pipeHeight - buttonWidth/2;
+
+      // Button
+      this.button = new Button({
+          cx: buttonCx,
+          cy: buttonCy,
+
+          width: buttonWidth,
+          height: buttonHeight,
+
+          scaleX: buttonScaleX,
+          scaleY: buttonScaleY,
+
+          onSprite: g_sprites.greenReady,
+          offSprite: g_sprites.cyanReady,
+
+          owner: 'minigame_ready',
+      });
+    }
+
     if (preset === 'buyStar') {
 
         // Variables that are created
@@ -410,6 +443,10 @@ PopUp.prototype.dynamicRender = function(ctx) {
     // Presets
     if (this.preset === 'minigame') {
       minigameManager.currentPresetFunction(ctx);
+    }
+
+    if (this.preset === 'minigame_ready') {
+      this.button.render(ctx);
     }
 
     if (this.preset === 'menu') {

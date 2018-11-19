@@ -46,6 +46,8 @@ server.startServer = function(startServer) {
   let all_players_ready = false;
   // currently locked chars (from selection)
   let locked_chars = {};
+  // players ready for the minigame to start
+  let minigame_ready = [];
 
   //setInterval(function() { console.log("nýtt"); for (let p in players) { console.log(players[p].socket_id); }; }, 1000);
 
@@ -204,6 +206,17 @@ server.startServer = function(startServer) {
       console.log(data);
     });
 
+    // ==== MINIGAME STUFF ==== //
+
+    socket.on('minigame_ready', function(id) {
+      minigame_ready.push(id);
+      if (minigame_ready.length == Object.keys(players).length) {
+        socket.emit("minigame_ready_server");
+        socket.broadcast.emit("minigame_ready_server");
+        minigame_ready = []; // reset
+      }
+    })
+
 
 
 
@@ -228,7 +241,7 @@ server.startServer = function(startServer) {
             io.close();
             startServer(startServer);
           }
-        }, 20000);
+        }, 1000);
       }
     });
   });
