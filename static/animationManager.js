@@ -4,7 +4,7 @@
 
 let animationManager = {
     // Control variables
-    mod: 6,
+    mod: 6,     // Constant don't change
 
     // Continous animations
     coin: 0,

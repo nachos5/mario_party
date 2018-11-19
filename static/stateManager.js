@@ -255,9 +255,7 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 1;
         // minigame manager calls the next round function
-        //minigameManager.initMinigame();
-        this.nextRound();
-        console.log("temp here -> kill me")
+        minigameManager.initMinigame();
       }
       this.turn++;
     }
