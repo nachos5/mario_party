@@ -153,6 +153,7 @@ function requestPreloads_images() {
 
         // Minigame stuff
         finishLine      : "static/assets/finishLine.png",
+        bulletBill      : "static/assets/bulletBillHiRes.png",
 
         // Objects
         die0             : "static/assets/diceBlock0.png",
@@ -241,6 +242,7 @@ function preloadDone() {
 
     // Minigames stuff
     g_sprites.finishLine        = new Sprite(g_images.finishLine);
+    g_sprites.bulletBill        = new Sprite(g_images.bulletBill);
 
     // Button
     g_sprites.cyanReady         = new Sprite(g_images.cyanReady);

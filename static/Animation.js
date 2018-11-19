@@ -108,6 +108,24 @@ Animation.prototype.update = function(du) {
         }
     }
 
+    // Map die - static
+    if (this.preset === 'mapDie') {
+        if (Math.floor(this.iter) % this.mod == 0) {
+            this.frame++;
+        }
+        this.iter += 1;
+        this.alpha -= 0.005;
+
+        // Restart
+        if(Math.floor(this.iter) === this.mod * this.frameNo) {
+            this.restart();
+            this.count++;
+            if (this.count === this.times) {
+                return -1;
+            }
+        }
+    }
+
     // GameRoom die
     if (this.preset === 'die') {
         if (Math.floor(this.iter) % this.mod === 0) {

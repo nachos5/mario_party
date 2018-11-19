@@ -4,7 +4,7 @@
 
 let animationManager = {
     // Control variables
-    mod: 6,
+    mod: 6,     // Constant don't change
 
     // Continous animations
     coin: 0,
@@ -78,6 +78,16 @@ let animationManager = {
                 times   : t,
                 preset  : 'mapStar',
                 isDown  : true,
+                player  : p,
+            }));
+        }
+        // + die
+        if (preset === 'dieUp') {
+            this.mapAnimations.push(new Animation({
+                frameNo : 10,
+                mod     : this.mod,
+                times   : t,
+                preset  : 'mapDie',
                 player  : p,
             }));
         }

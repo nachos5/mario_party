@@ -43,9 +43,6 @@ let eventManager = {
   starPopUpSprite: 0,   // Image data
 
   init: function() {
-    // Unregister hitboxes because of pre initialization
-    //spatialManager.unregister(this.starPopup.buttonYes);
-    //spatialManager.unregister(this.starPopup.buttonNo);
   },
 
   generateStarPopUp: function() {
@@ -210,10 +207,6 @@ let eventManager = {
       this.generateStarPopUp();
       this.curr_render_function = this.starRender;
       this.allow_rendering = true;
-
-      // Register button hitboxes
-      //spatialManager.register(this.starPopup.buttonYes);
-      //spatialManager.register(this.starPopup.buttonNo);
     }
     const player = this.getCurrPlayer();
     // handle click on yes button
@@ -390,6 +383,7 @@ let eventManager = {
   // Toad - another turn
   31: function() {
     this.anotherTurn = true;
+    animationManager.generateMapAnimation('dieUp', 1);
   },
 
 
