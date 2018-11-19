@@ -5,7 +5,7 @@ mash.init = function() {
   this.game = {
     minSpeed: 5,
     speed: 5, // more mashing -> more speed
-    rules_string: "Mash spacebar to reach the finish line! :)",
+    rules_string: "MINIGAME RULES/MASH SPACEBAR TO REACH/THE FINISH LINE",
     rules_popup: null,
     rules_running: false,
     rules_iter: 0,
@@ -48,18 +48,10 @@ mash.init = function() {
 
     rules: function(ctx, init=false) {
       if (init) {
-        minigameManager.newRulesPopup();
+        minigameManager.newRulesPopup(this.rules_string, 4);
         this.rules_running = true;
         this.rules_iter = 400;
       }
-      ctx.save();
-
-      ctx.fillStyle = "black";
-      ctx.font = "30px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText(this.rules_string,
-                   minigameManager.popup.innerLeft + minigameManager.popup.innerWidth/2,
-                   minigameManager.popup.innerTop + minigameManager.popup.innerHeight/2);
 
       this.rules_iter--;
       if (this.rules_iter === 0) {
@@ -67,7 +59,6 @@ mash.init = function() {
         minigameManager.rules_popup = null;
       }
 
-      ctx.restore();
     },
 
     preset: function() {
@@ -103,7 +94,7 @@ mash.init = function() {
     win: function(ctx, init=false) {
       if (init) {
         this.sortByPlacement();
-        minigameManager.winningPopup();
+        minigameManager.rewards();
         this.win_iter = 400;
         this.win_running = true;
       }
@@ -141,7 +132,6 @@ mash.init = function() {
 
     updateIter: 0, // used for resetting speed
     update: function(du) {
-      console.log("mininnnini")
       // --- speed stuff --- //
       if (eatKey(this.my_player.KEY_MASH) && !this.rules_running && !this.have_winner) {
         this.my_player.cy -= this.speed;
@@ -155,7 +145,7 @@ mash.init = function() {
       }
 
       // --- did someone win? --- //
-      this.checkForWin();
+      if (!this.have_winner) this.checkForWin();
     },
 
     render: function(ctx) {

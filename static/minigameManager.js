@@ -21,6 +21,7 @@ currentMinigame: null,
 popup: null,
 rules_popup: null,
 winning_popup: null,
+placements: {},
 
 // stores current popup preset
 currentPresetFunction: null,
@@ -53,8 +54,6 @@ initMinigame: function(name) {
 },
 
 endMinigame: function() {
-  const placements = this.currentMinigame.placements;
-  this.rewards(placements);
   this.popup = null;
   this.currentMinigame = null;
   this.currentPresetFunction = null;
@@ -68,14 +67,19 @@ endMinigame: function() {
   stateManager.nextRound();
 },
 
-rewards: function(placements) {
+rewards: function() {
+  this.placements = this.currentMinigame.placements;
+  this.winningPopup();
+
   const players = entityManager._players;
   let coins = 20;
   let index = 1;
-  for (let key in placements) {
-    const player = players.find(obj => obj.player_id === placements[index]);
+  for (let key in this.placements) {
+    const player = players.find(obj => obj.player_id === this.placements[index]);
     if (index === 1) player.minigames_won++;
     player.coins += coins;
+    console.log(player);
+    //networkManager.emit("update_player", player);
     coins -= 5;
     if (coins < 0) coins = 0;
     index++;
@@ -110,21 +114,42 @@ getPlayers: function() {
 },
 
 
-newRulesPopup: function() {
+newRulesPopup: function(string, lines) {
   this.rules_popup = new PopUp({
     offsetTop   : 0.2,
     offsetRight : 0.02,
     offsetBot   : 0.2,
     offsetLeft  : 0.02,
+    word        : string,
+    textLines   : lines,
   });
 },
 
 winningPopup: function() {
+  const players = entityManager._players;
+  let index = 1;
+  let player_ids_order = [];
+  for (let key in this.placements) {
+    const player = players.find(obj => obj.player_id === this.placements[index]);
+    player_ids_order.push(player.player_id);
+    index++;
+  };
+  let lines = 3;
+  let coins = 20;
+  let string = "REWARDS/"
+  for (let i=0; i<player_ids_order.length; i++) {
+    string += "PLAYER " + player_ids_order[i] + " GETS " + coins + " COINS/";
+    coins -= 5;
+    if (coins < 0) coins = 0;
+    lines++;
+  }
   this.winning_popup = new PopUp({
     offsetTop   : 0.2,
     offsetRight : 0.02,
     offsetBot   : 0.2,
     offsetLeft  : 0.02,
+    word        : string,
+    textLines   : lines,
   });
 },
 

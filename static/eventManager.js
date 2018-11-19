@@ -107,7 +107,7 @@ let eventManager = {
 
   // BLOCKS EVENT
   blocksEvent: function() {
-    console.log(stateManager.curr_player.my_player)
+      stateManager.animation_is_running = true;
       this.isEvent = true;
       this.isBlocksEvent = true;
       // Change state of pipes, off -> opening
@@ -174,6 +174,7 @@ let eventManager = {
 
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
+    stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
     animationManager.generateMapAnimation('coinDown', this.coinAmount);
@@ -185,6 +186,7 @@ let eventManager = {
 
   // red tile - lose 3 coins //
   02: function(parameters) {
+    stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', -this.coinAmount);
     animationManager.generateMapAnimation('coinUp', this.coinAmount);

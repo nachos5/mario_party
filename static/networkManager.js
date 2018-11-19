@@ -161,6 +161,7 @@ networkManager.socket.on("existingPlayers", function(data) {
 
 
 // UPDATING PLAYER STUFF
+updateIter = 0;
 networkManager.socket.on("update_player_server", function(player) {
 
   //for (let i in entityManager._players) console.log(entityManager._players[i].uuid);
@@ -168,6 +169,11 @@ networkManager.socket.on("update_player_server", function(player) {
   //console.log(obj)
 
   try {
+    if (updateIter == 10) {
+      stateManager.updateImageData('scoreRoom');
+      updateIter = -1;
+    }
+    updateIter++;
 
     // ==== MAIN PLAYER ==== //
     obj.connected = player.connected;

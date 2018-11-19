@@ -121,6 +121,9 @@ server.startServer = function(startServer) {
         players[player.uuid].star_pos = starPos;
         players[player.uuid].uuid = player.uuid;
 
+        players[player.uuid].stars = player.stars;
+        players[player.uuid].coins = player.coins;
+
         players[player.uuid].spriteID = player.spriteID;
         locked_chars[player.uuid] = player.spriteID;
         //console.log(locked_chars);

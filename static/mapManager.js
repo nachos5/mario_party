@@ -150,7 +150,7 @@ step: function() {
 
   // here our turn is over and we have handled the final event so we end our turn
   else {
-    if (!this.eventIsRunning) {
+    if (!this.eventIsRunning && !stateManager.animation_is_running) {
       // change die side to 0
       entityManager.getDie().side_sprite(0);
       networkManager.socket.emit("die_sprite", 0);

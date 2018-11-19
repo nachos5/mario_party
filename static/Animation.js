@@ -83,6 +83,7 @@ Animation.prototype.update = function(du) {
             this.count++;
             if (this.count === this.times) {
                 console.log("kill me")
+                stateManager.animation_is_running = false;
                 return -1;
             }
         }
@@ -102,6 +103,7 @@ Animation.prototype.update = function(du) {
             this.count++;
             if (this.count === this.times) {
                 console.log("kill me")
+                stateManager.animation_is_running = false;
                 return -1;
             }
         }

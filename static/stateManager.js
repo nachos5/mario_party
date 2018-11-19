@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 1,
+  rounds_remaining: 10,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -25,6 +25,7 @@ let stateManager = {
   gamestate: {}, // emitted from the server
   turn: 1,
   all_players_ready: false,
+  animation_is_running: false,
 
   // =========
   // INITALIZE
@@ -143,27 +144,27 @@ let stateManager = {
   // ==================
 
   updateCollectable: function(player, collectable, amount) {
-    // Coin
-    if (collectable === 'coin') {
-      player.coins += amount;
+    //if (player.my_player) {
+      // Coin
+      if (collectable === 'coin') {
+        player.coins += amount;
 
-      if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
-      else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
-    }
+        if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
+        else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
+      }
 
-    // Star
-    if (collectable === 'star') {
-      player.stars += amount;
+      // Star
+      if (collectable === 'star') {
+        player.stars += amount;
 
-      if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
-      else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
-    }
+        if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
+        else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
+      }
 
-    // Prevent error, can't own negative
-    if (player.coins < 0) player.coins = 0;
-    if (player.stars < 0) player.stars = 0;
-
-    console.log(player);
+      // Prevent error, can't own negative
+      if (player.coins < 0) player.coins = 0;
+      if (player.stars < 0) player.stars = 0;
+    //}
     //networkManager.emit('update_collectables', player);
   },
 
@@ -244,8 +245,8 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 1;
         // minigame manager calls the next round function
-        //minigameManager.initMinigame();
-        this.nextRound();
+        minigameManager.initMinigame();
+        //this.nextRound();
       }
       this.turn++;
     }
