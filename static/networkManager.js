@@ -104,6 +104,9 @@ networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
 
 
 networkManager.socket.on("all_players_ready_server", function() {
+  entityManager._players.sort(function(x, y) {
+    return x.player_id - y.player_id;
+  });
   networkManager.all_players_ready = true;
   g_startGame = true;
 
@@ -193,6 +196,13 @@ networkManager.socket.on("update_player_server", function(player) {
   }
 });
 
+// UPDATING COLLECTABLES
+networkManager.socket.on("update_collectables_server", function(player) {
+  const client_player = entityManager._players.find(obj => obj.uuid = player.uuid);
+  client_player.stars = player.stars;
+  client_player.coins = player.coins;
+});
+
 
 // we are ready for the next turn
 networkManager.socket.on("next_turn_server", function(bool) {
@@ -245,13 +255,40 @@ networkManager.socket.on("lock_char", function(data) {
   } catch(e) {
     console.log(e.stack);
   }
+});
+
+// ==== EVENT BLOCKS ==== //
+networkManager.socket.on('event_blocks_run', function() {
+  eventManager.blocksEvent();
+});
+
+networkManager.socket.on("results1_server", function(results1) {
+  try {
+    entityManager._eventBlocks[0].results1_server_bool = true;
+    entityManager._eventBlocks[0].results1_server = results1;
+  } catch(e) {};
+});
+
+networkManager.socket.on("results2_server", function(results2) {
+  try {
+    entityManager._eventBlocks[0].results2_server_bool = true;
+    entityManager._eventBlocks[0].results2_server = results2;
+  } catch(e) {};
+});
+
+networkManager.socket.on("results3_server", function(results3) {
+  try {
+    entityManager._eventBlocks[0].results3_server_bool = true;
+    entityManager._eventBlocks[0].results3_server = results3;
+  } catch(e) {};
+});
 
 
 // ==== MINIGAME STUFF ==== //
 
 
 
-});
+
 
 
 

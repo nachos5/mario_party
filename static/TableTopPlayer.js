@@ -77,7 +77,6 @@ TableTopPlayer.prototype.resolveCollision = function() {
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
-  console.log(this)
 
     spatialManager.unregister(this);
 

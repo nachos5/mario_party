@@ -20,7 +20,7 @@
 let eventManager = {
   eventIter: 0,
   // events that require no animation
-  instant_events: [03, 04, 07, 13, 31, 36, 37, 38, 39],
+  instant_events: [03, 07, 13, 31, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
   mid_movement_events: [08, 36, 37, 38, 39, 60, 61, "buyStar"],
   // we use this to check if our event happens after the movement
@@ -106,6 +106,7 @@ let eventManager = {
 
   // BLOCKS EVENT
   blocksEvent: function() {
+    console.log(stateManager.curr_player.my_player)
       this.isEvent = true;
       this.isBlocksEvent = true;
       // Change state of pipes, off -> opening
@@ -125,12 +126,15 @@ let eventManager = {
     // Event is done, start closing
     this.isEvent = false;
     this.isBlocksEvent = false;
-    stateManager.curr_player.eventPlayer.changeRoom(0);
-    stateManager.callNextTurn();
+    if (stateManager.curr_player.my_player) {
+      stateManager.curr_player.eventPlayer.changeRoom(0);
+    }
+
+    mapManager.eventIsRunning = false;
   },
 
   // ==== EVENT SPACES ==== //
-  
+
   // Green questionmark - random event
   03: function() {
 
@@ -142,8 +146,11 @@ let eventManager = {
   },
 
   // Green star - initialize blocks event
-  04: function() {
-    this.blocksEvent();
+  04: function(init) {
+    if (init) {
+      networkManager.emit('event_blocks_init');
+      this.blocksEvent();
+    }
   },
 
   // Bowser, everbody loses coins
@@ -156,7 +163,7 @@ let eventManager = {
     }
   },
 
-  // Swap 
+  // Swap
   13: function() {
     console.log("i'am toad")
   },
@@ -166,9 +173,13 @@ let eventManager = {
 
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
-    const player = this.getCurrPlayer();
+    /*const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
-    animationManager.generateMapAnimation('coinDown', this.coinAmount);
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);*/
+    if (parameters) {
+      networkManager.emit('event_blocks_init');
+      this.blocksEvent();
+    }
   },
 
   // red tile - lose 3 coins //

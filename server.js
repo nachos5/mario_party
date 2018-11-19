@@ -178,6 +178,32 @@ server.startServer = function(startServer) {
       delete players[uuid];
     });
 
+    // ==== EVENT BLOCKS ==== //
+    socket.on('event_blocks_init', function() {
+      socket.broadcast.emit('event_blocks_run');
+    });
+
+    socket.on('results1', function(data) {
+      socket.broadcast.emit('results1_server', data);
+    });
+
+    socket.on('results2', function(data) {
+      socket.broadcast.emit('results2_server', data);
+    });
+
+    socket.on('results3', function(data) {
+      socket.broadcast.emit('results3_server', data);
+    });
+
+    // ==== COLLECTABLES ==== //
+    socket.on('update_collectables', function(data) {
+      socket.broadcast.emit('update_collectables_server', data);
+      console.log(data);
+    });
+
+
+
+
     socket.on('disconnect', function() {
       let player = null;
       for (let key in players) {

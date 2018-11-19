@@ -62,19 +62,18 @@ Player.prototype.update = function (du) {
     if (this.updateIter === 50) {
       this.refresh();
       this.updateIter = -1;
+      //console.log(this);
     }
     this.updateIter++;
 
     // we only emit our player to the server!
     if (this.my_player) {
-      //this.socket_id = networkManager.player_info.socket_id;
-      //this.uuid = networkManager.player_info.uuid;
       // emit players position to the server
       networkManager.emit("update_player", this);
-
-      this.tt_player.update(du);
       if (g_startGame && !g_gameOver) this.eventPlayer.update(du);
     }
+
+    this.tt_player.update(du);
 };
 
 // ======
