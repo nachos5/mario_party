@@ -125,6 +125,10 @@ function PopUp(descr) {
     this.alphTop  = this.innerTop  + this.alphHeight;
     this.alphLeft = this.innerLeft + this.alphWidth;
 
+    // Number symbol
+    this.numberScaleX = this.alphWidth  / g_numberSprites.num0.clipWidth;
+    this.numberScaleY = this.numberScaleX;
+
     // Player symbol
     this.playerScaleX = this.alphWidth  / g_playerSprites[1].sp.width;
     this.playerScaleY = this.playerScaleX;
@@ -445,15 +449,20 @@ PopUp.prototype.dynamicRender = function(ctx) {
             g_playerSprites[this.pSpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
         }
         else if (alph === '*') {    // Star
-            i++;
-            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
+            //i++;
+            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), -this.alphHeight/20 + this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
         }
         else if (alph === '/') {    // Newline
             i = -1;
             j++;
         }
         else {
-            g_alphSprites[alph].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.alphScaleX, this.alphScaleY);
+            try{    // Number
+                g_numberSprites['num'+[alph]].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.numberScaleX, this.numberScaleY);
+            }
+            catch {
+                g_alphSprites[alph].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.alphScaleX, this.alphScaleY);
+            }
         }
         i++;
     }

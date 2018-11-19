@@ -57,7 +57,7 @@ function Victory(players) {
     // Text to display
     let textCoins    = 'PLAYER # ENDED UP WITH THE/MOST COINS AND GAINS *';
     let textMinigame = 'PLAYER # DID BEST IN MINIGAMES/AND GAINS *';
-    let texttest     = 'GULL ER NOOB OG KANN/EKKI NETWORKING';
+    let texttest     = 'GULL ER NOOB KANN EKKI/NETWORKING 10 *';
 
     this.victoryText = [textCoins, textMinigame, texttest];
     this.victoryPopUp = [];
