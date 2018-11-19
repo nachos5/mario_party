@@ -81,6 +81,16 @@ let animationManager = {
                 player  : p,
             }));
         }
+        // + die
+        if (preset === 'dieUp') {
+            this.mapAnimations.push(new Animation({
+                frameNo : 10,
+                mod     : this.mod,
+                times   : t,
+                preset  : 'mapDie',
+                player  : p,
+            }));
+        }
     },
 
     generateTempAnimation: function(preset) {
