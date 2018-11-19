@@ -46,7 +46,6 @@ deferredSetup : function () {
 },
 
 init: function() {
-  console.log("init");
 
   if (!localStorage.getItem('uuid')) {
     localStorage.setItem('uuid', Math.random().toString(12));

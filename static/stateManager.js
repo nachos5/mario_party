@@ -91,11 +91,11 @@ let stateManager = {
   updateVictoryImageData: function() {
     // Static image data
     this.victoryScreen.staticRender(g_ctx);
-    this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+    this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
     this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
     // Dynamic image data
     this.victoryScreen.dynamicRender(g_ctx);
-    this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+    this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
   },
 
   // =================
@@ -279,16 +279,15 @@ let stateManager = {
         this.victoryScreen = new Victory(this.players);
         // Static image data
         this.victoryScreen.staticRender(g_ctx);
-        this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+        this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
         this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
         // Dynamic image data
         this.victoryScreen.dynamicRender(g_ctx);
-        this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top, this.victoryScreen.victoryPopUp.width, this.victoryScreen.victoryPopUp.height);
+        this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
 
         entityManager.victory();
         // Freeze interactive objects except event player
         g_gameOver = true;
-        console.log(this.players)
       }
 
       // Set Round to zero
@@ -332,6 +331,12 @@ let stateManager = {
 
     this.score_room.update(du);
     this.game_room.update(du);
+
+    if (!animationManager.isMapAnimation && this.victoryScreen !== 0 && this.status !== -1) {
+      this.status = this.victoryScreen.nextPopUp();
+      animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
+      this.updateVictoryImageData();
+    }
   },
 
   // ======
@@ -350,10 +355,10 @@ let stateManager = {
 
     if (this.victoryScreen) {
       // Render static object
+      ctx.putImageData(this.victoryStaticSprite, this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top);
       ctx.putImageData(this.victoryStatic2Sprite, this.victoryScreen.left, this.victoryScreen.top);
-      ctx.putImageData(this.victoryStaticSprite, this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top);
       // Render dynamic object
-      ctx.putImageData(this.victoryDynamicSprite, this.victoryScreen.victoryPopUp.left, this.victoryScreen.victoryPopUp.top);
+      ctx.putImageData(this.victoryDynamicSprite, this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top);
       this.victoryScreen.render(ctx);
     }
   },

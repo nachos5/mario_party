@@ -96,20 +96,18 @@ function PopUp(descr) {
     /* 
         '/' = enter
         ' ' = spacebar
+        '#' = player sprite
+        '*' = item star
     */
        
     // Word to display
     //this.word = 'ABCDEFGHIJKLMNOPQRSTUVWXZY?.'
 
-    // Good default -> 40 and 8
-    let textLength = 0;       // Characters per line
-    let textLines = 8;        // Divide popup into x lines
-
     let n = 0;      // Counter for textLength
     for(let i = 0; i < this.word.length; i++) {
         if (this.word[i] === '/' || i === this.word.length-1) {
-            if (n > textLength) {
-                textLength = n+1;
+            if (n > this.textLength) {
+                this.textLength = n+1;
                 n = 0;
             }
         }
@@ -118,14 +116,33 @@ function PopUp(descr) {
 
     this.alphSprite = g_alphSprites.A;
 
-    this.alphScaleX = (this.innerWidth  - this.alphSprite.clipWidth)  / (textLength * this.alphSprite.clipWidth * 2.15);
-    this.alphScaleY = (this.innerHeight - this.alphSprite.clipHeight) / (textLines * this.alphSprite.clipHeight * 2.15);
+    this.alphScaleX = (this.innerWidth  - this.alphSprite.clipWidth)  / (this.textLength * this.alphSprite.clipWidth * 2.15);
+    this.alphScaleY = (this.innerHeight - this.alphSprite.clipHeight) / (this.textLines  * this.alphSprite.clipHeight * 2.15);
 
     this.alphWidth  = this.alphScaleX * this.alphSprite.clipWidth  * 2.15;
     this.alphHeight = this.alphScaleY * this.alphSprite.clipHeight * 2.15;
 
     this.alphTop  = this.innerTop  + this.alphHeight;
     this.alphLeft = this.innerLeft + this.alphWidth;
+
+    // Number symbol
+    this.numberScaleX = this.alphWidth     / g_numberSprites.num0.clipWidth;
+    this.numberScaleY = this.alphHeight/2  / g_numberSprites.num0.clipHeight;
+
+    // Player symbol
+    this.playerScaleX = this.alphWidth  / g_playerSprites[1].sp.width;
+    this.playerScaleY = this.playerScaleX;
+
+    // Star symbol
+    this.starScaleY = this.alphHeight / g_itemSprites[1].sp.height;
+    this.starScaleX = this.starScaleY;
+
+    // Coin animated symbol
+    this.coinScaleX = this.alphWidth / g_aniSprites.coin[0].clipWidth;
+    this.coinScaleY = this.coinScaleX;
+
+    // Iterator
+    this.wordIter = 0;
 };
 
 // ==========
@@ -134,6 +151,8 @@ function PopUp(descr) {
 
 PopUp.prototype.isReady = false;
 PopUp.prototype.word = '';
+PopUp.prototype.textLength = 0;       // Characters per line
+PopUp.prototype.textLines  = 8;        // Divide popup into x lines
 
 // ==========
 // SET PRESET
@@ -255,20 +274,6 @@ PopUp.prototype.setPreset = function(preset) {
         this.coinFrame = 0;
         this.coinIter = 0;
 
-        // =========
-        // STAR COST
-        // =========
-
-        let starCost = eventManager.star_cost;
-        this.starDigit1 = Math.floor(starCost / 10);
-        this.starDigit2 = starCost % 10;
-
-        this.starScaleX = (this.innerWidth  * 0.08)/ g_numberSprites.num0.clipWidth;
-        this.starScaleY = (this.innerHeight * 0.08) / g_numberSprites.num0.clipHeight;
-
-        this.starWidth  = this.starScaleX * g_numberSprites.num0.clipWidth;
-        this.starHeight = this.starScaleY * g_numberSprites.num0.clipHeight;
-
         // ======
         // BUTTON
         // ======
@@ -387,7 +392,7 @@ PopUp.prototype.render = function(ctx) {
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 
     if (this.preset === 'buyStar') {
-        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 + this.starWidth * 2, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
+        g_aniSprites.coin[this.coinFrame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
     }
     if (this.preset === 'menu') {
         // Characters
@@ -418,9 +423,6 @@ PopUp.prototype.dynamicRender = function(ctx) {
         }
     }
     if (this.preset === 'buyStar') {
-        // Star cost
-        g_numberSprites['num'+[this.starDigit1]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2 - this.starWidth * 1.5, this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
-        g_numberSprites['num'+[this.starDigit2]].drawClipCentredAt(ctx, this.innerLeft + this.innerWidth/2                       , this.innerBot - this.starHeight * 3, 0, this.starScaleX, this.starScaleY);
         // Buttons
         this.buttonYes.render(ctx);
         this.buttonNo.render(ctx);
@@ -433,14 +435,27 @@ PopUp.prototype.dynamicRender = function(ctx) {
     for(let n = 0; n < this.word.length; n++) {
         let alph = this.word[n];
         if (alph === ' ') {}        // Space
+        else if (alph === '#') {    // Player sprite
+            g_playerSprites[this.pSpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
+        }
+        else if (alph === '*') {    // Star
+            //i++;
+            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), -this.alphHeight/20 + this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
+        }
         else if (alph === '/') {    // Newline
-            i = -2;
+            i = -1;
             j++;
         }
         else {
-            g_alphSprites[alph].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.alphScaleX, this.alphScaleY);
+            try{    // Number
+                g_numberSprites['num'+[alph]].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.numberScaleX, this.numberScaleY);
+            }
+            catch {
+                g_alphSprites[alph].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.alphScaleX, this.alphScaleY);
+            }
         }
         i++;
+        this.wordIter = i;
     }
 };
 
