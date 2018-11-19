@@ -3,6 +3,8 @@
 // ===========
 
 function Victory(players) {
+    this.players = players;
+
     // Calculation variables
     let mapTop   = mapManager.mapTop;
     let mapRight = mapManager.mapRight;
@@ -38,11 +40,14 @@ function Victory(players) {
     this.blockWidth  = this.podiumWidth  / 14;
     this.blockHeight = this.podiumHeight / 3;
 
-    this.first      = {cx : this.left + this.blockWidth * 6.5, cy : this.bot - this.blockHeight * 3}; 
-    this.second     = {cx : this.left + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2};
-    this.third      = {cx : this.left + this.blockWidth * 8.5, cy : this.bot - this.blockHeight * 2};
-    this.otherLeft  = {cx : this.left + this.blockWidth, cy : this.bot - this.blockHeight};
-    this.otherRight = {cx : this.right + this.blockWidth, cy : this.bot - this.blockHeight};
+    this.first      = {cx : this.left  + this.blockWidth * 6.5, cy : this.bot - this.blockHeight * 3}; 
+    this.second     = {cx : this.left  + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2};
+    this.third      = {cx : this.left  + this.blockWidth * 8.5, cy : this.bot - this.blockHeight * 2};
+    this.otherLeft  = {cx : this.left  + this.blockWidth/2    , cy : this.bot - this.blockHeight    };
+    this.otherRight = {cx : this.right - this.blockWidth/2    , cy : this.bot - this.blockHeight    };
+    
+    // For the tabletop player in second place
+    this.secondSp   = {cx : this.left + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2.5};
 
     // ===============
     // OTHER VARIABLES
@@ -55,36 +60,48 @@ function Victory(players) {
     this.numberHeight = this.numberScaleY * g_numberSprites.num0.clipHeight;
 
     // Text to display
-    let textCoins    = 'PLAYER # ENDED UP WITH THE/MOST COINS AND GAINS *';
-    let textMinigame = 'PLAYER # DID BEST IN MINIGAMES/AND GAINS *';
-    let texttest     = 'GULL ER NOOB KANN EKKI/NETWORKING 10 *';
+    let textRewards  = 'GAME OVER/AND NOW FOR THE SPECIAL REWARDS'
+    let textCoins    = 'PLAYER # ENDED UP WITH THE/MOST COINS AND GAINS  *';
+    let textMinigame = 'PLAYER # DID BEST IN MINIGAMES/AND GAINS  *';
+    let textEnd      = 'THANK YOU FOR PLAYING/ 1 . #  2 . #  3 . #';
 
-    this.victoryText = [textCoins, textMinigame, texttest];
+    this.victoryText = [textRewards, textCoins, textMinigame, textEnd];
     this.victoryPopUp = [];
     this.i = 0;
 
     this.generatePopUps();
 
     // Podium
-    let placement = [
+    this.placement = [
         this.first,
-        this.second,
+        this.secondSp,
         this.third,
         this.otherLeft,
         this.otherRight
     ]
 
-    for(let i = 0; i < players.length; i++) {
-        players[i].victory(placement[i].cx, placement[i].cy - players[i].tt_player.getRadius());
+    this.updatePosition();
+
+    // Start popup timer for victory pop ups
+    stateManager.victoryTimer10.startTimer();
+}
+
+// ===============
+// UPDATE POSITION
+// ===============
+
+Victory.prototype.updatePosition = function() {
+    for(let i = 0; i < this.players.length; i++) {
+        this.players[i].victory(this.placement[i].cx, this.placement[i].cy - this.players[i].tt_player.getRadius());
 
         if (i > 2) {
-            players[i].victory(placement[3].cx + this.blockWidth * (i-3), placement[3].cy - players[i].tt_player.getRadius());
+            this.players[i].victory(this.placement[3].cx + this.blockWidth * (i-3), this.placement[3].cy - this.players[i].tt_player.getRadius());
         }
         if (i > 6) {
-            players[i].victory(placement[4].cx - this.blockWidth * (i-7), placement[4].cy - players[i].tt_player.getRadius());
+            this.players[i].victory(this.placement[4].cx - this.blockWidth * (i-7), this.placement[4].cy - this.players[i].tt_player.getRadius());
         }
     }
-}
+};
 
 // ================
 // GENERATE POP UPS
@@ -109,11 +126,15 @@ Victory.prototype.generatePopUps = function() {
 // ===========
 
 Victory.prototype.nextPopUp = function() {
-    this.i++;
-    if (this.i === this.victoryPopUp.length) {
-        this.i--;
-        return -1;
+
+    if (this.i + 1 !== this.victoryPopUp.length) {
+        this.i++;
+        animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
+        stateManager.updateCollectable(entityManager._players[0], 'star', 1);
+        stateManager.updateScoreboard();
+        this.updatePosition();
     }
+    else return -1;
 };
 
 // ======
@@ -129,6 +150,14 @@ Victory.prototype.update = function(du) {
 
 Victory.prototype.render = function(ctx) {
     this.victoryPopUp[this.i].render(ctx);
+
+    // Podium
+    this.podium.drawCentredAt(ctx, this.cx, this.cy, 0, this.podiumScaleX, this.podiumScaleY);
+
+    // Places
+    g_numberSprites.num1.drawClipCentredAt(ctx, this.first.cx,  this.first.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num2.drawClipCentredAt(ctx, this.second.cx, this.second.cy + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
+    g_numberSprites.num3.drawClipCentredAt(ctx, this.third.cx,  this.third.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
 
     if (g_useSpriteBox) this.renderSpriteBox(ctx);
 };
@@ -147,13 +176,6 @@ Victory.prototype.dynamicRender = function(ctx) {
 
 Victory.prototype.staticRender = function(ctx) {
     this.victoryPopUp[this.i].staticRender(ctx);
-
-    this.podium.drawCentredAt(ctx, this.cx, this.cy, 0, this.podiumScaleX, this.podiumScaleY);
-    
-    // Places
-    g_numberSprites.num1.drawClipCentredAt(ctx, this.first.cx,  this.first.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
-    g_numberSprites.num2.drawClipCentredAt(ctx, this.second.cx, this.second.cy + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
-    g_numberSprites.num3.drawClipCentredAt(ctx, this.third.cx,  this.third.cy  + this.blockHeight * 0.5, 0, this.numberScaleX, this.numberScaleY);
 };
 
 Victory.prototype.renderSpriteBox = function(ctx) {

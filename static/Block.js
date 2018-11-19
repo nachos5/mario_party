@@ -35,6 +35,7 @@ Block.prototype.getRadius = function () {
 
 Block.prototype.resolveCollision = function () {
     if (this.id === 2 && this.results === null) {
+        animationManager.generateTempAnimation('eventArrow');
         this.results = g_itemSprites[this.icon].id;
         this.winner = parseInt(Math.random() * 3) + 1;
     }

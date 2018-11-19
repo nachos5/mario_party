@@ -7,17 +7,17 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 10,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
+  victoryTimer10: 0,         // 10 sec countdown timer
 
   // Image data
   gameRoomSprite: 0,
   scoreRoomSprite: 0,
   scoreRoomDynamicSprite: 0,
   victoryStaticSprite: 0,
-  victoryStatic2Sprite: 0,
   victoryDynamicSprite:0,
 
   // Added
@@ -33,6 +33,8 @@ let stateManager = {
 
   // first player starts his turn
   init: function() {
+
+    this.victoryTimer10 = new Timer(10);
     // we wait until all existing players have been loaded into the game
 
     this.updateInfo();
@@ -119,6 +121,21 @@ let stateManager = {
   updateInfo: function() {
     this.players = entityManager._players;
     this.no_players = this.players.length;
+  },
+
+  // =================
+  // UPDATE SCOREBOARD
+  // =================
+
+  updateScoreboard: function() {
+    // Sort player positions
+    this.players.sort(function(x, y){
+      if(y.stars === x.stars) { return y.coins - x.coins };
+      return y.stars - x.stars;
+    });
+
+    // Update dynamic objects render
+    this.updateImageData();
   },
 
   // =====================
@@ -221,10 +238,7 @@ let stateManager = {
   // map manager calls this
   nextTurn: function(anotherTurn=false) {
     // Update Scoreboard positions
-    this.players.sort(function(x, y){
-      if(y.stars === x.stars) { return y.coins - x.coins };
-      return y.stars - x.stars;
-    });
+    this.updateScoreboard();
 
     if (!anotherTurn) {
       // prevPlayer ends his turn
@@ -262,9 +276,6 @@ let stateManager = {
       this.game_room.currPlayer = this.curr_player;
 
       eventManager.anotherTurn = false;
-
-      // Update dynamic objects render
-      this.updateImageData();
     }
   },
 
@@ -281,7 +292,6 @@ let stateManager = {
         // Static image data
         this.victoryScreen.staticRender(g_ctx);
         this.victoryStaticSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
-        this.victoryStatic2Sprite = g_ctx.getImageData(this.victoryScreen.left, this.victoryScreen.top, this.victoryScreen.width, this.victoryScreen.height);
         // Dynamic image data
         this.victoryScreen.dynamicRender(g_ctx);
         this.victoryDynamicSprite = g_ctx.getImageData(this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top, this.victoryScreen.victoryPopUp[0].width, this.victoryScreen.victoryPopUp[0].height);
@@ -333,9 +343,9 @@ let stateManager = {
     this.score_room.update(du);
     this.game_room.update(du);
 
-    if (!animationManager.isMapAnimation && this.victoryScreen !== 0 && this.status !== -1) {
+    if (this.victoryTimer10.isTimeUp && g_gameOver && this.status !== -1) {
       this.status = this.victoryScreen.nextPopUp();
-      animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
+      this.victoryTimer10.startTimer();
       this.updateVictoryImageData();
     }
   },
@@ -357,7 +367,6 @@ let stateManager = {
     if (this.victoryScreen) {
       // Render static object
       ctx.putImageData(this.victoryStaticSprite, this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top);
-      ctx.putImageData(this.victoryStatic2Sprite, this.victoryScreen.left, this.victoryScreen.top);
       // Render dynamic object
       ctx.putImageData(this.victoryDynamicSprite, this.victoryScreen.victoryPopUp[0].left, this.victoryScreen.victoryPopUp[0].top);
       this.victoryScreen.render(ctx);

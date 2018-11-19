@@ -190,6 +190,11 @@ update: function(du) {
 
     this.updateCurrPlayer();
 
+    // Kill map star when game is over
+    if (g_gameOver) {
+        this._stars.pop();
+    }
+
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];

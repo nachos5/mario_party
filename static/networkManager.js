@@ -62,7 +62,7 @@ networkManager.socket.on("new_player", function(player) {
 
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
-  stateManager.updateImageData('scoreRoom');
+  stateManager.updateImageData();
 /*
   const spriteID = client_player.spriteID;
   // Lock default sprite
@@ -87,7 +87,7 @@ networkManager.socket.on("reconnecting", function(player) {
   clientPlayer.eventPlayer.cx = player.eventPlayer.cx;
   clientPlayer.eventPlayer.cy = player.eventPlayer.cy;
   networkManager.all_players_ready = true;
-  stateManager.updateImageData('scoreRoom');
+  stateManager.updateImageData();
 
   //console.log(disconnected)
   //networkManager.displayDc(disconnected);
@@ -111,7 +111,7 @@ networkManager.socket.on("all_players_ready_server", function() {
   g_startGame = true;
 
   stateManager.updatePlayerSprites();
-  stateManager.updateImageData('scoreRoom');
+  stateManager.updateImageData();
 
   //minigameManager.initMinigame();
 });

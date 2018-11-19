@@ -91,14 +91,13 @@ Animation.prototype.update = function(du) {
 
     // Map star - static
     if (this.preset === 'mapStar') {
-
         this.iter += 1;
-        if (this.isUp)      this.cy--;
-        if (this.isDown)    this.cy++;
-        this.alpha -= 0.03;
+        if (this.isUp)      this.cy -= 0.5;
+        if (this.isDown)    this.cy += 0.5;
+        this.alpha -= 0.005;
 
         // Restart
-        if(Math.floor(this.iter) === this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+        if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();
             this.count++;
             if (this.count === this.times) {
@@ -120,5 +119,18 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();
         }
+    }
+
+    // EventRoom arrow
+    if (this.preset === 'eventArrow') {
+        if (Math.floor(this.iter) % this.mod == 0) {
+            this.cy += 0.15;
+        }
+        this.iter++;
+        // Restart
+        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+            this.restart();
+            this.cy = 0;
+        };
     }
 };
