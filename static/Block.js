@@ -9,6 +9,9 @@ function Block(descr) {
     this.icon = this.random();
     // Register for collision
     spatialManager.register(this);
+
+    animationManager.generateTempAnimation('eventArrow');
+    this.arrowAnimation = animationManager.tempAnimations.find(obj => obj.preset == 'eventArrow');
 }
 
 // ==========
@@ -50,25 +53,6 @@ Block.prototype.resolveCollision = function () {
 
 Block.prototype.update = function(du) {
 
-    if (g_useAnimation) {
-        
-        if (this.id == 2) {
-
-            // Arrow animation
-            if(this.results !== null) {
-                if (this.arrowIter % 6 == 0) {  // Increment arrow every 10th frame
-                    this.arrowPos += 0.15;
-                }
-                this.arrowIter++;
-                // Restart
-                if(this.arrowIter === 66) {
-                    this.arrowPos = 0;
-                    this.arrowIter = 0;
-                };
-            }
-        }
-    }
-
     if (this.results === null && this.iconIter % 4 == 0) { 
         this.icon = this.random();
         this.iconIter = 0;
@@ -92,10 +76,10 @@ Block.prototype.render = function(ctx) {
     if (this.id === 2) {
         // Arrows
         if(this.winner === 3 || this.winner === 2) {
-            this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy - (this.brickHeight * this.arrowPos), 0, this.itemWidth, this.itemHeight);
+            this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy - (this.brickHeight * this.arrowAnimation.cy), 0, this.itemWidth, this.itemHeight);
         }
         if(this.winner === 1 || this.winner === 2) {
-            this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy + (this.brickHeight * this.arrowPos), Math.PI, this.itemWidth, this.itemHeight);
+            this.arrow.drawCentredAtFixed(ctx, this.cx, this.cy + (this.brickHeight * this.arrowAnimation.cy), Math.PI, this.itemWidth, this.itemHeight);
         }
     }
 

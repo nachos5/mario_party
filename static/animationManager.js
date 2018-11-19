@@ -15,6 +15,7 @@ let animationManager = {
     mapAnimations: [],
 
     // Temp animations
+    isTempAnimation: false,
     tempAnimations: [],
 
 
@@ -119,6 +120,19 @@ let animationManager = {
         else {
             mapManager.eventIsRunning = false; // Event is done
             this.isMapAnimation = true;
+        }
+
+        for(let i = 0; i < this.tempAnimations.length; i++) {
+            let status = this.tempAnimations[i].update(du);
+            if (status === -1) {
+                this.tempAnimations.splice(i, 1);
+            }
+        }
+
+        if (this.tempAnimations.length === 0) this.isTempAnimation = false;
+        else {
+            mapManager.eventIsRunning = false; // Event is done
+            this.isTempAnimation = true;
         }
     },
 

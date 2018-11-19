@@ -146,7 +146,7 @@ let eventManager = {
   },
 
   // Green star - initialize blocks event
-  04: function(init) {
+  01: function(init) {
     if (init) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();
