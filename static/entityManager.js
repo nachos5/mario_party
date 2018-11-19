@@ -135,6 +135,20 @@ getMyPlayer: function() {
   return entityManager._players.find(player => player.my_player == true);
 },
 
+// get a random player that is not my player
+getRandPlayer: function() {
+  const my_player = this.getMyPlayer();
+  let rand_arr = [];
+  for (let i=1; i<=entityManager.players.length; i++) {
+    if (i != my_player.player_id) rand_arr.push(i);
+  }
+  const rand = parseInt(Math.random() * rand_arr.length);
+  const rand_index = rand_arr[rand_index];
+  const rand_player = this._players.find(obj => obj.player_id == rand_index);
+
+  return rand_player;
+},
+
 generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },

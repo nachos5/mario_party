@@ -112,7 +112,7 @@ networkManager.socket.on("all_players_ready_server", function() {
 
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
-
+  stateManager.updateInfo();
   //minigameManager.initMinigame();
 });
 
