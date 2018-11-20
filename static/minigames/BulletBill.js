@@ -4,7 +4,7 @@
 
 function BulletBill(descr) {
     this.setup(descr);
-    
+
     this.sprite = g_sprites.bulletBill;
 
     this.scaleX = minigameManager.popup.innerWidth/this.sizeX  / this.sprite.width;
@@ -60,12 +60,11 @@ BulletBill.prototype.getRadius = function () {
 // =================
 // RESOLVE COLLISION
 // =================
-
 BulletBill.prototype.resolveCollision = function(player) {
     player.changeRoom(0);
 
     this.isCollision = true;
-  };
+};
 
 // =====
 // ACCEL
@@ -106,14 +105,14 @@ BulletBill.prototype.accel = function(du) {
 BulletBill.prototype.update = function(du) {
 
     spatialManager.unregister(this);
-    
+
     this.accel(du);
-    
+
     spatialManager.register(this);
 
 
     if (this.isCollision || this.cy + this.getRadius() > minigameManager.popup.innerBot) {
-        return -1 
+        return -1
     }
 };
 

@@ -46,7 +46,10 @@ bulletStorm.init = function() {
 	      item.startTimer();
       });
 
-      this.generateBulletBill(5);
+      if (this.my_player.player_id == 1) {
+        networkManager.emit('generate_bullets');
+        this.generateBulletBill(5);
+      }
 
       this.unregister();
       this.register();
@@ -167,17 +170,17 @@ bulletStorm.init = function() {
           this.timer10.startTimer();
           this.nextLevel();
         }
-        
+
         // Spawn bullet bill
         if (this.timers[this.level].isTimeUp) {
           if (this.level === 4 && this.timer20.isTimeUp) {
             this.generateBulletBill(10);
           }
           else this.generateBulletBill(5);
-          if (this.level === 4) this.timer20.startTimer();          
+          if (this.level === 4) this.timer20.startTimer();
           this.timers[this.level].startTimer();
         }
-        
+
         // Update bullet bills and check for death
         this.bulletBills.forEach((item, index) => {
           let status = item.update(du);
