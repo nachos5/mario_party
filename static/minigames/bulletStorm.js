@@ -112,7 +112,7 @@ bulletStorm.init = function() {
     },
 
     nextLevel: function() {
-      if (this.timers.length === this.level++) return;
+      if (this.timers.length - 1 === this.level) return;
       this.level++;
     },
 

@@ -242,6 +242,7 @@ server.startServer = function(startServer) {
         const t = setTimeout(function() {
           if (!isAnyoneConnected()) {
             disconnected = {};
+            clearInterval(interval);
             io.close();
             startServer(startServer);
           }
@@ -260,6 +261,14 @@ server.startServer = function(startServer) {
     }
     return anyone_connected;
   };
+
+  // SERVER EMITS TO ALL
+  let interval = setInterval(function() {
+    io.sockets.emit('random', Math.random());
+  }, 500);
+
 };
+
+
 
 server.startServer(server.startServer);

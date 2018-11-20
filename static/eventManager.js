@@ -208,7 +208,7 @@ let eventManager = {
     stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
-    animationManager.generateMapAnimation('coinDown', this.coinAmount);*/
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);
     /*if (parameters) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();

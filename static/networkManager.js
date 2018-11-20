@@ -295,6 +295,11 @@ networkManager.socket.on("block_winner_server", function(winner) {
   } catch(e) {};
 });
 
+// ==== DATA CREATED BY SERVER ==== //
+networkManager.socket.on("random", function(data) {
+  networkManager.random = data;
+})
+
 
 
 
