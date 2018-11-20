@@ -19,12 +19,14 @@
 // our event manager object
 let eventManager = {
   eventIter: 0,
+  // all active tile ids
+  tile_ids: [01, 02, 36, 37, 38, 39, 60, 61, 03, 04, 31, 07, 13],
   // events that require no animation
-  instant_events: [03, 07, 13, 31, 36, 37, 38, 39],
+  instant_events: [03, 07, 31, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
-  mid_movement_events: [08, 36, 37, 38, 39, 60, 61, "buyStar"],
+  mid_movement_events: [08, 13, 36, 37, 38, 39, 60, 61, "buyStar"],
   // we use this to check if our event happens after the movement
-  after_movement_events: [01, 02],
+  after_movement_events: [01, 02, 03, 04],
   // bool that says if we want to render or not
   allow_rendering: false,
   // current function inside the render function
@@ -162,8 +164,40 @@ let eventManager = {
   },
 
   // Swap
-  13: function() {
-    console.log("i'am toad")
+  13: function(init) {
+    if (init) {
+      this.eventIter = 100;
+    };
+
+    if (this.eventIter > 0) {
+      const my_player = entityManager.getMyPlayer();
+      my_player.tt_player.alpha -= 0.01;
+      if (my_player.tt_player.alpha < 0) {
+        my_player.tt_player.alpha = 0;
+      }
+      this.eventIter--;
+    }
+
+    if (this.eventIter == 0) {
+      this.eventIter = -200;
+      const rand = parseInt(Math.random() * this.tile_ids.length);
+      const tile_id = this.tile_ids[rand];
+      const tile_pos = mapManager.getTilePositions(tile_id);
+      const rand_ = parseInt(Math.random() * tile_pos.length);
+      const rand_tile_pos = tile_pos[rand_];
+      mapManager.setPosition(entityManager.getMyPlayer().tt_player, rand_tile_pos);
+    }
+
+    if (this.eventIter < -100) {
+      const my_player = entityManager.getMyPlayer();
+      my_player.tt_player.alpha += 0.01;
+      if (my_player.tt_player.alpha > 1) my_player.tt_player.alpha = 1;
+      this.eventIter++;
+    }
+
+    if (this.eventIter == -100) {
+      mapManager.eventIsRunning = false;
+    }
   },
 
 
@@ -174,7 +208,7 @@ let eventManager = {
     stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
-    animationManager.generateMapAnimation('coinDown', this.coinAmount);
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);*/
     /*if (parameters) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();

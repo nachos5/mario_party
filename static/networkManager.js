@@ -112,7 +112,7 @@ networkManager.socket.on("all_players_ready_server", function() {
 
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
-
+  stateManager.updateInfo();
   //minigameManager.initMinigame();
 });
 
@@ -288,6 +288,14 @@ networkManager.socket.on("results3_server", function(results3) {
     entityManager._eventBlocks[0].results3_server = results3;
   } catch(e) {};
 });
+
+networkManager.socket.on("block_winner_server", function(winner) {
+  try {
+    entityManager._eventBlocks[0].block2.winner = winner;
+  } catch(e) {};
+});
+
+
 
 
 // ==== MINIGAME STUFF ==== //

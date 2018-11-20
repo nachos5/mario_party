@@ -135,6 +135,20 @@ getMyPlayer: function() {
   return entityManager._players.find(player => player.my_player == true);
 },
 
+// get a random player that is not my player
+getRandPlayer: function() {
+  const my_player = this.getMyPlayer();
+  let rand_arr = [];
+  for (let i=1; i<=entityManager.players.length; i++) {
+    if (i != my_player.player_id) rand_arr.push(i);
+  }
+  const rand = parseInt(Math.random() * rand_arr.length);
+  const rand_index = rand_arr[rand_index];
+  const rand_player = this._players.find(obj => obj.player_id == rand_index);
+
+  return rand_player;
+},
+
 generateDie: function(descr) {
   this._dice.push(new Die(descr));
 },
@@ -242,15 +256,15 @@ render: function(ctx) {
 
         // Coin animation
         if (animationManager.mapAnimations[i].preset === 'mapCoin') {
-            g_aniSprites.coin[frame].drawClipCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+            g_aniSprites.coin[frame].drawClipCentredAtFixed(ctx, animationManager.mapAnimations[i].player.cx, animationManager.mapAnimations[i].player.cy - animationManager.mapAnimations[i].player.height + cy, 0, animationManager.mapAnimations[i].player.width * 2/3, animationManager.mapAnimations[i].player.height * 2/3);
         }
         // Star animation
         if (animationManager.mapAnimations[i].preset === 'mapStar') {
-            g_itemSprites[1].sp.drawCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+            g_itemSprites[1].sp.drawCentredAtFixed(ctx, animationManager.mapAnimations[i].player.cx, animationManager.mapAnimations[i].player.cy - animationManager.mapAnimations[i].player.height + cy, 0, animationManager.mapAnimations[i].player.width * 2/3, animationManager.mapAnimations[i].player.height * 2/3);
         }
         // Die animation
         if (animationManager.mapAnimations[i].preset === 'mapDie') {
-            g_sprites['die'+[frame]].drawCentredAtFixed(ctx, this._curr_tt_player.cx, this._curr_tt_player.cy - this._curr_tt_player.height + cy, 0, this._curr_tt_player.width * 2/3, this._curr_tt_player.height * 2/3);
+            g_sprites['die'+[frame]].drawCentredAtFixed(ctx, animationManager.mapAnimations[i].player.cx, animationManager.mapAnimations[i].player.cy - animationManager.mapAnimations[i].player.height + cy, 0, animationManager.mapAnimations[i].player.width * 2/3, animationManager.mapAnimations[i].player.height * 2/3);
         }
     }
     // Reset ctx

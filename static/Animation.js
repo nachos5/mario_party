@@ -42,9 +42,13 @@ Animation.prototype.restart = function() {
     this.iter = 0;
 
     if (this.preset === 'mapCoin') {
-        audioManager.playAndEmit("coin", 0.2, false, 1);
+        audioManager.playAndEmit("coin", 0.2, false, 0.6);
         this.cy = 0;
         this.alpha = 1;
+    }
+
+    if (this.preset === 'mapStar') {
+      audioManager.playAndEmit("star", 0.3 , false, 0.8);
     }
 };
 
@@ -53,20 +57,6 @@ Animation.prototype.restart = function() {
 // ======
 
 Animation.prototype.update = function(du) {
-
-    // ScoreRoom coin
-    if (this.preset === 'vanilla') {
-        if (Math.floor(this.iter) % this.mod === 0) {
-            this.frame++;
-        }
-        this.iter += du;
-
-        // Restart
-        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
-            this.restart();
-        }
-    }
-
     // Map coin
     if (this.preset === 'mapCoin') {
         if (Math.floor(this.iter) % this.mod == 0) {
@@ -82,7 +72,6 @@ Animation.prototype.update = function(du) {
             this.restart();
             this.count++;
             if (this.count === this.times) {
-                console.log("kill me")
                 stateManager.animation_is_running = false;
                 return -1;
             }
@@ -101,7 +90,6 @@ Animation.prototype.update = function(du) {
             this.restart();
             this.count++;
             if (this.count === this.times) {
-                console.log("kill me")
                 stateManager.animation_is_running = false;
                 return -1;
             }
@@ -120,9 +108,36 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();
             this.count++;
-            if (this.count === this.times) {
-                return -1;
-            }
+            if (this.count === this.times) return -1;
+        }
+    }
+
+    // EventRoom arrow
+    if (this.preset === 'eventArrow') {
+        if (Math.floor(this.iter) % this.mod == 0) {
+            this.cy += 0.15;
+        }
+        this.iter++;
+        // Restart
+        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+            this.restart();
+            this.cy = 0;
+            if (!eventManager.isBlocksEvent) return -1;
+        };
+    }
+
+    // Never ending animations
+
+    // ScoreRoom coin
+    if (this.preset === 'vanilla') {
+        if (Math.floor(this.iter) % this.mod === 0) {
+            this.frame++;
+        }
+        this.iter += du;
+
+        // Restart
+        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+            this.restart();
         }
     }
 
@@ -137,18 +152,5 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();
         }
-    }
-
-    // EventRoom arrow
-    if (this.preset === 'eventArrow') {
-        if (Math.floor(this.iter) % this.mod == 0) {
-            this.cy += 0.15;
-        }
-        this.iter++;
-        // Restart
-        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
-            this.restart();
-            this.cy = 0;
-        };
     }
 };

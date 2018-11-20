@@ -7,6 +7,7 @@ const minigameManager = {
 // object with all minigames
 minigames: {
   mash: mash,
+  bulletStorm: bulletStorm,
 },
 
 // object that keeps track of already played minigames, resets when all have been played
@@ -35,6 +36,8 @@ initMinigame: function(name) {
     offsetBot   : 0,
     offsetLeft  : 0,
   });
+
+  this.popup.setPreset('minigame');
 
   if (name == undefined) this.currentMinigame = this.getRandomMinigame();
   else                   this.currentMinigame = this.minigames[name];
@@ -119,9 +122,9 @@ getPlayers: function() {
 newRulesPopup: function(string, lines) {
   this.rules_popup = new PopUp({
     offsetTop   : 0.2,
-    offsetRight : 0.02,
+    offsetRight : 0.04,
     offsetBot   : 0.2,
-    offsetLeft  : 0.02,
+    offsetLeft  : 0.04,
     word        : string,
     textLines   : lines,
   });
@@ -157,6 +160,8 @@ winningPopup: function() {
     word        : string,
     textLines   : lines,
   });
+
+  audioManager.playAudio("coin", 0.2, false, 1);
 },
 
 // ==========

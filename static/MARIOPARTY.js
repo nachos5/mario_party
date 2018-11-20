@@ -120,6 +120,7 @@ function requestPreloads_images() {
         // Menu
         marioPartyLogo  : "static/assets/Mario_Party_logo.png",
         background2     : "static/assets/superMarioBackground.jpg",
+        background3     : "static/assets/superMarioBackground2.png",
         framePipeTop    : "static/assets/superMarioWorldPipeTop.png",
         framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
 
@@ -220,6 +221,7 @@ function preloadDone() {
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
     g_sprites.marioPartyLogo    = new Sprite(g_images.marioPartyLogo);
     g_sprites.background2       = new Sprite(g_images.background2);
+    g_sprites.background3       = new Sprite(g_images.background3);
 
     // Victory
     g_sprites.marioPodium       = new Sprite(g_images.marioPodium);

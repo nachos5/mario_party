@@ -354,6 +354,14 @@ PopUp.prototype.setPreset = function(preset) {
             owner:      'buyStar'
         });
     }
+
+    if (this.preset === 'minigame') {
+        
+        this.backgroundSprite = g_sprites.background3;
+
+        this.backgroundScaleX = this.width  / this.backgroundSprite.width;
+        this.backgroundScaleY = this.height / this.backgroundSprite.height;
+    }
 };
 
 // ==========

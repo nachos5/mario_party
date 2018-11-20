@@ -162,17 +162,21 @@ EventBlocks.prototype.update = function(du) {
       this.results1 = this.block1.update(du);
     } else {
       this.results1 = this.results1_server;
+      this.block1.icon = this.results1;
     }
     if (!this.results2_server_bool) {
       this.results2 = this.block2.update(du);
     } else {
       this.results2 = this.results2_server;
+      this.block2.icon = this.results2;
     }
     if (!this.results3_server_bool) {
       this.results3 = this.block3.update(du);
     } else {
       this.results3 = this.results3_server;
+      this.block3.icon = this.results3;
     }
+    //console.log(this.results1);
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 !== undefined && this.results2 !== undefined && this.results3 !== undefined) {
         this.winner = this.block2.winner;
