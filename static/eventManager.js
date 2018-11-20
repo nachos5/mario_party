@@ -144,7 +144,7 @@ let eventManager = {
   },
 
   // Green star - initialize blocks event
-  01: function(init) {
+  04: function(init) {
     if (init) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();
@@ -170,7 +170,7 @@ let eventManager = {
   // ==== COLLECTABLES ==== //
 
   // blue tile - gain 3 coins, or potentially gain a star! //
-  /*01: function(parameters) {
+  01: function(parameters) {
     stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
@@ -179,7 +179,7 @@ let eventManager = {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();
     }*/
- /*},*/
+  },
 
   // red tile - lose 3 coins //
   02: function(parameters) {

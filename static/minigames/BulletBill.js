@@ -13,9 +13,10 @@ function BulletBill(descr) {
     this.scaleX = minigameManager.popup.innerWidth/this.sizeX  / this.sprite.width;
     this.scaleY = minigameManager.popup.innerHeight/this.sizeY / this.sprite.height;
 
+    this.width  = this.scaleX * this.sprite.width;
+    this.height = this.scaleY * this.sprite.height;
 
     this.isCollision = false;
-    spatialManager.register(this);
 }
 
 // ==========
@@ -42,7 +43,7 @@ BulletBill.prototype.randomCx = function() {
 // ==========
 
 BulletBill.prototype.getRadius = function () {
-    return this.sprite.width * 0.7;
+    return this.width * 0.3;
 };
 
 // =================
@@ -50,11 +51,9 @@ BulletBill.prototype.getRadius = function () {
 // =================
 
 BulletBill.prototype.resolveCollision = function () {
-    spatialManager.unregister(this);
     let hitEntity = this.findHitEntity();
     
-    
-    console.log(hitEntity);
+    //console.log(hitEntity);
 
     this.isCollision = true;
   };
@@ -65,7 +64,7 @@ BulletBill.prototype.resolveCollision = function () {
 
 BulletBill.prototype.accel = function (du) {
     let accelX = 0;
-    let accelY = 2;
+    let accelY = 0.02;
 
     // Initial velocity = current velocity
     let initialVelX = this.velX;
@@ -94,9 +93,12 @@ BulletBill.prototype.accel = function (du) {
 
 BulletBill.prototype.update = function (du) {
 
+    spatialManager.unregister(this);
+    spatialManager.register(this);
+
     this.accel(du);
 
-    if (this.isCollision || this.cy + this.getRadius() > minigameManager.popup.innerBot) { 
+    if (this.isCollision || this.cy + this.getRadius() > minigameManager.popup.innerBot) {
         return -1 
     }
 };
@@ -106,5 +108,5 @@ BulletBill.prototype.update = function (du) {
 // ======
 
 BulletBill.prototype.render = function (ctx) {
-    this.sprite.drawCentredAt(ctx, this.cx, this.cy, 0, this.scaleX, this.scaleY);
+    this.sprite.drawCentredAt(ctx, this.cx, this.cy, -Math.PI/2, this.scaleX, this.scaleY);
 };
