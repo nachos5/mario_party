@@ -53,7 +53,7 @@ let g_useAnimation       = true;
 // Render animations
 
 let KEY_SPATIAL     = keyCode('X');
-let KEY_GRID        = keyCode('F');
+let KEY_GRID        = keyCode('G');
 let KEY_SPRITE_BOX  = keyCode('V');
 let KEY_ANIMATION   = keyCode('I');
 
@@ -103,6 +103,12 @@ function renderSimulation(ctx) {
 function requestPreloads_images() {
 
     let requiredImages = {
+        // Controls
+        controlsA        : "static/assets/controlsA.png",
+        controlsD        : "static/assets/controlsD.png",
+        controlsMouse1   : "static/assets/controlsMouse1.png",
+        controlsSpacebar : "static/assets/controlsSpacebar.png",
+
         // Background
         background1     : "static/assets/Mario-Background.jpg",
         brickBlock      : "static/assets/Brick_Block.png",
@@ -216,6 +222,11 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
+    // Controls
+    g_sprites.controlsA         = new Sprite(g_images.controlsA);
+    g_sprites.controlsD         = new Sprite(g_images.controlsD);
+    g_sprites.controlsMouse1    = new Sprite(g_images.controlsMouse1);
+    g_sprites.controlsSpacebar  = new Sprite(g_images.controlsSpacebar);
     // Menu
     g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);

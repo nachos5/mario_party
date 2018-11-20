@@ -70,7 +70,7 @@ networkManager.socket.on("new_player", function(player) {
      offsetRight : 0.06,
      offsetBot   : 0.35,
      offsetLeft  : 0.06,
-     string      : ' A NEW PLAYER  / # HAS JOINED',
+     string      : ' A NEW PLAYER  / HAS JOINED',
      lines       : 2,
      p1SpriteID  : player.player_id,
     })
@@ -136,6 +136,19 @@ networkManager.socket.on("all_players_ready_server", function() {
   });
   networkManager.all_players_ready = true;
   g_startGame = true;
+
+  let options = new PopUp({
+    offsetTop   : 0.2,
+    offsetRight : 0.02,
+    offsetBot   : 0.2,
+    offsetLeft  : 0.02,
+    word        : 'CONTROLS     //LEFT/RIGHT/JUMP/INTERACT',
+    textLines   : 7,
+  });
+
+  options.setPreset('options');
+
+  stateManager.newOptions(options);
 
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();

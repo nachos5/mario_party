@@ -23,6 +23,9 @@ let stateManager = {
   // Network message
   messages: [],
 
+  // Options
+  options: [],
+
   // Added
   players: [],
   gamestate: {}, // emitted from the server
@@ -196,6 +199,14 @@ let stateManager = {
     this.messages.push(msg);
   },
 
+  // =======
+  // OPTIONS
+  // =======
+
+  newOptions: function(opt) {
+    this.options.push(opt);
+  },
+
   // ==========
   // NEW PLAYER
   // ==========
@@ -355,6 +366,11 @@ let stateManager = {
       if (msgStatus === -1) this.messages.splice(index, 1);
     });
 
+    // Update options menu
+    this.options.forEach((item) => {
+      item.update(du);
+    });
+
     this.emitGameState(du);
 
     this.score_room.update(du);
@@ -375,6 +391,13 @@ let stateManager = {
 
     // Render server messages
     this.messages.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+
+    // Update options menu
+    this.options.forEach((item) => {
       item.staticRender(ctx);
       item.dynamicRender(ctx);
       item.render(ctx);

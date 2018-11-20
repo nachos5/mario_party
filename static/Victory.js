@@ -69,8 +69,6 @@ function Victory(players) {
     if (this.players >= 2) textEnd      = 'THANK YOU FOR PLAYING/ 1 . #  2 . $';
     else                   textEnd      = 'THANK YOU FOR PLAYING/ 1 . #';
 
-    console.log(textEnd)
-
     this.victoryText = [textRewards, textCoins, textMinigame, textEnd];
     this.victoryPopUp = [];
     this.i = 0;

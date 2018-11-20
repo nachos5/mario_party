@@ -371,6 +371,55 @@ PopUp.prototype.setPreset = function(preset) {
         this.backgroundScaleX = this.width  / this.backgroundSprite.width;
         this.backgroundScaleY = this.height / this.backgroundSprite.height;
     }
+
+    if (this.preset === 'options') {
+        // Created variables
+        this.mouse1   = g_sprites.controlsMouse1;
+        this.spacebar = g_sprites.controlsSpacebar;
+        this.keyA     = g_sprites.controlsA;
+        this.keyD     = g_sprites.controlsD;
+
+        // Mouse
+        this.mouse1ScaleX = this.innerWidth/11  / this.mouse1.width;
+        this.mouse1ScaleY = this.mouse1ScaleX;
+
+        // Spacebar
+        this.spacebarScaleY = this.innerHeight/10 / this.spacebar.height;
+        this.spacebarScaleX = this.spacebarScaleY;
+
+        this.keyAScaleX = this.innerWidth/13  / this.keyA.width;
+        this.keyAScaleY = this.keyAScaleX;
+
+        // ======
+        // BUTTON
+        // ======
+
+        let buttonScaleX = this.width/5  / g_sprites.greenReady.width;
+        let buttonScaleY = this.height/4 / g_sprites.greenReady.height;
+
+        let buttonWidth  = g_sprites.greenReady.width  * buttonScaleX;
+        let buttonHeight = g_sprites.greenReady.height * buttonScaleY;
+
+        let buttonCx = this.right - this.pipeWidth  - buttonWidth/2;
+        let buttonCy = this.bot   - this.pipeHeight - buttonWidth/2;
+
+        // Button
+        this.button = new Button({
+            cx: buttonCx,
+            cy: buttonCy,
+
+            width: buttonWidth,
+            height: buttonHeight,
+
+            scaleX: buttonScaleX,
+            scaleY: buttonScaleY,
+
+            onSprite: g_sprites.greenReady,
+            offSprite: g_sprites.cyanReady,
+
+            owner: 'options',
+        });
+    }
 };
 
 // ==========
@@ -415,6 +464,9 @@ PopUp.prototype.update = function(du) {
             spatialManager.unregister(this.buttonNo);
         }
     }
+    if (this.preset === 'options') {
+        this.button.update(du);
+    }
 };
 
 // ======
@@ -435,6 +487,15 @@ PopUp.prototype.render = function(ctx) {
         for(let i = 0; i < this.charSelection.length; i++) {
             this.charSelection[i].render(ctx);
         }
+    }
+
+    if (this.preset === 'options') {
+        this.keyA.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 2, 0, this.keyAScaleX, this.keyAScaleY);
+        this.keyD.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 3, 0, this.keyAScaleX, this.keyAScaleY);
+        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 4, 0, this.spacebarScaleX, this.spacebarScaleY);
+        this.mouse1.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX, this.mouse1ScaleY);
+
+        this.button.render(ctx);
     }
 }
 
