@@ -50,13 +50,14 @@ BulletBill.prototype.getRadius = function () {
 // =================
 // RESOLVE COLLISION
 // =================
-
 BulletBill.prototype.resolveCollision = function(player) {
+  if (!this.isCollision) {
     console.log(player)
     player.changeRoom(0);
     console.log(player)
 
     this.isCollision = true;
+  }
   };
 
 // =====
