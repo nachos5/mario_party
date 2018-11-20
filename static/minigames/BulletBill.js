@@ -51,9 +51,15 @@ BulletBill.prototype.getRadius = function () {
 // =================
 
 BulletBill.prototype.resolveCollision = function () {
+    spatialManager.unregister(this);
     let hitEntity = this.findHitEntity();
     
-    //console.log(hitEntity);
+    if (hitEntity) {
+        console.log(hitEntity)
+        let fun = hitEntity.changeRoom;
+        console.log(fun)
+        if (fun) fun.call(0, hitEntity);
+    }
 
     this.isCollision = true;
   };
