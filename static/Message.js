@@ -19,8 +19,20 @@ function Message(descr) {
       p1SpriteID  : this.p1SpriteID,
     });
 
-    this.timer5 = new Timer(5);
-    this.timer5.startTimer();
+    this.timer = new Timer(this.time);
+    this.timer.startTimer();
+
+    if (this.extra) {
+        let room = stateManager.game_room;
+
+        this.extraCx = room.diceRoomLeft + room.diceRoomWidth/6;
+        this.extraCy = room.diceRoomTop + room.diceRoomHeight/2;
+
+        this.extraScaleX = (room.brickWidth  * 2) / this.extra.width;
+        this.extraScaleY = (room.brickHeight * 2) / this.extra.height;
+
+        this.extraRotation = Math.PI/4;
+    }
 }
 
 // ======
@@ -28,7 +40,7 @@ function Message(descr) {
 // ======
 
 Message.prototype.update = function() {
-    if (this.timer5.isTimeUp) {
+    if (this.timer.isTimeUp) {
         return -1;
     }
 };
@@ -37,8 +49,11 @@ Message.prototype.update = function() {
 // RENDER
 // ======
 
-Message.prototype.render = function() {
+Message.prototype.render = function(ctx) {
     this.msg.render(ctx);
+    if (this.extra) {
+        this.extra.drawCentredAt(ctx, this.extraCx, this.extraCy, this.extraRotation, this.extraScaleX, this.extraScaleY);
+    }
 };
 
 // ==============

@@ -191,6 +191,27 @@ let stateManager = {
       stateManager.updateImageData('scoreRoom');
   },
 
+  // ========
+  // NEW GAME
+  // ========
+
+  newGame: function() {
+    // Show message to other players
+    let msg = new Message({
+      offsetTop   : 0.01,
+      offsetRight : 0.06,
+      offsetBot   : 0.8,
+      offsetLeft  : 0.06,
+      string      : 'JUMP INTO THE DIE/TO ROLL',
+      lines       : 2,
+      time        : 10,
+      extra       : g_sprites.arrow,
+    });
+
+    stateManager.newMessage(msg);
+    stateManager.newOptions();
+  },
+
   // ===========
   // NEW MESSAGE
   // ===========
@@ -199,9 +220,9 @@ let stateManager = {
     this.messages.push(msg);
   },
 
-  // =======
-  // OPTIONS
-  // =======
+  // ===========
+  // NEW OPTIONS
+  // ===========
 
   newOptions: function() {
     if (this.options.length === 1) {

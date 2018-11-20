@@ -86,7 +86,7 @@ function renderSimulation(ctx) {
     }
 
     mapManager.render(ctx);
-    if (!g_startGame) { menuManager.render(ctx) }
+    if (!g_startGame || g_gameOver) menuManager.render(ctx);
     stateManager.render(ctx);
     minigameManager.render(ctx);
     entityManager.render(ctx);
@@ -242,7 +242,7 @@ function preloadDone() {
     g_sprites.marioPodium       = new Sprite(g_images.marioPodium);
 
     // Popup
-    g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
+    //g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
 
     // Character Select
     g_sprites.selectMario       = new Sprite(g_images.selectMario);

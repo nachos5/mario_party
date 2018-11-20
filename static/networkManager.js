@@ -73,6 +73,7 @@ networkManager.socket.on("new_player", function(player) {
      string      : ' A NEW PLAYER  / HAS JOINED',
      lines       : 2,
      p1SpriteID  : player.player_id,
+     time        : 5,
     })
 
     stateManager.newMessage(msg);
@@ -121,6 +122,7 @@ networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
     string      : ' # IS CURRENTLY/ RECONNECTING',
     lines       : 2,
     p1SpriteID  : obj.spriteID,
+    time        : 5,
    })
 
   stateManager.newMessage(msg);
@@ -137,7 +139,7 @@ networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
   g_startGame = true;
 
-  stateManager.newOptions();
+  stateManager.newGame();
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
   stateManager.updateInfo();
@@ -165,6 +167,7 @@ networkManager.displayDc = function(disconnected) {
     string      : ' # IS CURRENTLY/ DISCONNECTED',
     lines       : 2,
     p1SpriteID  : obj.spriteID,
+    time        : 5,
    })
 
    stateManager.newMessage(msg);
