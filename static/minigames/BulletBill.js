@@ -35,7 +35,8 @@ BulletBill.prototype.sizeY = 16;
 // =========
 
 BulletBill.prototype.randomCx = function() {
-    return minigameManager.popup.innerLeft + networkManager.random * minigameManager.popup.innerWidth;
+    let random = networkManager.random;
+    return minigameManager.popup.innerLeft + random * minigameManager.popup.innerWidth;
 };
 
 // ==========
@@ -50,10 +51,10 @@ BulletBill.prototype.getRadius = function () {
 // RESOLVE COLLISION
 // =================
 
-BulletBill.prototype.resolveCollision = function () {
-    let hitEntity = this.findHitEntity();
-
-    //console.log(hitEntity);
+BulletBill.prototype.resolveCollision = function(player) {
+    console.log(player)
+    player.changeRoom(0);
+    console.log(player)
 
     this.isCollision = true;
   };
@@ -62,7 +63,7 @@ BulletBill.prototype.resolveCollision = function () {
 // ACCEL
 // =====
 
-BulletBill.prototype.accel = function (du) {
+BulletBill.prototype.accel = function(du) {
     let accelX = 0;
     let accelY = 0.02;
 
@@ -91,7 +92,7 @@ BulletBill.prototype.accel = function (du) {
 // UPDATE
 // ======
 
-BulletBill.prototype.update = function (du) {
+BulletBill.prototype.update = function(du) {
 
     spatialManager.unregister(this);
     spatialManager.register(this);
@@ -107,6 +108,6 @@ BulletBill.prototype.update = function (du) {
 // RENDER
 // ======
 
-BulletBill.prototype.render = function (ctx) {
+BulletBill.prototype.render = function(ctx) {
     this.sprite.drawCentredAt(ctx, this.cx, this.cy, -Math.PI/2, this.scaleX, this.scaleY);
 };

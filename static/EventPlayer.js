@@ -256,8 +256,9 @@ EventPlayer.prototype.update = function (du) {
     if (this.isColliding()) {
         let hitEntity = this.findHitEntity();
         if (hitEntity) {
+            console.log("collision eventplayer")
             let fun = hitEntity.resolveCollision;
-            if (fun) fun.call(hitEntity);
+            if (fun) fun.call(hitEntity, this);
         }
 
         // Bounce player back
