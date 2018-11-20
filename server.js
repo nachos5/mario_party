@@ -219,7 +219,11 @@ server.startServer = function(startServer) {
         socket.broadcast.emit("minigame_ready_server");
         minigame_ready = []; // reset
       }
-    })
+    });
+
+    socket.on('generate_bullets', function() {
+      socket.broadcast.emit('generate_bullets_server');
+    });
 
 
 
@@ -265,7 +269,7 @@ server.startServer = function(startServer) {
   // SERVER EMITS TO ALL
   let interval = setInterval(function() {
     io.sockets.emit('random', Math.random());
-  }, 500);
+  }, 886.123456789);
 
 };
 

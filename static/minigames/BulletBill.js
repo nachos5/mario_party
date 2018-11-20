@@ -4,7 +4,7 @@
 
 function BulletBill(descr) {
     this.setup(descr);
-    
+
     this.sprite = g_sprites.bulletBill;
 
     this.cx = this.randomCx();
@@ -35,7 +35,7 @@ BulletBill.prototype.sizeY = 16;
 // =========
 
 BulletBill.prototype.randomCx = function() {
-    return minigameManager.popup.innerLeft + Math.random() * minigameManager.popup.innerWidth;
+    return minigameManager.popup.innerLeft + networkManager.random * minigameManager.popup.innerWidth;
 };
 
 // ==========
@@ -52,7 +52,7 @@ BulletBill.prototype.getRadius = function () {
 
 BulletBill.prototype.resolveCollision = function () {
     let hitEntity = this.findHitEntity();
-    
+
     //console.log(hitEntity);
 
     this.isCollision = true;
@@ -99,7 +99,7 @@ BulletBill.prototype.update = function (du) {
     this.accel(du);
 
     if (this.isCollision || this.cy + this.getRadius() > minigameManager.popup.innerBot) {
-        return -1 
+        return -1
     }
 };
 

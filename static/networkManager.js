@@ -308,6 +308,11 @@ networkManager.socket.on("minigame_ready_server", function() {
   minigameManager.minigame_ready = true;
 });
 
+networkManager.socket.on('generate_bullets_server', function() {
+  bulletStorm.generateBulletBill();
+  bulletStorm.generateBulletBill();
+});
+
 
 
 
