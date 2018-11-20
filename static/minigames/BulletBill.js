@@ -52,9 +52,7 @@ BulletBill.prototype.getRadius = function () {
 // =================
 
 BulletBill.prototype.resolveCollision = function(player) {
-    console.log(player)
     player.changeRoom(0);
-    console.log(player)
 
     this.isCollision = true;
   };
