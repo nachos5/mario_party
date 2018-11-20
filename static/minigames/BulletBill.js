@@ -64,8 +64,7 @@ BulletBill.prototype.resolveCollision = function(player) {
     player.changeRoom(0);
 
     this.isCollision = true;
-  }
-  };
+};
 
 // =====
 // ACCEL
