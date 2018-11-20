@@ -3,19 +3,21 @@ let bulletStorm = {};
 
 bulletStorm.init = function() {
   this.game = {
-    rules_string: "MINIGAME RULES/MASH SPACEBAR TO REACH/THE FINISH LINE",
-    //'DODGE BULLET BILL/LAST ONE ALIVE WINS',
+    rules_string: 'DODGE BULLET BILL/LAST ONE ALIVE WINS/     &',
     rules_running: false,
     rules_iter: 0,
-    win_running: false,
     win_iter: 0,
+    win_running: false,
+    have_winner: false,
 
+    // Game related
     timers: [],
     timer10: 0,
+    timer20: 0,
     bulletBills: [],
     level: 0,
 
-    placement: {
+    placements: {
       1: null,
     },
 
@@ -26,6 +28,8 @@ bulletStorm.init = function() {
 
       this.timer10 = new Timer(10);
       this.timer10.startTimer();
+      this.timer20 = new Timer(20);
+      this.timer20.startTimer();
 
       this.level = 0;
 
@@ -36,16 +40,15 @@ bulletStorm.init = function() {
         new Timer(2),
         new Timer(1),
       ]
-      console.log(this.timers)
 
+      // Initalize timers
       this.timers.forEach(function(item){
 	      item.startTimer();
       });
 
       if (this.my_player.player_id == 1) {
         networkManager.emit('generate_bullets');
-        this.generateBulletBill();
-        this.generateBulletBill();
+        this.generateBulletBill(5);
       }
 
       this.unregister();
@@ -81,13 +84,28 @@ bulletStorm.init = function() {
     },
 
     checkForWin: function() {
-      // condition is met => this.win(g_ctx, true);
+      let playersLeft = 0;
+      this.players.forEach(function(item){
+	      if (item.room === 2){
+          playersLeft++;
+        }
+      });
+
+      // Deal with a single player to allow him to play the game
+      if (playersLeft === 0 && this.players.length === 1) {
+        this.win(g_ctx, true);
+        this.have_winner = true;
+      }
+      if (playersLeft === 1 && this.players.length > 1) {
+        this.win(g_ctx, true);
+        this.have_winner = true;
+      }
     },
 
     win: function(ctx, init=false) {
       if (init) {
         this.sortByPlacement();
-        minigameManager.winningPopup();
+        minigameManager.rewards();
         this.win_iter = 400;
         this.win_running = true;
       }
@@ -100,18 +118,41 @@ bulletStorm.init = function() {
     },
 
     sortByPlacement: function() {
-      /*this.players.sort(function(x, y) {
-        return ...;
-      });*/
+      console.log(this.players)
+      this.players.sort((x, y) => {
+        return y.room - x.room;
+      });
+
+      let index = 1;
+      for (let key in this.players) {
+        this.placements[index] = this.players[key].id;
+        index++;
+      };
     },
 
     // we call this at the end of the minigame
     cleanup: function() {
+      // Put last player into dice room
+      if (this.players[0].room !== 0 ) this.players[0].changeRoom(0);
+
+      // Unregister all bullet bills from the spatial manager
+      this.bulletBills.forEach((item) => {
+        spatialManager.unregister(item);
+      });
+
       minigameManager.endMinigame();
     },
 
-    generateBulletBill: function() {
-      this.bulletBills.push(new BulletBill());
+    generateBulletBill: function(amount) {
+      let random = networkManager.random;
+      let random2 = networkManager.random2;
+
+      for(let i = 0; i < random.length && i < amount; i++) {
+        this.bulletBills.push(new BulletBill({
+          random  : random[i],
+          random2 : random2[i],
+        }));
+      }
     },
 
     nextLevel: function() {
@@ -121,34 +162,46 @@ bulletStorm.init = function() {
 
     update: function(du) {
 
-      // Next level
-      if (this.timer10.isTimeUp) {
-        this.timer10.startTimer();
-        this.nextLevel();
-      }
+      // --- Last one alive? --- //
+      if (!this.have_winner && !this.rules_running) {
 
-      // Spawn bullet bill
-      if (this.timers[this.level].isTimeUp) {
-        this.generateBulletBill();
-        this.timers[this.level].startTimer();
-      }
-
-      this.bulletBills.forEach((item, index) => {
-        let status = item.update(du);
-        if (status === -1) {
-          spatialManager.unregister(this.bulletBills[index]);
-          this.bulletBills.splice(index, 1);
+        // Next level
+        if (this.timer10.isTimeUp) {
+          this.timer10.startTimer();
+          this.nextLevel();
         }
-      });
 
-      this.checkForWin();
+        // Spawn bullet bill
+        if (this.timers[this.level].isTimeUp) {
+          if (this.level === 4 && this.timer20.isTimeUp) {
+            this.generateBulletBill(10);
+          }
+          else this.generateBulletBill(5);
+          if (this.level === 4) this.timer20.startTimer();
+          this.timers[this.level].startTimer();
+        }
+
+        // Update bullet bills and check for death
+        this.bulletBills.forEach((item, index) => {
+          let status = item.update(du);
+          if (status === -1) {
+            spatialManager.unregister(item);
+            this.bulletBills.splice(index, 1);
+          }
+        });
+
+        this.checkForWin();
+      }
     },
 
     render: function(ctx) {
 
-      this.bulletBills.forEach(function(item){
-	      item.render(ctx);
-      });
+      // --- Last one alive? --- //
+      if (!this.have_winner && !this.rules_running) {
+        this.bulletBills.forEach(function(item){
+          item.render(ctx);
+        });
+      }
 
       // --- show rules --- //
       if (this.rules_running) {

@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 5,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -19,6 +19,9 @@ let stateManager = {
   scoreRoomDynamicSprite: 0,
   victoryStaticSprite: 0,
   victoryDynamicSprite:0,
+
+  // Network message
+  messages: [],
 
   // Added
   players: [],
@@ -129,7 +132,7 @@ let stateManager = {
 
   updateScoreboard: function() {
     // Sort player positions
-    this.players.sort(function(x, y){
+    this.players.sort((x, y) => {
       if(y.stars === x.stars) { return y.coins - x.coins };
       return y.stars - x.stars;
     });
@@ -183,6 +186,14 @@ let stateManager = {
       if (player.stars < 0) player.stars = 0;
     //}
       stateManager.updateImageData('scoreRoom');
+  },
+
+  // ===========
+  // NEW MESSAGE
+  // ===========
+
+  newMessage: function(msg) {
+    this.messages.push(msg);
   },
 
   // ==========
@@ -337,6 +348,13 @@ let stateManager = {
   // ======
 
   update: function(du) {
+
+    // Update server messages
+    this.messages.forEach((item, index) => {
+      let msgStatus = item.update(du);
+      if (msgStatus === -1) this.messages.splice(index, 1);
+    });
+
     this.emitGameState(du);
 
     this.score_room.update(du);
@@ -354,6 +372,14 @@ let stateManager = {
   // ======
 
   render: function(ctx) {
+
+    // Render server messages
+    this.messages.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+
     // Render static objects
     ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
     ctx.putImageData(this.scoreRoomSprite, 0, 0);

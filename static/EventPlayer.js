@@ -38,7 +38,7 @@ EventPlayer.prototype.prevVelY = 0;
 // ==========
 
 EventPlayer.prototype.getRadius = function () {
-    return this.sprite.clipWidth * 0.7;
+    return this.sprite.clipWidth * 0.65;
 };
 
 // ===============
@@ -254,18 +254,21 @@ EventPlayer.prototype.update = function (du) {
 
     // Check collision
     if (this.isColliding()) {
+        let whatRoom = this.room;
         let hitEntity = this.findHitEntity();
         if (hitEntity) {
-            console.log("collision eventplayer")
             let fun = hitEntity.resolveCollision;
             if (fun) fun.call(hitEntity, this);
         }
-
-        // Bounce player back
-        this.velX *= - 1/8;
-        this.velY = 0;
-        this.cx = this.prevCx;
-        this.cy = this.prevCy;
+        
+        // If event player didn't change room revert to old coords
+        if (whatRoom === this.room) {
+            // Bounce player back
+            this.velX *= - 1/8;
+            this.velY = 0;
+            this.cx = this.prevCx;
+            this.cy = this.prevCy;
+        }
     }
     else {spatialManager.register(this)}
 

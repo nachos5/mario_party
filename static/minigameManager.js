@@ -121,10 +121,10 @@ getPlayers: function() {
 
 newRulesPopup: function(string, lines) {
   this.rules_popup = new PopUp({
-    offsetTop   : 0.2,
-    offsetRight : 0.04,
-    offsetBot   : 0.2,
-    offsetLeft  : 0.04,
+    offsetTop   : 0.25,
+    offsetRight : 0.06,
+    offsetBot   : 0.25,
+    offsetLeft  : 0.06,
     word        : string,
     textLines   : lines,
   });
@@ -143,23 +143,30 @@ winningPopup: function() {
   let lines = 3;
   let coins = 20;
   let string = "REWARDS/"
+  let sprites = [];
+  let specialChar = ['#', '$', '%', '!'];
   for (let i=0; i<player_ids_order.length; i++) {
     const player = players.find(obj => obj.player_id === player_ids_order[i]);
-    const name = g_playerSprites[player.spriteID].name.toUpperCase();
-    string += name + " GETS " + coins + " COINS/";
+    sprites[i] = player.spriteID;
+    string += specialChar[i] + " GETS " + coins + " !/";
     coins -= 5;
     if (coins < 0) coins = 0;
     lines++;
   }
 
   this.winning_popup = new PopUp({
-    offsetTop   : 0.2,
-    offsetRight : 0.02,
-    offsetBot   : 0.2,
-    offsetLeft  : 0.02,
+    offsetTop   : 0.25,
+    offsetRight : 0.05,
+    offsetBot   : 0.25,
+    offsetLeft  : 0.05,
     word        : string,
+    p1SpriteID  : sprites[0],
+    p2SpriteID  : sprites[1],
+    p3SpriteID  : sprites[2],
     textLines   : lines,
   });
+
+  this.winning_popup.setPreset('minigame_winners');
 
   audioManager.playAudio("coin", 0.2, false, 1);
 },

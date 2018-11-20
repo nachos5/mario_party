@@ -63,6 +63,19 @@ networkManager.socket.on("new_player", function(player) {
   const client_player = client_players[client_players.length - 1];
   entityManager.initEventPlayer(client_player);
   stateManager.updateImageData();
+
+    // Show message to other players
+    let msg = new Message({
+     offsetTop   : 0.35,
+     offsetRight : 0.06,
+     offsetBot   : 0.35,
+     offsetLeft  : 0.06,
+     string      : ' A NEW PLAYER  / # HAS JOINED',
+     lines       : 2,
+     p1SpriteID  : player.player_id,
+    })
+  
+    stateManager.newMessage(msg);
 /*
   const spriteID = client_player.spriteID;
   // Lock default sprite
@@ -89,6 +102,19 @@ networkManager.socket.on("reconnecting", function(player) {
   networkManager.all_players_ready = true;
   stateManager.updateImageData();
 
+
+   // Show message to other players
+   let msg = new Message({
+    offsetTop   : 0.35,
+    offsetRight : 0.06,
+    offsetBot   : 0.35,
+    offsetLeft  : 0.06,
+    string      : ' # IS CURRENTLY/ RECONNECTING',
+    lines       : 2,
+    p1SpriteID  : clientPlayer.spriteID,
+   })
+
+   stateManager.newMessage(msg);
   //console.log(disconnected)
   //networkManager.displayDc(disconnected);
 });
@@ -127,6 +153,20 @@ networkManager.displayDc = function(disconnected) {
    const text = document.createTextNode(obj.tt_player.name + " is currently disconnected.");
    li.appendChild(text);
    output.appendChild(li);
+   
+   // Show message to other players
+   let msg = new Message({
+    offsetTop   : 0.35,
+    offsetRight : 0.06,
+    offsetBot   : 0.35,
+    offsetLeft  : 0.06,
+    string      : ' # IS CURRENTLY/ DISCONNECTED',
+    lines       : 2,
+    p1SpriteID  : obj.spriteID,
+   })
+
+   stateManager.newMessage(msg);
+
   }
 }
 // player disconnects
@@ -299,6 +339,11 @@ networkManager.socket.on("block_winner_server", function(winner) {
 networkManager.socket.on("random", function(data) {
   networkManager.random = data;
 })
+
+networkManager.socket.on("random2", function(data) {
+  networkManager.random2 = data;
+})
+
 
 
 

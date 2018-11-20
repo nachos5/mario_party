@@ -47,15 +47,6 @@ function PopUp(descr) {
     this.cy = this.top  + this.height/2;
 
     // ==========
-    // BACKGROUND
-    // ==========
-
-    this.backgroundSprite = g_sprites.background2;
-
-    this.backgroundScaleX = this.width  / this.backgroundSprite.width;
-    this.backgroundScaleY = this.height / this.backgroundSprite.height;
-
-    // ==========
     // PIPE FRAME
     // ==========
 
@@ -88,6 +79,15 @@ function PopUp(descr) {
     this.innerWidth  = this.width  - this.pipeWidth  * 2;
     this.innerHeight = this.height - this.pipeHeight * 2;
 
+    // ==========
+    // BACKGROUND
+    // ==========
+
+    this.backgroundSprite = g_sprites.background2;
+
+    this.backgroundScaleX = (this.innerWidth  + this.pipeWidth  * 1)  / this.backgroundSprite.width;
+    this.backgroundScaleY = (this.innerHeight + this.pipeHeight * 0.75) / this.backgroundSprite.height;
+
     // ===========
     // ALPH SPRITE
     // ===========
@@ -100,6 +100,8 @@ function PopUp(descr) {
         '$' = 2 player sprite
         '%' = 3 player sprite
         '*' = item star
+        '!' = item coin
+        '&' = bullet bill
     */
 
     // Word to display
@@ -136,12 +138,19 @@ function PopUp(descr) {
     this.playerScaleY = this.playerScaleX;
 
     // Star symbol
-    this.starScaleY = this.alphHeight / g_itemSprites[1].sp.height;
+    this.starScaleY = (this.alphHeight * 0.9) / g_itemSprites[1].sp.height;
     this.starScaleX = this.starScaleY;
 
     // Coin animated symbol
     this.coinScaleX = this.alphWidth / g_aniSprites.coin[0].clipWidth;
     this.coinScaleY = this.coinScaleX;
+
+    this.coin2ScaleX = (this.alphWidth * 0.65) / g_aniSprites.coin[0].clipWidth;
+    this.coin2ScaleY = this.coin2ScaleX;
+
+    // Bullet bill
+    this.bulletBillScaleX = this.alphWidth*5 / g_sprites.bulletBill.width;
+    this.bulletBillScaleY = this.bulletBillScaleX;
 
     // Iterator
     this.wordIter = 0;
@@ -418,6 +427,9 @@ PopUp.prototype.render = function(ctx) {
     if (this.preset === 'buyStar') {
         g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
     }
+    if (this.preset === 'minigame_winners') {
+        g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coin2ScaleX, this.coin2ScaleY);
+    }
     if (this.preset === 'menu') {
         // Characters
         for(let i = 0; i < this.charSelection.length; i++) {
@@ -472,9 +484,14 @@ PopUp.prototype.dynamicRender = function(ctx) {
         else if (alph === '%') {    // Player sprite
             g_playerSprites[this.p3SpriteID].sp.drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * i, this.alphTop + this.alphHeight * j, 0, this.playerScaleX, this.playerScaleY);
         }
+        else if (alph === '&') {    // Bullet bill sprite
+            g_sprites.bulletBill.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.bulletBillScaleX, this.bulletBillScaleY, 1);
+        }
         else if (alph === '*') {    // Star
-            //i++;
-            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), -this.alphHeight/20 + this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
+            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
+        }
+        else if (alph === '!') {    // Coin
+            this.wordIter = i;
         }
         else if (alph === '/') {    // Newline
             i = -1;
@@ -489,7 +506,6 @@ PopUp.prototype.dynamicRender = function(ctx) {
             }
         }
         i++;
-        this.wordIter = i;
     }
 };
 
