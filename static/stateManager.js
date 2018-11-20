@@ -257,7 +257,7 @@ let stateManager = {
 
       // Decrement round after all players have played a turn
       if (this.turn % this.no_players === 0) {
-        this.turn = 1;
+        this.turn = 0;
         // minigame manager calls the next round function
         minigameManager.initMinigame();
         //this.nextRound();

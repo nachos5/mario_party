@@ -200,6 +200,10 @@ server.startServer = function(startServer) {
       socket.broadcast.emit('results3_server', data);
     });
 
+    socket.on('block_winner', function(data) {
+      socket.broadcast.emit('block_winner_server', data);
+    });
+
     // ==== COLLECTABLES ==== //
     socket.on('update_collectables', function(data) {
       socket.broadcast.emit('update_collectables_server', data);

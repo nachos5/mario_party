@@ -289,6 +289,14 @@ networkManager.socket.on("results3_server", function(results3) {
   } catch(e) {};
 });
 
+networkManager.socket.on("block_winner_server", function(winner) {
+  try {
+    entityManager._eventBlocks[0].block2.winner = winner;
+  } catch(e) {};
+});
+
+
+
 
 // ==== MINIGAME STUFF ==== //
 networkManager.socket.on("minigame_ready_server", function() {

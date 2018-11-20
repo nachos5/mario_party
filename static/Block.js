@@ -41,6 +41,7 @@ Block.prototype.resolveCollision = function () {
         animationManager.generateTempAnimation('eventArrow');
         this.results = g_itemSprites[this.icon].id;
         this.winner = parseInt(Math.random() * 3) + 1;
+        networkManager.emit('block_winner', this.winner);
     }
     else if(this.results === null){
         this.results = g_playerSpritesInUse[this.icon].id;
@@ -53,7 +54,7 @@ Block.prototype.resolveCollision = function () {
 
 Block.prototype.update = function(du) {
 
-    if (this.results === null && this.iconIter % 4 == 0) { 
+    if (this.results === null && this.iconIter % 4 == 0) {
         this.icon = this.random();
         this.iconIter = 0;
     }
@@ -90,7 +91,7 @@ Block.prototype.render = function(ctx) {
     if (this.id === 1){
         g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
     }
-    // Item Block 
+    // Item Block
     if (this.id === 2) {
         if(g_itemSprites[this.icon].type === 'clipped') {
             g_itemSprites[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);

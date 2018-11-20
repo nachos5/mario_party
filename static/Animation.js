@@ -42,9 +42,13 @@ Animation.prototype.restart = function() {
     this.iter = 0;
 
     if (this.preset === 'mapCoin') {
-        audioManager.playAndEmit("coin", 0.2, false, 1);
+        audioManager.playAndEmit("coin", 0.2, false, 0.6);
         this.cy = 0;
         this.alpha = 1;
+    }
+
+    if (this.preset === 'mapStar') {
+      audioManager.playAndEmit("star", 0.3 , false, 0.8);
     }
 };
 

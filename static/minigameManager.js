@@ -159,6 +159,8 @@ winningPopup: function() {
     word        : string,
     textLines   : lines,
   });
+
+  audioManager.playAudio("coin", 0.2, false, 1);
 },
 
 // ==========
