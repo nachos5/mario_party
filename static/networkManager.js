@@ -74,7 +74,7 @@ networkManager.socket.on("new_player", function(player) {
      lines       : 2,
      p1SpriteID  : player.player_id,
     })
-  
+
     stateManager.newMessage(msg);
 /*
   const spriteID = client_player.spriteID;
@@ -153,7 +153,7 @@ networkManager.displayDc = function(disconnected) {
    const text = document.createTextNode(obj.tt_player.name + " is currently disconnected.");
    li.appendChild(text);
    output.appendChild(li);
-   
+
    // Show message to other players
    let msg = new Message({
     offsetTop   : 0.35,
@@ -354,8 +354,7 @@ networkManager.socket.on("minigame_ready_server", function() {
 });
 
 networkManager.socket.on('generate_bullets_server', function() {
-  bulletStorm.generateBulletBill();
-  bulletStorm.generateBulletBill();
+  bulletStorm.generateBulletBill(5);
 });
 
 
