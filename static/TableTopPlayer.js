@@ -4,7 +4,11 @@
 
 function TableTopPlayer(descr) {
 
-    this.setup(descr);
+    // Apply Properties from caller
+    for (var property in descr) {
+        this[property] = descr[property];
+    }
+   /* this.setup(descr);*/
 
     this.position = mapManager.getStartPosition();
     this.prevPosition = {column: -1, row: -1};
@@ -26,8 +30,8 @@ function TableTopPlayer(descr) {
 // ==========
 // PROPERTIES
 // ==========
-
-TableTopPlayer.prototype = new Entity();
+/*
+TableTopPlayer.prototype = new Entity();*/
 
 // =======
 // VICTORY
@@ -78,7 +82,7 @@ TableTopPlayer.prototype.resolveCollision = function() {
 
 TableTopPlayer.prototype.update = function (du) {
 
-    spatialManager.unregister(this);
+  /*  spatialManager.unregister(this);*/
 
     this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
     this.cy = this.position.row * this.map.tilesHeight + this.centerY;
@@ -87,7 +91,7 @@ TableTopPlayer.prototype.update = function (du) {
         this.cx = this.victoryCx;
         this.cy = this.victoryCy;
     }
-
+/*
     // Check collision
     if (this.isColliding()) {
         let hitEntity = this.findHitEntity();
@@ -96,7 +100,7 @@ TableTopPlayer.prototype.update = function (du) {
             if (fun) fun.call(hitEntity);
         }
     }
-    else {spatialManager.register(this)}
+    else {spatialManager.register(this)}*/
 
     if (this._isDeadNow) { return -1 }
 };

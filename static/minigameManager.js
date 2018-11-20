@@ -7,6 +7,7 @@ const minigameManager = {
 // object with all minigames
 minigames: {
   mash: mash,
+  bulletStorm: bulletStorm,
 },
 
 // object that keeps track of already played minigames, resets when all have been played
