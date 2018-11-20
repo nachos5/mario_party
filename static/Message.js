@@ -9,9 +9,6 @@ function Message(descr) {
         this[property] = descr[property];
     }
 
-    //this.string = 'IS CURRENTLY DISCONNECTED';
-    //this.lines  = 3;
-
     this.msg = new PopUp({
       offsetTop   : this.offsetTop,
       offsetRight : this.offsetRight,
@@ -21,22 +18,17 @@ function Message(descr) {
       textLines   : this.lines,
       p1SpriteID  : this.p1SpriteID,
     });
-    //this.msg.setPreset('minigame_ready');
 
-    this.timer10 = new Timer(10);
-    this.timer10.startTimer();
+    this.timer5 = new Timer(5);
+    this.timer5.startTimer();
 }
-
-// ==========
-// PROPERTIES
-// ==========
 
 // ======
 // UPDATE
 // ======
 
 Message.prototype.update = function() {
-    if (this.timer10.isTimeUp) {
+    if (this.timer5.isTimeUp) {
         return -1;
     }
 };

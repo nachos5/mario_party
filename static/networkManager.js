@@ -102,19 +102,6 @@ networkManager.socket.on("reconnecting", function(player) {
   networkManager.all_players_ready = true;
   stateManager.updateImageData();
 
-
-   // Show message to other players
-   let msg = new Message({
-    offsetTop   : 0.35,
-    offsetRight : 0.06,
-    offsetBot   : 0.35,
-    offsetLeft  : 0.06,
-    string      : ' # IS CURRENTLY/ RECONNECTING',
-    lines       : 2,
-    p1SpriteID  : clientPlayer.spriteID,
-   })
-
-   stateManager.newMessage(msg);
   //console.log(disconnected)
   //networkManager.displayDc(disconnected);
 });
@@ -124,6 +111,20 @@ networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
   const disconnected = data.disconnected;
   const obj = entityManager._players.find(obj => obj.uuid = player.uuid);
   obj.socket_id = player.socket_id;
+
+  // Show message to other players
+  let msg = new Message({
+    offsetTop   : 0.35,
+    offsetRight : 0.06,
+    offsetBot   : 0.35,
+    offsetLeft  : 0.06,
+    string      : ' # IS CURRENTLY/ RECONNECTING',
+    lines       : 2,
+    p1SpriteID  : obj.spriteID,
+   })
+
+  stateManager.newMessage(msg);
+
   networkManager.displayDc(disconnected);
 });
 
