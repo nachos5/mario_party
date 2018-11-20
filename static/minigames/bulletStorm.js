@@ -42,8 +42,11 @@ bulletStorm.init = function() {
 	      item.startTimer();
       });
 
-      this.generateBulletBill();
-      this.generateBulletBill();
+      if (this.my_player.player_id == 1) {
+        networkManager.emit('generate_bullets');
+        this.generateBulletBill();
+        this.generateBulletBill();
+      }
 
       this.unregister();
       this.register();
