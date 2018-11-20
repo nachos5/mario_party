@@ -7,14 +7,14 @@ function BulletBill(descr) {
 
     this.sprite = g_sprites.bulletBill;
 
-    this.cx = this.randomCx();
-    this.cy = minigameManager.popup.innerTop;
-
     this.scaleX = minigameManager.popup.innerWidth/this.sizeX  / this.sprite.width;
     this.scaleY = minigameManager.popup.innerHeight/this.sizeY / this.sprite.height;
 
     this.width  = this.scaleX * this.sprite.width;
     this.height = this.scaleY * this.sprite.height;
+
+    this.cx = this.randomCx();
+    this.cy = this.randomCy();
 
     this.isCollision = false;
 }
@@ -35,7 +35,18 @@ BulletBill.prototype.sizeY = 16;
 // =========
 
 BulletBill.prototype.randomCx = function() {
-    return minigameManager.popup.innerLeft + networkManager.random * minigameManager.popup.innerWidth;
+    if (this.random2 >= 0.5) {
+        return minigameManager.popup.innerLeft + this.random * minigameManager.popup.innerWidth/2;
+    }
+    else return minigameManager.popup.innerRight - this.random * minigameManager.popup.innerWidth/2;
+};
+
+// =========
+// RANDOM CY
+// =========
+
+BulletBill.prototype.randomCy = function() {
+    return minigameManager.popup.innerTop - this.random2 * minigameManager.popup.innerHeight;
 };
 
 // ==========
@@ -43,34 +54,28 @@ BulletBill.prototype.randomCx = function() {
 // ==========
 
 BulletBill.prototype.getRadius = function () {
-    return this.width * 0.3;
+    return this.width * 0.325;
 };
 
 // =================
 // RESOLVE COLLISION
 // =================
-
-BulletBill.prototype.resolveCollision = function () {
-    spatialManager.unregister(this);
-    let hitEntity = this.findHitEntity();
-
-    if (hitEntity) {
-        console.log(hitEntity)
-        let fun = hitEntity.changeRoom;
-        console.log(fun)
-        if (fun) fun.call(0, hitEntity);
-    }
+BulletBill.prototype.resolveCollision = function(player) {
+    player.changeRoom(0);
 
     this.isCollision = true;
-  };
+};
 
 // =====
 // ACCEL
 // =====
 
-BulletBill.prototype.accel = function (du) {
+BulletBill.prototype.accel = function(du) {
     let accelX = 0;
-    let accelY = 0.02;
+    let accelY = 0.03 * this.random2;
+
+    // Min acceleration
+    if (accelY < 0.02) accelY = 0.02;
 
     // Initial velocity = current velocity
     let initialVelX = this.velX;
@@ -97,12 +102,14 @@ BulletBill.prototype.accel = function (du) {
 // UPDATE
 // ======
 
-BulletBill.prototype.update = function (du) {
+BulletBill.prototype.update = function(du) {
 
     spatialManager.unregister(this);
-    spatialManager.register(this);
 
     this.accel(du);
+
+    spatialManager.register(this);
+
 
     if (this.isCollision || this.cy + this.getRadius() > minigameManager.popup.innerBot) {
         return -1
@@ -113,6 +120,6 @@ BulletBill.prototype.update = function (du) {
 // RENDER
 // ======
 
-BulletBill.prototype.render = function (ctx) {
+BulletBill.prototype.render = function(ctx) {
     this.sprite.drawCentredAt(ctx, this.cx, this.cy, -Math.PI/2, this.scaleX, this.scaleY);
 };

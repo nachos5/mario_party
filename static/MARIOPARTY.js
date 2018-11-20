@@ -87,12 +87,12 @@ function renderSimulation(ctx) {
     }
 
     mapManager.render(ctx);
+    if (!g_startGame) { menuManager.render(ctx) }
     stateManager.render(ctx);
     minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
 
-    if (!g_startGame) { menuManager.render(ctx) }
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 

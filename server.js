@@ -247,6 +247,7 @@ server.startServer = function(startServer) {
           if (!isAnyoneConnected()) {
             disconnected = {};
             clearInterval(interval);
+            clearInterval(interval2);
             io.close();
             startServer(startServer);
           }
@@ -268,8 +269,37 @@ server.startServer = function(startServer) {
 
   // SERVER EMITS TO ALL
   let interval = setInterval(function() {
-    io.sockets.emit('random', Math.random());
-  }, 886.123456789);
+    let random = [
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+    ]
+    io.sockets.emit('random', random);
+  }, 500);
+
+  // SERVER EMITS TO ALL
+  let interval2 = setInterval(function() {
+    let random = [
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      Math.random(),
+    ]
+    io.sockets.emit('random2', random);
+  }, 500);
 
 };
 
