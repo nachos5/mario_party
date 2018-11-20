@@ -102,7 +102,7 @@ bulletStorm.init = function() {
     win: function(ctx, init=false) {
       if (init) {
         this.sortByPlacement();
-        minigameManager.winningPopup();
+        minigameManager.rewards();
         this.win_iter = 400;
         this.win_running = true;
       }
@@ -115,6 +115,7 @@ bulletStorm.init = function() {
     },
 
     sortByPlacement: function() {
+      console.log(this.players)
       this.players.sort((x, y) => {
         return y.room - x.room;
       });

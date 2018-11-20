@@ -488,7 +488,7 @@ PopUp.prototype.dynamicRender = function(ctx) {
             g_sprites.bulletBill.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.bulletBillScaleX, this.bulletBillScaleY, 1);
         }
         else if (alph === '*') {    // Star
-            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), -this.alphHeight/20 + this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
+            g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
         }
         else if (alph === '!') {    // Coin
             this.wordIter = i;

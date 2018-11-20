@@ -109,7 +109,7 @@ mash.init = function() {
 
     // we check cy values to determine seatings
     sortByPlacement: function() {
-      this.players.sort(function(x, y) {
+      this.players.sort((x, y) => {
         return x.cy - y.cy;
       });
 
