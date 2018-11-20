@@ -20,6 +20,9 @@ let stateManager = {
   victoryStaticSprite: 0,
   victoryDynamicSprite:0,
 
+  // Network message
+  messages: [],
+
   // Added
   players: [],
   gamestate: {}, // emitted from the server
@@ -185,6 +188,14 @@ let stateManager = {
       stateManager.updateImageData('scoreRoom');
   },
 
+  // ===========
+  // NEW MESSAGE
+  // ===========
+
+  newMessage: function(msg) {
+    this.messages.push(msg);
+  },
+
   // ==========
   // NEW PLAYER
   // ==========
@@ -337,6 +348,13 @@ let stateManager = {
   // ======
 
   update: function(du) {
+
+    // Update server messages
+    this.messages.forEach((item, index) => {
+      let msgStatus = item.update(du);
+      if (msgStatus === -1) this.messages.splice(index, 1);
+    });
+
     this.emitGameState(du);
 
     this.score_room.update(du);
@@ -354,6 +372,14 @@ let stateManager = {
   // ======
 
   render: function(ctx) {
+
+    // Render server messages
+    this.messages.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+
     // Render static objects
     ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
     ctx.putImageData(this.scoreRoomSprite, 0, 0);

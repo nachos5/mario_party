@@ -14,7 +14,7 @@ function BulletBill(descr) {
     this.height = this.scaleY * this.sprite.height;
 
     this.cx = this.randomCx();
-    this.cy = this.randomCy();//minigameManager.popup.innerTop;
+    this.cy = this.randomCy();
 
     this.isCollision = false;
 }
