@@ -378,6 +378,7 @@ PopUp.prototype.setPreset = function(preset) {
         this.spacebar = g_sprites.controlsSpacebar;
         this.keyA     = g_sprites.controlsA;
         this.keyD     = g_sprites.controlsD;
+        this.keyEsc   = g_sprites.controlsEsc;
 
         // Mouse
         this.mouse1ScaleX = this.innerWidth/11  / this.mouse1.width;
@@ -387,38 +388,13 @@ PopUp.prototype.setPreset = function(preset) {
         this.spacebarScaleY = this.innerHeight/10 / this.spacebar.height;
         this.spacebarScaleX = this.spacebarScaleY;
 
+        // Keys A and D
         this.keyAScaleX = this.innerWidth/13  / this.keyA.width;
         this.keyAScaleY = this.keyAScaleX;
 
-        // ======
-        // BUTTON
-        // ======
-
-        let buttonScaleX = this.width/5  / g_sprites.greenReady.width;
-        let buttonScaleY = this.height/4 / g_sprites.greenReady.height;
-
-        let buttonWidth  = g_sprites.greenReady.width  * buttonScaleX;
-        let buttonHeight = g_sprites.greenReady.height * buttonScaleY;
-
-        let buttonCx = this.right - this.pipeWidth  - buttonWidth/2;
-        let buttonCy = this.bot   - this.pipeHeight - buttonWidth/2;
-
-        // Button
-        this.button = new Button({
-            cx: buttonCx,
-            cy: buttonCy,
-
-            width: buttonWidth,
-            height: buttonHeight,
-
-            scaleX: buttonScaleX,
-            scaleY: buttonScaleY,
-
-            onSprite: g_sprites.greenReady,
-            offSprite: g_sprites.cyanReady,
-
-            owner: 'options',
-        });
+        // Key Esc
+        this.keyEscScaleX = this.innerWidth/13  / this.keyEsc.width;
+        this.keyEscScaleY = this.keyEscScaleX;
     }
 };
 
@@ -464,9 +440,6 @@ PopUp.prototype.update = function(du) {
             spatialManager.unregister(this.buttonNo);
         }
     }
-    if (this.preset === 'options') {
-        this.button.update(du);
-    }
 };
 
 // ======
@@ -490,12 +463,11 @@ PopUp.prototype.render = function(ctx) {
     }
 
     if (this.preset === 'options') {
-        this.keyA.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 2, 0, this.keyAScaleX, this.keyAScaleY);
-        this.keyD.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 3, 0, this.keyAScaleX, this.keyAScaleY);
-        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 4, 0, this.spacebarScaleX, this.spacebarScaleY);
-        this.mouse1.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 10, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX, this.mouse1ScaleY);
-
-        this.button.render(ctx);
+        this.keyEsc.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 0, 0, this.keyEscScaleX, this.keyEscScaleY);
+        this.keyA.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 2, 0, this.keyAScaleX, this.keyAScaleY);
+        this.keyD.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 3, 0, this.keyAScaleX, this.keyAScaleY);
+        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 4, 0, this.spacebarScaleX, this.spacebarScaleY);
+        this.mouse1.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX, this.mouse1ScaleY);
     }
 }
 

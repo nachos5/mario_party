@@ -31,6 +31,10 @@ let menuManager = {
         }
 
         this.imageData();
+
+        // Options
+        const KEYCODE_ESC = 27;
+        this.KEY_OPTIONS = KEYCODE_ESC;
     },
 
     // ==========
@@ -89,7 +93,10 @@ let menuManager = {
     // ======
 
     update: function(du) {
-        this.menuPopUp.update(du);
+        if (!g_startGame) this.menuPopUp.update(du);
+        if (eatKey(this.KEY_OPTIONS) && g_startGame) {
+            stateManager.newOptions();
+        }
     },
 
     // ======

@@ -35,8 +35,7 @@ function updateSimulation(du) {
     minigameManager.update(du);
 
     if (g_useAnimation) animationManager.update(du);
-
-    if (!g_startGame)  menuManager.update(du);
+    menuManager.update(du);
 }
 
 // ================
@@ -93,6 +92,9 @@ function renderSimulation(ctx) {
     entityManager.render(ctx);
     eventManager.render(ctx);
 
+    // Max priority, options and messages
+    stateManager.priorityRender(ctx);
+
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
@@ -106,6 +108,7 @@ function requestPreloads_images() {
         // Controls
         controlsA        : "static/assets/controlsA.png",
         controlsD        : "static/assets/controlsD.png",
+        controlsEsc      : "static/assets/controlsEsc.png",
         controlsMouse1   : "static/assets/controlsMouse1.png",
         controlsSpacebar : "static/assets/controlsSpacebar.png",
 
@@ -225,6 +228,7 @@ function preloadDone() {
     // Controls
     g_sprites.controlsA         = new Sprite(g_images.controlsA);
     g_sprites.controlsD         = new Sprite(g_images.controlsD);
+    g_sprites.controlsEsc       = new Sprite(g_images.controlsEsc);
     g_sprites.controlsMouse1    = new Sprite(g_images.controlsMouse1);
     g_sprites.controlsSpacebar  = new Sprite(g_images.controlsSpacebar);
     // Menu

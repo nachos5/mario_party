@@ -137,19 +137,7 @@ networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
   g_startGame = true;
 
-  let options = new PopUp({
-    offsetTop   : 0.2,
-    offsetRight : 0.02,
-    offsetBot   : 0.2,
-    offsetLeft  : 0.02,
-    word        : 'CONTROLS     //LEFT/RIGHT/JUMP/INTERACT',
-    textLines   : 7,
-  });
-
-  options.setPreset('options');
-
-  stateManager.newOptions(options);
-
+  stateManager.newOptions();
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
   stateManager.updateInfo();

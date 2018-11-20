@@ -203,7 +203,22 @@ let stateManager = {
   // OPTIONS
   // =======
 
-  newOptions: function(opt) {
+  newOptions: function() {
+    if (this.options.length === 1) {
+      this.options.pop();
+      return;
+    }
+    
+    let opt = new PopUp({
+      offsetTop   : 0.2,
+      offsetRight : 0.02,
+      offsetBot   : 0.2,
+      offsetLeft  : 0.02,
+      word        : 'OPTIONS       //LEFT/RIGHT/JUMP/INTERACT',
+      textLines   : 7,
+    });
+    opt.setPreset('options');
+
     this.options.push(opt);
   },
 
@@ -388,21 +403,6 @@ let stateManager = {
   // ======
 
   render: function(ctx) {
-
-    // Render server messages
-    this.messages.forEach((item) => {
-      item.staticRender(ctx);
-      item.dynamicRender(ctx);
-      item.render(ctx);
-    });
-
-    // Update options menu
-    this.options.forEach((item) => {
-      item.staticRender(ctx);
-      item.dynamicRender(ctx);
-      item.render(ctx);
-    });
-
     // Render static objects
     ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
     ctx.putImageData(this.scoreRoomSprite, 0, 0);
@@ -421,4 +421,23 @@ let stateManager = {
     }
   },
 
+  // ===============
+  // PRIORITY RENDER
+  // ===============
+
+  priorityRender: function(ctx) {
+    // Render server messages
+    this.messages.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+
+    // Update options menu
+    this.options.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+  },
 }
