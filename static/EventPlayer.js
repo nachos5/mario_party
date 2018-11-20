@@ -38,7 +38,7 @@ EventPlayer.prototype.prevVelY = 0;
 // ==========
 
 EventPlayer.prototype.getRadius = function () {
-    return this.sprite.clipWidth * 0.7;
+    return this.sprite.clipWidth * 0.65;
 };
 
 // ===============
@@ -257,7 +257,6 @@ EventPlayer.prototype.update = function (du) {
         let whatRoom = this.room;
         let hitEntity = this.findHitEntity();
         if (hitEntity) {
-            console.log("collision eventplayer")
             let fun = hitEntity.resolveCollision;
             if (fun) fun.call(hitEntity, this);
         }

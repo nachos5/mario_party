@@ -300,6 +300,11 @@ networkManager.socket.on("random", function(data) {
   networkManager.random = data;
 })
 
+networkManager.socket.on("random2", function(data) {
+  networkManager.random2 = data;
+})
+
+
 
 
 

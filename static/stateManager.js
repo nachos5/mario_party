@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 10,
+  rounds_remaining: 1,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -129,7 +129,7 @@ let stateManager = {
 
   updateScoreboard: function() {
     // Sort player positions
-    this.players.sort(function(x, y){
+    this.players.sort((x, y) => {
       if(y.stars === x.stars) { return y.coins - x.coins };
       return y.stars - x.stars;
     });
@@ -259,7 +259,7 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 0;
         // minigame manager calls the next round function
-        minigameManager.initMinigame('bulletStorm');
+        minigameManager.initMinigame('mash');
       }
       this.turn++;
     }
