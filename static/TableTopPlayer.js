@@ -53,6 +53,15 @@ TableTopPlayer.prototype.reset = function() {
     this.centerY = this.resetCenterY;
 };
 
+// ==========
+// GET RADIUS
+// ==========
+
+TableTopPlayer.prototype.getRadius = function () {
+    return this.sprite.clipWidth * 0.65;
+};
+
+
 // ======
 // UPDATE
 // ======
