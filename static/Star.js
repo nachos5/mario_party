@@ -27,24 +27,43 @@ function Star(descr) {
 
 Star.prototype = new Entity();
 
+// ============
+// GET POSITION
+// ============
+
 Star.prototype.getPosition = function() {
   return {cx: this.cx, cy: this.cy};
 };
+
+// ============
+// SET POSITION
+// ============
 
 Star.prototype.setPosition = function(pos) {
   this.cx = pos.cx;
   this.cy = pos.cy;
 };
 
+// =================
+// GET TILE POSITION
+// =================
+
 Star.prototype.getTilePosition = function() {
   return {row: this.position.row, column: this.position.column};
 };
+
+// =================
+// SET TILE POSITION
+// =================
 
 Star.prototype.setTilePosition = function(pos) {
   this.position.row = pos.row;
   this.position.column = pos.column;
 };
 
+// ======
+// UPDATE
+// ======
 
 Star.prototype.update = function(du) {
   this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
@@ -54,6 +73,10 @@ Star.prototype.update = function(du) {
     if (this.rotation >= 2 * Math.PI) this.rotation = 0; // reset
   }
 };
+
+// ======
+// RENDER
+// ======
 
 Star.prototype.render = function(ctx) {
   if (!minigameManager.minigame_is_running && networkManager.all_players_ready) {
