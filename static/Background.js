@@ -9,8 +9,8 @@ function Background() {
     this.width = mapManager.currentMap.mapRight - mapManager.currentMap.mapLeft;
     this.height = g_canvas.height;//mapManager.currentMap.mapBot - mapManager.currentMap.mapTop;
 
-    this.sprite = g_sprites.background1;
-    this.brick   = g_sprites.brickBlock;
+    this.sprite = g_sprites.background5;
+    this.brick  = g_sprites.brickBlock;
 
     // Wall size
     this.brickLength = 13;
