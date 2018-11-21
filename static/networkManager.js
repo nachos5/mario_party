@@ -350,15 +350,15 @@ networkManager.socket.on("block_winner_server", function(winner) {
 // ==== DATA CREATED BY SERVER ==== //
 networkManager.socket.on("random", function(data) {
   networkManager.random = data;
-})
+});
 
 networkManager.socket.on("random2", function(data) {
   networkManager.random2 = data;
-})
+});
 
 networkManager.socket.on("random_longInterval", function(data) {
   networkManager.random_longInterval = data;
-})
+});
 
 
 

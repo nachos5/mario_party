@@ -49,6 +49,7 @@ initMinigame: function(name) {
 
   if (name == undefined) this.currentMinigame = this.getRandomMinigame();
   else                   this.currentMinigame = this.minigames[name];
+
   this.currentMinigame.init();
   this.currentMinigame = this.currentMinigame.game;
   this.currentPresetFunction = this.currentMinigame.preset;
@@ -109,6 +110,8 @@ getRandomMinigame: function() {
   if (Object.keys(this.minigames).length == this.already_played.length) {
     this.already_played = []; // reset
   }
+  console.log(this.minigames)
+  console.log(this.already_played)
   let minigames = []; // just for this scope
   for (let m in this.minigames) {
     const check = this.already_played.includes(m);
@@ -117,6 +120,8 @@ getRandomMinigame: function() {
     }
   }
   const rand = parseInt(networkManager.random_longInterval * minigames.length);
+  console.log(networkManager.random_longInterval)
+  console.log(minigames.length)
   this.already_played.push(minigames[rand]);
 
   const minigame_init = this.minigames[minigames[rand]];
