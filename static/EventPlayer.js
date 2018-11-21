@@ -148,7 +148,7 @@ EventPlayer.prototype.accel = function (du) {
     try {
       check_if_lava = minigameManager.currentMinigame.name === 'floor is lava';
     } catch(e) {};
-    if (check_if_lava) {
+    if (check_if_lava && this.room == 2) {
         accelY = this.calcAccelY();
     }
     else accelY = this.calcAccelJump();

@@ -116,7 +116,7 @@ getRandomMinigame: function() {
       minigames.push(m); // find unplayed minigames
     }
   }
-  const rand = parseInt(Math.random() * minigames.length);
+  const rand = parseInt(networkManager.random_longInterval * minigames.length);
   this.already_played.push(minigames[rand]);
 
   const minigame_init = this.minigames[minigames[rand]];

@@ -356,6 +356,10 @@ networkManager.socket.on("random2", function(data) {
   networkManager.random2 = data;
 })
 
+networkManager.socket.on("random_longInterval", function(data) {
+  networkManager.random_longInterval = data;
+})
+
 
 
 

@@ -44,13 +44,15 @@ floorIsLava.init = function() {
       if (init) {
         minigameManager.newRulesPopup(this.rules_string, 4);
         this.rules_running = true;
-        this.rules_iter = 400;
       }
 
-      this.rules_iter--;
-      if (this.rules_iter === 0) {
+      // all players are ready
+      if (minigameManager.minigame_ready) {
+        audioManager.fadeOutPlayNext('minigame', 0.2);
         this.rules_running = false;
+        spatialManager.unregister(minigameManager.rules_popup.button);
         minigameManager.rules_popup = null;
+        minigameManager.minigame_ready = false;
       }
     },
 
