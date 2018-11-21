@@ -6,8 +6,9 @@ const minigameManager = {
 
 // object with all minigames
 minigames: {
-  mash: mash,
+  //balance: balance,
   bulletStorm: bulletStorm,
+  mash: mash,
 },
 
 // object that keeps track of already played minigames, resets when all have been played
@@ -74,7 +75,6 @@ endMinigame: function() {
   }
 
   // start the next round!
-  audioManager.fadeOutPlayNext('map', 2);
   stateManager.nextRound();
 },
 

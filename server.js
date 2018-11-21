@@ -232,8 +232,6 @@ server.startServer = function(startServer) {
           player = players[key];
         }
       }
-      console.log(player.uuid)
-      player.connected = false;
       player.socket_id = socket.id;
       disconnected[player.uuid] = player.uuid;
       socket.broadcast.emit("disconnected", player.uuid);
@@ -258,7 +256,7 @@ server.startServer = function(startServer) {
             io.close();
             startServer(startServer);
           }
-        }, 1000);
+        }, 0);
       }
     });
   });

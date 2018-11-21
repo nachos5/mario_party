@@ -345,6 +345,12 @@ let stateManager = {
     if (this.rounds_remaining <= 1) {
 
       if (!g_gameOver) {
+        // victory music!
+        audioManager.fadeOut(0.2);
+        setTimeout(() => {
+          audioManager.playAudio("mgamewinner", 0, true, 0.77);
+        }, 200);
+
         this.victoryScreen = new Victory(this.players);
         // Static image data
         this.victoryScreen.staticRender(g_ctx);
@@ -364,6 +370,7 @@ let stateManager = {
       this.score_room.num2 = 0;
     }
     else {
+      audioManager.fadeOutPlayNext('map', 2);
       // Decrement Round
       this.rounds_remaining--;
 
