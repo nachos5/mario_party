@@ -13,7 +13,6 @@ _entities : [],
 // ==================
 
 getNewSpatialID : function() {
-    // TODO: YOUR STUFF HERE!
     return this._nextSpatialID++;
 },
 
@@ -48,7 +47,6 @@ unregister: function(entity) {
 // ====================
 
 findEntityInRange: function(posX, posY, radius) {
-    // TODO: YOUR STUFF HERE!
     for (let i in this._entities) {
       const e = this._entities[i]; // current entity attributes
           // euclidean distance between passed and current entites attributes
