@@ -66,10 +66,11 @@ server.startServer = function(startServer) {
         // player is reconnecting
         players[uuid].existing_players = e_players;
         reconnect = true;
+        locked_chars[uuid] = players[uuid].spriteID;
       } else {
       // our player
         players[uuid] = {uuid: uuid, player_id: player_id, spriteID: player_id - 1,
-                         existing_players: e_players, game_full: all_players_ready && !reconnect};
+                         existing_players: e_players, game_full: ((all_players_ready && !reconnect) || (Object.keys(players).length >= 4))};
         locked_chars[uuid] = player_id - 1;
         player_id++;
       }
@@ -77,7 +78,7 @@ server.startServer = function(startServer) {
       // let our socket know that we are ready to spawn
       socket.emit('my player', players[uuid]);
 
-      console.log("init " + Object.keys(players) );
+      console.log( "init " + Object.keys(players) );
     });
 
     // a new player has joined the game
@@ -102,7 +103,8 @@ server.startServer = function(startServer) {
         players[player.uuid].socket_id = socket.id;
         players[player.uuid].connected = true;
         delete disconnected[player.uuid];
-        socket.emit('reconnecting', players[player.uuid]);
+
+        socket.emit('reconnecting', {player: players[player.uuid], all_ready: all_players_ready});
         socket.broadcast.emit('reconnecting_anotherPlayer', {player: players[player.uuid], disconnected: disconnected})
       }
       console.log("new player " + Object.keys(players))
@@ -114,27 +116,23 @@ server.startServer = function(startServer) {
 
       if (!check)  {
         players[player.uuid] = player;
-        if (player.uuid in disconnected)
-          players[player.uuid].connected = false;
-        else
-          players[player.uuid].connected = true;
+        players[player.uuid].connected = true;
         players[player.uuid].isReady = player.isReady;
-        //players[player.uuid].socket_id = socket.id;
+
         players[player.uuid].star_pos = starPos;
-        players[player.uuid].uuid = player.uuid;
+        //players[player.uuid].uuid = player.uuid;
 
         players[player.uuid].stars = player.stars;
         players[player.uuid].coins = player.coins;
 
         players[player.uuid].spriteID = player.spriteID;
         locked_chars[player.uuid] = player.spriteID;
-        //console.log(locked_chars);
 
         socket.broadcast.emit('update_player_server', player);
-        // lock char selection
-        //if (player.isReady) {
         socket.emit('lock_char', {uuid: player.uuid, spriteID: player.spriteID, locked_chars: locked_chars});
-        //}
+      }
+      else {
+        players[player.uuid].connected = false;
       }
     });
 
@@ -227,7 +225,6 @@ server.startServer = function(startServer) {
 
 
 
-
     socket.on('disconnect', function() {
       let player = null;
       for (let key in players) {
@@ -235,11 +232,14 @@ server.startServer = function(startServer) {
           player = players[key];
         }
       }
+      console.log(player.uuid)
       player.connected = false;
       player.socket_id = socket.id;
       disconnected[player.uuid] = player.uuid;
       socket.broadcast.emit("disconnected", {disconnected: disconnected, uuid: player.uuid});
       console.log("player " + player.uuid + " has disconnected");
+
+      delete locked_chars[player.uuid];
 
       // nobody is connected
       if (!isAnyoneConnected()) {
@@ -248,6 +248,7 @@ server.startServer = function(startServer) {
             disconnected = {};
             clearInterval(interval);
             clearInterval(interval2);
+            clearInterval(debugInterval);
             io.close();
             startServer(startServer);
           }
@@ -266,6 +267,13 @@ server.startServer = function(startServer) {
     }
     return anyone_connected;
   };
+
+  let debugInterval = setInterval(function() {
+    //console.log(locked_chars);
+    //console.log(Object.keys(players).length);
+    //console.log(disconnected)
+    //console.log(Object.keys(players))
+  }, 500);
 
   // SERVER EMITS TO ALL
   let interval = setInterval(function() {

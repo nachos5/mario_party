@@ -16,9 +16,11 @@ function AudioManager() {
 // ==========
 
 // array to store our buffers
-AudioManager.prototype.bufferArr = []
+AudioManager.prototype.bufferArr = [];
+// store our currently playing song
+AudioManager.prototype.songBufferSource = null;
 // array to check if all files are preloaded
-AudioManager.prototype.preloaded = []
+AudioManager.prototype.preloaded = [];
 // keeps track of number of audiofiles
 AudioManager.prototype.fileCount = 0;
 
@@ -27,10 +29,18 @@ AudioManager.prototype.paused = false;
 // ========
 // PRE LOAD
 // ========
-
+// neat arrays
+AudioManager.prototype.mapMusic = [];
+AudioManager.prototype.mgameMusic = [];
 /* a preload function that takes an soundfile url as argument and an index string
    to store in our buffer array. Stores the buffer in our buffer array */
 AudioManager.prototype.preLoad = function(url, indexString, i) {
+  // store our strings in arrays
+  if (indexString.includes('mapmusic'))
+    this.mapMusic.push(indexString);
+  else if (indexString.includes('mgamemusic'))
+    this.mgameMusic.push(indexString);
+
   // increment our audio file counter and push on our preloaded array
   this.fileCount++;
   this.preloaded.push(false);
@@ -66,6 +76,9 @@ AudioManager.prototype.onError = function() {
 
 // a function that takes a buffer as argument and plays the audio source
 AudioManager.prototype.playAudio = function(bufferString, delayTime, loop=false, gainConst=1) {
+  // if there is a song currently playing we want to stop it
+  if (loop && this.songBufferSource != null)
+    this.songBufferSource.stop();
   // buffer and buffer duration
   const buffer = audioManager.bufferArr[bufferString];
   const dur = buffer.duration;
@@ -95,7 +108,40 @@ AudioManager.prototype.playAudio = function(bufferString, delayTime, loop=false,
   gainNode.connect(this.audioCtx.destination);
   // play!
   source.start(0);
-}
+  // if loop then we have a song and we want to store the buffer source so we can stop it later
+  if (loop) {
+    this.songBufferSource = source;
+    this.songBufferSource.gainNode = gainNode;
+  }
+};
+
+// fades out current song (songBufferSource)
+AudioManager.prototype.fadeOut = function(dur) {
+  let gainNode = this.songBufferSource.gainNode;
+  // decay
+  gainNode.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + dur);
+  const t = setTimeout(() => {
+    this.songBufferSource.stop();
+    clearTimeout(t);
+  }, dur * 1000); // dur is in seconds
+};
+
+// fades out current song and then plays a random song of certain type
+AudioManager.prototype.fadeOutPlayNext = function(string, dur) {
+  let gainNode = this.songBufferSource.gainNode;
+  // decay
+  gainNode.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + dur);
+  const t = setTimeout(() => {
+    this.songBufferSource.stop();
+    if (string === 'map') {
+      this.playRandomMapMusic();
+    }
+    else if (string === 'minigame') {
+      this.playRandomMinigameMusic();
+    }
+    clearTimeout(t);
+  }, dur * 1000); // dur is in seconds
+};
 
 // play an audio file and emit a trigger to the server
 AudioManager.prototype.playAndEmit = function(bufferString, delayTime, loop, gainConst=1) {
@@ -154,13 +200,31 @@ AudioManager.prototype.resume = function() {
   this.paused = false;
 }
 
+
+// ===========
+// MISC
+// ===========
+
+AudioManager.prototype.playRandomMapMusic = function() {
+  const rand = parseInt(Math.random() * this.mapMusic.length);
+  const music_string = this.mapMusic[rand];
+  this.playAudio(music_string, 0, true, 0.77);
+};
+
+AudioManager.prototype.playRandomMinigameMusic = function() {
+  const rand = parseInt(Math.random() * this.mgameMusic.length);
+  const music_string = this.mgameMusic[rand];
+  this.playAudio(music_string, 0, true, 0.77);
+};
+
+
 // ===========
 // PRELOAD ALL
 // ===========
 
 // preload all our audiofiles (and store in our buffer array)
 AudioManager.prototype.preloadAll = function(callback) {
-  // all files:
+  // sfx
   this.preLoad("static/sounds/coin.wav", "coin", 0);
   this.preLoad("static/sounds/diceroll.wav", "diceroll", 1);
   this.preLoad("static/sounds/jump.wav", "jump", 2);
@@ -168,6 +232,20 @@ AudioManager.prototype.preloadAll = function(callback) {
   this.preLoad("static/sounds/pipe.wav", "pipe", 4);
   this.preLoad("static/sounds/star.wav", "star", 5);
   this.preLoad("static/sounds/arrow.wav", "arrow", 6);
+  // songs
+  this.preLoad("static/sounds/songs/mapmusic1.mp3", "mapmusic1", 7);
+  this.preLoad("static/sounds/songs/mapmusic2.mp3", "mapmusic2", 8);
+  this.preLoad("static/sounds/songs/mapmusic3.mp3", "mapmusic3", 9);
+  this.preLoad("static/sounds/songs/mapmusic4.mp3", "mapmusic4", 10);
+  this.preLoad("static/sounds/songs/mgamemusic1.mp3", "mgamemusic1", 11);
+  this.preLoad("static/sounds/songs/mgamemusic2.mp3", "mgamemusic2", 12);
+  this.preLoad("static/sounds/songs/mgamemusic3.mp3", "mgamemusic3", 13);
+  this.preLoad("static/sounds/songs/mgamemusic4.mp3", "mgamemusic4", 14);
+  this.preLoad("static/sounds/songs/mgamemusic5.mp3", "mgamemusic5", 15);
+  this.preLoad("static/sounds/songs/minigamerules.mp3", "minigamerules", 16);
+  this.preLoad("static/sounds/songs/opening.mp3", "opening", 17);
+  this.preLoad("static/sounds/songs/winner.wav", "winner", 18);
+  this.preLoad("static/sounds/songs/mgamewinner.mp3", "mgamewinner", 19);
 
   // when we have preloaded all files we go to the callback
   let fileCount = this.fileCount;

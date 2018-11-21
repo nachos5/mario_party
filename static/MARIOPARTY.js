@@ -448,8 +448,9 @@ menuManager.init();
 eventManager.init();
 animationManager.init();
 
-// play background music
-//audioManager.playAudio(audioManager.bufferArr["cantina"], 0, true);
+// play opening music
+audioManager.playAudio("opening", 0, true, 0.77);
+
 
 g_canvas.style.display = 'block';
 document.getElementById('loadingMessage').style.display = 'none';

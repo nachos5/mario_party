@@ -3,6 +3,13 @@
 // ===========
 
 function Victory(players) {
+    // music!
+    audioManager.fadeOut(1);
+    setTimeout(() => {
+      audioManager.playAudio("winner", 0, true, 0.77);
+    }, 1000);
+
+
     this.players = players;
 
     // Calculation variables
@@ -40,12 +47,12 @@ function Victory(players) {
     this.blockWidth  = this.podiumWidth  / 14;
     this.blockHeight = this.podiumHeight / 3;
 
-    this.first      = {cx : this.left  + this.blockWidth * 6.5, cy : this.bot - this.blockHeight * 3}; 
+    this.first      = {cx : this.left  + this.blockWidth * 6.5, cy : this.bot - this.blockHeight * 3};
     this.second     = {cx : this.left  + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2};
     this.third      = {cx : this.left  + this.blockWidth * 8.5, cy : this.bot - this.blockHeight * 2};
     this.otherLeft  = {cx : this.left  + this.blockWidth/2    , cy : this.bot - this.blockHeight    };
     this.otherRight = {cx : this.right - this.blockWidth/2    , cy : this.bot - this.blockHeight    };
-    
+
     // For the tabletop player in second place
     this.secondSp   = {cx : this.left + this.blockWidth * 4.5, cy : this.bot - this.blockHeight * 2.5};
 
@@ -75,7 +82,7 @@ function Victory(players) {
     this.victoryPopUp = [];
     this.i = 0;
     this.extraStar = [];
-    
+
     this.coinFlip = function() { return parseInt(Math.random() * 2) };
 
     this.findWinners();
@@ -201,7 +208,7 @@ Victory.prototype.nextPopUp = function() {
         stateManager.updateCollectable(entityManager._players[0], 'star', 1);
         stateManager.updateScoreboard();
         this.updatePosition();
-        
+
         // Showcase top 3 players
         if (this.i === this.victoryPopUp.length - 1) {
             let topPlayers = []
@@ -213,7 +220,7 @@ Victory.prototype.nextPopUp = function() {
                 topPlayers.push(this.players[0]);
                 topPlayers.push(this.players[0]);
             }
-        
+
         this.generateFinalPopUP(topPlayers);
         }
     }

@@ -62,7 +62,6 @@ Player.prototype.update = function (du) {
     if (this.updateIter === 50) {
       this.refresh();
       this.updateIter = -1;
-      //console.log(this);
     }
     this.updateIter++;
 

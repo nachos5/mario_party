@@ -83,17 +83,24 @@ networkManager.socket.on("new_player", function(player) {
 });
 
 // player reconnects
-networkManager.socket.on("reconnecting", function(player) {
+networkManager.socket.on("reconnecting", function(data) {
   console.log("reconnecting");
+  const player = data.player;
+  const ready = data.all_ready;
+  console.log(ready)
   const clientPlayer = entityManager._players[0];
+
   // ==== MAIN PLAYER ==== //
   clientPlayer.stars = player.stars;
   clientPlayer.coins = player.coins;
   clientPlayer.spriteID = player.spriteID;
+  console.log(clientPlayer)
   clientPlayer.socket_id = player.socket_id;
   clientPlayer.refresh();
-  g_startGame = true;
-  menuManager.cleanup();
+  if (ready) {
+    g_startGame = true;
+    menuManager.cleanup();
+  }
   // ==== TT PLAYER ==== //
   clientPlayer.tt_player.position = player.tt_player.position;
   // ==== EVENT PLAYER ==== //
@@ -122,7 +129,7 @@ networkManager.socket.on("reconnecting", function(player) {
 networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
   const player = data.player;
   const disconnected = data.disconnected;
-  const obj = entityManager._players.find(obj => obj.uuid = player.uuid);
+  const obj = entityManager._players.find(obj => obj.uuid == player.uuid);
   obj.socket_id = player.socket_id;
   networkManager.displayDc(disconnected);
 });
@@ -139,7 +146,8 @@ networkManager.socket.on("all_players_ready_server", function() {
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
   stateManager.updateInfo();
-  //minigameManager.initMinigame();
+
+  audioManager.fadeOutPlayNext('map', 2);
 });
 
 
@@ -148,11 +156,7 @@ networkManager.displayDc = function(disconnected) {
   const output = document.getElementById('output');
   output.innerHTML = "";
   for (let d in disconnected) {
-   const obj = entityManager._players.find(obj => obj.uuid = disconnected[d]);
-   const li = document.createElement("li");
-   const text = document.createTextNode(obj.tt_player.name + " is currently disconnected.");
-   li.appendChild(text);
-   output.appendChild(li);
+   const obj = entityManager._players.find(obj => obj.uuid == disconnected[d]);
 
    // Show message to other players
    let msg = new Message({
@@ -160,7 +164,7 @@ networkManager.displayDc = function(disconnected) {
     offsetRight : 0.06,
     offsetBot   : 0.35,
     offsetLeft  : 0.06,
-    string      : ' # IS CURRENTLY/ DISCONNECTED',
+    string      : ' # HAS/ DISCONNECTED',
     lines       : 2,
     p1SpriteID  : obj.spriteID,
    })
@@ -244,7 +248,7 @@ networkManager.socket.on("update_player_server", function(player) {
 
 // UPDATING COLLECTABLES
 networkManager.socket.on("update_collectables_server", function(player) {
-  const client_player = entityManager._players.find(obj => obj.uuid = player.uuid);
+  const client_player = entityManager._players.find(obj => obj.uuid == player.uuid);
   client_player.stars = player.stars;
   client_player.coins = player.coins;
 });
@@ -291,6 +295,7 @@ networkManager.socket.on("lock_char", function(data) {
 
     // lock relevant stuff
     for (let c in chars) {
+      //console.log(c + " " + Math.random())
       const sprite_id = chars[c];
       menuManager.menuPopUp.charSelection[sprite_id].isLocked = true;
 

@@ -29,6 +29,12 @@ minigame_ready: false,
 currentPresetFunction: null,
 
 initMinigame: function(name) {
+  // music!
+  audioManager.fadeOut(1);
+  setTimeout(() => {
+    audioManager.playAudio("minigamerules", 0, true, 0.77);
+  }, 1000);
+
   // Offset values are based on mapHeight and mapWidth
   this.popup = new PopUp({
     offsetTop   : 0,
@@ -68,10 +74,17 @@ endMinigame: function() {
   }
 
   // start the next round!
+  audioManager.fadeOutPlayNext('map', 2);
   stateManager.nextRound();
 },
 
 rewards: function() {
+  // music!
+  audioManager.fadeOut(1);
+  setTimeout(() => {
+    audioManager.playAudio("mgamewinner", 0, true, 0.77);
+  }, 1000);
+
   this.placements = this.currentMinigame.placements;
   this.winningPopup();
 
