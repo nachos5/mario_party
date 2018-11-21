@@ -86,7 +86,7 @@ function renderSimulation(ctx) {
     }
 
     mapManager.render(ctx);
-    if (!g_startGame || g_gameOver) menuManager.render(ctx);
+    if (!g_startGame) menuManager.render(ctx);
     stateManager.render(ctx);
     minigameManager.render(ctx);
     entityManager.render(ctx);
@@ -130,6 +130,8 @@ function requestPreloads_images() {
         marioPartyLogo  : "static/assets/Mario_Party_logo.png",
         background2     : "static/assets/superMarioBackground.jpg",
         background3     : "static/assets/superMarioBackground2.png",
+        background4     : "static/assets/superMarioBackground3.png",
+        background5     : "static/assets/superMarioBackground4.png",
         framePipeTop    : "static/assets/superMarioWorldPipeTop.png",
         framePipeMid    : "static/assets/superMarioWorldPipeMid.png",
 
@@ -237,6 +239,8 @@ function preloadDone() {
     g_sprites.marioPartyLogo    = new Sprite(g_images.marioPartyLogo);
     g_sprites.background2       = new Sprite(g_images.background2);
     g_sprites.background3       = new Sprite(g_images.background3);
+    g_sprites.background4       = new Sprite(g_images.background4);
+    g_sprites.background5       = new Sprite(g_images.background5);
 
     // Victory
     g_sprites.marioPodium       = new Sprite(g_images.marioPodium);

@@ -86,8 +86,8 @@ bulletStorm.init = function() {
 
     checkForWin: function() {
       let playersLeft = 0;
-      this.players.forEach(function(item){
-	      if (item.room === 2){
+      this.players.forEach(item => {
+	      if (item.room === 2) {
           playersLeft++;
         }
       });
@@ -121,7 +121,7 @@ bulletStorm.init = function() {
     sortByPlacement: function() {
       console.log(this.players)
       this.players.sort((x, y) => {
-        return y.room - x.room;
+        return x.place - y.place;
       });
 
       let index = 1;
@@ -140,6 +140,11 @@ bulletStorm.init = function() {
       this.bulletBills.forEach((item) => {
         spatialManager.unregister(item);
       });
+
+      // Restart player placement in mingames to default
+      /*this.players.forEach(item => {
+        item.place = -1;
+      });*/
 
       minigameManager.endMinigame();
     },

@@ -62,7 +62,19 @@ BulletBill.prototype.getRadius = function () {
 // =================
 BulletBill.prototype.resolveCollision = function(player) {
     player.changeRoom(0);
+/*
+    player.place = 0;   // Take current player out of place check
+    let playerPlace;
 
+    // Check how many players are out of the game
+    bulletStorm.players.forEach(item => {
+        if (item.place !== -1){
+            playerPlace++;
+        }
+    });
+
+    player.place = playerPlace; // Assign a place for current player
+*/
     this.isCollision = true;
 };
 
