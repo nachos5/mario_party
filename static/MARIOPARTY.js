@@ -163,6 +163,8 @@ function requestPreloads_images() {
         // Minigame stuff
         finishLine      : "static/assets/finishLine.png",
         bulletBill      : "static/assets/bulletBillHiRes.png",
+        blockBlue       : "static/assets/marioBlockBlue.png",
+        blockRed        : "static/assets/marioBlockRed.png",
 
         // Objects
         die0             : "static/assets/diceBlock0.png",
@@ -258,6 +260,8 @@ function preloadDone() {
     // Minigames stuff
     g_sprites.finishLine        = new Sprite(g_images.finishLine);
     g_sprites.bulletBill        = new Sprite(g_images.bulletBill);
+    g_sprites.blockBlue         = new Sprite(g_images.blockBlue);
+    g_sprites.blockRed          = new Sprite(g_images.blockRed);
 
     // Button
     g_sprites.cyanReady         = new Sprite(g_images.cyanReady);
@@ -343,8 +347,7 @@ function preloadDone() {
     g_numberSprites.num7      = new Sprite(g_images.numbers, 685, 195, 0, 2, 45, 55);  // 7
     g_numberSprites.num8      = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 55);  // 8
     g_numberSprites.num9      = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 55);  // 9
-// ha
-//lo
+
     // Alphabet
     g_alphSprites.A           = new Sprite(g_images.alph, 35,   37, 0, 2, 25, 37);  // A
     g_alphSprites.B           = new Sprite(g_images.alph, 85,   37, 0, 2, 25, 37);  // B

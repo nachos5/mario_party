@@ -141,7 +141,13 @@ EventPlayer.prototype.isRoomCollision = function () {
 
 EventPlayer.prototype.accel = function (du) {
     let accelX = this.calcAccelX();
-    let accelY = this.calcAccelY();
+    //let accelY = this.calcAccelJump();
+    let accelY = 0;
+
+    if (minigameManager.currentMinigame === 'floorIsLava') {
+        accelY = this.calcAccelY();
+    }
+    else accelY = this.calcAccelJump();
 
     // Initial velocity = current velocity
     let initialVelX = this.velX;
@@ -222,6 +228,39 @@ EventPlayer.prototype.calcAccelX = function () {
 // ============
 
 EventPlayer.prototype.calcAccelY = function () {
+    let accelX = 0;
+    let maxAccelX = 0.35;    // Right
+    let minAccelX = -0.35;   // Left
+
+    const accelStep = maxAccelX / 4;
+
+    if (keys[this.KEY_UP] || keys[this.KEY_DOWN]) {
+        if (keys[this.KEY_UP]) { accelX -= accelStep }
+        if (keys[this.KEY_DOWN]) { accelX += accelStep }
+    }
+    else {  // Inertia
+        // To prevent bouncing in place
+        if ((-accelStep / 2) <= this.velX && this.velX <= (accelStep / 2)) {
+            this.velX = 0;
+        }
+        else if (this.velX < 0) {
+            accelX += accelStep / 2;
+        }
+        else if (this.velX > 0) {
+            accelX -= accelStep / 2;
+        }
+    }
+
+    if (accelX > maxAccelX) { return maxAccelX }
+    if (accelX < minAccelX) { return minAccelX }
+    else { return accelX }
+};
+
+// ==============
+// CALC ACCEL JUMP
+// ===============
+
+EventPlayer.prototype.calcAccelJump = function () {
     let gravity = entityManager._gravity;
 
     let accelY = 0;

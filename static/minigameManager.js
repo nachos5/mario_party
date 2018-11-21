@@ -7,6 +7,7 @@ const minigameManager = {
 // object with all minigames
 minigames: {
   //balance: balance,
+  floorIsLava: floorIsLava,
   bulletStorm: bulletStorm,
   mash: mash,
 },

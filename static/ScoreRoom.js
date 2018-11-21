@@ -7,18 +7,17 @@ function ScoreRoom() {
     this.brick   = g_sprites.brickBlock;
     this.pipe    = g_sprites.backGreenPipe;
     this.altPipe = g_sprites.backRedPipe;
-    // Star
-    this.star  = g_sprites.star;
+    this.star    = g_sprites.star;
 
     // Wall size
-    this.wallWidth    = 13;
-    this.wallHeight    = 26;
+    this.wallWidth  = 13;
+    this.wallHeight = 26;
 
     // Word to display
     this.word = ' ROUND .';
 
     // Brick scale
-    this.brickScaleX = mapManager.mapLeft / (this.brick.width * this.wallWidth);    // roomWidth / wallWidth
+    this.brickScaleX = mapManager.mapLeft / (this.brick.width  * this.wallWidth);    // roomWidth / wallWidth
     this.brickScaleY = g_canvas.height    / (this.brick.height * this.wallHeight);  // roomHeight / wallHeight
 
     // Real values
