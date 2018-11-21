@@ -94,8 +94,7 @@ rewards: function() {
   for (let key in this.placements) {
     const player = players.find(obj => obj.player_id === this.placements[index]);
     if (index === 1) player.minigames_won++;
-    player.coins += coins;
-    console.log(player);
+    stateManager.updateCollectable(player, "coin", coins, false);
     //networkManager.emit("update_player", player);
     coins -= 5;
     if (coins < 0) coins = 0;

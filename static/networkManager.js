@@ -369,6 +369,10 @@ networkManager.socket.on('generate_bullets_server', function() {
   bulletStorm.generateBulletBill(5);
 });
 
+networkManager.socket.on('add_to_placements_server', function(id) {
+  bulletStorm.game.addToPlacements(id);
+})
+
 
 
 

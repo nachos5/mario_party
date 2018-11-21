@@ -91,6 +91,7 @@ function renderSimulation(ctx) {
     minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
+    audioManager.render(ctx);
 
     // Max priority, options and messages
     stateManager.priorityRender(ctx);
@@ -458,6 +459,7 @@ entityManager.sharedObjects();
 menuManager.init();
 eventManager.init();
 animationManager.init();
+audioManager.init();
 
 // play opening music
 audioManager.playAudio("opening", 0, true, 0.77);

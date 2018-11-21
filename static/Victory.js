@@ -6,8 +6,8 @@ function Victory(players) {
     // music!
     audioManager.fadeOut(1);
     setTimeout(() => {
-      audioManager.playAudio("winner", 0, true, 0.77);
-    }, 1000);
+      audioManager.playAudio("winner", 0, false, 0.77);
+    }, 500);
 
 
     this.players = players;
@@ -199,16 +199,17 @@ Victory.prototype.generateFinalPopUP = function(players) {
 // ===========
 
 Victory.prototype.nextPopUp = function() {
-
-    if (this.i + 1 !== this.victoryPopUp.length) {
+    if (this.i + 1 != this.extraStar.length) {
         this.i++;
-        animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
-        stateManager.updateCollectable(entityManager._players[0], 'star', 1);
-        stateManager.updateScoreboard();
-        this.updatePosition();
+        if (this.i != this.victoryPopUp.length - 1) {
+          animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
+          stateManager.updateCollectable(entityManager._players[0], 'star', 1);
+          stateManager.updateScoreboard();
+          this.updatePosition();
+        }
 
         // Showcase top 3 players
-        if (this.i === this.victoryPopUp.length - 1) {
+        else {
             let topPlayers = []
             for(let i = 0; i < stateManager.players.length; i++) {
                 topPlayers[i] = stateManager.players[i];

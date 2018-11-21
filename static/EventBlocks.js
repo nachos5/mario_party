@@ -187,6 +187,8 @@ EventBlocks.prototype.update = function(du) {
             const tt_player1 = player1.tt_player;
             const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
             const tt_player3 = player3.tt_player;
+            console.log(player1)
+            console.log(player3)
 
             // Resolve winner and loser
             let coinAmount = 10;
@@ -194,14 +196,16 @@ EventBlocks.prototype.update = function(du) {
 
             if (stateManager.curr_player.my_player) {
             // Item box -> coin
+              const coinflip = Math.random() < 0.5;
+              console.log(this.winner)
               if (this.results2 === 0) {
-                  if (this.winner === 1 || this.winner === 2) {
+                  if (this.winner === 1 || (this.winner === 2 && coinflip)) {
                       stateManager.updateCollectable(player1, 'coin', coinAmount);
                       animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
                       stateManager.updateCollectable(player3, 'coin', -coinAmount);
                       animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
                   }
-                  if (this.winner === 3 || this.winner === 2) {
+                  if (this.winner === 3 || (this.winner === 2 && !coinflip)) {
                       stateManager.updateCollectable(player3, 'coin', coinAmount);
                       animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
                       stateManager.updateCollectable(player1, 'coin', -coinAmount);
@@ -210,13 +214,13 @@ EventBlocks.prototype.update = function(du) {
               }
               // Item box -> star
               if (this.results2 === 1) {
-                  if (this.winner === 1 || this.winner === 2) {
+                  if (this.winner === 1 || (this.winner === 2 && coinflip)) {
                       stateManager.updateCollectable(player1, 'star', starAmount);
                       animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
                       stateManager.updateCollectable(player3, 'star', -starAmount);
                       animationManager.generateMapAnimation('starUp', starAmount, tt_player3);
                   }
-                  if (this.winner === 3 || this.winner === 2) {
+                  if (this.winner === 3 || (this.winner === 2 && !coinflip)) {
                       stateManager.updateCollectable(player3, 'star', starAmount);
                       animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
                       stateManager.updateCollectable(player1, 'star', -starAmount);

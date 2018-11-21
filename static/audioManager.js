@@ -26,6 +26,30 @@ AudioManager.prototype.fileCount = 0;
 
 AudioManager.prototype.paused = false;
 
+// =========
+// INITILIZE
+// =========
+AudioManager.prototype.init = function() {
+  const w = g_canvas.width / 8,
+        h = g_canvas.height / 8;
+
+  this.button = new Button({
+      cx: g_canvas.width - w,
+      cy: g_canvas.height - h,
+
+      width: w,
+      height: h,
+
+      scaleX: 1,
+      scaleY: 1,
+
+      onSprite: g_sprites.greenReady,
+      offSprite: g_sprites.cyanReady,
+
+      owner: 'audiomanager',
+  });
+};
+
 // ========
 // PRE LOAD
 // ========
@@ -218,6 +242,8 @@ AudioManager.prototype.playRandomMinigameMusic = function() {
 };
 
 
+
+
 // ===========
 // PRELOAD ALL
 // ===========
@@ -268,6 +294,10 @@ AudioManager.prototype.preloadAll = function(callback) {
     callback();
   }, 100)
 }
+
+AudioManager.prototype.render = function(ctx) {
+  //this.button.render(ctx);
+};
 
 // lets a create a new manager
 let audioManager = new AudioManager();

@@ -166,28 +166,38 @@ let stateManager = {
   // UPDATE COLLECTABLE
   // ==================
 
-  updateCollectable: function(player, collectable, amount) {
-    //if (player.my_player) {
+  updateCollectable: function(player, collectable, amount, animation=true) {
       // Coin
       if (collectable === 'coin') {
-        player.coins += amount;
+        for (let i=0; i<amount; i++) {
+          player.coins++;
+          // overflow
+          if (player.coins == 100) {
+            player.coins = 0;
+            player.stars++;
+          }
+        }
 
-        if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
-        else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
+        if (animation) {
+          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
+          else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
+        }
       }
 
       // Star
       if (collectable === 'star') {
         player.stars += amount;
 
-        if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
-        else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
+        if (animation) {
+          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
+          else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
+        }
       }
 
       // Prevent error, can't own negative
       if (player.coins < 0) player.coins = 0;
       if (player.stars < 0) player.stars = 0;
-    //}
+
       stateManager.updateImageData('scoreRoom');
   },
 
@@ -317,7 +327,7 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 0;
         // minigame manager calls the next round function
-        minigameManager.initMinigame();
+        minigameManager.initMinigame("bulletStorm");
       }
       this.turn++;
     }
@@ -347,9 +357,6 @@ let stateManager = {
       if (!g_gameOver) {
         // victory music!
         audioManager.fadeOut(0.2);
-        setTimeout(() => {
-          audioManager.playAudio("mgamewinner", 0, true, 0.77);
-        }, 200);
 
         this.victoryScreen = new Victory(this.players);
         // Static image data

@@ -214,14 +214,14 @@ let eventManager = {
 
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
-    stateManager.animation_is_running = true;
+    /*stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
-    animationManager.generateMapAnimation('coinDown', this.coinAmount);
-    /*if (parameters) {
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);*/
+    if (parameters) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();
-    }*/
+    }
   },
 
   // red tile - lose 3 coins //

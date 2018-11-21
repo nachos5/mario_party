@@ -223,6 +223,10 @@ server.startServer = function(startServer) {
       socket.broadcast.emit('generate_bullets_server');
     });
 
+    socket.on('add_to_placements', function(data) {
+      socket.broadcast.emit('add_to_placements_server', data);
+    });
+
 
 
     socket.on('disconnect', function() {

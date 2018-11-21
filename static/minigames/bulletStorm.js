@@ -17,14 +17,13 @@ bulletStorm.init = function() {
     bulletBills: [],
     level: 0,
 
-    placements: {
-      1: null,
-    },
+    placements: {},
 
     init: function() {
       this.players = minigameManager.getPlayers();
       this.my_player = minigameManager.my_player;
       this.no_players = Object.keys(this.players).length;
+      this.placement_index = this.no_players;
 
       this.timer10 = new Timer(10);
       this.timer10.startTimer();
@@ -85,27 +84,14 @@ bulletStorm.init = function() {
     },
 
     checkForWin: function() {
-      let playersLeft = 0;
-      this.players.forEach(item => {
-	      if (item.room === 2) {
-          playersLeft++;
-        }
-      });
-
-      // Deal with a single player to allow him to play the game
-      if (playersLeft === 0 && this.players.length === 1) {
+      if (Object.keys(this.placements).length == this.players.length) {
         this.win(g_ctx, true);
         this.have_winner = true;
-      }
-      if (playersLeft === 1 && this.players.length > 1) {
-        this.win(g_ctx, true);
-        this.have_winner = true;
-      }
+      };
     },
 
     win: function(ctx, init=false) {
       if (init) {
-        this.sortByPlacement();
         minigameManager.rewards();
         this.win_iter = 400;
         this.win_running = true;
@@ -118,17 +104,10 @@ bulletStorm.init = function() {
       }
     },
 
-    sortByPlacement: function() {
-      console.log(this.players)
-      this.players.sort((x, y) => {
-        return x.place - y.place;
-      });
-
-      let index = 1;
-      for (let key in this.players) {
-        this.placements[index] = this.players[key].id;
-        index++;
-      };
+    addToPlacements: function(player_id) {
+      const player = entityManager._players.find(obj => obj.player_id == player_id).eventPlayer;
+      this.placements[this.placement_index] = player.id;
+      this.placement_index--;
     },
 
     // we call this at the end of the minigame

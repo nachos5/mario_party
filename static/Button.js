@@ -49,6 +49,8 @@ Button.prototype.resolveCollision = function () {
     if (this.owner === 'minigame_ready') {
       networkManager.emit('minigame_ready', entityManager.getMyPlayer().player_id);
     }
+
+    if (this.owner === 'audiomanager') {}
 };
 
 // ======

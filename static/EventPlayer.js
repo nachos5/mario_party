@@ -33,6 +33,7 @@ EventPlayer.prototype.velY = 0;
 EventPlayer.prototype.prevVelX = 0;
 EventPlayer.prototype.prevVelY = 0;
 
+
 // ==========
 // GET RADIUS
 // ==========
@@ -260,7 +261,7 @@ EventPlayer.prototype.update = function (du) {
             let fun = hitEntity.resolveCollision;
             if (fun) fun.call(hitEntity, this);
         }
-        
+
         // If event player didn't change room revert to old coords
         if (whatRoom === this.room) {
             // Bounce player back
