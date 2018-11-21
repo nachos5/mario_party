@@ -248,7 +248,7 @@ EventPlayer.prototype.calcAccelY = function () {
 // ======
 
 EventPlayer.prototype.update = function (du) {
-
+console.log(this)
     spatialManager.unregister(this);
 
     this.accel(du);

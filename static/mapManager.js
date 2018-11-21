@@ -116,8 +116,8 @@ step: function() {
   if (this.diceThrow > 0) {
     this.diceThrow--;
     // change die side
+    networkManager.socket.emit("die_sprite", this.diceThrow);
     entityManager.getDie().side_sprite(this.diceThrow);
-      networkManager.socket.emit("die_sprite", this.diceThrow);
     // get some valid adjacent tile
     const validTile = this.checkForNextValidTiles(player, pos);
     // set prev position
