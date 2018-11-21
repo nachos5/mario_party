@@ -52,6 +52,10 @@ EventPlayer.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
+// ==========
+// INIT ROOMS
+// ==========
+
 EventPlayer.prototype.initRooms = function() {
     // Dice location
     this.diceRoomCx = stateManager.game_room.diceRoomLeft + stateManager.game_room.diceRoomWidth/2;
@@ -61,6 +65,10 @@ EventPlayer.prototype.initRooms = function() {
     this.eventRoomCx = stateManager.game_room.eventRoomLeft + stateManager.game_room.eventRoomWidth/2;
     this.eventRoomCy = stateManager.game_room.eventRoomBot  - this.getRadius() * 1.5;
 };
+
+// ==================
+// INIT MINIGAME ROOM
+// ==================
 
 EventPlayer.prototype.initMinigameRoom = function() {
     // Minigame location
@@ -310,8 +318,6 @@ EventPlayer.prototype.update = function (du) {
         }
     }
     else {spatialManager.register(this)}
-
-    if (this._isDeadNow) { return -1 }
 };
 
 // ======

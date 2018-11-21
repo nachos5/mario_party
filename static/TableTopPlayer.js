@@ -8,7 +8,6 @@ function TableTopPlayer(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
-   /* this.setup(descr);*/
 
     this.position = mapManager.getStartPosition();
     this.prevPosition = {column: -1, row: -1};
@@ -26,12 +25,6 @@ function TableTopPlayer(descr) {
     this.width  = this.map.tilesWidth * scale;
     this.height = this.map.tilesHeight * scale;
 };
-
-// ==========
-// PROPERTIES
-// ==========
-/*
-TableTopPlayer.prototype = new Entity();*/
 
 // =======
 // VICTORY
@@ -60,29 +53,11 @@ TableTopPlayer.prototype.reset = function() {
     this.centerY = this.resetCenterY;
 };
 
-// ==========
-// GET RADIUS
-// ==========
-
-TableTopPlayer.prototype.getRadius = function() {
-    return this.sprite.clipWidth * 0.75;
-};
-
-// =================
-// RESOLVE COLLISION
-// =================
-
-TableTopPlayer.prototype.resolveCollision = function() {
-
-};
-
 // ======
 // UPDATE
 // ======
 
 TableTopPlayer.prototype.update = function (du) {
-
-  /*  spatialManager.unregister(this);*/
 
     this.cx = this.position.column * this.map.tilesWidth  + this.centerX;
     this.cy = this.position.row * this.map.tilesHeight + this.centerY;
@@ -91,18 +66,6 @@ TableTopPlayer.prototype.update = function (du) {
         this.cx = this.victoryCx;
         this.cy = this.victoryCy;
     }
-/*
-    // Check collision
-    if (this.isColliding()) {
-        let hitEntity = this.findHitEntity();
-        if (hitEntity) {
-            let fun = hitEntity.resolveCollision;
-            if (fun) fun.call(hitEntity);
-        }
-    }
-    else {spatialManager.register(this)}*/
-
-    if (this._isDeadNow) { return -1 }
 };
 
 // ======

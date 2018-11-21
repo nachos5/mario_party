@@ -60,6 +60,7 @@ BulletBill.prototype.getRadius = function () {
 // =================
 // RESOLVE COLLISION
 // =================
+
 BulletBill.prototype.resolveCollision = function(player) {
     networkManager.emit('add_to_placements', player.id);
     player.changeRoom(0);

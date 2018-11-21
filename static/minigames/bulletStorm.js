@@ -19,6 +19,10 @@ bulletStorm.init = function() {
 
     placements: {},
 
+    // =========
+    // INITALIZE
+    // =========
+
     init: function() {
       this.players = minigameManager.getPlayers();
       this.my_player = minigameManager.my_player;
@@ -63,6 +67,10 @@ bulletStorm.init = function() {
 
     },
 
+    // =====
+    // RULES
+    // =====
+
     rules: function(ctx, init=false) {
       if (init) {
         minigameManager.newRulesPopup(this.rules_string, 4);
@@ -83,12 +91,20 @@ bulletStorm.init = function() {
 
     },
 
+    // =============
+    // CHECK FOR WIN
+    // =============
+
     checkForWin: function() {
       if (Object.keys(this.placements).length == this.players.length) {
         this.win(g_ctx, true);
         this.have_winner = true;
       };
     },
+
+    // ===
+    // WIN
+    // ===
 
     win: function(ctx, init=false) {
       if (init) {
@@ -104,11 +120,19 @@ bulletStorm.init = function() {
       }
     },
 
+    // =================
+    // ADD TO PLACEMENTS
+    // =================
+
     addToPlacements: function(player_id) {
       const player = entityManager._players.find(obj => obj.player_id == player_id).eventPlayer;
       this.placements[this.placement_index] = player.id;
       this.placement_index--;
     },
+
+    // ========
+    // CLEAN UP
+    // ========
 
     // we call this at the end of the minigame
     cleanup: function() {
@@ -128,6 +152,10 @@ bulletStorm.init = function() {
       minigameManager.endMinigame();
     },
 
+    // ====================
+    // GENERATE BULLET BILL
+    // ====================
+
     generateBulletBill: function(amount) {
       let random = networkManager.random;
       let random2 = networkManager.random2;
@@ -140,11 +168,19 @@ bulletStorm.init = function() {
       }
     },
 
+    // ==========
+    // NEXT LEVEL
+    // ==========
+
     nextLevel: function() {
       if (this.timers.length - 1 === this.level) return;
       this.level++;
     },
 
+    // ======
+    // UPDATE
+    // ======
+    
     update: function(du) {
 
       // --- Last one alive? --- //
@@ -178,6 +214,10 @@ bulletStorm.init = function() {
         this.checkForWin();
       }
     },
+
+    // ======
+    // RENDER
+    // ======
 
     render: function(ctx) {
 
