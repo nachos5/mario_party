@@ -32,22 +32,6 @@ AudioManager.prototype.paused = false;
 AudioManager.prototype.init = function() {
   const w = g_canvas.width / 8,
         h = g_canvas.height / 8;
-
-  this.button = new Button({
-      cx: g_canvas.width - w,
-      cy: g_canvas.height - h,
-
-      width: w,
-      height: h,
-
-      scaleX: 1,
-      scaleY: 1,
-
-      onSprite: g_sprites.greenReady,
-      offSprite: g_sprites.cyanReady,
-
-      owner: 'audiomanager',
-  });
 };
 
 // ========

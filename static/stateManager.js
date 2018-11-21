@@ -328,8 +328,6 @@ let stateManager = {
         this.turn = 0;
         // minigame manager calls the next round function
         minigameManager.initMinigame('floorIsLava');
-        //minigameManager.initMinigame();
-        //this.nextRound();
       }
       this.turn++;
     }
