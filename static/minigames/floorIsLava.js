@@ -1,39 +1,47 @@
 // template
-let template = {};
+let floorIsLava = {};
 
-template.init = function() {
+floorIsLava.init = function() {
   this.game = {
-    rules_string: "",
+    rules_string: 'FLOOR IS LAVA ',
     rules_running: false,
     rules_iter: 0,
     win_running: false,
     win_iter: 0,
+
+    gameFloor: 0,
 
     placement: {
       1: null,
     },
 
     init: function() {
-      this.players = minigameManager.getPlayers();
-      this.my_player = minigameManager.my_player;
-      this.no_players = Object.keys(this.players).length;
+        this.players = minigameManager.getPlayers();
+        this.my_player = minigameManager.my_player;
+        this.no_players = Object.keys(this.players).length;
 
-      this.unregister();
-      this.register();
-      this.rules(g_ctx, true);
+        this.gameFloor = new Floor({
+            my_player : this.my_player,
+        }); 
+
+        this.unregister();
+        this.register();
+        this.rules(g_ctx, true);
     },
 
     unregister: function() {
+        this.my_player.KEY_JUMP = null;
 
     },
 
     register: function() {
-
+        this.my_player.KEY_UP   = 'W'.charCodeAt(0);
+        this.my_player.KEY_DOWN = 'S'.charCodeAt(0);
     },
 
     rules: function(ctx, init=false) {
       if (init) {
-        minigameManager.newRulesPopup();
+        minigameManager.newRulesPopup(this.rules_string, 4);
         this.rules_running = true;
         this.rules_iter = 400;
       }
@@ -76,14 +84,28 @@ template.init = function() {
 
     // we call this at the end of the minigame
     cleanup: function() {
-      minigameManager.endMinigame();
+        // Reassign old controls
+        this.my_player.KEY_JUMP = ' '.charCodeAt(0);
+
+        minigameManager.endMinigame();
     },
 
     update: function(du) {
-      this.checkForWin();
+
+        if (!this.have_winner && !this.rules_running) {
+
+            let status = this.gameFloor.update(du);
+            if (status === -1) console.log("i'am dead")
+        }
+        this.checkForWin();
     },
 
     render: function(ctx) {
+
+        if (!this.have_winner && !this.rules_running) {
+            this.gameFloor.render(ctx);
+        }
+
       // --- show rules --- //
       if (this.rules_running) {
         this.rules(ctx);
@@ -93,6 +115,7 @@ template.init = function() {
       if (this.win_running) {
         this.win(ctx);
       }
+
     }
   }
 

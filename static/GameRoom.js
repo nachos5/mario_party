@@ -5,9 +5,9 @@
 function GameRoom() {
 
   // Sprites
-  this.brick      = g_sprites.brickBlock;
-  this.pipe       = g_sprites.backBluePipe;
-  this.altPipe    = g_sprites.backYellowPipe;
+  this.brick   = g_sprites.brickBlock;
+  this.pipe    = g_sprites.backBluePipe;
+  this.altPipe = g_sprites.backYellowPipe;
 
   // Position
   this.cx = mapManager.mapRight;
@@ -40,19 +40,19 @@ function GameRoom() {
   // ========================
 
   // Dice Room
-  this.diceRoomTop    = this.brickHeight * 3;
-  this.diceRoomRight  = g_canvas.width   - this.brickWidth;
-  this.diceRoomBot    = this.brickHeight * 12;
-  this.diceRoomLeft   = g_canvas.width   - this.brickWidth * 12;
+  this.diceRoomTop     = this.brickHeight * 3;
+  this.diceRoomRight   = g_canvas.width   - this.brickWidth;
+  this.diceRoomBot     = this.brickHeight * 12;
+  this.diceRoomLeft    = g_canvas.width   - this.brickWidth * 12;
 
-  this.diceRoomWidth  = this.diceRoomRight - this.diceRoomLeft;
-  this.diceRoomHeight = this.diceRoomBot   - this.diceRoomTop; 
+  this.diceRoomWidth   = this.diceRoomRight - this.diceRoomLeft;
+  this.diceRoomHeight  = this.diceRoomBot   - this.diceRoomTop; 
 
   // Event Room
-  this.eventRoomTop   = this.brickHeight * 14;
-  this.eventRoomRight = g_canvas.width   - this.brickWidth;
-  this.eventRoomBot   = this.brickHeight * 23;
-  this.eventRoomLeft  = g_canvas.width   - this.brickWidth * 12;
+  this.eventRoomTop    = this.brickHeight * 14;
+  this.eventRoomRight  = g_canvas.width   - this.brickWidth;
+  this.eventRoomBot    = this.brickHeight * 23;
+  this.eventRoomLeft   = g_canvas.width   - this.brickWidth * 12;
 
   this.eventRoomWidth  = this.eventRoomRight - this.eventRoomLeft;
   this.eventRoomHeight = this.eventRoomBot   - this.eventRoomTop;
@@ -96,7 +96,6 @@ GameRoom.prototype.update = function(du) {
       // Stop opening
       if(this.pipeIter >= 144) {
         if(this.isAnimating === 1) {this.isAnimating = 2};  // opening -> done
-        console.log("opening -> done")
         eventManager.blocksEvent();
       }
     }
@@ -146,30 +145,29 @@ GameRoom.prototype.staticRender = function(ctx) {
     let x = this.cx;
     for (let j = 0; j < this.wallWidth; j++) {
       this.brick.drawTopLeft(ctx, x, y, 0, this.brickScaleX, this.brickScaleY);
-
       x += this.brickWidth;
     }
     y += this.brickHeight;
   }
 
   // Vertical Pipes
-  // 1
-  this.pipe.drawTopLeft(ctx, this.cx, this.cy, 0, this.pipeScaleX, this.pipeScaleY);
+  // Left
+  this.pipe.drawTopLeft(ctx, this.cx, this.cy,                                      0,       this.pipeScaleX, this.pipeScaleY   );
   this.pipe.drawTopLeft(ctx, this.cx, this.cy + this.brickHeight * this.wallHeight, Math.PI, this.pipeScaleX, this.pipeScaleY, 1);
-  // 2
-  this.pipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy, 0, this.pipeScaleX, this.pipeScaleY);
+  // Right
+  this.pipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy,                                      0,       this.pipeScaleX, this.pipeScaleY   );
   this.pipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * this.wallHeight, Math.PI, this.pipeScaleX, this.pipeScaleY, 1);
 
-  // Horizontal Pipes
+  // Horizontal Pipes - from top
   // 1
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight, 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight, Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight,                                 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY   );
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight,                                 Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
   // 2
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * 3, 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * 3, Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * 3,                             3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY   );
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * 3,                             Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
   // 3
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * Math.floor(this.wallHeight/2), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY);
-  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * Math.floor(this.wallHeight/2), Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth,                        this.cy + this.brickHeight * Math.floor(this.wallHeight/2), 3*Math.PI/2,  this.altPipeScaleX, this.altPipeScaleY   );
+  this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * Math.floor(this.wallHeight/2), Math.PI/2,    this.altPipeScaleX, this.altPipeScaleY, 1);
 
   // . Word
   for(let i = 0; i < this.word.length; i++) {
