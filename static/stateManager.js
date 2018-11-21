@@ -329,7 +329,6 @@ let stateManager = {
         // minigame manager calls the next round function
 
         minigameManager.initMinigame();
-
       }
       this.turn++;
     }
