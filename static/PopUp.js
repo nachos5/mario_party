@@ -145,7 +145,7 @@ function PopUp(descr) {
     this.coinScaleX = this.alphWidth / g_aniSprites.coin[0].clipWidth;
     this.coinScaleY = this.coinScaleX;
 
-    this.coin2ScaleX = (this.alphWidth * 0.65) / g_aniSprites.coin[0].clipWidth;
+    this.coin2ScaleX = (this.alphWidth * 0.6) / g_aniSprites.coin[0].clipWidth;
     this.coin2ScaleY = this.coin2ScaleX;
 
     // Bullet bill
@@ -465,11 +465,11 @@ PopUp.prototype.render = function(ctx) {
     }
 
     if (this.preset === 'options') {
-        this.keyEsc.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 0, 0, this.keyEscScaleX, this.keyEscScaleY);
-        this.keyA.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 2, 0, this.keyAScaleX, this.keyAScaleY);
-        this.keyD.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 3, 0, this.keyAScaleX, this.keyAScaleY);
-        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 4, 0, this.spacebarScaleX, this.spacebarScaleY);
-        this.mouse1.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX, this.mouse1ScaleY);
+        this.keyEsc.drawCentredAt(  ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 0, 0,          this.keyEscScaleX,   this.keyEscScaleY);
+        this.keyA.drawCentredAt(    ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 2, 0,          this.keyAScaleX,     this.keyAScaleY);
+        this.keyD.drawCentredAt(    ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 3, 0,          this.keyAScaleX,     this.keyAScaleY);
+        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 4, 0,          this.spacebarScaleX, this.spacebarScaleY);
+        this.mouse1.drawCentredAt(  ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX,   this.mouse1ScaleY);
     }
 }
 

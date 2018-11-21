@@ -18,8 +18,9 @@ let animationManager = {
     isTempAnimation: false,
     tempAnimations: [],
 
-
-
+    // =============
+    // INITALIZATION
+    // =============
 
     init: function() {
         this.coin = new Animation({
@@ -35,6 +36,10 @@ let animationManager = {
         });
 
     },
+
+    // ======================
+    // GENERATE MAP ANIAMTION
+    // ======================
 
     generateMapAnimation: function(preset, t, p = entityManager._curr_tt_player) {
         // - coins
@@ -94,6 +99,10 @@ let animationManager = {
         }
     },
 
+    // =======================
+    // GENERATE TEMP ANIMATION
+    // =======================
+
     generateTempAnimation: function(preset) {
         if (preset === 'eventArrow') {
             this.tempAnimations.push(new Animation({
@@ -104,6 +113,9 @@ let animationManager = {
         }
     },
 
+    // ======
+    // UPDATE
+    // ======
 
     update: function(du) {
         this.coin.update(du);

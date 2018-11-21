@@ -36,6 +36,10 @@ Animation.prototype.cy    = 0;          // Cy coordinates of the sprite
 Animation.prototype.preset = 0;         // Choose a preset
 
 
+// =======
+// RESTART
+// =======
+
 Animation.prototype.restart = function() {
 
     this.frame = 0;
