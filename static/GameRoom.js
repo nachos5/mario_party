@@ -18,8 +18,7 @@ function GameRoom() {
   this.wallHeight    = 26;
 
   // Word to display
-  this.word = '  TURN';
-  this.wordLength = 6;
+  this.word = '. TURN';
 
   // Brick scale
   this.brickScaleX = mapManager.mapLeft / (this.brick.width * this.wallWidth);    // roomWidth / wallWidth
@@ -173,8 +172,7 @@ GameRoom.prototype.staticRender = function(ctx) {
   this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * Math.floor(this.wallHeight/2), Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
 
   // . Word
-  g_alphSprites.Dot.drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * 5, this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
-  for(let i = 0; i < this.wordLength; i++) {
+  for(let i = 0; i < this.word.length; i++) {
     let alph = this.word[i];
     if(this.word[i] !== ' ') {
         g_alphSprites[alph].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (i+5), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);

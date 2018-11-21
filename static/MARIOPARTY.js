@@ -123,9 +123,6 @@ function requestPreloads_images() {
         // Victory
         marioPodium     : "static/assets/marioPodium.png",
 
-        // Popup
-        buyStarText     : "static/assets/popBuyStar.png",
-
         // Menu
         marioPartyLogo  : "static/assets/Mario_Party_logo.png",
         background2     : "static/assets/superMarioBackground.jpg",
@@ -244,9 +241,6 @@ function preloadDone() {
 
     // Victory
     g_sprites.marioPodium       = new Sprite(g_images.marioPodium);
-
-    // Popup
-    //g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
 
     // Character Select
     g_sprites.selectMario       = new Sprite(g_images.selectMario);
@@ -371,7 +365,6 @@ function preloadDone() {
     g_alphSprites.P           = new Sprite(g_images.alph, 339, 125, 0, 2, 25, 37);  // P
     g_alphSprites.Q           = new Sprite(g_images.alph, 388, 125, 0, 2, 25, 37);  // Q
     g_alphSprites.R           = new Sprite(g_images.alph, 440, 125, 0, 2, 25, 37);  // R
-    g_alphSprites.Qmark       = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 37);  // ?
     g_alphSprites['?']        = new Sprite(g_images.alph, 492, 125, 0, 2, 25, 37);  // ?
 
     g_alphSprites.S           = new Sprite(g_images.alph, 35,  211, 0, 2, 25, 37);  // S
@@ -382,7 +375,6 @@ function preloadDone() {
     g_alphSprites.X           = new Sprite(g_images.alph, 287, 211, 0, 2, 25, 37);  // X
     g_alphSprites.Y           = new Sprite(g_images.alph, 339, 211, 0, 2, 25, 37);  // Y
     g_alphSprites.Z           = new Sprite(g_images.alph, 389, 211, 0, 2, 25, 37);  // Z
-    g_alphSprites.Dot         = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 37);  // .
     g_alphSprites['.']        = new Sprite(g_images.alph, 441, 211, 0, 2, 25, 37);  // .
 
     loadSpriteLibaries();
