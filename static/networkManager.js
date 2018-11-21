@@ -70,9 +70,10 @@ networkManager.socket.on("new_player", function(player) {
      offsetRight : 0.06,
      offsetBot   : 0.35,
      offsetLeft  : 0.06,
-     string      : ' A NEW PLAYER  / # HAS JOINED',
+     string      : ' A NEW PLAYER  / HAS JOINED',
      lines       : 2,
      p1SpriteID  : player.player_id,
+     time        : 5,
     })
 
     stateManager.newMessage(msg);
@@ -109,22 +110,29 @@ networkManager.socket.on("reconnecting", function(data) {
   networkManager.all_players_ready = true;
   stateManager.updateImageData();
 
+  //console.log(disconnected)
+  //networkManager.displayDc(disconnected);
+});
 
-   // Show message to other players
-   let msg = new Message({
+networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
+  const player = data.player;
+  const disconnected = data.disconnected;
+  const obj = entityManager._players.find(obj => obj.uuid = player.uuid);
+  obj.socket_id = player.socket_id;
+
+  // Show message to other players
+  let msg = new Message({
     offsetTop   : 0.35,
     offsetRight : 0.06,
     offsetBot   : 0.35,
     offsetLeft  : 0.06,
     string      : ' # IS CURRENTLY/ RECONNECTING',
     lines       : 2,
-    p1SpriteID  : clientPlayer.spriteID,
+    p1SpriteID  : obj.spriteID,
+    time        : 5,
    })
 
-   stateManager.newMessage(msg);
-  //console.log(disconnected)
-  //networkManager.displayDc(disconnected);
-});
+  stateManager.newMessage(msg);
 
 networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
   const player = data.player;
@@ -143,6 +151,7 @@ networkManager.socket.on("all_players_ready_server", function() {
   networkManager.all_players_ready = true;
   g_startGame = true;
 
+  stateManager.newGame();
   stateManager.updatePlayerSprites();
   stateManager.updateImageData();
   stateManager.updateInfo();
@@ -167,6 +176,7 @@ networkManager.displayDc = function(disconnected) {
     string      : ' # HAS/ DISCONNECTED',
     lines       : 2,
     p1SpriteID  : obj.spriteID,
+    time        : 5,
    })
 
    stateManager.newMessage(msg);

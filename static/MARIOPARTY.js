@@ -35,8 +35,7 @@ function updateSimulation(du) {
     minigameManager.update(du);
 
     if (g_useAnimation) animationManager.update(du);
-
-    if (!g_startGame)  menuManager.update(du);
+    menuManager.update(du);
 }
 
 // ================
@@ -53,7 +52,7 @@ let g_useAnimation       = true;
 // Render animations
 
 let KEY_SPATIAL     = keyCode('X');
-let KEY_GRID        = keyCode('F');
+let KEY_GRID        = keyCode('G');
 let KEY_SPRITE_BOX  = keyCode('V');
 let KEY_ANIMATION   = keyCode('I');
 
@@ -87,11 +86,14 @@ function renderSimulation(ctx) {
     }
 
     mapManager.render(ctx);
-    if (!g_startGame) { menuManager.render(ctx) }
+    if (!g_startGame || g_gameOver) menuManager.render(ctx);
     stateManager.render(ctx);
     minigameManager.render(ctx);
     entityManager.render(ctx);
     eventManager.render(ctx);
+
+    // Max priority, options and messages
+    stateManager.priorityRender(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -103,6 +105,13 @@ function renderSimulation(ctx) {
 function requestPreloads_images() {
 
     let requiredImages = {
+        // Controls
+        controlsA        : "static/assets/controlsA.png",
+        controlsD        : "static/assets/controlsD.png",
+        controlsEsc      : "static/assets/controlsEsc.png",
+        controlsMouse1   : "static/assets/controlsMouse1.png",
+        controlsSpacebar : "static/assets/controlsSpacebar.png",
+
         // Background
         background1     : "static/assets/Mario-Background.jpg",
         brickBlock      : "static/assets/Brick_Block.png",
@@ -216,6 +225,12 @@ function waitForServerResponse() {
 // ============
 
 function preloadDone() {
+    // Controls
+    g_sprites.controlsA         = new Sprite(g_images.controlsA);
+    g_sprites.controlsD         = new Sprite(g_images.controlsD);
+    g_sprites.controlsEsc       = new Sprite(g_images.controlsEsc);
+    g_sprites.controlsMouse1    = new Sprite(g_images.controlsMouse1);
+    g_sprites.controlsSpacebar  = new Sprite(g_images.controlsSpacebar);
     // Menu
     g_sprites.framePipeTop      = new Sprite(g_images.framePipeTop);
     g_sprites.framePipeMid      = new Sprite(g_images.framePipeMid);
@@ -227,7 +242,7 @@ function preloadDone() {
     g_sprites.marioPodium       = new Sprite(g_images.marioPodium);
 
     // Popup
-    g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
+    //g_sprites.buyStarText       = new Sprite(g_images.buyStarText);
 
     // Character Select
     g_sprites.selectMario       = new Sprite(g_images.selectMario);

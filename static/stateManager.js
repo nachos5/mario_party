@@ -23,6 +23,9 @@ let stateManager = {
   // Network message
   messages: [],
 
+  // Options
+  options: [],
+
   // Added
   players: [],
   gamestate: {}, // emitted from the server
@@ -188,12 +191,56 @@ let stateManager = {
       stateManager.updateImageData('scoreRoom');
   },
 
+  // ========
+  // NEW GAME
+  // ========
+
+  newGame: function() {
+    // Show message to other players
+    let msg = new Message({
+      offsetTop   : 0.01,
+      offsetRight : 0.06,
+      offsetBot   : 0.8,
+      offsetLeft  : 0.06,
+      string      : 'JUMP INTO THE DIE/TO ROLL',
+      lines       : 2,
+      time        : 10,
+      extra       : g_sprites.arrow,
+    });
+
+    stateManager.newMessage(msg);
+    stateManager.newOptions();
+  },
+
   // ===========
   // NEW MESSAGE
   // ===========
 
   newMessage: function(msg) {
     this.messages.push(msg);
+  },
+
+  // ===========
+  // NEW OPTIONS
+  // ===========
+
+  newOptions: function() {
+    if (this.options.length === 1) {
+      this.options.pop();
+      return;
+    }
+    
+    let opt = new PopUp({
+      offsetTop   : 0.2,
+      offsetRight : 0.02,
+      offsetBot   : 0.2,
+      offsetLeft  : 0.02,
+      word        : 'OPTIONS       //LEFT/RIGHT/JUMP/INTERACT',
+      textLines   : 7,
+    });
+    opt.setPreset('options');
+
+    this.options.push(opt);
   },
 
   // ==========
@@ -355,6 +402,11 @@ let stateManager = {
       if (msgStatus === -1) this.messages.splice(index, 1);
     });
 
+    // Update options menu
+    this.options.forEach((item) => {
+      item.update(du);
+    });
+
     this.emitGameState(du);
 
     this.score_room.update(du);
@@ -372,14 +424,6 @@ let stateManager = {
   // ======
 
   render: function(ctx) {
-
-    // Render server messages
-    this.messages.forEach((item) => {
-      item.staticRender(ctx);
-      item.dynamicRender(ctx);
-      item.render(ctx);
-    });
-
     // Render static objects
     ctx.putImageData(this.gameRoomSprite, this.game_room.cx, 0);
     ctx.putImageData(this.scoreRoomSprite, 0, 0);
@@ -398,4 +442,23 @@ let stateManager = {
     }
   },
 
+  // ===============
+  // PRIORITY RENDER
+  // ===============
+
+  priorityRender: function(ctx) {
+    // Render server messages
+    this.messages.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+
+    // Update options menu
+    this.options.forEach((item) => {
+      item.staticRender(ctx);
+      item.dynamicRender(ctx);
+      item.render(ctx);
+    });
+  },
 }

@@ -39,6 +39,10 @@ Button.prototype.resolveCollision = function () {
         entityManager.getMyPlayer().isReady = true;
         menuManager.updateImageData();
     }
+    if (this.owner === 'options') {
+        spatialManager.unregister(this);
+        stateManager.options.pop();
+    }
 
     if (this.owner === 'buyStar') {}
 

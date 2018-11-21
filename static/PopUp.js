@@ -371,6 +371,31 @@ PopUp.prototype.setPreset = function(preset) {
         this.backgroundScaleX = this.width  / this.backgroundSprite.width;
         this.backgroundScaleY = this.height / this.backgroundSprite.height;
     }
+
+    if (this.preset === 'options') {
+        // Created variables
+        this.mouse1   = g_sprites.controlsMouse1;
+        this.spacebar = g_sprites.controlsSpacebar;
+        this.keyA     = g_sprites.controlsA;
+        this.keyD     = g_sprites.controlsD;
+        this.keyEsc   = g_sprites.controlsEsc;
+
+        // Mouse
+        this.mouse1ScaleX = this.innerWidth/11  / this.mouse1.width;
+        this.mouse1ScaleY = this.mouse1ScaleX;
+
+        // Spacebar
+        this.spacebarScaleY = this.innerHeight/10 / this.spacebar.height;
+        this.spacebarScaleX = this.spacebarScaleY;
+
+        // Keys A and D
+        this.keyAScaleX = this.innerWidth/13  / this.keyA.width;
+        this.keyAScaleY = this.keyAScaleX;
+
+        // Key Esc
+        this.keyEscScaleX = this.innerWidth/13  / this.keyEsc.width;
+        this.keyEscScaleY = this.keyEscScaleX;
+    }
 };
 
 // ==========
@@ -435,6 +460,14 @@ PopUp.prototype.render = function(ctx) {
         for(let i = 0; i < this.charSelection.length; i++) {
             this.charSelection[i].render(ctx);
         }
+    }
+
+    if (this.preset === 'options') {
+        this.keyEsc.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 0, 0, this.keyEscScaleX, this.keyEscScaleY);
+        this.keyA.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 2, 0, this.keyAScaleX, this.keyAScaleY);
+        this.keyD.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 3, 0, this.keyAScaleX, this.keyAScaleY);
+        this.spacebar.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 4, 0, this.spacebarScaleX, this.spacebarScaleY);
+        this.mouse1.drawCentredAt(ctx, this.alphLeft + this.alphWidth * 13, this.alphTop + this.alphHeight * 5, -Math.PI/2, this.mouse1ScaleX, this.mouse1ScaleY);
     }
 }
 

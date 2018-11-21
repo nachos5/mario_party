@@ -1,0 +1,20 @@
+Diagnostics
+
+C = Clear canvas
+B = box
+U = Undo box
+F = Flip flop box
+R = Render
+
+P = Pause
+O = Single step pause
+
+Develeoper keys:
+
+X = Hit boxes
+G = Map grid
+V = Sprite boxes
+I = On/off animations
+
+N = ctx.lineWidth++
+M = ctx.lineWidth--

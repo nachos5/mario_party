@@ -9,9 +9,6 @@ function Message(descr) {
         this[property] = descr[property];
     }
 
-    //this.string = 'IS CURRENTLY DISCONNECTED';
-    //this.lines  = 3;
-
     this.msg = new PopUp({
       offsetTop   : this.offsetTop,
       offsetRight : this.offsetRight,
@@ -21,22 +18,29 @@ function Message(descr) {
       textLines   : this.lines,
       p1SpriteID  : this.p1SpriteID,
     });
-    //this.msg.setPreset('minigame_ready');
 
-    this.timer10 = new Timer(10);
-    this.timer10.startTimer();
+    this.timer = new Timer(this.time);
+    this.timer.startTimer();
+
+    if (this.extra) {
+        let room = stateManager.game_room;
+
+        this.extraCx = room.diceRoomLeft + room.diceRoomWidth/6;
+        this.extraCy = room.diceRoomTop + room.diceRoomHeight/2;
+
+        this.extraScaleX = (room.brickWidth  * 2) / this.extra.width;
+        this.extraScaleY = (room.brickHeight * 2) / this.extra.height;
+
+        this.extraRotation = Math.PI/4;
+    }
 }
-
-// ==========
-// PROPERTIES
-// ==========
 
 // ======
 // UPDATE
 // ======
 
 Message.prototype.update = function() {
-    if (this.timer10.isTimeUp) {
+    if (this.timer.isTimeUp) {
         return -1;
     }
 };
@@ -45,8 +49,11 @@ Message.prototype.update = function() {
 // RENDER
 // ======
 
-Message.prototype.render = function() {
+Message.prototype.render = function(ctx) {
     this.msg.render(ctx);
+    if (this.extra) {
+        this.extra.drawCentredAt(ctx, this.extraCx, this.extraCy, this.extraRotation, this.extraScaleX, this.extraScaleY);
+    }
 };
 
 // ==============
