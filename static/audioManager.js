@@ -30,24 +30,6 @@ AudioManager.prototype.paused = false;
 // INITILIZE
 // =========
 AudioManager.prototype.init = function() {
-  const w = g_canvas.width / 8,
-        h = g_canvas.height / 8;
-
-  this.button = new Button({
-      cx: g_canvas.width - w,
-      cy: g_canvas.height - h,
-
-      width: w,
-      height: h,
-
-      scaleX: 1,
-      scaleY: 1,
-
-      onSprite: g_sprites.greenReady,
-      offSprite: g_sprites.cyanReady,
-
-      owner: 'audiomanager',
-  });
 };
 
 // ========
@@ -263,6 +245,7 @@ AudioManager.prototype.preloadAll = function(callback) {
   this.preLoad("static/sounds/random.wav", "random", 24);
   this.preLoad("static/sounds/anotherturn.wav", "anotherturn", 25);
   this.preLoad("static/sounds/bowser.wav", "bowser", 26);
+  this.preLoad("static/sounds/burn.wav", "burn", 27);
   // songs
   this.preLoad("static/sounds/songs/mapmusic1.mp3", "mapmusic1", 7);
   this.preLoad("static/sounds/songs/mapmusic2.mp3", "mapmusic2", 8);

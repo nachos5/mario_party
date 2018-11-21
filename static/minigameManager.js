@@ -118,7 +118,7 @@ getRandomMinigame: function() {
   }
   const rand = parseInt(Math.random() * minigames.length);
   this.already_played.push(minigames[rand]);
-  console.log(this.already_played)
+
   const minigame_init = this.minigames[minigames[rand]];
   return minigame_init;
 },

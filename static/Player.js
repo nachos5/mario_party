@@ -31,6 +31,7 @@ function Player(descr) {
     this.eventPlayer = new EventPlayer({
         id       : this.player_id,   // Id of the player
         sprite   : g_playerSprites[this.spriteID].sp,
+        my_player: this.my_player,
     });
 };
 
@@ -71,7 +72,6 @@ Player.prototype.update = function (du) {
       networkManager.emit("update_player", this);
       if (g_startGame && !g_gameOver) this.eventPlayer.update(du);
     }
-
     this.tt_player.update(du);
 };
 

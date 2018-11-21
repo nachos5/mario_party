@@ -3,6 +3,7 @@ let bulletStorm = {};
 
 bulletStorm.init = function() {
   this.game = {
+    name: 'bullet storm',
     rules_string: 'DODGE BULLET BILL/LAST ONE ALIVE WINS/     &',
     rules_running: false,
     rules_iter: 0,

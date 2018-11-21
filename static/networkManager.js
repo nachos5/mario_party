@@ -373,7 +373,9 @@ networkManager.socket.on('add_to_placements_server', function(id) {
   bulletStorm.game.addToPlacements(id);
 })
 
-
+networkManager.socket.on('add_to_placements_lava_server', function(id) {
+  floorIsLava.game.addToPlacements(id);
+})
 
 
 

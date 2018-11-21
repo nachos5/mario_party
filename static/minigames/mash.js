@@ -3,6 +3,7 @@ let mash = {};
 
 mash.init = function() {
   this.game = {
+    name: mash,
     minSpeed: 5,
     speed: 5, // more mashing -> more speed
     rules_string: "MINIGAME RULES/MASH SPACEBAR TO REACH/THE FINISH LINE",

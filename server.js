@@ -223,8 +223,27 @@ server.startServer = function(startServer) {
       socket.broadcast.emit('generate_bullets_server');
     });
 
+    // bullet storm
     socket.on('add_to_placements', function(data) {
       socket.broadcast.emit('add_to_placements_server', data);
+    });
+
+    socket.on('add_to_placements_lava', function(data) {
+      socket.broadcast.emit('add_to_placements_lava_server', data);
+    });
+
+    // ==== EVENT PLAYER ==== //
+    socket.on('event_player_velocity', function(data) {
+      let player = null;
+      for (let key in players) {
+        if (players[key].player_id == data.id)
+          player = players[key];
+      }
+      player.eventPlayer.velX = data.velX;
+      player.eventPlayer.velY = data.velY;
+      player.eventPlayer.prevVelX = data.prevVelX;
+      player.eventPlayer.prevVelY = data.prevVelY;
+      socket.broadcast.emit('event_player_velocity_server', data);
     });
 
 
