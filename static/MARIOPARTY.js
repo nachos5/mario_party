@@ -338,16 +338,16 @@ function preloadDone() {
     g_sprites.arrow           = new Sprite(g_images.arrow);
 
     // Numbers
-    g_numberSprites.num0      = new Sprite(g_images.numbers, 50,  195, 0, 2, 50, 55);  // 0
-    g_numberSprites.num1      = new Sprite(g_images.numbers, 140, 195, 0, 2, 38, 55);  // 1
-    g_numberSprites.num2      = new Sprite(g_images.numbers, 225, 195, 0, 2, 45, 55);  // 2
-    g_numberSprites.num3      = new Sprite(g_images.numbers, 315, 195, 0, 2, 45, 55);  // 3
-    g_numberSprites.num4      = new Sprite(g_images.numbers, 405, 195, 0, 2, 45, 55);  // 4
-    g_numberSprites.num5      = new Sprite(g_images.numbers, 500, 195, 0, 2, 50, 55);  // 5
-    g_numberSprites.num6      = new Sprite(g_images.numbers, 595, 195, 0, 2, 45, 55);  // 6
-    g_numberSprites.num7      = new Sprite(g_images.numbers, 685, 195, 0, 2, 45, 55);  // 7
-    g_numberSprites.num8      = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 55);  // 8
-    g_numberSprites.num9      = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 55);  // 9
+    g_numberSprites.num0      = new Sprite(g_images.numbers, 50,  195, 0, 2, 50, 53);  // 0
+    g_numberSprites.num1      = new Sprite(g_images.numbers, 140, 195, 0, 2, 38, 53);  // 1
+    g_numberSprites.num2      = new Sprite(g_images.numbers, 225, 195, 0, 2, 45, 53);  // 2
+    g_numberSprites.num3      = new Sprite(g_images.numbers, 315, 195, 0, 2, 45, 53);  // 3
+    g_numberSprites.num4      = new Sprite(g_images.numbers, 405, 195, 0, 2, 45, 53);  // 4
+    g_numberSprites.num5      = new Sprite(g_images.numbers, 500, 195, 0, 2, 50, 53);  // 5
+    g_numberSprites.num6      = new Sprite(g_images.numbers, 595, 195, 0, 2, 45, 53);  // 6
+    g_numberSprites.num7      = new Sprite(g_images.numbers, 685, 195, 0, 2, 45, 53);  // 7
+    g_numberSprites.num8      = new Sprite(g_images.numbers, 780, 195, 0, 2, 45, 53);  // 8
+    g_numberSprites.num9      = new Sprite(g_images.numbers, 875, 195, 0, 2, 45, 53);  // 9
 
     // Alphabet
     g_alphSprites.A           = new Sprite(g_images.alph, 35,   37, 0, 2, 25, 37);  // A

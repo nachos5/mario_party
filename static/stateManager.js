@@ -327,12 +327,9 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 0;
         // minigame manager calls the next round function
-<<<<<<< HEAD
+
         minigameManager.initMinigame();
-        //this.nextRound();
-=======
-        minigameManager.initMinigame('floorIsLava');
->>>>>>> noob
+
       }
       this.turn++;
     }
