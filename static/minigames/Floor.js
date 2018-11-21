@@ -27,6 +27,13 @@ function Floor(descr) {
     this.centerTop  = this.innerTop  + this.blockWidth/2;
     this.centerLeft = this.innerLeft + this.blockHeight/2;
 
+    this.lines = [
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+        [0, 1, 2, 3],
+    ];
+
     // List of blocks
     // blockBlue = 01;
     // blockRed  = 02;
@@ -144,6 +151,22 @@ Floor.prototype.updateNextFloor = function() {
     let x = 0;
     let y = 0;
 
+    // If blocks are already red, pick another one
+    if (this.lines[random2][random] === null) {
+        for(let i = 0; i < this.lines.length; i++) {
+            for(let j = 0; j < this.lines[i].length; j++) {
+                if (this.lines[i][j] !== null) {
+                    random2  = i;
+                    random = j;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Label blocks
+    this.lines[random2][random] = null;
+
     // Random x tile
     switch(random) {
         case 0:
@@ -176,8 +199,8 @@ Floor.prototype.updateNextFloor = function() {
             break;
     }
 
-    let tileX = Math.floor(x / this.blockWidth);
     let tileY = Math.floor(y / this.blockHeight);
+    let tileX = Math.floor(x / this.blockWidth);
 
     for(let i = 0; i < 4; i++) {
         for(let j = 0; j < 4; j++) {
@@ -191,9 +214,12 @@ Floor.prototype.updateNextFloor = function() {
 // ========
 
 Floor.prototype.setLava = function() {
+    let blueBlockNo = 0;
+
     for(let i = 0; i < this.nextFloor.length; i++) {    // Height
         for(let j = 0; j < this.nextFloor[i].length; j++) { // Width
             this.myFloor[i][j] = this.nextFloor[i][j];
+            if (this.myFloor[i][j] === 1) blueBlockNo++;
         }
     }
     
