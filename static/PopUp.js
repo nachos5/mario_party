@@ -453,7 +453,9 @@ PopUp.prototype.render = function(ctx) {
         g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coinScaleX, this.coinScaleY);
     }
     if (this.preset === 'minigame_winners') {
-        g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight, 0, this.coin2ScaleX, this.coin2ScaleY);
+        for(let i = 0; i < stateManager.players.length; i++) {
+            g_aniSprites.coin[animationManager.coin.frame].drawClipCentredAt(ctx, this.alphLeft + this.alphWidth * this.wordIter, this.alphTop + this.alphHeight * (i+1), 0, this.coin2ScaleX, this.coin2ScaleY);
+        }
     }
     if (this.preset === 'menu') {
         // Characters
