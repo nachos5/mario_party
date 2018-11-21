@@ -15,8 +15,7 @@ function ScoreRoom() {
     this.wallHeight    = 26;
 
     // Word to display
-    this.word = ' ROUND ';
-    this.wordLength = 7;
+    this.word = ' ROUND .';
 
     // Brick scale
     this.brickScaleX = mapManager.mapLeft / (this.brick.width * this.wallWidth);    // roomWidth / wallWidth
@@ -140,12 +139,11 @@ ScoreRoom.prototype.staticRender = function(ctx) {
     this.altPipe.drawTopLeft(ctx, this.cx + this.brickWidth * (this.wallWidth - 1), this.cy + this.brickHeight * this.wallHeight,           Math.PI/2, this.altPipeScaleX, this.altPipeScaleY, 1);
 
     // Word .
-    for(let i = 0; i < this.wordLength; i++) {
+    for(let i = 0; i < this.word.length; i++) {
         let alph = this.word[i];
         if(this.word[i] !== ' ') {
             g_alphSprites[alph].drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (i+1), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
         }
         
     }
-    g_alphSprites.Dot.drawClipTopLeftFixed(ctx, this.cx + this.brickWidth * (this.wallWidth - 5), this.cy + this.brickHeight, 0, this.brickWidth, this.brickHeight, 1, 1);
 };
