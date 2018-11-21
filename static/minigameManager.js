@@ -30,7 +30,7 @@ currentPresetFunction: null,
 
 initMinigame: function(name) {
   // music!
-  audioManager.fadeOut(1);
+  audioManager.fadeOut(0.2);
   setTimeout(() => {
     audioManager.playAudio("minigamerules", 0, true, 0.77);
   }, 1000);
@@ -80,7 +80,7 @@ endMinigame: function() {
 
 rewards: function() {
   // music!
-  audioManager.fadeOut(1);
+  audioManager.fadeOut(0.2);
   setTimeout(() => {
     audioManager.playAudio("mgamewinner", 0, true, 0.77);
   }, 1000);
@@ -107,16 +107,20 @@ rewards: function() {
 // gets a random unplayed minigame (resets when all have been played)
 getRandomMinigame: function() {
   if (Object.keys(this.minigames).length == this.already_played.length) {
-    this.already_played = {}; // reset
+    this.already_played = []; // reset
   }
   let minigames = []; // just for this scope
   for (let m in this.minigames) {
-    if (!(m in this.already_played)) {
+    const check = this.already_played.includes(m);
+    if (!check) {
       minigames.push(m); // find unplayed minigames
     }
   }
   const rand = parseInt(Math.random() * minigames.length);
-  return this.minigames[minigames[rand]];
+  this.already_played.push(minigames[rand]);
+  console.log(this.already_played)
+  const minigame_init = this.minigames[minigames[rand]];
+  return minigame_init;
 },
 
 
@@ -181,7 +185,10 @@ winningPopup: function() {
 
   this.winning_popup.setPreset('minigame_winners');
 
-  audioManager.playAudio("coin", 0.2, false, 1);
+  const t = setTimeout(() => {
+    audioManager.playAudio("coin", 0.2, false, 1);
+    clearTimeout(t);
+  }, 2000);
 },
 
 // ==========

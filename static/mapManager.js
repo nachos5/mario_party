@@ -347,8 +347,8 @@ moveStar: function(rand=true) {
   let blueTilePos = null;
   // we pick one tile at random
   if (rand)
-    //blueTilePos = blueTiles[parseInt(Math.random() * blueTiles.length)];
-    blueTilePos = blueTiles[7];
+    blueTilePos = blueTiles[parseInt(Math.random() * blueTiles.length)];
+    //blueTilePos = blueTiles[7];
   // not random
   else
     blueTilePos = blueTiles[parseInt(blueTiles.length / 2)];

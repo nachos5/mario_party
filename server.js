@@ -236,10 +236,16 @@ server.startServer = function(startServer) {
       player.connected = false;
       player.socket_id = socket.id;
       disconnected[player.uuid] = player.uuid;
-      socket.broadcast.emit("disconnected", {disconnected: disconnected, uuid: player.uuid});
+      socket.broadcast.emit("disconnected", player.uuid);
       console.log("player " + player.uuid + " has disconnected");
 
       delete locked_chars[player.uuid];
+
+      // BAIL ON RECONNECT
+      delete players[player.uuid];
+      const obj = minigame_ready.find(obj => obj == player.uuid);
+      const index = minigame_ready.indexOf(obj);
+      minigame_ready.splice(1, index);
 
       // nobody is connected
       if (!isAnyoneConnected()) {

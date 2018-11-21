@@ -137,6 +137,7 @@ let eventManager = {
 
   // Green questionmark - random event
   03: function() {
+    audioManager.playAndEmit("random", 0.3 , false, 0.6);
 
     let events = [01, 02, 04, 07, 13, 31];
     let random = Math.floor(Math.random() * events.length);
@@ -155,6 +156,8 @@ let eventManager = {
 
   // Bowser, everbody loses coins
   07: function() {
+    audioManager.playAndEmit("bowser", 0.3 , false, 0.6);
+    stateManager.animation_is_running = true;
     const players = entityManager._players;
 
     for(let i = 0; i < players.length; i++) {
@@ -176,6 +179,9 @@ let eventManager = {
         my_player.tt_player.alpha = 0;
       }
       this.eventIter--;
+
+      if (this.eventIter == 70)
+        audioManager.playAndEmit("tele1", 0.3 , false, 0.6);
     }
 
     if (this.eventIter == 0) {
@@ -193,6 +199,9 @@ let eventManager = {
       my_player.tt_player.alpha += 0.01;
       if (my_player.tt_player.alpha > 1) my_player.tt_player.alpha = 1;
       this.eventIter++;
+
+      if (this.eventIter == -170)
+        audioManager.playAndEmit("tele2", 0.3 , false, 0.6);
     }
 
     if (this.eventIter == -100) {
@@ -416,6 +425,7 @@ let eventManager = {
   // ==== TURN EVENTS ==== //
   // Toad - another turn
   31: function() {
+    audioManager.playAndEmit("anotherturn", 0.3 , false, 0.6);
     this.anotherTurn = true;
     animationManager.generateMapAnimation('dieUp', 1);
   },

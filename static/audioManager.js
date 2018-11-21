@@ -232,6 +232,11 @@ AudioManager.prototype.preloadAll = function(callback) {
   this.preLoad("static/sounds/pipe.wav", "pipe", 4);
   this.preLoad("static/sounds/star.wav", "star", 5);
   this.preLoad("static/sounds/arrow.wav", "arrow", 6);
+  this.preLoad("static/sounds/tele1.wav", "tele1", 22);
+  this.preLoad("static/sounds/tele2.wav", "tele2", 23);
+  this.preLoad("static/sounds/random.wav", "random", 24);
+  this.preLoad("static/sounds/anotherturn.wav", "anotherturn", 25);
+  this.preLoad("static/sounds/bowser.wav", "bowser", 26);
   // songs
   this.preLoad("static/sounds/songs/mapmusic1.mp3", "mapmusic1", 7);
   this.preLoad("static/sounds/songs/mapmusic2.mp3", "mapmusic2", 8);
@@ -246,6 +251,8 @@ AudioManager.prototype.preloadAll = function(callback) {
   this.preLoad("static/sounds/songs/opening.mp3", "opening", 17);
   this.preLoad("static/sounds/songs/winner.wav", "winner", 18);
   this.preLoad("static/sounds/songs/mgamewinner.mp3", "mgamewinner", 19);
+  this.preLoad("static/sounds/songs/mgamemusic6.mp3", "mgamemusic6", 20);
+  this.preLoad("static/sounds/songs/mgamemusic7.mp3", "mgamemusic7", 21);
 
   // when we have preloaded all files we go to the callback
   let fileCount = this.fileCount;

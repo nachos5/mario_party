@@ -134,14 +134,8 @@ networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
 
   stateManager.newMessage(msg);
 
-networkManager.socket.on("reconnecting_anotherPlayer", function(data) {
-  const player = data.player;
-  const disconnected = data.disconnected;
-  const obj = entityManager._players.find(obj => obj.uuid == player.uuid);
-  obj.socket_id = player.socket_id;
   networkManager.displayDc(disconnected);
 });
-
 
 
 networkManager.socket.on("all_players_ready_server", function() {
@@ -161,11 +155,11 @@ networkManager.socket.on("all_players_ready_server", function() {
 
 
 
-networkManager.displayDc = function(disconnected) {
+networkManager.displayDc = function(player) {
   const output = document.getElementById('output');
   output.innerHTML = "";
-  for (let d in disconnected) {
-   const obj = entityManager._players.find(obj => obj.uuid == disconnected[d]);
+  //for (let d in disconnected) {
+   //const obj = entityManager._players.find(obj => obj.uuid == disconnected[d]);
 
    // Show message to other players
    let msg = new Message({
@@ -175,18 +169,21 @@ networkManager.displayDc = function(disconnected) {
     offsetLeft  : 0.06,
     string      : ' # HAS/ DISCONNECTED',
     lines       : 2,
-    p1SpriteID  : obj.spriteID,
+    p1SpriteID  : player.spriteID,
     time        : 5,
    })
 
    stateManager.newMessage(msg);
 
-  }
+  //}
 }
-// player disconnects
-networkManager.socket.on("disconnected", function(data) {
-  entityManager._players.find(obj => obj.uuid == data.uuid).connected = false;
-  networkManager.displayDc(data.disconnected);
+// player disconnects P.S. BAILED ON RECONNECT
+networkManager.socket.on("disconnected", function(uuid) {
+  const player = entityManager._players.find(obj => obj.uuid == uuid);
+  networkManager.displayDc(player);
+  const index = entityManager._players.indexOf(player);
+  entityManager._players.splice(1, index);
+  stateManager.updateImageData('scoreRoom');
 })
 
 

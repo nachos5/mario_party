@@ -72,7 +72,7 @@ bulletStorm.init = function() {
 
       // all players are ready
       if (minigameManager.minigame_ready) {
-        audioManager.fadeOutPlayNext('minigame', 2);
+        audioManager.fadeOutPlayNext('minigame', 0.2);
         this.rules_running = false;
         spatialManager.unregister(minigameManager.rules_popup.button);
         minigameManager.rules_popup = null;
