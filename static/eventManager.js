@@ -12,15 +12,15 @@
    60 - green pipe, 61 - red pipe
    03 - question mark, 04 - green star
    31 - Toad, 07 - Bowser
-   13 - another turn
+   13 - teleport
    08 - star
    */
 
 // our event manager object
 let eventManager = {
   eventIter: 0,
-  // all active tile ids
-  tile_ids: [01, 02, 36, 37, 38, 39, 60, 61, 03, 04, 31, 07, 13],
+  // all active tile ids except pipes
+  tile_ids: [01, 02, 36, 37, 38, 39, 03, 04, 31, 07],
   // events that require no animation
   instant_events: [03, 07, 31, 36, 37, 38, 39],
   // we use this to check if our event happens mid movement
@@ -139,7 +139,7 @@ let eventManager = {
   03: function() {
     audioManager.playAndEmit("random", 0.3 , false, 0.6);
 
-    let events = [01, 02, 04, 07, 13, 31];
+    let events = [01, 02, 04, 07, 31];
     let random = Math.floor(Math.random() * events.length);
 
     // Call a random event
@@ -166,7 +166,7 @@ let eventManager = {
     }
   },
 
-  // Swap
+  // teleport
   13: function(init) {
     if (init) {
       this.eventIter = 100;
