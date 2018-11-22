@@ -282,6 +282,7 @@ let eventManager = {
         star.height = star.originalHeight;
         // end the event and gain a star
         player.stars++;
+        stateManager.updateScoreboard();
         mapManager.moveStar();
         this.buy_star = false;
         this.updateStarRenderOnce = true;
