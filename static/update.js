@@ -86,8 +86,10 @@ var KEY_STEP  = 'O'.charCodeAt(0);
 var g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
-    if (eatKey(KEY_PAUSE)) {
-        g_isUpdatePaused = !g_isUpdatePaused;
+    if (g_useDeveloper) {
+      if (eatKey(KEY_PAUSE)) {
+          g_isUpdatePaused = !g_isUpdatePaused;
+      }
     }
     return g_isUpdatePaused && !eatKey(KEY_STEP);
 }

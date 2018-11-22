@@ -42,6 +42,7 @@ function updateSimulation(du) {
 // GAME DIAGNOSTICS
 // ================
 
+let g_useDeveloper       = false;
 let g_renderSpatialDebug = false;
 let g_useGrid            = false;
 let g_useSpriteBox       = false;
@@ -50,6 +51,8 @@ let g_useAnimation       = true;
 // Render hit boxes
 // Render a grid
 // Render animations
+
+let KEY_DEV         = keyCode('L');     // Master key, for developer keys
 
 let KEY_SPATIAL     = keyCode('X');
 let KEY_GRID        = keyCode('G');
@@ -65,10 +68,14 @@ let KEY_LINE_DOWN   = keyCode('M');
 
 function processDiagnostics() {
 
-    if (eatKey(KEY_SPATIAL))    g_renderSpatialDebug = !g_renderSpatialDebug;   // Hit box
-    if (eatKey(KEY_GRID))       g_useGrid = !g_useGrid;                         // Grid
-    if (eatKey(KEY_SPRITE_BOX)) g_useSpriteBox = !g_useSpriteBox;               // Sprite box
-    if (eatKey(KEY_ANIMATION))  g_useAnimation = !g_useAnimation;               // Animation
+    if (eatKey(KEY_DEV))    g_useDeveloper = !g_useDeveloper;               // Dev keys
+
+    if (g_useDeveloper) {   
+        if (eatKey(KEY_SPATIAL))    g_renderSpatialDebug = !g_renderSpatialDebug;   // Hit box
+        if (eatKey(KEY_GRID))       g_useGrid = !g_useGrid;                         // Grid
+        if (eatKey(KEY_SPRITE_BOX)) g_useSpriteBox = !g_useSpriteBox;               // Sprite box
+        if (eatKey(KEY_ANIMATION))  g_useAnimation = !g_useAnimation;               // Animation
+    }
 }
 
 
@@ -78,11 +85,13 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    if (eatKey(KEY_LINE_UP)) {
-        ctx.lineWidth++;
-    }
-    if (eatKey(KEY_LINE_DOWN)) {
-        ctx.lineWidth--;
+    if (g_useDeveloper) {
+        if (eatKey(KEY_LINE_UP)) {
+            ctx.lineWidth++;
+        }
+        if (eatKey(KEY_LINE_DOWN)) {
+            ctx.lineWidth--;
+        }
     }
 
     mapManager.render(ctx);
