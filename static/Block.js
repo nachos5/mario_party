@@ -29,7 +29,7 @@ Block.prototype.iconIter = 0;
 // ==========
 
 Block.prototype.getRadius = function () {
-    return this.width * 0.75;
+    return this.width * 0.65;
 };
 
 // =================
