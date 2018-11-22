@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 5,
+  rounds_remaining: 7,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -169,14 +169,17 @@ let stateManager = {
   updateCollectable: function(player, collectable, amount, animation=true) {
       // Coin
       if (collectable === 'coin') {
-        for (let i=0; i<amount; i++) {
-          player.coins++;
-          // overflow
-          if (player.coins == 100) {
-            player.coins = 0;
-            player.stars++;
+        if (amount > 0) {
+          for (let i=0; i<amount; i++) {
+            player.coins++;
+            // overflow
+            if (player.coins == 100) {
+              player.coins = 0;
+              player.stars++;
+            }
           }
         }
+        else player.coins += amount;
         const tt_player = player.tt_player;
         if (animation) {
           if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount, tt_player: tt_player});   // + coin
@@ -327,8 +330,7 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 0;
         // minigame manager calls the next round function
-        this.nextRound();
-        //minigameManager.initMinigame();
+        minigameManager.initMinigame();
       }
       this.turn++;
     }
