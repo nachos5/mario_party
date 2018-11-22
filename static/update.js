@@ -23,7 +23,7 @@ function networkSync() {
   if (networkManager.startIter) {
     if (networkManager.frameIter == 0) console.log("frame")
     networkManager.frameIter++;
-    if (networkManager.frameIter == 60) {
+    if (networkManager.frameIter == 2) {
       networkManager.readyForNextFrame = false;
       const uuid = localStorage.getItem('uuid');
       networkManager.emit('network_sync', uuid);

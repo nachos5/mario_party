@@ -91,7 +91,9 @@ Block.prototype.render = function(ctx) {
 
     // Player Block 1
     if (this.id === 1){
+      try {
         g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+      } catch(e) {};
     }
     // Item Block
     if (this.id === 2) {
@@ -104,6 +106,8 @@ Block.prototype.render = function(ctx) {
     }
     // Player Block 2
     if (this.id === 3){
+      try {
         g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
+      } catch(e) {};
     }
 };
