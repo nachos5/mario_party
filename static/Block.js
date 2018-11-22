@@ -44,7 +44,9 @@ Block.prototype.resolveCollision = function () {
         networkManager.emit('block_winner', this.winner);
     }
     else if(this.results === null){
+      try {
         this.results = g_playerSpritesInUse[this.icon].id;
+      } catch(e) {};
     }
 };
 
