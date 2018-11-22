@@ -148,8 +148,30 @@ EventBlocks.prototype.getPreset = function(preset) {
 
 EventBlocks.prototype.update = function(du) {
 
+    if (!this.results1_server_bool) {
+      this.results1 = this.block1.update(du);
+    } else {
+      this.results1 = this.results1_server;
+      let result1Icon = g_playerSpritesInUse.find(obj => obj.id == this.results1);
+      this.block1.icon = result1Icon; 
+    }
+    if (!this.results2_server_bool) {
+      this.results2 = this.block2.update(du);
+    } else {
+      this.results2 = this.results2_server;
+      let result2Icon = g_playerSpritesInUse.find(obj => obj.id == this.results1);
+      this.block2.icon = result2Icon; 
+    }
+    if (!this.resul1ts3_server_bool) {
+      this.results3 = this.block3.update(du);
+    } else {
+      this.results3 = this.results3_server;
+      let result3Icon = g_playerSpritesInUse.find(obj => obj.id == this.results1);
+      this.block3.icon = result3Icon; 
+    }
+
     if (this.results1 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results1", this.results1);
+        networkManager.emit("results1", this.results1);
     }
     if (this.results2 != null && stateManager.curr_player.my_player) {
       networkManager.emit("results2", this.results2);
@@ -158,25 +180,6 @@ EventBlocks.prototype.update = function(du) {
       networkManager.emit("results3", this.results3);
     }
 
-    if (!this.results1_server_bool) {
-      this.results1 = this.block1.update(du);
-    } else {
-      this.results1 = this.results1_server;
-      this.block1.icon = this.results1;
-    }
-    if (!this.results2_server_bool) {
-      this.results2 = this.block2.update(du);
-    } else {
-      this.results2 = this.results2_server;
-      this.block2.icon = this.results2;
-    }
-    if (!this.results3_server_bool) {
-      this.results3 = this.block3.update(du);
-    } else {
-      this.results3 = this.results3_server;
-      this.block3.icon = this.results3;
-    }
-    //console.log(this.results1);
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 !== undefined && this.results2 !== undefined && this.results3 !== undefined) {
         this.winner = this.block2.winner;

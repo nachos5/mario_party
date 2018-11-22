@@ -72,9 +72,9 @@ function Victory(players) {
     let textMinigame = 'PLAYER # DID BEST IN MINIGAMES/AND GAINS  *';
 
     let textEnd = '';
-    if (this.players >= 3) textEnd      = 'THANK YOU FOR PLAYING/ 1 . #  2 . $  3 . %';
-    if (this.players >= 2) textEnd      = 'THANK YOU FOR PLAYING/ 1 . #  2 . $';
-    else                   textEnd      = 'THANK YOU FOR PLAYING/ 1 . #';
+    if (this.players.length >= 3)       textEnd = 'THANK YOU FOR PLAYING/ 1 . #  2 . $  3 . %';
+    else if (this.players.length >= 2)  textEnd = 'THANK YOU FOR PLAYING/ 1 . #  2 . $';
+    else                                textEnd = 'THANK YOU FOR PLAYING/ 1 . #';
 
     this.victoryText = [textRewards, textCoins, textMinigame, textEnd];
     this.victoryPopUp = [];
@@ -172,7 +172,6 @@ Victory.prototype.generatePopUps = function() {
             textLines   : 3,
         }));
     }
-    console.log(this.victoryPopUp)
 };
 
 // ====================

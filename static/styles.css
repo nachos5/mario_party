@@ -1,0 +1,29 @@
+#myCanvas, #canvasDiv {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 1366px;
+    height: 768px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+body,html {
+    /*background-image: url("assets/superMarioBackground3.png");*/
+    background-image: url("assets/mainBackground4.jpg");
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#canvasDiv {
+    width: 2040px;
+    height: 1024px;
+    background-image: url("assets/mainBackground3.png");
+    background-position: top left;
+}
