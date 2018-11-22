@@ -273,7 +273,6 @@ server.startServer = function(startServer) {
       frame_interval_iter++;
       if (frame_interval_iter == update_interval) {
         io.sockets.emit('frame_interval_server', frame_interval_sum / update_interval);
-        console.log(frame_interval_sum / update_interval);
         frame_interval_sum = 0;
         frame_interval_iter = 0;
       }

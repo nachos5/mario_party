@@ -162,8 +162,8 @@ EventPlayer.prototype.accel = function (du) {
     else accelY = this.calcAccelJump();
 
     // Initial velocity = current velocity
-    let initialVelX = this.velX * du;
-    let initialVelY = this.velY * du;
+    let initialVelX = this.velX;
+    let initialVelY = this.velY;
 
     // Final velocity = iVel + acceleration * time
     let finalVelX = initialVelX + accelX * du;
@@ -178,20 +178,20 @@ EventPlayer.prototype.accel = function (du) {
     this.prevVelY = this.velY;
 
     // New velocity = aVel
-    this.velX = aveVelX * du;
-    this.velY = aveVelY * du;
+    this.velX = aveVelX;
+    this.velY = aveVelY;
 
     // Fallback position
     this.prevCx = this.cx;
     this.prevCy = this.cy;
 
     // New position = current position + aVel * time
-    this.cx += this.velX;;
+    this.cx += this.velX;
     // minigame stuff...
     if (this.mash)
-      this.cy += 1;
+      this.cy += 1 * du;
     else
-      this.cy += this.velY;
+      this.cy += this.velY * du;
 
     // Check for room collision
     if(this.isRoomCollision()) {
