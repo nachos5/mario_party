@@ -386,6 +386,10 @@ networkManager.socket.on('add_to_placements_lava_server', function(id) {
   floorIsLava.game.addToPlacements(id);
 })
 
+networkManager.socket.on('reduce_alpha_server', function() {
+  floorIsLava.game.gameFloor.reduceAlpha();
+});
+
 
 // SYNCING STUFF
 networkManager.socket.on('ready_for_next_frame_server', function() {

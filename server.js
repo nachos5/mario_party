@@ -234,6 +234,10 @@ server.startServer = function(startServer) {
       socket.broadcast.emit('add_to_placements_lava_server', data);
     });
 
+    socket.on('reduce_alpha', function() {
+      socket.broadcast.emit('reduce_alpha_server');
+    });
+
     // ==== EVENT PLAYER ==== //
     socket.on('event_player_velocity', function(data) {
       let player = null;
@@ -250,6 +254,7 @@ server.startServer = function(startServer) {
 
     // ==== NETWORK SYNCINC ==== //
     socket.on('network_sync', function(data) {
+      console.log("asdasdasd")
       ready_for_next_frame[data] = true;
       if (Object.keys(ready_for_next_frame).length == Object.keys(players).length) {
         socket.emit('ready_for_next_frame_server');

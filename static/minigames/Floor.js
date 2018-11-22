@@ -123,12 +123,12 @@ Floor.prototype.renderGrid = function(ctx) {
 
 // =============
 // FIND POSITION
-// ============= 
+// =============
 
 Floor.prototype.findPosition = function(player) {
     let cx = player.cx - this.innerLeft;
     let cy = player.cy - this.innerTop;
-    
+
     let tileX = Math.floor(cx / this.blockWidth);
     let tileY = Math.floor(cy / this.blockHeight);
 
@@ -222,17 +222,21 @@ Floor.prototype.setLava = function() {
             if (this.myFloor[i][j] === 1) blueBlockNo++;
         }
     }
-    
+
     this.updateNextFloor();
 };
 
 // ======
 // UPDATE
 // ======
-
+Floor.prototype.reduceAlpha = function() {
+  this.alpha -= 0.005;
+}
 Floor.prototype.update = function(du) {
-
-    this.alpha -= 0.005;
+    if (entityManager.getMyPlayer().player_id == 1) {
+      networkManager.emit('reduce_alpha');
+      this.alpha -= 0.005;
+    }
     if (this.alpha <= 0) {
         this.alpha = 1;
         this.setLava();
@@ -255,7 +259,7 @@ Floor.prototype.render = function(ctx) {
                     if (this.alpha < 0) this.alpha = 0;     // Safety check
                     // Draw red block under blue block
                     this.blockRed.drawCentredAt(ctx, this.centerLeft + (this.blockWidth * j), this.centerTop + (this.blockHeight * i), 0, this.blockScaleX, this.blockScaleY);
-                        
+
                     // Blue block transparent
                     ctx.globalAlpha = this.alpha;
                     this.blockBlue.drawCentredAt(ctx, this.centerLeft + (this.blockWidth * j), this.centerTop + (this.blockHeight * i), 0, this.blockScaleX, this.blockScaleY);
