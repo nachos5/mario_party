@@ -21,12 +21,13 @@ var g_isUpdateOdd = false;
 // network syncing
 function networkSync() {
   if (networkManager.startIter) {
+    if (networkManager.frameIter == 0) console.log("frame")
     networkManager.frameIter++;
     if (networkManager.frameIter == 60) {
       networkManager.readyForNextFrame = false;
       const uuid = localStorage.getItem('uuid');
       networkManager.emit('network_sync', uuid);
-      networkManager.frameIter = -1;
+      networkManager.frameIter = 0;
     }
   }
 }
