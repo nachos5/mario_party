@@ -3,8 +3,8 @@
 // The "nominal interval" is the one that all of our time-based units are
 // calibrated to e.g. a velocity unit is "pixels per nominal interval"
 //
-//var NOMINAL_UPDATE_INTERVAL = 16.666;
-var NOMINAL_UPDATE_INTERVAL = 2;
+
+var NOMINAL_UPDATE_INTERVAL = 16.666;
 
 // Dt means "delta time" and is in units of the timer-system (i.e. milliseconds)
 //
@@ -22,9 +22,9 @@ var g_isUpdateOdd = false;
 // network syncing
 function networkSync() {
   if (networkManager.startIter) {
-    if (networkManager.frameIter == 0) console.log("frame")
+    //if (networkManager.frameIter == 0) console.log("frame")
     networkManager.frameIter++;
-    if (networkManager.frameIter == 2) {
+    if (networkManager.frameIter == 60) {
       networkManager.readyForNextFrame = false;
       const uuid = localStorage.getItem('uuid');
       networkManager.emit('network_sync', uuid);
