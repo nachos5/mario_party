@@ -401,6 +401,10 @@ networkManager.socket.on('ready_for_next_frame_server', function() {
   networkManager.readyForNextFrame = true;
 });
 
+networkManager.socket.on('frame_interval_server', function(data) {
+  main.frame_interval = data;
+});
+
 
 
 

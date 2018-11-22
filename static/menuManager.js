@@ -11,7 +11,7 @@ let menuManager = {
     // ==========
 
     init: function() {
-        
+
         // Construct a menu
         // Offset values are based on mapHeight and mapWidth
         this.menuPopUp = new PopUp({
@@ -72,7 +72,7 @@ let menuManager = {
                 this.menuPopUp.charSelection[i].isSelected = false;
             }
         }
-        
+
         // Update menu
         this.updateImageData();
     },
@@ -114,6 +114,7 @@ let menuManager = {
     // ==============
 
     dynamicRender: function(ctx) {
+      if (!networkManager.all_players_ready)
         this.menuPopUp.dynamicRender(ctx);
     },
 
@@ -122,6 +123,7 @@ let menuManager = {
     // =============
 
     staticRender: function(ctx) {
+      if (!networkManager.all_players_ready)
         this.menuPopUp.staticRender(ctx);
     },
 };

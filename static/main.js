@@ -30,6 +30,12 @@ var main = {
 
 };
 
+// for throttling
+main.frame_interval = NOMINAL_UPDATE_INTERVAL;
+main.frame_intervals = 0; // avarage frame interval (last 60 frames)
+main.frame_iter = 0;
+main.too_fast = false;
+
 
 // Perform one iteration of the mainloop
 main.iter = function (frameTime) {
@@ -38,7 +44,9 @@ main.iter = function (frameTime) {
     this._updateClocks(frameTime);
 
     // Perform the iteration core to do all the "real" work
-    this._iterCore(this._frameTimeDelta_ms);
+    if (!main.too_fast) {
+      this._iterCore(this._frameTimeDelta_ms);
+    }
 
     // Diagnostics, such as showing current timer values etc.
     this._debugRender(g_ctx);
@@ -56,7 +64,24 @@ main._updateClocks = function (frameTime) {
 
     // Track frameTime and its delta
     this._frameTimeDelta_ms = frameTime - this._frameTime_ms;
-    this._frameTime_ms = frameTime;
+
+    // throttling stuff (avarage frame intervals)
+    this.frame_intervals += this._frameTimeDelta_ms;
+    this.frame_iter++;
+    if (this.frame_iter == 60) {
+      networkManager.emit('frame_intervals', this.frame_intervals / 60);
+      this.frame_iter = 0;
+      this.frame_intervals = 0;
+    }
+
+    // throttling
+    if (this._frameTimeDelta_ms < this.frame_interval || this._frameTimeDelta_ms < NOMINAL_UPDATE_INTERVAL) {
+      this.too_fast = true;
+    }
+    else {
+      this._frameTime_ms = frameTime;
+      this.too_fast = false;
+    }
 };
 
 main._iterCore = function (dt) {

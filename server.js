@@ -50,7 +50,10 @@ server.startServer = function(startServer) {
   let minigame_ready = [];
   // players ready for next frame
   let ready_for_next_frame = {};
-
+  // frame interval stuff
+  let frame_interval_sum = 0;
+  let frame_interval_iter = 0;
+  let avg_frame_interval = 16.666;
   //setInterval(function() { console.log("nýtt"); for (let p in players) { console.log(players[p].socket_id); }; }, 1000);
 
   // Add the WebSocket handlers
@@ -261,6 +264,18 @@ server.startServer = function(startServer) {
         socket.broadcast.emit('ready_for_next_frame_server');
         ready_for_next_frame = {};
         //console.log("FRAME");
+      }
+    });
+
+    update_interval = 4;
+    socket.on('frame_intervals', function(data) {
+      frame_interval_sum += data;
+      frame_interval_iter++;
+      if (frame_interval_iter == update_interval) {
+        io.sockets.emit('frame_interval_server', frame_interval_sum / update_interval);
+        console.log(frame_interval_sum / update_interval);
+        frame_interval_sum = 0;
+        frame_interval_iter = 0;
       }
     });
 
