@@ -139,7 +139,7 @@ let eventManager = {
   03: function() {
     audioManager.playAndEmit("random", 0.3 , false, 0.6);
 
-    let events = [01, 02, 04, 07, 31];
+    let events = [01, 02, 04, 07];
     let random = Math.floor(Math.random() * events.length);
 
     // Call a random event
