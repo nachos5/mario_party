@@ -204,8 +204,11 @@ EventBlocks.prototype.update = function(du) {
                           stateManager.animation_is_running = false;
                         }
                     }
-                    stateManager.animation_is_running = false;
+                    else
+                      stateManager.animation_is_running = false;
                 }
+                else
+                  stateManager.animation_is_running = false;
             }
 
             // Unregister all the blocks
