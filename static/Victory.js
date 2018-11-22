@@ -198,13 +198,13 @@ Victory.prototype.generateFinalPopUP = function(players) {
 // ===========
 
 Victory.prototype.nextPopUp = function() {
-    if (this.i + 1 != this.extraStar.length) {
+    if (this.i + 1 !== this.extraStar.length) {
         this.i++;
-        if (this.i != this.victoryPopUp.length - 1) {
-          animationManager.generateMapAnimation('starDown', 1, entityManager._players[0].tt_player);
-          stateManager.updateCollectable(entityManager._players[0], 'star', 1);
-          stateManager.updateScoreboard();
-          this.updatePosition();
+        if (this.i !== 0 && this.i !== this.victoryPopUp.length - 1) {
+            stateManager.updateCollectable(this.extraStar[this.i], 'star', 1);
+            animationManager.generateMapAnimation('starDown', 1, this.extraStar[this.i].tt_player);
+            stateManager.updateScoreboard();
+            this.updatePosition();
         }
 
         // Showcase top 3 players
@@ -212,11 +212,6 @@ Victory.prototype.nextPopUp = function() {
             let topPlayers = []
             for(let i = 0; i < stateManager.players.length; i++) {
                 topPlayers[i] = stateManager.players[i];
-            }
-            if (topPlayers.length === 2) topPlayers.push(this.players[0]);
-            if (topPlayers.length === 1) {
-                topPlayers.push(this.players[0]);
-                topPlayers.push(this.players[0]);
             }
 
         this.generateFinalPopUP(topPlayers);
