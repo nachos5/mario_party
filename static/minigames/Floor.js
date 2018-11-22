@@ -8,6 +8,7 @@ function Floor(descr) {
     for (var property in descr) {
         this[property] = descr[property];
     }
+    this.random_iter = 0;
 
     this.blockBlue = g_sprites.blockBlue;
     this.blockRed  = g_sprites.blockRed;
@@ -145,8 +146,10 @@ Floor.prototype.findPosition = function(player) {
 
 Floor.prototype.updateNextFloor = function() {
 
-    let random  = parseInt(networkManager.random[0]  * 4);
-    let random2 = parseInt(networkManager.random2[0] * 4);
+    let random  = parseInt(networkManager.floor_randoms[this.random_iter]);
+    let random2 = parseInt(networkManager.floor_randoms_2[this.random_iter]);
+    this.random_iter++;
+
 
     let x = 0;
     let y = 0;

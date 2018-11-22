@@ -177,10 +177,10 @@ let stateManager = {
             player.stars++;
           }
         }
-
+        const tt_player = player.tt_player;
         if (animation) {
-          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount});   // + coin
-          else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount});               // - coin
+          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'coinDown', times: amount, tt_player: tt_player});   // + coin
+          else networkManager.emit("animation_trigger", {animation: 'coinUp', times: -amount, tt_player: tt_player});               // - coin
         }
       }
 
@@ -189,8 +189,8 @@ let stateManager = {
         player.stars += amount;
 
         if (animation) {
-          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount});   // + star
-          else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount});                // - star
+          if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount, tt_player: tt_player});   // + star
+          else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount, tt_player: tt_player});                // - star
         }
       }
 
@@ -328,7 +328,7 @@ let stateManager = {
         this.turn = 0;
         // minigame manager calls the next round function
 
-        minigameManager.initMinigame('floorIsLava');
+        minigameManager.initMinigame();
       }
       this.turn++;
     }

@@ -290,7 +290,7 @@ networkManager.socket.on("audio_trigger", function(data) {
 });
 
 networkManager.socket.on("animation_trigger_server", function(data) {
-  animationManager.generateMapAnimation(data.animation, data.times);
+  animationManager.generateMapAnimation(data.animation, data.times, data.tt_player);
 });
 
 networkManager.socket.on("lock_char", function(data) {
@@ -363,6 +363,11 @@ networkManager.socket.on("random2", function(data) {
 
 networkManager.socket.on("random_longInterval", function(data) {
   networkManager.random_longInterval = data;
+});
+
+networkManager.socket.on('floor_randoms', function(data) {
+  networkManager.floor_randoms = data.floor_randoms;
+  networkManager.floor_randoms_2 = data.floor_randoms_2;
 });
 
 
