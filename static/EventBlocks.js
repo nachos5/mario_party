@@ -183,7 +183,7 @@ EventBlocks.prototype.update = function(du) {
                 let r1 = this.results1;
                 let r2 = this.results2;
                 let r3 = this.results3;
-/*
+
                 if (this.results1 === this.results2 && this.results1 === this.results3) {
                     // Item box -> coin
                     if (this.results1 === 0) {
@@ -210,11 +210,11 @@ EventBlocks.prototype.update = function(du) {
                     }
                     else
                       stateManager.animation_is_running = false;
-                }*/
+                }
 
 
                 // Coin
-                if ((r1 === 0 && (r2 === 0 || r3 === 0)) || (r2 === 0 && (r1 === 0 || r3 === 0)) || (r3 === 0 && (r1 === 0 || r2 === 0))) {
+                /*if ((r1 === 0 && (r2 === 0 || r3 === 0)) || (r2 === 0 && (r1 === 0 || r3 === 0)) || (r3 === 0 && (r1 === 0 || r2 === 0))) {
                     coinMulti = 2;
                     if (r1 === 0 && r2 === 0 && r3 === 0) coinMulti = 3;
                     stateManager.updateCollectable(player, 'coin', coinAmount    * coinMulti);
@@ -244,7 +244,7 @@ EventBlocks.prototype.update = function(du) {
                     } else {
                         stateManager.animation_is_running = false;
                     }
-                }
+                }*/
                 else
                   stateManager.animation_is_running = false;
             }
