@@ -102,6 +102,8 @@ function PopUp(descr) {
         '*' = item star
         '!' = item coin
         '&' = bullet bill
+        '(' = blue block
+        ')' = red block
     */
 
     // Word to display
@@ -151,6 +153,10 @@ function PopUp(descr) {
     // Bullet bill
     this.bulletBillScaleX = this.alphWidth*5 / g_sprites.bulletBill.width;
     this.bulletBillScaleY = this.bulletBillScaleX;
+
+    // Lava block
+    this.lavaBlockScaleX = this.alphWidth*2 / g_sprites.blockRed.width;
+    this.lavaBlockScaleY = this.lavaBlockScaleX;
 
     // Iterator
     this.wordIter = 0;
@@ -284,7 +290,7 @@ PopUp.prototype.setPreset = function(preset) {
       // ======
 
       let buttonScaleX = this.width/5  / g_sprites.greenReady.width;
-      let buttonScaleY = buttonScaleX;//this.height/4 / g_sprites.greenReady.height;
+      let buttonScaleY = buttonScaleX;
 
       let buttonWidth  = g_sprites.greenReady.width  * buttonScaleX;
       let buttonHeight = g_sprites.greenReady.height * buttonScaleY;
@@ -521,6 +527,12 @@ PopUp.prototype.dynamicRender = function(ctx) {
         }
         else if (alph === '&') {    // Bullet bill sprite
             g_sprites.bulletBill.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.bulletBillScaleX, this.bulletBillScaleY, 1);
+        }
+        else if (alph === '(') {    // Blue block sprite
+            g_sprites.blockBlue.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
+        }
+        else if (alph === ')') {    // Red block sprite
+            g_sprites.blockRed.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
         }
         else if (alph === '*') {    // Star
             g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);
