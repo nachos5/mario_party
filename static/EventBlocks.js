@@ -148,16 +148,6 @@ EventBlocks.prototype.getPreset = function(preset) {
 
 EventBlocks.prototype.update = function(du) {
 
-    if (this.results1 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results1", this.results1);
-    }
-    if (this.results2 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results2", this.results2);
-    }
-    if (this.results3 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results3", this.results3);
-    }
-
     if (!this.results1_server_bool) {
       this.results1 = this.block1.update(du);
     } else {
@@ -176,7 +166,17 @@ EventBlocks.prototype.update = function(du) {
       this.results3 = this.results3_server;
       this.block3.icon = this.results3;
     }
-    //console.log(this.results1);
+
+    if (this.results1 != null && stateManager.curr_player.my_player) {
+      networkManager.emit("results1", this.results1);
+    }
+    if (this.results2 != null && stateManager.curr_player.my_player) {
+      networkManager.emit("results2", this.results2);
+    }
+    if (this.results3 != null && stateManager.curr_player.my_player) {
+      networkManager.emit("results3", this.results3);
+    }
+
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 !== undefined && this.results2 !== undefined && this.results3 !== undefined) {
         this.winner = this.block2.winner;
@@ -187,8 +187,6 @@ EventBlocks.prototype.update = function(du) {
             const tt_player1 = player1.tt_player;
             const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
             const tt_player3 = player3.tt_player;
-            console.log(player1)
-            console.log(player3)
 
             // Resolve winner and loser
             let coinAmount = 10;
