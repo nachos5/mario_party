@@ -146,8 +146,8 @@ Floor.prototype.findPosition = function(player) {
 
 Floor.prototype.updateNextFloor = function() {
 
-    let random  = parseInt(networkManager.floor_randoms[this.random_iter]);
-    let random2 = parseInt(networkManager.floor_randoms_2[this.random_iter]);
+    let random  = parseInt(networkManager.random[0]);
+    let random2 = parseInt(networkManager.random2[0]);
     this.random_iter++;
 
 

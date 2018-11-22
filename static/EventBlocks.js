@@ -200,69 +200,66 @@ EventBlocks.prototype.update = function(du) {
                 let p3Coins = player3.coins;
                 let p3Stars = player3.stars;
 
-              if (player1 !== player3) {
+              // Item box -> coin
+              if (this.results2 === 0) {
+                  if (this.winner === 1) {
+                      if (p3Coins < coinAmount) coinAmount = p3Coins;
 
-                  // Item box -> coin
-                  if (this.results2 === 0) {
-                      if (this.winner === 1) {
-                          if (p3Coins < coinAmount) coinAmount = p3Coins;
-                          
-                          stateManager.updateCollectable(player3, 'coin', -coinAmount);
-                          animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
-                          
-                          stateManager.updateCollectable(player1, 'coin', coinAmount);
-                          animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
-                          
-                        }
-                        if (this.winner === 3) {
-                            if (p1Coins < coinAmount) coinAmount = p1Coins;
-                            
-                            stateManager.updateCollectable(player1, 'coin', -coinAmount);
-                            animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
-                            
-                            stateManager.updateCollectable(player3, 'coin', coinAmount);
-                            animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
-                            
-                        }
-                        if (this.winner === 2) {
-                            stateManager.updateCollectable(player1, 'coin', coinAmount);
-                            animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
-                            
-                            stateManager.updateCollectable(player3, 'coin', coinAmount);
-                            animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
-                        }
-                    }
-                    // Item box -> star
-                    if (this.results2 === 1) {
-                        if (this.winner === 1) {
-                            if (p3Stars < starAmount) starAmount = p3Stars;
-                            
-                            stateManager.updateCollectable(player3, 'star', -starAmount);
-                            animationManager.generateMapAnimation('starUp', starAmount, tt_player3);
-                            
-                            stateManager.updateCollectable(player1, 'star', starAmount);
-                            animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
-                            
-                        }
-                        if (this.winner === 3) {
-                            if (p1Stars < starAmount) starAmount = p1Stars;
-                            
+                      stateManager.updateCollectable(player3, 'coin', -coinAmount);
+                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
+
+                      stateManager.updateCollectable(player1, 'coin', coinAmount);
+                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
+
+                  }
+                  if (this.winner === 3) {
+                      if (p1Coins < coinAmount) coinAmount = p1Coins;
+
+                      stateManager.updateCollectable(player1, 'coin', -coinAmount);
+                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
+
+                      stateManager.updateCollectable(player3, 'coin', coinAmount);
+                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
+
+                  }
+                  if (this.winner === 2) {
+                      stateManager.updateCollectable(player1, 'coin', coinAmount);
+                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
+
+                      stateManager.updateCollectable(player3, 'coin', coinAmount);
+                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
+                  }
+              }
+              // Item box -> star
+              /*if (this.results2 === 1) {
+                  if (this.winner === 1) {
+                      if (p3Stars < starAmount) starAmount = p3Stars;
+
+                      stateManager.updateCollectable(player3, 'star', -starAmount);
+                      animationManager.generateMapAnimation('starUp', starAmount, tt_player3);
+
+                      stateManager.updateCollectable(player1, 'star', starAmount);
+                      animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
+
+                  }
+                  if (this.winner === 3) {
+                      if (p1Stars < starAmount) starAmount = p1Stars;
+
                       stateManager.updateCollectable(player1, 'star', -starAmount);
                       animationManager.generateMapAnimation('starUp', starAmount, tt_player1);
-                      
+
                       stateManager.updateCollectable(player3, 'star', starAmount);
                       animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
-                      
-                    }
-                    if (this.winner === 2) {
-                        stateManager.updateCollectable(player1, 'star', starAmount);
-                        animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
-                        
-                        stateManager.updateCollectable(player3, 'star', starAmount);
-                        animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
-                    }
-                }
-            }
+
+                  }
+                  if (this.winner === 2) {
+                      stateManager.updateCollectable(player1, 'star', starAmount);
+                      animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
+
+                      stateManager.updateCollectable(player3, 'star', starAmount);
+                      animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
+                  }
+              }*/
               // Item box -> bowser
               if (this.results2 === 2) {
                   coinAmount *= 2;  // Bowser takes double
@@ -273,7 +270,7 @@ EventBlocks.prototype.update = function(du) {
                       stateManager.updateCollectable(player3, 'coin', -coinAmount);
                       animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
                   }
-                  if (this.winner === 3 || this.winner === 2 && player1 !== player3) {
+                  if (this.winner === 3 || this.winner === 2) {
                       if (p1Coins < coinAmount2) coinAmount2 = p1Coins;
 
                       stateManager.updateCollectable(player1, 'coin', -coinAmount2);

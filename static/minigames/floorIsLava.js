@@ -4,7 +4,7 @@ let floorIsLava = {};
 floorIsLava.init = function() {
   this.game = {
     name: 'floor is lava',
-    rules_string: 'FLOOR IS LAVA ',
+    rules_string: 'FLOOR IS LAVA// (  )',
     rules_running: false,
     rules_iter: 0,
     win_running: false,
