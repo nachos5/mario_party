@@ -178,13 +178,17 @@ EventBlocks.prototype.update = function(du) {
             if (stateManager.curr_player.my_player) {
                 let pCoins = player.coins;
                 let pStars = player.stars;
-
+                let coinMulti = 1;
+                let starMulti = 0;
+                let r1 = this.results1;
+                let r2 = this.results2;
+                let r3 = this.results3;
+/*
                 if (this.results1 === this.results2 && this.results1 === this.results3) {
                     // Item box -> coin
                     if (this.results1 === 0) {
                         stateManager.updateCollectable(player, 'coin', coinAmount);
                         animationManager.generateMapAnimation('coinDown', coinAmount);
-
                     }
                     // Item box -> star
                     if (this.results2 === 1) {
@@ -206,6 +210,40 @@ EventBlocks.prototype.update = function(du) {
                     }
                     else
                       stateManager.animation_is_running = false;
+                }*/
+
+
+                // Coin
+                if ((r1 === 0 && (r2 === 0 || r3 === 0)) || (r2 === 0 && (r1 === 0 || r3 === 0)) || (r3 === 0 && (r1 === 0 || r2 === 0))) {
+                    coinMulti = 2;
+                    if (r1 === 0 && r2 === 0 && r3 === 0) coinMulti = 3;   
+                    stateManager.updateCollectable(player, 'coin', coinAmount    * coinMulti);
+                    animationManager.generateMapAnimation('coinDown', coinAmount * coinMulti);
+                }
+                // Star
+                if ((r1 === 1 && (r2 === 1 || r3 === 1)) || (r2 === 1 && (r1 === 1 || r3 === 1)) || (r3 === 1 && (r1 === 1 || r2 === 1))) {
+                    starMulti = 0;
+                    if (r1 === 1 && r2 === 1 && r3 === 1) starMulti = 1;
+
+                    if (starMulti !== 0) {
+                        stateManager.updateCollectable(player, 'star', starAmount    * starMulti);
+                        animationManager.generateMapAnimation('starDown', starAmount * starMulti);
+                    } else {
+                        stateManager.animation_is_running = false;
+                    }
+                }
+                // Bowser
+                if ((r1 === 2 && (r2 === 2 || r3 === 2)) || (r2 === 2 && (r1 === 2 || r3 === 2)) || (r3 === 2 && (r1 === 2 || r2 === 2))) {
+                    coinMulti = 3;
+                    if (r1 === 2 && r2 === 2 && r3 === 2) coinMulti = 4;
+                    if (pCoins < coinAmount * coinMulti) coinAmount = pCoins;
+
+                    if (coinAmount !== 0) {
+                        stateManager.updateCollectable(player, 'coin', -coinAmount * coinMulti);
+                        animationManager.generateMapAnimation('coinUp', coinAmount * coinMulti);
+                    } else {
+                        stateManager.animation_is_running = false;
+                    }
                 }
                 else
                   stateManager.animation_is_running = false;
