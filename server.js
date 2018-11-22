@@ -372,7 +372,7 @@ server.startServer = function(startServer) {
   let interval3 = setInterval(function() {
     let random = Math.random();
     io.sockets.emit('random_longInterval', random);
-  }, 5000);
+  }, 15123);
 
   let floor_randoms = [];
   let floor_randoms_2 = [];

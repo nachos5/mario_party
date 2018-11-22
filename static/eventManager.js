@@ -34,7 +34,7 @@ let eventManager = {
 
   // Added
   isBlocksEvent: false,
-  star_cost: 10,
+  star_cost: 20,
   buy_star: false, // is true while star stuff is running
   can_buy_star: false, // true if the player can buy the star
   isEvent: false,
