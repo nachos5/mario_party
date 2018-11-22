@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 7,
+  rounds_remaining: 3,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
