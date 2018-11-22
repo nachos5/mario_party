@@ -148,6 +148,16 @@ EventBlocks.prototype.getPreset = function(preset) {
 
 EventBlocks.prototype.update = function(du) {
 
+  if (this.results1 != null && stateManager.curr_player.my_player) {
+    networkManager.emit("results1", this.results1);
+  }
+  if (this.results2 != null && stateManager.curr_player.my_player) {
+    networkManager.emit("results2", this.results2);
+  }
+  if (this.results3 != null && stateManager.curr_player.my_player) {
+    networkManager.emit("results3", this.results3);
+  }
+
     if (!this.results1_server_bool) {
       this.results1 = this.block1.update(du);
     } else {
@@ -165,16 +175,6 @@ EventBlocks.prototype.update = function(du) {
     } else {
       this.results3 = this.results3_server;
       this.block3.icon = this.results3;
-    }
-
-    if (this.results1 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results1", this.results1);
-    }
-    if (this.results2 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results2", this.results2);
-    }
-    if (this.results3 != null && stateManager.curr_player.my_player) {
-      networkManager.emit("results3", this.results3);
     }
 
     // If all 3 blocks are dead, kill EventBlocks
