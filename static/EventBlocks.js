@@ -179,8 +179,6 @@ EventBlocks.prototype.update = function(du) {
     this.block3.icon = g_playerSpritesInUse.indexOf(icon);
   }
 
-
-
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 != null && this.results2 != null && this.results3 != null) {
         this.winner = this.block2.winner;
@@ -263,7 +261,8 @@ EventBlocks.prototype.update = function(du) {
               }
               // Item box -> bowser
               if (this.results2 === 2) {
-                  coinAmoint *= 2;  // Bowser takes double
+                  coinAmount *= 2;  // Bowser takes double
+                  let coinAmount2 = coinAmount
                   if (this.winner === 1 || this.winner === 2) {
                       if (p3Coins < coinAmount) coinAmount = p3Coins;
 
@@ -271,10 +270,10 @@ EventBlocks.prototype.update = function(du) {
                       animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
                   }
                   if (this.winner === 3 || this.winner === 2) {
-                      if (p1Coins < coinAmount) coinAmount = p1Coins;
+                      if (p1Coins < coinAmount2) coinAmount2 = p1Coins;
 
-                      stateManager.updateCollectable(player1, 'coin', -coinAmount);
-                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
+                      stateManager.updateCollectable(player1, 'coin', -coinAmount2);
+                      animationManager.generateMapAnimation('coinUp', coinAmount2, tt_player1);
                   }
               }
             }

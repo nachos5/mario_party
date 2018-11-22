@@ -62,9 +62,11 @@ main._updateClocks = function (frameTime) {
 main._iterCore = function (dt) {
 
     // Handle QUIT
-    if (requestedQuit()) {
-        this.gameOver();
-        return;
+    if (g_useDeveloper) {
+        if (requestedQuit()) {
+            this.gameOver();
+            return;
+        }
     }
 
     gatherInputs();
@@ -110,7 +112,9 @@ main._doTimerShow = false;
 
 main._debugRender = function (ctx) {
 
-    if (eatKey(TOGGLE_TIMER_SHOW)) this._doTimerShow = !this._doTimerShow;
+    if (g_useDeveloper) {
+        if (eatKey(TOGGLE_TIMER_SHOW)) this._doTimerShow = !this._doTimerShow;
+    }
 
     if (!this._doTimerShow) return;
 

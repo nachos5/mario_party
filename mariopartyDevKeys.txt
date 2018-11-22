@@ -6,10 +6,15 @@ U = Undo box
 F = Flip flop box
 R = Render
 
+Q = quit
+T = timer show
+
 P = Pause
 O = Single step pause
 
 Develeoper keys:
+
+L = activate dev keys
 
 X = Hit boxes
 G = Map grid
