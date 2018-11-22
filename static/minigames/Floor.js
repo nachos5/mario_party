@@ -214,12 +214,10 @@ Floor.prototype.updateNextFloor = function() {
 // ========
 
 Floor.prototype.setLava = function() {
-    let blueBlockNo = 0;
-
+    // Change floor
     for(let i = 0; i < this.nextFloor.length; i++) {    // Height
         for(let j = 0; j < this.nextFloor[i].length; j++) { // Width
             this.myFloor[i][j] = this.nextFloor[i][j];
-            if (this.myFloor[i][j] === 1) blueBlockNo++;
         }
     }
     

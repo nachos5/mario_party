@@ -75,7 +75,7 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) === this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();
             this.count++;
-            if (this.count === this.times) {
+            if (this.count === this.times || this.times === 0) {
                 stateManager.animation_is_running = false;
                 return -1;
             }
@@ -93,7 +93,7 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();
             this.count++;
-            if (this.count === this.times) {
+            if (this.count === this.times || this.times === 0) {
                 stateManager.animation_is_running = false;
                 return -1;
             }
@@ -112,7 +112,7 @@ Animation.prototype.update = function(du) {
         if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();
             this.count++;
-            if (this.count === this.times) return -1;
+            if (this.count === this.times || this.times === 0) return -1;
         }
     }
 

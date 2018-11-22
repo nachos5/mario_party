@@ -284,7 +284,7 @@ PopUp.prototype.setPreset = function(preset) {
       // ======
 
       let buttonScaleX = this.width/5  / g_sprites.greenReady.width;
-      let buttonScaleY = this.height/4 / g_sprites.greenReady.height;
+      let buttonScaleY = buttonScaleX;//this.height/4 / g_sprites.greenReady.height;
 
       let buttonWidth  = g_sprites.greenReady.width  * buttonScaleX;
       let buttonHeight = g_sprites.greenReady.height * buttonScaleY;
