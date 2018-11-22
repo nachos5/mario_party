@@ -182,7 +182,7 @@ EventBlocks.prototype.update = function(du) {
 
 
     // If all 3 blocks are dead, kill EventBlocks
-    if (this.results1 !== undefined && this.results2 !== undefined && this.results3 !== undefined) {
+    if (this.results1 != null && this.results2 != null && this.results3 != null) {
         this.winner = this.block2.winner;
         this.waitTime++;
         if (this.waitTime === 100) {
