@@ -187,7 +187,6 @@ let stateManager = {
       // Star
       if (collectable === 'star') {
         player.stars += amount;
-
         if (animation) {
           if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount, tt_player: tt_player});   // + star
           else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount, tt_player: tt_player});                // - star
@@ -327,8 +326,8 @@ let stateManager = {
       if (this.turn % this.no_players === 0) {
         this.turn = 0;
         // minigame manager calls the next round function
-
-        minigameManager.initMinigame('floorIsLava');
+        this.nextRound();
+        //minigameManager.initMinigame();
       }
       this.turn++;
     }
