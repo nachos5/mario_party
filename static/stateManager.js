@@ -187,6 +187,7 @@ let stateManager = {
       // Star
       if (collectable === 'star') {
         player.stars += amount;
+        const tt_player = player.tt_player;
         if (animation) {
           if (amount > 0) networkManager.emit("animation_trigger", {animation: 'starDown', times: amount, tt_player: tt_player});   // + star
           else networkManager.emit("animation_trigger", {animation: 'starUp', times: -amount, tt_player: tt_player});                // - star

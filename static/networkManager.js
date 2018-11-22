@@ -290,7 +290,9 @@ networkManager.socket.on("audio_trigger", function(data) {
 });
 
 networkManager.socket.on("animation_trigger_server", function(data) {
-  animationManager.generateMapAnimation(data.animation, data.times, data.tt_player);
+  if (data.times !== 0) {
+    animationManager.generateMapAnimation(data.animation, data.times, data.tt_player);
+  }
 });
 
 networkManager.socket.on("lock_char", function(data) {

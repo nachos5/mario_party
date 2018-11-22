@@ -45,7 +45,7 @@ Block.prototype.resolveCollision = function () {
 Block.prototype.update = function(du) {
 
     if (this.results === null && this.iconIter % 4 == 0) {
-        this.icon = 1//this.random();
+        this.icon = this.random();
         this.iconIter = 0;
     }
 
