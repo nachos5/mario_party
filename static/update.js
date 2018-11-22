@@ -18,7 +18,29 @@ var g_prevUpdateDu = null;
 var g_isUpdateOdd = false;
 
 
+// network syncing
+function networkSync() {
+  if (networkManager.startIter) {
+    networkManager.frameIter++;
+    if (networkManager.frameIter == 60) {
+      networkManager.readyForNextFrame = false;
+      const uuid = localStorage.getItem('uuid');
+      networkManager.emit('network_sync', uuid);
+      networkManager.frameIter = -1;
+    }
+  }
+}
+
 function update(dt) {
+    // network syncing
+    //console.log(networkManager.frameIter);
+    if (networkManager.readyForNextFrame) {
+      networkSync();
+    }
+    else {
+      return;
+    }
+
     // Get out if skipping (e.g. due to pause-mode)
     //
     if (shouldSkipUpdate()) {

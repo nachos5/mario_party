@@ -4,6 +4,7 @@
 
 function NetworkManager() {
     this.socket = io();
+    this.frameIter = 0;
 }
 
 // ====
@@ -18,6 +19,8 @@ NetworkManager.prototype.emit = function(message, data) {
 // initialize the manager
 let networkManager = new NetworkManager();
 
+networkManager.startIter = false;
+networkManager.readyForNextFrame = true;
 networkManager.all_players_ready = false;
 networkManager.error = false;
 
@@ -151,6 +154,8 @@ networkManager.socket.on("all_players_ready_server", function() {
   stateManager.updateInfo();
 
   audioManager.fadeOutPlayNext('map', 2);
+
+  networkManager.startIter = true;
 });
 
 
@@ -380,6 +385,12 @@ networkManager.socket.on('add_to_placements_server', function(id) {
 networkManager.socket.on('add_to_placements_lava_server', function(id) {
   floorIsLava.game.addToPlacements(id);
 })
+
+
+// SYNCING STUFF
+networkManager.socket.on('ready_for_next_frame_server', function() {
+  networkManager.readyForNextFrame = true;
+});
 
 
 

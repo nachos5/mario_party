@@ -137,8 +137,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod === 0) {
             this.frame++;
         }
-        //this.iter += du;
-        this.iter++;
+        this.iter += du;
 
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
@@ -151,8 +150,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod === 0) {
             this.frame = parseInt(Math.random() * (this.frameNo+1)) + 1;;
         }
-        //this.iter += du;
-        this.iter++;
+        this.iter += du;
 
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {

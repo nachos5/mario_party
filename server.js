@@ -48,6 +48,8 @@ server.startServer = function(startServer) {
   let locked_chars = {};
   // players ready for the minigame to start
   let minigame_ready = [];
+  // players ready for next frame
+  let ready_for_next_frame = {};
 
   //setInterval(function() { console.log("nýtt"); for (let p in players) { console.log(players[p].socket_id); }; }, 1000);
 
@@ -244,6 +246,17 @@ server.startServer = function(startServer) {
       player.eventPlayer.prevVelX = data.prevVelX;
       player.eventPlayer.prevVelY = data.prevVelY;
       socket.broadcast.emit('event_player_velocity_server', data);
+    });
+
+    // ==== NETWORK SYNCINC ==== //
+    socket.on('network_sync', function(data) {
+      ready_for_next_frame[data] = true;
+      if (Object.keys(ready_for_next_frame).length == Object.keys(players).length) {
+        socket.emit('ready_for_next_frame_server');
+        socket.broadcast.emit('ready_for_next_frame_server');
+        ready_for_next_frame = {};
+        //console.log("FRAME");
+      }
     });
 
 

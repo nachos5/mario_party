@@ -84,8 +84,8 @@ BulletBill.prototype.accel = function(du) {
     let initialVelY = this.velY;
 
     // Final velocity = iVel + acceleration * time
-    let = finalVelX = initialVelX + accelX; // * du
-    let = finalVelY = initialVelY + accelY; // * du
+    let = finalVelX = initialVelX + accelX * du
+    let = finalVelY = initialVelY + accelY * du
 
     // Average velocity = (iVel + fVel) / 2
     let aveVelX = (initialVelX + finalVelX) / 2;
@@ -96,8 +96,8 @@ BulletBill.prototype.accel = function(du) {
     this.velY = aveVelY;
 
     // New position = current position + aVel * time
-    this.cx += this.velX; // * du
-    this.cy += this.velY; // * du
+    this.cx += this.velX * du
+    this.cy += this.velY * du
 };
 
 // ======
