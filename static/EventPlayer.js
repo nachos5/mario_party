@@ -162,12 +162,12 @@ EventPlayer.prototype.accel = function (du) {
     else accelY = this.calcAccelJump();
 
     // Initial velocity = current velocity
-    let initialVelX = this.velX;
-    let initialVelY = this.velY;
+    let initialVelX = this.velX * du;
+    let initialVelY = this.velY * du;
 
     // Final velocity = iVel + acceleration * time
-    let = finalVelX = initialVelX + accelX;
-    let = finalVelY = initialVelY + accelY;
+    let finalVelX = initialVelX + accelX * du;
+    let finalVelY = initialVelY + accelY * du;
 
     // Average velocity = (iVel + fVel) / 2
     let aveVelX = (initialVelX + finalVelX) / 2;
@@ -178,8 +178,8 @@ EventPlayer.prototype.accel = function (du) {
     this.prevVelY = this.velY;
 
     // New velocity = aVel
-    this.velX = aveVelX;
-    this.velY = aveVelY;
+    this.velX = aveVelX * du;
+    this.velY = aveVelY * du;
 
     // Fallback position
     this.prevCx = this.cx;

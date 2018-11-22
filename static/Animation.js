@@ -66,7 +66,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod == 0) {
             this.frame++;
         }
-        this.iter += 1;
+        this.iter += du;
         if (this.isUp)      this.cy--;
         if (this.isDown)    this.cy++;
         this.alpha -= 0.03;
@@ -84,7 +84,7 @@ Animation.prototype.update = function(du) {
 
     // Map star - static
     if (this.preset === 'mapStar') {
-        this.iter += 1;
+        this.iter += du;
         if (this.isUp)      this.cy -= 0.5;
         if (this.isDown)    this.cy += 0.5;
         this.alpha -= 0.005;
@@ -105,7 +105,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod == 0) {
             this.frame++;
         }
-        this.iter += 1;
+        this.iter += du;
         this.alpha -= 0.005;
 
         // Restart
@@ -121,7 +121,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod == 0) {
             this.cy += 0.15;
         }
-        this.iter++;
+        this.iter += du;
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
             this.restart();
@@ -137,7 +137,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod === 0) {
             this.frame++;
         }
-        this.iter++;
+        this.iter += du;
 
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
@@ -150,7 +150,7 @@ Animation.prototype.update = function(du) {
         if (Math.floor(this.iter) % this.mod === 0) {
             this.frame = parseInt(Math.random() * (this.frameNo+1)) + 1;;
         }
-        this.iter++;
+        this.iter += du;
 
         // Restart
         if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {

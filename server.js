@@ -375,15 +375,15 @@ server.startServer = function(startServer) {
     io.sockets.emit('random_longInterval', random);
   }, 5000);
 
-  setTimeout(function() {
-    let floor_randoms = [];
-    let floor_randoms_2 = [];
-    for (let i=0; i<20; i++) {
-      floor_randoms.push(Math.random());
-      floor_randoms_2.push(Math.random());
-    }
+  let floor_randoms = [];
+  let floor_randoms_2 = [];
+  for (let i=0; i<20; i++) {
+    floor_randoms.push(Math.random());
+    floor_randoms_2.push(Math.random());
+  }
+  setInterval(function() {
     io.sockets.emit('floor_randoms', {floor_randoms: floor_randoms, floor_randoms_2: floor_randoms_2});
-  }, 10000)
+  }, 8000)
 
 };
 
