@@ -195,13 +195,16 @@ EventBlocks.prototype.update = function(du) {
                     if (this.results3 === 2) {
                         coinAmount *= 2;  // Bowser takes double
                         if (pCoins < coinAmount) coinAmount = pCoins;
-      
+
                         stateManager.updateCollectable(player, 'coin', -coinAmount);
 
                         if (coinAmount !== 0) {
                             animationManager.generateMapAnimation('coinUp', coinAmount);
+                        } else {
+                          stateManager.animation_is_running = false;
                         }
                     }
+                    stateManager.animation_is_running = false;
                 }
             }
 
