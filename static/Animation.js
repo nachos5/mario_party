@@ -88,7 +88,7 @@ Animation.prototype.update = function(du) {
         if (this.isUp)      this.cy -= 0.5;
         if (this.isDown)    this.cy += 0.5;
         this.alpha -= 0.005;
-
+        console.log("star animating")
         // Restart
         if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();

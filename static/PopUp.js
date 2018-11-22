@@ -529,10 +529,10 @@ PopUp.prototype.dynamicRender = function(ctx) {
             g_sprites.bulletBill.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.bulletBillScaleX, this.bulletBillScaleY, 1);
         }
         else if (alph === '(') {    // Blue block sprite
-            g_sprites.blockBlue.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
+            g_sprites.blockBlue.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
         }
         else if (alph === ')') {    // Red block sprite
-            g_sprites.blockRed.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j * 1.25, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
+            g_sprites.blockRed.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+2), this.alphTop + this.alphHeight * j, 0, this.lavaBlockScaleX, this.lavaBlockScaleY);
         }
         else if (alph === '*') {    // Star
             g_itemSprites[1].sp.drawCentredAt(ctx, this.alphLeft + this.alphWidth * (i+0.5), this.alphTop + this.alphHeight * j, 0, this.starScaleX, this.starScaleY);

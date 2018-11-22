@@ -11,7 +11,6 @@ function EventBlocks(descr) {
 
     // Sprites
     this.eventBlock     = g_sprites.eventBlock;
-    this.arrow          = g_sprites.arrow;
 
     // ==============
     // SIZE VARIABLES
@@ -27,7 +26,6 @@ function EventBlocks(descr) {
     // BLOCK VARIABLES
     // ===============
 
-    this.randPlayer = function() { return parseInt(Math.random() * g_playerSpritesInUse.length) };
     this.randItem   = function() { return parseInt(Math.random() * g_itemSprites.length) };
 
     // =============
@@ -56,7 +54,6 @@ function EventBlocks(descr) {
     this.results2_server_bool = false;
     this.results3_server_bool = false;
 
-    this.winner = null;
     this.waitTime = 0;
 };
 
@@ -72,8 +69,6 @@ EventBlocks.prototype.results1 = null;
 EventBlocks.prototype.results2 = null;
 EventBlocks.prototype.results3 = null;
 
-EventBlocks.prototype.winner   = null;
-
 EventBlocks.prototype.waitTime = 0;
 
 // ==========
@@ -84,8 +79,7 @@ EventBlocks.prototype.getPreset = function(preset) {
     // Create preset 1
     if (preset === 1) {
         this.block1 = new Block({
-            id : 1,
-            random : this.randPlayer,
+            random : this.randItem,
 
             cx : this.cx + this.widthOffset1,
             cy : this.cy + this.heightOffset2,
@@ -102,13 +96,7 @@ EventBlocks.prototype.getPreset = function(preset) {
     // Create preset 2
     if (preset === 2) {
         this.block2 = new Block({
-            id : 2,
             random : this.randItem,
-
-            brickHeight : this.brickHeight,
-            arrow : this.arrow,
-            arrowIter : 0,
-            arrowPos : 0,
 
             cx : this.cx + this.widthOffset2,
             cy : this.cy + this.heightOffset2,
@@ -125,8 +113,7 @@ EventBlocks.prototype.getPreset = function(preset) {
     // Create preset 3
     if (preset === 3) {
         this.block3 = new Block({
-            id : 3,
-            random : this.randPlayer,
+            random : this.randItem,
 
             cx : this.cx + this.widthOffset3,
             cy : this.cy + this.heightOffset2,
@@ -162,8 +149,7 @@ EventBlocks.prototype.update = function(du) {
     this.results1 = this.block1.update(du);
   } else {
     this.results1 = this.results1_server;
-    const icon = g_playerSpritesInUse.find(obj => obj.id == this.results1);
-    this.block1.icon = g_playerSpritesInUse.indexOf(icon);
+    this.block1.icon = this.results1;
   }
   if (!this.results2_server_bool) {
     this.results2 = this.block2.update(du);
@@ -175,108 +161,48 @@ EventBlocks.prototype.update = function(du) {
     this.results3 = this.block3.update(du);
   } else {
     this.results3 = this.results3_server;
-    const icon = g_playerSpritesInUse.find(obj => obj.id == this.results3);
-    this.block3.icon = g_playerSpritesInUse.indexOf(icon);
+    this.block3.icon = this.results3;
   }
 
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 != null && this.results2 != null && this.results3 != null) {
-        this.winner = this.block2.winner;
         this.waitTime++;
         if (this.waitTime === 100) {
-            // Player variables
-            const player1    = entityManager._players.find(obj => obj.spriteID == this.results1);
-            const tt_player1 = player1.tt_player;
-            const player3    = entityManager._players.find(obj => obj.spriteID == this.results3);
-            const tt_player3 = player3.tt_player;
+            // Current player variables
+            const player    = stateManager.curr_player;
 
             // Resolve winner and loser
             let coinAmount = 5;
             let starAmount = 1;
 
             if (stateManager.curr_player.my_player) {
-                let p1Coins = player1.coins;
-                let p1Stars = player1.stars;
-                let p3Coins = player3.coins;
-                let p3Stars = player3.stars;
+                let pCoins = player.coins;
+                let pStars = player.stars;
 
-              // Item box -> coin
-              if (this.results2 === 0) {
-                  if (this.winner === 1) {
-                      if (p3Coins < coinAmount) coinAmount = p3Coins;
+                if (this.results1 === this.results2 && this.results1 === this.results3) {
+                    // Item box -> coin
+                    if (this.results1 === 0) {
+                        stateManager.updateCollectable(player, 'coin', coinAmount);
+                        animationManager.generateMapAnimation('coinDown', coinAmount);
 
-                      stateManager.updateCollectable(player3, 'coin', -coinAmount);
-                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
+                    }
+                    // Item box -> star
+                    if (this.results2 === 1) {
+                        stateManager.updateCollectable(player, 'star', starAmount);
+                        animationManager.generateMapAnimation('starDown', starAmount);
+                    }
+                    // Item box -> bowser
+                    if (this.results3 === 2) {
+                        coinAmount *= 2;  // Bowser takes double
+                        if (pCoins < coinAmount) coinAmount = pCoins;
+      
+                        stateManager.updateCollectable(player, 'coin', -coinAmount);
 
-                      stateManager.updateCollectable(player1, 'coin', coinAmount);
-                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
-
-                  }
-                  if (this.winner === 3) {
-                      if (p1Coins < coinAmount) coinAmount = p1Coins;
-
-                      stateManager.updateCollectable(player1, 'coin', -coinAmount);
-                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player1);
-
-                      stateManager.updateCollectable(player3, 'coin', coinAmount);
-                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
-
-                  }
-                  if (this.winner === 2) {
-                      stateManager.updateCollectable(player1, 'coin', coinAmount);
-                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player1);
-
-                      stateManager.updateCollectable(player3, 'coin', coinAmount);
-                      animationManager.generateMapAnimation('coinDown', coinAmount, tt_player3);
-                  }
-              }
-              // Item box -> star
-              /*if (this.results2 === 1) {
-                  if (this.winner === 1) {
-                      if (p3Stars < starAmount) starAmount = p3Stars;
-
-                      stateManager.updateCollectable(player3, 'star', -starAmount);
-                      animationManager.generateMapAnimation('starUp', starAmount, tt_player3);
-
-                      stateManager.updateCollectable(player1, 'star', starAmount);
-                      animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
-
-                  }
-                  if (this.winner === 3) {
-                      if (p1Stars < starAmount) starAmount = p1Stars;
-
-                      stateManager.updateCollectable(player1, 'star', -starAmount);
-                      animationManager.generateMapAnimation('starUp', starAmount, tt_player1);
-
-                      stateManager.updateCollectable(player3, 'star', starAmount);
-                      animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
-
-                  }
-                  if (this.winner === 2) {
-                      stateManager.updateCollectable(player1, 'star', starAmount);
-                      animationManager.generateMapAnimation('starDown', starAmount, tt_player1);
-
-                      stateManager.updateCollectable(player3, 'star', starAmount);
-                      animationManager.generateMapAnimation('starDown', starAmount, tt_player3);
-                  }
-              }*/
-              // Item box -> bowser
-              if (this.results2 === 2) {
-                  coinAmount *= 2;  // Bowser takes double
-                  let coinAmount2 = coinAmount
-                  if (this.winner === 1 || this.winner === 2) {
-                      if (p3Coins < coinAmount) coinAmount = p3Coins;
-
-                      stateManager.updateCollectable(player3, 'coin', -coinAmount);
-                      animationManager.generateMapAnimation('coinUp', coinAmount, tt_player3);
-                  }
-                  if (this.winner === 3 || this.winner === 2) {
-                      if (p1Coins < coinAmount2) coinAmount2 = p1Coins;
-
-                      stateManager.updateCollectable(player1, 'coin', -coinAmount2);
-                      animationManager.generateMapAnimation('coinUp', coinAmount2, tt_player1);
-                  }
-              }
+                        if (coinAmount !== 0) {
+                            animationManager.generateMapAnimation('coinUp', coinAmount);
+                        }
+                    }
+                }
             }
 
             // Unregister all the blocks
