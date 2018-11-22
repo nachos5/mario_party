@@ -338,7 +338,7 @@ let stateManager = {
     // If the game is over stop updating
     if (!g_gameOver) {
       // Roll the die for the next player
-      if (this.curr_player.my_player) {
+      if (this.curr_player.my_player && !minigameManager.minigame_is_running) {
         entityManager.getDie().roll();
       }
 

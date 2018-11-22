@@ -77,6 +77,7 @@ endMinigame: function() {
   }
 
   // start the next round!
+  entityManager.getDie().roll();
   stateManager.nextRound();
 },
 
