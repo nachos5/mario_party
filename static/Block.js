@@ -46,7 +46,7 @@ Block.prototype.resolveCollision = function () {
     else if(this.results === null){
       try {
         this.results = g_playerSpritesInUse[this.icon].id;
-      } catch(e) {};
+      } catch(e) {console.log(this.icon)};
     }
 };
 
@@ -93,7 +93,7 @@ Block.prototype.render = function(ctx) {
     if (this.id === 1){
       try {
         g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
-      } catch(e) {};
+      } catch(e) {console.log(this.icon)};
     }
     // Item Block
     if (this.id === 2) {
@@ -108,6 +108,6 @@ Block.prototype.render = function(ctx) {
     if (this.id === 3){
       try {
         g_playerSpritesInUse[this.icon].sp.drawClipCentredAtFixed(ctx, this.cx, this.cy, 0, this.itemWidth, this.itemHeight);
-      } catch(e) {};
+      } catch(e) {console.log(this.icon)};
     }
 };
