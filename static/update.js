@@ -36,12 +36,12 @@ function networkSync() {
 function update(dt) {
     // network syncing
     //console.log(networkManager.frameIter);
-    if (networkManager.readyForNextFrame) {
-      networkSync();
-    }
-    else {
-      return;
-    }
+    //if (networkManager.readyForNextFrame) {
+    //  networkSync();
+    //}
+    //else {
+    //  return;
+    //}
 
     // Get out if skipping (e.g. due to pause-mode)
     //

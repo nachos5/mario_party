@@ -169,8 +169,7 @@ EventBlocks.prototype.update = function(du) {
     this.results2 = this.block2.update(du);
   } else {
     this.results2 = this.results2_server;
-    const icon = g_playerSpritesInUse.find(obj => obj.id == this.results2);
-    this.block2.icon = g_playerSpritesInUse.indexOf(icon);
+    this.block2.icon = this.results2;
   }
   if (!this.results3_server_bool) {
     this.results3 = this.block3.update(du);
