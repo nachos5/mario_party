@@ -1,19 +1,33 @@
 # Mario Party
 
---------------------------------------------------------------------------
+##### Made by Guðmundur Óli Norland and Hjalti Geir Garðarsson
 
-git checkout branch -> switcha á local branch
+&nbsp;
+## Diagnostics
 
-git pull origin branch -> pulla github repo branchið yfir á local branchið
+C = Clear canvas
+B = box
+U = Undo box
+F = Flip flop box
+R = Render
 
---------------------------------------------------------------------------
+Q = quit
+T = timer show
 
-git add . -> stagea breytingar
+P = Pause
+O = Single step pause
 
-git commit -m "eitthvað message" -> commita locally
+Develeoper keys:
 
-git push origin branch -> pusha á branchið (branches eru master, gulli og hjalti)
+L = activate dev keys
 
-----------------------------------------------------------------------------
+X = Hit boxes
+G = Map grid
+V = Sprite boxes
+I = On/off animations
 
-ég skal sjá um merge noob
+N = ctx.lineWidth++
+M = ctx.lineWidth--
+
+
+P.S. there are some networking issues. If for example 3 players appear when there are only 2 playing. Please disconnect all players and try again.
