@@ -147,12 +147,12 @@ Animation.prototype.update = function(du) {
     // GameRoom die
     if (this.preset === 'die') {
         if (Math.floor(this.iter) % this.mod === 0) {
-            this.frame = parseInt(Math.random() * (this.frameNo+1));
+            this.frame = parseInt(Math.random() * (this.frameNo)) + 1;
         }
         this.iter += du;
 
         // Restart
-        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo + 1) {
+        if(Math.floor(this.iter) >= this.mod * this.frameNo || this.frame === this.frameNo) {
             this.restart();
         }
     }
