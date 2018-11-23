@@ -7,7 +7,7 @@ let stateManager = {
   no_players: 0,
   curr_player: null, // enable access to current player
   curr_player_id: 1, // we iterate through the players
-  rounds_remaining: 2,
+  rounds_remaining: 5,
   game_room: 0,
   score_room: 0,
   victoryScreen: 0,   // Victory screen
@@ -300,6 +300,8 @@ let stateManager = {
     this.nextTurn(bool);
     // let the server know so he can let all other players know
     networkManager.socket.emit('next_turn', bool);
+    // Update Scoreboard positions
+    this.updateScoreboard();
   },
 
   // =========
@@ -354,6 +356,8 @@ let stateManager = {
   // ==========
 
   nextRound: function() {
+    // Update Scoreboard positions
+    this.updateScoreboard();
 
     if (this.rounds_remaining <= 1) {
 
