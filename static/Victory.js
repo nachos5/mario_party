@@ -161,7 +161,7 @@ Victory.prototype.findWinners = function() {
 // ================
 
 Victory.prototype.generatePopUps = function() {
-    for(let i = 0; i < this.victoryText.length; i++) {
+    for(let i = 0; i < this.victoryText.length-1; i++) {
         this.victoryPopUp.push(new PopUp({
             offsetTop   : 0.1,
             offsetRight : 0.02,
@@ -187,10 +187,13 @@ Victory.prototype.generateFinalPopUP = function(players) {
         offsetLeft  : 0.02,
         word        : this.victoryText[this.victoryText.length-1],
         p1SpriteID  : players[0].spriteID,
-        p2SpriteID  : players[1].spriteID,
-        p3SpriteID  : players[2].spriteID,
+        p2SpriteID  : players[0].spriteID,
+        p2SpriteID  : players[0].spriteID,
         textLines   : 3,
     }));
+
+    if (players.length >= 2) this.victoryPopUp[this.victoryPopUp.length-1].p2SpriteID = players[1].spriteID;
+    if (players.length >= 3) this.victoryPopUp[this.victoryPopUp.length-1].p3SpriteID = players[2].spriteID;
 };
 
 // ===========
@@ -198,26 +201,22 @@ Victory.prototype.generateFinalPopUP = function(players) {
 // ===========
 
 Victory.prototype.nextPopUp = function() {
-    if (this.i + 1 !== this.extraStar.length) {
-        this.i++;
-        if (this.i !== 0 && this.i !== this.victoryPopUp.length - 1) {
-            stateManager.updateCollectable(this.extraStar[this.i], 'star', 1);
-            animationManager.generateMapAnimation('starDown', 1, this.extraStar[this.i].tt_player);
-            stateManager.updateScoreboard();
-            this.updatePosition();
-        }
-
-        // Showcase top 3 players
-        else {
-            let topPlayers = []
-            for(let i = 0; i < stateManager.players.length; i++) {
-                topPlayers[i] = stateManager.players[i];
-            }
-
-        this.generateFinalPopUP(topPlayers);
-        }
+    this.i++;
+    if (this.i >= this.extraStar.length) return -1;
+    if (this.i !== 0 && this.i !== this.extraStar.length - 1) {
+        stateManager.updateCollectable(this.extraStar[this.i], 'star', 1, false);
+        animationManager.generateMapAnimation('starDown', 1, this.extraStar[this.i].tt_player);
+        stateManager.updateScoreboard();
+        this.updatePosition();
     }
-    else return -1;
+    // Showcase top 3 players
+    else {
+        let topPlayers = []
+        for(let i = 0; i < stateManager.players.length; i++) {
+            topPlayers[i] = stateManager.players[i];
+        }
+    this.generateFinalPopUP(topPlayers);
+    }
 };
 
 // ======

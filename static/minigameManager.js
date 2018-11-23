@@ -78,6 +78,8 @@ endMinigame: function() {
 
   // start the next round!
   stateManager.nextRound();
+  if (stateManager.curr_player.my_player)
+    entityManager.getDie().roll();
 },
 
 rewards: function() {

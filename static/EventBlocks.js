@@ -134,7 +134,7 @@ EventBlocks.prototype.getPreset = function(preset) {
 // ======
 
 EventBlocks.prototype.update = function(du) {
-/*
+
   if (this.results1 != null && stateManager.curr_player.my_player) {
     networkManager.emit("results1", this.results1);
   }
@@ -162,7 +162,7 @@ EventBlocks.prototype.update = function(du) {
   } else {
     this.results3 = this.results3_server;
     this.block3.icon = this.results3;
-  }*/
+  }
 
     // If all 3 blocks are dead, kill EventBlocks
     if (this.results1 != null && this.results2 != null && this.results3 != null) {
@@ -183,7 +183,7 @@ EventBlocks.prototype.update = function(du) {
                 let r1 = this.results1;
                 let r2 = this.results2;
                 let r3 = this.results3;
-/*
+
                 if (this.results1 === this.results2 && this.results1 === this.results3) {
                     // Item box -> coin
                     if (this.results1 === 0) {
@@ -210,9 +210,8 @@ EventBlocks.prototype.update = function(du) {
                     }
                     else
                       stateManager.animation_is_running = false;
-                }*/
-
-
+                }
+/*
                 // Coin
                 if ((r1 === 0 && (r2 === 0 || r3 === 0)) || (r2 === 0 && (r1 === 0 || r3 === 0)) || (r3 === 0 && (r1 === 0 || r2 === 0))) {
                     coinMulti = 2;
@@ -244,7 +243,7 @@ EventBlocks.prototype.update = function(du) {
                     } else {
                         stateManager.animation_is_running = false;
                     }
-                }
+                }*/
                 else
                   stateManager.animation_is_running = false;
             }

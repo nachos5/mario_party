@@ -300,6 +300,8 @@ let stateManager = {
     this.nextTurn(bool);
     // let the server know so he can let all other players know
     networkManager.socket.emit('next_turn', bool);
+    // Update Scoreboard positions
+    this.updateScoreboard();
   },
 
   // =========
@@ -338,7 +340,7 @@ let stateManager = {
     // If the game is over stop updating
     if (!g_gameOver) {
       // Roll the die for the next player
-      if (this.curr_player.my_player) {
+      if (this.curr_player.my_player && !minigameManager.minigame_is_running) {
         entityManager.getDie().roll();
       }
 
@@ -354,6 +356,8 @@ let stateManager = {
   // ==========
 
   nextRound: function() {
+    // Update Scoreboard positions
+    this.updateScoreboard();
 
     if (this.rounds_remaining <= 1) {
 

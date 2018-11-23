@@ -46,13 +46,13 @@ Animation.prototype.restart = function() {
     this.iter = 0;
 
     if (this.preset === 'mapCoin') {
-        audioManager.playAndEmit("coin", 0.2, false, 0.6);
+        audioManager.playAudio("coin", 0.2, false, 0.6);
         this.cy = 0;
         this.alpha = 1;
     }
 
     if (this.preset === 'mapStar') {
-      audioManager.playAndEmit("star", 0.3 , false, 0.8);
+      audioManager.playAudio("star", 0.3 , false, 0.8);
     }
 };
 
@@ -67,8 +67,8 @@ Animation.prototype.update = function(du) {
             this.frame++;
         }
         this.iter += du;
-        if (this.isUp)      this.cy -= -0.5;
-        if (this.isDown)    this.cy += -0.5;
+        if (this.isUp)      this.cy -= 0.5;
+        if (this.isDown)    this.cy += 0.5;
         this.alpha -= 0.03;
 
         // Restart
@@ -85,10 +85,9 @@ Animation.prototype.update = function(du) {
     // Map star - static
     if (this.preset === 'mapStar') {
         this.iter += du;
-        if (this.isUp)      this.cy -= 0.05;
-        if (this.isDown)    this.cy += 0.05;
-        this.alpha -= 0.005;
-        console.log("star animating")
+        if (this.isUp)      this.cy -= 0.15;
+        if (this.isDown)    this.cy += 0.15;
+        this.alpha -= 0.015;
         // Restart
         if(Math.floor(this.iter) === this.mod * this.frameNo) {
             this.restart();

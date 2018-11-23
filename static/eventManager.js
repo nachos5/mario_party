@@ -34,7 +34,7 @@ let eventManager = {
 
   // Added
   isBlocksEvent: false,
-  star_cost: 10,
+  star_cost: 20,
   buy_star: false, // is true while star stuff is running
   can_buy_star: false, // true if the player can buy the star
   isEvent: false,
@@ -139,7 +139,7 @@ let eventManager = {
   03: function() {
     audioManager.playAndEmit("random", 0.3 , false, 0.6);
 
-    let events = [01, 02, 04, 07, 31];
+    let events = [01, 02, 04, 07];
     let random = Math.floor(Math.random() * events.length);
 
     // Call a random event
@@ -214,14 +214,14 @@ let eventManager = {
 
   // blue tile - gain 3 coins, or potentially gain a star! //
   01: function(parameters) {
-    /*stateManager.animation_is_running = true;
+    stateManager.animation_is_running = true;
     const player = this.getCurrPlayer();
     stateManager.updateCollectable(player, 'coin', this.coinAmount);
-    animationManager.generateMapAnimation('coinDown', this.coinAmount);*/
-    if (parameters) {
+    animationManager.generateMapAnimation('coinDown', this.coinAmount);
+    /*if (parameters) {
       networkManager.emit('event_blocks_init');
       this.blocksEvent();
-    }
+    }*/
   },
 
   // red tile - lose 3 coins //

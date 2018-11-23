@@ -369,10 +369,14 @@ server.startServer = function(startServer) {
     io.sockets.emit('random2', random);
   }, 500);
 
+  const timeOut = setTimeout(function() {
+    io.sockets.emit('random_longInterval', Math.random());
+    clearTimeout(timeOut);
+  }, 4000);
   let interval3 = setInterval(function() {
     let random = Math.random();
     io.sockets.emit('random_longInterval', random);
-  }, 5000);
+  }, 15123);
 
   let floor_randoms = [];
   let floor_randoms_2 = [];
